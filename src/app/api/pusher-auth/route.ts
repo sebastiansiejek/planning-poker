@@ -1,4 +1,3 @@
-import {nanoid} from "nanoid"
 import {pusherServer} from "@/shared/pusher/lib/pusherServer";
 
 export const config = {
@@ -12,9 +11,7 @@ export async function POST(req: Request) {
   // TODO: add zod validation
   const socketId = formData.get("socket_id") as string
   const channelName = formData.get("channel_name") as string
-  const user = JSON.parse(formData.get("userInfo") as string)
-
-  const user_id = nanoid()
+  const {id: user_id, user} = JSON.parse(formData.get("userInfo") as string)
 
   const auth = pusherServer.authorizeChannel(
     socketId,
