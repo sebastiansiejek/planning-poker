@@ -11,7 +11,7 @@ export async function POST(req: Request) {
   // TODO: add zod validation
   const socketId = formData.get("socket_id") as string
   const channelName = formData.get("channel_name") as string
-  const {id: user_id, user} = JSON.parse(formData.get("userInfo") as string)
+  const {id: user_id, ...user} = JSON.parse(formData.get("userInfo") as string)
 
   const auth = pusherServer.authorizeChannel(
     socketId,
