@@ -1,25 +1,10 @@
 'use client'
 
-import Pusher from "pusher-js";
 import {useEffect, useState} from "react";
-import {getPusherUserId} from "@/shared/pusher/lib/getPusherUserId";
 import {PusherMember, PusherMembers} from "@/types/pusher/pusher";
+import {pusherClient} from "@/shared/pusher/lib/pusherClient";
 
 // Pusher.logToConsole = process.env.NODE_ENV === "development";
-
-const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, {
-  cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER,
-  authEndpoint: "/api/pusher-auth", // OPTIONAL: For secure web sockets.
-  authTransport: "ajax",
-  auth: {
-    params: {
-      userInfo: JSON.stringify({
-        name: "John Doe",
-        id: getPusherUserId()
-      })
-    }
-  },
-});
 
 
 export default function Page() {
@@ -27,6 +12,7 @@ export default function Page() {
   const [members, setMembers] = useState([] as PusherMember[])
 
   useEffect(() => {
+    const pusher = pusherClient({name: "John Doe"});
     const channel = pusher.subscribe(GAME_CHANNEL);
 
     channel.bind('pusher:subscription_succeeded', function (members: PusherMembers) {
@@ -37,12 +23,13 @@ export default function Page() {
       pusher.unsubscribe(GAME_CHANNEL);
     }
   }, []);
+  console.log(members)
 
   return (
     <div>
       <h1>Game</h1>
       {members.map((member) => (
-        <div key={member.id}>{member.name}</div>
+        <div key={member.id}>{member.name} {member.id}</div>
       ))}
     </div>
   );
