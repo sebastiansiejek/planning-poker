@@ -1,4 +1,5 @@
 import {pusherServer} from "@/shared/pusher/lib/pusherServer";
+import z from "zod";
 
 export const config = {
   api: {
@@ -8,22 +9,38 @@ export const config = {
 
 export async function POST(req: Request) {
   const formData = await req.formData()
-  // TODO: add zod validation
-  const socketId = formData.get("socket_id") as string
-  const channelName = formData.get("channel_name") as string
-  const {id: user_id, ...user} = JSON.parse(formData.get("userInfo") as string)
+  const socketId = formData.get("socket_id")
+  const channelName = formData.get("channel_name")
+  const userInfo = JSON.parse(formData.get("userInfo") as string)
 
-  const auth = pusherServer.authorizeChannel(
-    socketId,
-    channelName,
-    {
-      user_id: user_id,
-      user_info: {
-        user_id,
-        ...user
+  try {
+    z.object({
+      socketId: z.string(),
+      channelName: z.string(),
+      userInfo: z.object({
+        id: z.string(),
+        name: z.string(),
+      })
+    }).parse({socketId, channelName, userInfo})
+
+    const {id: user_id, ...user} = userInfo
+
+    const auth = pusherServer.authorizeChannel(
+      socketId,
+      channelName,
+      {
+        user_id: user_id,
+        user_info: {
+          user_id,
+          ...user
+        }
       }
-    }
-  )
+    )
 
-  return Response.json(auth)
+    return Response.json(auth)
+  } catch (e) {
+    return Response.json(e, {
+      status: 400
+    })
+  }
 }
