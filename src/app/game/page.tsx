@@ -6,6 +6,7 @@ import {pusherClient} from "@/shared/pusher/lib/pusherClient";
 
 // Pusher.logToConsole = process.env.NODE_ENV === "development";
 
+const votingValues = ['0', '1', '3', '5', '8', '13', '?', '☕️']
 
 export default function Page() {
   const GAME_CHANNEL = "presence-game-channel";
@@ -23,7 +24,6 @@ export default function Page() {
       pusher.unsubscribe(GAME_CHANNEL);
     }
   }, []);
-  console.log(members)
 
   return (
     <div>
@@ -31,6 +31,14 @@ export default function Page() {
       {members.map((member) => (
         <div key={member.id}>{member.name} {member.id}</div>
       ))}
+      <form>
+        {votingValues.map((option) => (
+          <label key={option}>
+            <input name={'voting-value'} type={'radio'} value={option}/>
+            {option}
+          </label>
+        ))}
+      </form>
     </div>
   );
 }
