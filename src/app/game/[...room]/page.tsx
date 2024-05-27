@@ -10,14 +10,18 @@ type Vote = { value: string, userId: string }
 
 const pusher = pusherClient({name: "John Doe"});
 
-export default function Page() {
-  const GAME_CHANNEL = "presence-game-channel";
+export default function Page({params}: {
+  params: {
+    room: string
+  }
+}) {
+  const channelName = `presence-${params.room.toString()}`;
   const [members, setMembers] = useState<PusherMember[]>([])
   const [votes, setVotes] = useState<Vote[]>([])
   const [me, setMe] = useState<PusherMember>()
 
   useEffect(() => {
-    const channel = pusher.subscribe(GAME_CHANNEL);
+    const channel = pusher.subscribe(channelName);
 
     channel.bind('pusher:subscription_succeeded', function (members: PusherMembers) {
       setMembers(Object.values(members.members));
@@ -32,7 +36,7 @@ export default function Page() {
     });
 
     return () => {
-      pusher.unsubscribe(GAME_CHANNEL);
+      pusher.unsubscribe(channelName);
     }
   }, []);
 
@@ -61,6 +65,7 @@ export default function Page() {
           </label>
         ))}
         <input type={'hidden'} name={'userId'} value={me?.id}/>
+        <input type={'hidden'} name={'channelName'} value={channelName}/>
       </form>
     </div>
   );
