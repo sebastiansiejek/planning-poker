@@ -36,6 +36,10 @@ export default function Room({channelName, userName}: {
       }])
     })
 
+    channel.bind('pusher:member_removed', function (member: PusherNewMember) {
+      setMembers(members => members.filter(m => m.id !== member.id))
+    })
+
     channel.bind('voting', function (vote: Vote) {
       setVotes(votes => {
         const newVotes = votes.filter(v => v.userId !== vote.userId)
