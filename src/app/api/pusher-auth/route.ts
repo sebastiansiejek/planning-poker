@@ -9,8 +9,8 @@ export const config = {
 
 export async function POST(req: Request) {
   const formData = await req.formData()
-  const socketId = formData.get("socket_id")
-  const channelName = formData.get("channel_name")
+  const socketId = formData.get("socket_id") as string
+  const channelName = formData.get("channel_name") as string
   const userInfo = JSON.parse(formData.get("userInfo") as string)
 
   try {
@@ -31,7 +31,7 @@ export async function POST(req: Request) {
       {
         user_id: user_id,
         user_info: {
-          user_id,
+          id: user_id,
           ...user
         }
       }
