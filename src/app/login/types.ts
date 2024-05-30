@@ -1,5 +1,5 @@
-type LoginPageProps = {
+export type LoginPageProps = {
   searchParams: {
-    room?: string
-  }
-}
+    room?: string;
+  };
+};
