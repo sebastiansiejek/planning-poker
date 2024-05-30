@@ -1,4 +1,5 @@
 'use server'
+import z from 'zod'
 
 import {pusherServer} from "@/shared/pusher/lib/pusherServer";
 
@@ -7,5 +8,17 @@ export const voting = async (data: FormData) => {
   const value = data.get("value");
   const channelName = data.get("channelName") as string;
 
-  await pusherServer.trigger(channelName, "voting", {userId, value});
+  try {
+    z.object({
+      userId: z.string(),
+      value: z.string(),
+      channelName: z.string()
+    }).parse({
+      userId, value, channelName
+    })
+
+    await pusherServer.trigger(channelName, "voting", {userId, value});
+  } catch (e) {
+    console.error(e)
+  }
 }
