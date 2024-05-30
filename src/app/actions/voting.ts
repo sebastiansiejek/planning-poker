@@ -22,6 +22,7 @@ export const voting = async (data: FormData) => {
 
     await pusherServer.trigger(channelName, 'voting', { userId, value });
   } catch (e) {
+    // saa
     throw new Error(e as string);
   }
 };
