@@ -1,5 +1,6 @@
-import {pusherServer} from "@/shared/pusher/lib/pusherServer";
-import z from "zod";
+import z from 'zod';
+
+import { pusherServer } from '@/shared/pusher/lib/pusherServer';
 
 export const config = {
   api: {
@@ -8,10 +9,10 @@ export const config = {
 };
 
 export async function POST(req: Request) {
-  const formData = await req.formData()
-  const socketId = formData.get("socket_id") as string
-  const channelName = formData.get("channel_name") as string
-  const userInfo = JSON.parse(formData.get("userInfo") as string)
+  const formData = await req.formData();
+  const socketId = formData.get('socket_id') as string;
+  const channelName = formData.get('channel_name') as string;
+  const userInfo = JSON.parse(formData.get('userInfo') as string);
 
   try {
     z.object({
@@ -20,27 +21,23 @@ export async function POST(req: Request) {
       userInfo: z.object({
         id: z.string(),
         name: z.string(),
-      })
-    }).parse({socketId, channelName, userInfo})
+      }),
+    }).parse({ socketId, channelName, userInfo });
 
-    const {id: user_id, ...user} = userInfo
+    const { id: userId, ...user } = userInfo;
 
-    const auth = pusherServer.authorizeChannel(
-      socketId,
-      channelName,
-      {
-        user_id: user_id,
-        user_info: {
-          id: user_id,
-          ...user
-        }
-      }
-    )
+    const auth = pusherServer.authorizeChannel(socketId, channelName, {
+      user_id: userId,
+      user_info: {
+        id: userId,
+        ...user,
+      },
+    });
 
-    return Response.json(auth)
+    return Response.json(auth);
   } catch (e) {
     return Response.json(e, {
-      status: 400
-    })
+      status: 400,
+    });
   }
 }

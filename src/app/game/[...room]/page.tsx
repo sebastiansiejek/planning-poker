@@ -1,22 +1,23 @@
-import Room from "@/app/game/[...room]/Room";
-import {redirect} from "next/navigation";
-import {UserModel} from "@/shared/user/model/UserModel";
+import { redirect } from 'next/navigation';
 
-export default async function Page({params}: {
+import Room from '@/app/game/[...room]/Room';
+import { UserModel } from '@/shared/user/model/UserModel';
+
+export default async function Page({
+  params,
+}: {
   params: {
-    room: string[]
-  }
+    room: string[];
+  };
 }) {
   const userName = UserModel.getUserName();
-  const room = params.room.toString()
+  const room = params.room.toString();
 
   if (!userName) {
-    redirect(`/login?room=${room}`)
+    redirect(`/login?room=${room}`);
   }
 
   const channelName = `presence-${room}`;
 
-  return (
-    <Room channelName={channelName} userName={userName}/>
-  )
+  return <Room channelName={channelName} userName={userName} />;
 }
