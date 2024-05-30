@@ -1,7 +1,7 @@
 'use client'
 
 import {useEffect, useMemo, useState} from "react";
-import {PusherMember, PusherMembers} from "@/types/pusher/pusher";
+import {PusherMember, PusherMembers, PusherNewMember} from "@/types/pusher/pusher";
 import {pusherClient} from "@/shared/pusher/lib/pusherClient";
 import {voting} from "@/app/actions/voting";
 
@@ -26,6 +26,14 @@ export default function Room({channelName, userName}: {
     channel.bind('pusher:subscription_succeeded', function (members: PusherMembers) {
       setMembers(Object.values(members.members));
       setMe(members.me)
+    })
+
+    channel.bind('pusher:member_added', function (member: PusherNewMember) {
+      const {info: {name, id}} = member
+      setMembers(members => [...members.filter(member => member.id !== id), {
+        name,
+        id
+      }])
     })
 
     channel.bind('voting', function (vote: Vote) {
