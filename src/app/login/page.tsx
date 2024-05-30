@@ -10,7 +10,7 @@ export default async function Page({searchParams}: LoginPageProps) {
 
     if (name) {
       UserModel.setUserName(name)
-      redirect(`/game/${room}`)
+      redirect(`/game/${room || ''}`)
     }
   }
 
