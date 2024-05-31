@@ -17,7 +17,7 @@ export const revealCards = async (data: FormData) => {
       voteValue: z.string(),
     }).parse({ channelName, userId, voteValue });
 
-    await pusherServer.trigger(channelName, PUSHER_EVENTS.VOTES, {
+    await pusherServer.trigger(channelName, PUSHER_EVENTS.SHOW_VOTES, {
       userId,
       value: voteValue,
     });

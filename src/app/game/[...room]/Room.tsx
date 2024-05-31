@@ -59,7 +59,7 @@ export default function Room({ channelName, userName }: RoomProps) {
         setVotedUserIds((oldVotedUsers) => [...oldVotedUsers, userId]);
       });
 
-      channel.bind(PUSHER_EVENTS.VOTES, (vote: Vote) => {
+      channel.bind(PUSHER_EVENTS.SHOW_VOTES, (vote: Vote) => {
         setVotes((oldVotes) => {
           const newVotes = oldVotes.filter((v) => v.userId !== vote.userId);
           return [...newVotes, vote];
