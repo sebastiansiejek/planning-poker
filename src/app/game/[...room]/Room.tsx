@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { revealCards } from '@/app/actions/revealCards';
 import { voting } from '@/app/actions/voting';
+import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { pusherClient } from '@/shared/pusher/lib/pusherClient';
 import type {
   PusherMember,
@@ -33,14 +34,14 @@ export default function Room({
       const channel = pusher.subscribe(channelName);
 
       channel.bind(
-        'pusher:subscription_succeeded',
+        PUSHER_EVENTS.SUBSCRIPTION_SUCCEEDED,
         (initialMembers: PusherMembers) => {
           setMembers(Object.values(initialMembers.members));
           setMe(initialMembers.me);
         },
       );
 
-      channel.bind('pusher:member_added', (newMember: PusherNewMember) => {
+      channel.bind(PUSHER_EVENTS.MEMBER_ADDED, (newMember: PusherNewMember) => {
         const {
           info: { name, id },
         } = newMember;
@@ -53,17 +54,17 @@ export default function Room({
         ]);
       });
 
-      channel.bind('pusher:member_removed', (member: PusherNewMember) => {
+      channel.bind(PUSHER_EVENTS.MEMBER_REMOVED, (member: PusherNewMember) => {
         setMembers((oldMembers) =>
           oldMembers.filter((m) => m.id !== member.id),
         );
       });
 
-      channel.bind('voted', ({ userId }: { userId: string }) => {
+      channel.bind(PUSHER_EVENTS.VOTED, ({ userId }: { userId: string }) => {
         setVotedUserIds((oldVotedUsers) => [...oldVotedUsers, userId]);
       });
 
-      channel.bind('votes', (vote: Vote) => {
+      channel.bind(PUSHER_EVENTS.VOTES, (vote: Vote) => {
         setVotes((oldVotes) => {
           const newVotes = oldVotes.filter((v) => v.userId !== vote.userId);
           return [...newVotes, vote];
