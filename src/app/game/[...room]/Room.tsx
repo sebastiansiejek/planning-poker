@@ -23,6 +23,11 @@ export default function Room({ channelName, userName }: RoomProps) {
   const pusher = useMemo(() => pusherClient({ name: userName }), [userName]);
   const [voteValue, setVoteValue] = useState('');
   const [votedUserIds, setVotedUserIds] = useState<string[]>([]);
+  const correctVotes = votes
+    .map((vote) => parseInt(vote.value, 10))
+    .filter((v) => !Number.isNaN(v));
+  const avgVotes =
+    correctVotes.reduce((acc, v) => acc + v, 0) / correctVotes.length;
 
   useEffect(() => {
     if (channelName) {
@@ -92,6 +97,12 @@ export default function Room({ channelName, userName }: RoomProps) {
           </div>
         );
       })}
+      {!!avgVotes && (
+        <div>
+          <h2>AVG</h2>
+          <div>{avgVotes}</div>
+        </div>
+      )}
       <form action={voting}>
         {votingValues.map((option) => (
           <label key={option}>
