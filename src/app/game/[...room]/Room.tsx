@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { revealCards } from '@/app/actions/revealCards';
 import { voting } from '@/app/actions/voting';
+import type { RoomProps } from '@/app/game/[...room]/types';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { pusherClient } from '@/shared/pusher/lib/pusherClient';
 import type {
@@ -15,13 +16,7 @@ import type {
 const votingValues = [0, 1, 3, 5, 8, 13, '?', '☕️'];
 type Vote = { value: string; userId: string };
 
-export default function Room({
-  channelName,
-  userName,
-}: {
-  channelName: string;
-  userName: string;
-}) {
+export default function Room({ channelName, userName }: RoomProps) {
   const [members, setMembers] = useState<PusherMember[]>([]);
   const [votes, setVotes] = useState<Vote[]>([]);
   const [me, setMe] = useState<PusherMember>();
