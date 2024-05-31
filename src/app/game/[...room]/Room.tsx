@@ -60,6 +60,11 @@ export default function Room({ channelName, userName }: RoomProps) {
       });
 
       channel.bind(PUSHER_EVENTS.SHOW_VOTES, (vote: Vote) => {
+        const formData = new FormData();
+        formData.append('channelName', channelName);
+        formData.append('userId', me?.id || '');
+        formData.append('voteValue', voteValue);
+        revealCards(formData);
         setVotes((oldVotes) => {
           const newVotes = oldVotes.filter((v) => v.userId !== vote.userId);
           return [...newVotes, vote];
