@@ -102,13 +102,13 @@ export default function Room({ channelName, userName }: RoomProps) {
             {option}
           </label>
         ))}
-        <input type="hidden" name="userId" value={me?.id} />
-        <input type="hidden" name="channelName" value={channelName} />
+        <input type="hidden" name="userId" defaultValue={me?.id} />
+        <input type="hidden" name="channelName" defaultValue={channelName} />
       </form>
       <form action={revealCards}>
-        <input type="hidden" name="userId" value={me?.id} />
-        <input type="hidden" name="voteValue" value={voteValue} />
-        <input type="hidden" name="channelName" value={channelName} />
+        <input type="hidden" name="userId" defaultValue={me?.id} />
+        <input type="hidden" name="voteValue" defaultValue={voteValue} />
+        <input type="hidden" name="channelName" defaultValue={channelName} />
         <button type="submit">Reveal cards</button>
       </form>
     </div>

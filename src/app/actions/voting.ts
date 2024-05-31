@@ -2,6 +2,7 @@
 
 import z from 'zod';
 
+import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { pusherServer } from '@/shared/pusher/lib/pusherServer';
 
 export const voting = async (data: FormData) => {
@@ -11,7 +12,7 @@ export const voting = async (data: FormData) => {
   try {
     z.string().parse(userId);
 
-    await pusherServer.trigger(channelName, 'voted', { userId });
+    await pusherServer.trigger(channelName, PUSHER_EVENTS.VOTED, { userId });
   } catch (error) {
     console.error(error);
   }
