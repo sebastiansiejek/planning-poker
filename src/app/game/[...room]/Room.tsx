@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 
+import { revealCards } from '@/app/actions/revealCards';
 import { voting } from '@/app/actions/voting';
 import { pusherClient } from '@/shared/pusher/lib/pusherClient';
 import type {
@@ -24,6 +25,8 @@ export default function Room({
   const [votes, setVotes] = useState<Vote[]>([]);
   const [me, setMe] = useState<PusherMember>();
   const pusher = useMemo(() => pusherClient({ name: userName }), [userName]);
+  const [voteValue, setVoteValue] = useState('');
+  const [votedUserIds, setVotedUserIds] = useState<string[]>([]);
 
   useEffect(() => {
     if (channelName) {
@@ -56,7 +59,11 @@ export default function Room({
         );
       });
 
-      channel.bind('voting', (vote: Vote) => {
+      channel.bind('voted', ({ userId }: { userId: string }) => {
+        setVotedUserIds((oldVotedUsers) => [...oldVotedUsers, userId]);
+      });
+
+      channel.bind('votes', (vote: Vote) => {
         setVotes((oldVotes) => {
           const newVotes = oldVotes.filter((v) => v.userId !== vote.userId);
           return [...newVotes, vote];
@@ -80,6 +87,7 @@ export default function Room({
         return (
           <div key={member.id}>
             {member.name} {member.id} {vote}
+            {votedUserIds.includes(member.id) ? '✅' : '❌'}
           </div>
         );
       })}
@@ -91,6 +99,7 @@ export default function Room({
               type="radio"
               value={option}
               onClick={(e) => {
+                setVoteValue(e.currentTarget.value);
                 e.currentTarget.form?.requestSubmit();
               }}
             />
@@ -99,6 +108,12 @@ export default function Room({
         ))}
         <input type="hidden" name="userId" value={me?.id} />
         <input type="hidden" name="channelName" value={channelName} />
+      </form>
+      <form action={revealCards}>
+        <input type="hidden" name="userId" value={me?.id} />
+        <input type="hidden" name="voteValue" value={voteValue} />
+        <input type="hidden" name="channelName" value={channelName} />
+        <button type="submit">Reveal cards</button>
       </form>
     </div>
   );

@@ -6,23 +6,13 @@ import { pusherServer } from '@/shared/pusher/lib/pusherServer';
 
 export const voting = async (data: FormData) => {
   const userId = data.get('userId');
-  const value = data.get('value');
   const channelName = data.get('channelName') as string;
 
   try {
-    z.object({
-      userId: z.string(),
-      value: z.string(),
-      channelName: z.string(),
-    }).parse({
-      userId,
-      value,
-      channelName,
-    });
+    z.string().parse(userId);
 
-    await pusherServer.trigger(channelName, 'voting', { userId, value });
-  } catch (e) {
-    // saa
-    throw new Error(e as string);
+    await pusherServer.trigger(channelName, 'voted', { userId });
+  } catch (error) {
+    console.error(error);
   }
 };
