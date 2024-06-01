@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { resetVotes } from '@/app/actions/resetVotes';
 import { revealCards } from '@/app/actions/revealCards';
-import { showVote } from '@/app/actions/showVote';
 import { voting } from '@/app/actions/voting';
 import type { RoomProps } from '@/app/game/[...room]/types';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
@@ -25,6 +24,7 @@ export default function Room({ channelName, userName }: RoomProps) {
   const pusher = useMemo(() => pusherClient({ name: userName }), [userName]);
   const [voteValue, setVoteValue] = useState('');
   const [votedUserIds, setVotedUserIds] = useState<string[]>([]);
+  const [isRevealedCards, setIsRevealedCards] = useState(false);
   const correctVotes = votes
     .map((vote) => parseInt(vote.value, 10))
     .filter((v) => !Number.isNaN(v));
@@ -63,17 +63,17 @@ export default function Room({ channelName, userName }: RoomProps) {
         );
       });
 
-      channel.bind(PUSHER_EVENTS.VOTED, ({ userId }: { userId: string }) => {
-        setVotedUserIds((oldVotedUsers) => [...oldVotedUsers, userId]);
-      });
-
-      channel.bind(PUSHER_EVENTS.REVEAL_VOTES, async () => {
-        const formData = new FormData();
-        formData.append('channelName', channelName);
-        formData.append('userId', meId);
-        formData.append('voteValue', voteValue);
-        await showVote(formData);
-      });
+      channel.bind(
+        PUSHER_EVENTS.VOTED,
+        (data: { userId: string; value: string }) => {
+          const { userId } = data;
+          setVotedUserIds((oldVotedUsers) => [...oldVotedUsers, userId]);
+          setVotes((oldVotes) => {
+            const newVotes = oldVotes.filter((v) => v.userId !== userId);
+            return [...newVotes, data];
+          });
+        },
+      );
 
       channel.bind(PUSHER_EVENTS.SHOW_VOTES, (vote: Vote) => {
         setVotes((oldVotes) => {
@@ -86,6 +86,11 @@ export default function Room({ channelName, userName }: RoomProps) {
         setVoteValue('');
         setVotes([]);
         setVotedUserIds([]);
+        setIsRevealedCards(false);
+      });
+
+      channel.bind(PUSHER_EVENTS.REVEAL_VOTES, async () => {
+        setIsRevealedCards(true);
       });
     }
 
@@ -106,17 +111,18 @@ export default function Room({ channelName, userName }: RoomProps) {
           <div key={member.id}>
             <div>name: {member.name}</div>
             <div>id: {member.id}</div>
-            <div>vote: {vote}</div>
+            {isRevealedCards && <div>vote: {vote}</div>}
             <div>{votedUserIds.includes(member.id) ? '✅' : '❌'}</div>
           </div>
         );
       })}
-      {!!avgVotes && (
+      {isRevealedCards && !!avgVotes && (
         <div>
           <h2>AVG</h2>
           <div>{avgVotes}</div>
         </div>
       )}
+      {/* TODO: send/show value only if revealed button is clicked  */}
       <form action={voting}>
         {votingValues.map((option) => {
           return (
@@ -124,12 +130,11 @@ export default function Room({ channelName, userName }: RoomProps) {
               <input
                 name="value"
                 type="radio"
+                disabled={isRevealedCards}
                 value={option}
                 checked={voteValue === option}
                 onChange={(e) => {
-                  if (!voteValue) {
-                    e.currentTarget.form?.requestSubmit();
-                  }
+                  e.currentTarget.form?.requestSubmit();
                   setVoteValue(e.currentTarget.value);
                 }}
               />
