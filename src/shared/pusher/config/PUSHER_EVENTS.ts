@@ -5,4 +5,5 @@ export const PUSHER_EVENTS = {
   VOTED: 'voted',
   SHOW_VOTES: 'SHOW_VOTES',
   REVEAL_VOTES: 'REVEAL_VOTES',
+  RESET_VOTES: 'RESET_VOTES',
 };
