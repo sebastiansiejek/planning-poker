@@ -97,7 +97,7 @@ export default function Room({ channelName, userName }: RoomProps) {
     return () => {
       pusher.unsubscribe(channelName);
     };
-  }, [channelName, userName]);
+  }, [channelName, pusher, userName]);
 
   return (
     <div>
