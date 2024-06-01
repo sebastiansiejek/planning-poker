@@ -8,14 +8,13 @@ import { voting } from '@/app/actions/voting';
 import type { RoomProps } from '@/app/game/[...room]/types';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { pusherClient } from '@/shared/pusher/lib/pusherClient';
+import { votingValues } from '@/shared/voting/config/votingConstants';
 import type {
   PusherMember,
   PusherMembers,
   PusherNewMember,
 } from '@/types/pusher/pusher';
 import type { Vote } from '@/types/types';
-
-const votingValues = ['0.5', '1', '3', '5', '8', '13', '?', '☕️'];
 
 export default function Room({ channelName, userName }: RoomProps) {
   const [members, setMembers] = useState<PusherMember[]>([]);
