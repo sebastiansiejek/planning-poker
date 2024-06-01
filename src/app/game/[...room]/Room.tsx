@@ -29,6 +29,7 @@ export default function Room({ channelName, userName }: RoomProps) {
     .filter((v) => !Number.isNaN(v));
   const avgVotes =
     correctVotes.reduce((acc, v) => acc + v, 0) / correctVotes.length;
+  const meId = me?.id || '';
 
   useEffect(() => {
     if (channelName) {
@@ -68,7 +69,7 @@ export default function Room({ channelName, userName }: RoomProps) {
       channel.bind(PUSHER_EVENTS.REVEAL_VOTES, async () => {
         const formData = new FormData();
         formData.append('channelName', channelName);
-        formData.append('userId', me?.id || '');
+        formData.append('userId', meId);
         formData.append('voteValue', voteValue);
         await showVote(formData);
       });
@@ -124,11 +125,11 @@ export default function Room({ channelName, userName }: RoomProps) {
             {option}
           </label>
         ))}
-        <input type="hidden" name="userId" defaultValue={me?.id} />
+        <input type="hidden" name="userId" defaultValue={meId} />
         <input type="hidden" name="channelName" defaultValue={channelName} />
       </form>
       <form action={revealCards}>
-        <input type="hidden" name="userId" defaultValue={me?.id} />
+        <input type="hidden" name="userId" defaultValue={meId} />
         <input type="hidden" name="voteValue" defaultValue={voteValue} />
         <input type="hidden" name="channelName" defaultValue={channelName} />
         <button type="submit">Reveal cards</button>
