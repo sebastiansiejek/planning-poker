@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { revealCards } from '@/app/actions/revealCards';
+import { showVote } from '@/app/actions/showVote';
 import { voting } from '@/app/actions/voting';
 import type { RoomProps } from '@/app/game/[...room]/types';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
@@ -13,7 +14,7 @@ import type {
   PusherNewMember,
 } from '@/types/pusher/pusher';
 
-const votingValues = [0, 1, 3, 5, 8, 13, '?', '☕️'];
+const votingValues = [0.5, 1, 3, 5, 8, 13, '?', '☕️'];
 type Vote = { value: string; userId: string };
 
 export default function Room({ channelName, userName }: RoomProps) {
@@ -64,12 +65,15 @@ export default function Room({ channelName, userName }: RoomProps) {
         setVotedUserIds((oldVotedUsers) => [...oldVotedUsers, userId]);
       });
 
-      channel.bind(PUSHER_EVENTS.SHOW_VOTES, (vote: Vote) => {
+      channel.bind(PUSHER_EVENTS.REVEAL_VOTES, async () => {
         const formData = new FormData();
         formData.append('channelName', channelName);
         formData.append('userId', me?.id || '');
         formData.append('voteValue', voteValue);
-        revealCards(formData);
+        await showVote(formData);
+      });
+
+      channel.bind(PUSHER_EVENTS.SHOW_VOTES, (vote: Vote) => {
         setVotes((oldVotes) => {
           const newVotes = oldVotes.filter((v) => v.userId !== vote.userId);
           return [...newVotes, vote];
@@ -80,7 +84,7 @@ export default function Room({ channelName, userName }: RoomProps) {
     return () => {
       pusher.unsubscribe(channelName);
     };
-  }, [channelName, userName, pusher]);
+  }, [channelName, userName]);
 
   return (
     <div>
@@ -92,8 +96,10 @@ export default function Room({ channelName, userName }: RoomProps) {
 
         return (
           <div key={member.id}>
-            {member.name} {member.id} {vote}
-            {votedUserIds.includes(member.id) ? '✅' : '❌'}
+            <div>name: {member.name}</div>
+            <div>id: {member.id}</div>
+            <div>vote: {vote}</div>
+            <div>{votedUserIds.includes(member.id) ? '✅' : '❌'}</div>
           </div>
         );
       })}
