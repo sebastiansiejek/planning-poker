@@ -13,9 +13,9 @@ import type {
   PusherMembers,
   PusherNewMember,
 } from '@/types/pusher/pusher';
+import type { Vote } from '@/types/types';
 
 const votingValues = ['0.5', '1', '3', '5', '8', '13', '?', '☕️'];
-type Vote = { value: string; userId: string };
 
 export default function Room({ channelName, userName }: RoomProps) {
   const [members, setMembers] = useState<PusherMember[]>([]);
