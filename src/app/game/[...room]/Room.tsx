@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 
+import { resetVotes } from '@/app/actions/resetVotes';
 import { revealCards } from '@/app/actions/revealCards';
 import { showVote } from '@/app/actions/showVote';
 import { voting } from '@/app/actions/voting';
@@ -14,7 +15,7 @@ import type {
   PusherNewMember,
 } from '@/types/pusher/pusher';
 
-const votingValues = [0.5, 1, 3, 5, 8, 13, '?', '☕️'];
+const votingValues = ['0.5', '1', '3', '5', '8', '13', '?', '☕️'];
 type Vote = { value: string; userId: string };
 
 export default function Room({ channelName, userName }: RoomProps) {
@@ -80,6 +81,12 @@ export default function Room({ channelName, userName }: RoomProps) {
           return [...newVotes, vote];
         });
       });
+
+      channel.bind(PUSHER_EVENTS.RESET_VOTES, () => {
+        setVoteValue('');
+        setVotes([]);
+        setVotedUserIds([]);
+      });
     }
 
     return () => {
@@ -111,20 +118,25 @@ export default function Room({ channelName, userName }: RoomProps) {
         </div>
       )}
       <form action={voting}>
-        {votingValues.map((option) => (
-          <label key={option}>
-            <input
-              name="value"
-              type="radio"
-              value={option}
-              onClick={(e) => {
-                setVoteValue(e.currentTarget.value);
-                e.currentTarget.form?.requestSubmit();
-              }}
-            />
-            {option}
-          </label>
-        ))}
+        {votingValues.map((option) => {
+          return (
+            <label key={option}>
+              <input
+                name="value"
+                type="radio"
+                value={option}
+                checked={voteValue === option}
+                onChange={(e) => {
+                  if (!voteValue) {
+                    e.currentTarget.form?.requestSubmit();
+                  }
+                  setVoteValue(e.currentTarget.value);
+                }}
+              />
+              {option}
+            </label>
+          );
+        })}
         <input type="hidden" name="userId" defaultValue={meId} />
         <input type="hidden" name="channelName" defaultValue={channelName} />
       </form>
@@ -133,6 +145,10 @@ export default function Room({ channelName, userName }: RoomProps) {
         <input type="hidden" name="voteValue" defaultValue={voteValue} />
         <input type="hidden" name="channelName" defaultValue={channelName} />
         <button type="submit">Reveal cards</button>
+      </form>
+      <form action={resetVotes}>
+        <input type="hidden" name="channelName" defaultValue={channelName} />
+        <button type="submit">Reset</button>
       </form>
     </div>
   );
