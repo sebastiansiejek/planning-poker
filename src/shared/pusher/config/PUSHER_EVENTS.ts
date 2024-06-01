@@ -4,4 +4,5 @@ export const PUSHER_EVENTS = {
   MEMBER_REMOVED: 'pusher:member_removed',
   VOTED: 'voted',
   SHOW_VOTES: 'SHOW_VOTES',
+  REVEAL_VOTES: 'REVEAL_VOTES',
 };

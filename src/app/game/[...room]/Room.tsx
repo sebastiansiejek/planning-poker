@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { revealCards } from '@/app/actions/revealCards';
+import { showVote } from '@/app/actions/showVote';
 import { voting } from '@/app/actions/voting';
 import type { RoomProps } from '@/app/game/[...room]/types';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
@@ -13,7 +14,7 @@ import type {
   PusherNewMember,
 } from '@/types/pusher/pusher';
 
-const votingValues = [0, 1, 3, 5, 8, 13, '?', '☕️'];
+const votingValues = [0.5, 1, 3, 5, 8, 13, '?', '☕️'];
 type Vote = { value: string; userId: string };
 
 export default function Room({ channelName, userName }: RoomProps) {
@@ -23,6 +24,12 @@ export default function Room({ channelName, userName }: RoomProps) {
   const pusher = useMemo(() => pusherClient({ name: userName }), [userName]);
   const [voteValue, setVoteValue] = useState('');
   const [votedUserIds, setVotedUserIds] = useState<string[]>([]);
+  const correctVotes = votes
+    .map((vote) => parseInt(vote.value, 10))
+    .filter((v) => !Number.isNaN(v));
+  const avgVotes =
+    correctVotes.reduce((acc, v) => acc + v, 0) / correctVotes.length;
+  const meId = me?.id || '';
 
   useEffect(() => {
     if (channelName) {
@@ -59,6 +66,14 @@ export default function Room({ channelName, userName }: RoomProps) {
         setVotedUserIds((oldVotedUsers) => [...oldVotedUsers, userId]);
       });
 
+      channel.bind(PUSHER_EVENTS.REVEAL_VOTES, async () => {
+        const formData = new FormData();
+        formData.append('channelName', channelName);
+        formData.append('userId', meId);
+        formData.append('voteValue', voteValue);
+        await showVote(formData);
+      });
+
       channel.bind(PUSHER_EVENTS.SHOW_VOTES, (vote: Vote) => {
         setVotes((oldVotes) => {
           const newVotes = oldVotes.filter((v) => v.userId !== vote.userId);
@@ -70,7 +85,7 @@ export default function Room({ channelName, userName }: RoomProps) {
     return () => {
       pusher.unsubscribe(channelName);
     };
-  }, [channelName, userName, pusher]);
+  }, [channelName, userName]);
 
   return (
     <div>
@@ -82,11 +97,19 @@ export default function Room({ channelName, userName }: RoomProps) {
 
         return (
           <div key={member.id}>
-            {member.name} {member.id} {vote}
-            {votedUserIds.includes(member.id) ? '✅' : '❌'}
+            <div>name: {member.name}</div>
+            <div>id: {member.id}</div>
+            <div>vote: {vote}</div>
+            <div>{votedUserIds.includes(member.id) ? '✅' : '❌'}</div>
           </div>
         );
       })}
+      {!!avgVotes && (
+        <div>
+          <h2>AVG</h2>
+          <div>{avgVotes}</div>
+        </div>
+      )}
       <form action={voting}>
         {votingValues.map((option) => (
           <label key={option}>
@@ -102,11 +125,11 @@ export default function Room({ channelName, userName }: RoomProps) {
             {option}
           </label>
         ))}
-        <input type="hidden" name="userId" defaultValue={me?.id} />
+        <input type="hidden" name="userId" defaultValue={meId} />
         <input type="hidden" name="channelName" defaultValue={channelName} />
       </form>
       <form action={revealCards}>
-        <input type="hidden" name="userId" defaultValue={me?.id} />
+        <input type="hidden" name="userId" defaultValue={meId} />
         <input type="hidden" name="voteValue" defaultValue={voteValue} />
         <input type="hidden" name="channelName" defaultValue={channelName} />
         <button type="submit">Reveal cards</button>
