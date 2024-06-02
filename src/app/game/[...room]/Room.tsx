@@ -31,10 +31,7 @@ export default function Room({ channelName, userName }: RoomProps) {
   const [isRevealedCards, setIsRevealedCards] = useState(false);
   const meId = me?.id || '';
   const chunks = chunkMembers(members);
-  const topMembers = chunks[0];
-  const leftMembers = chunks[1];
-  const bottomMembers = chunks[2];
-  const rightMembers = chunks[3];
+  const [topMembers, leftMembers, bottomMembers, rightMembers] = chunks;
 
   useEffect(() => {
     if (channelName) {
