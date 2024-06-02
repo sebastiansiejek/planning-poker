@@ -1,5 +1,5 @@
-import { chunkMembers } from '@/features/room/libs/chunkMembers/chunkMembers';
 import type { PusherMember } from '@/types/pusher/pusher';
+import { chunkMembers } from '@/widgets/room/libs/chunkMembers/chunkMembers';
 
 const members: Array<PusherMember> = [
   {
