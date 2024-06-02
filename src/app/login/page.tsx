@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 
 import type { LoginPageProps } from '@/app/login/types';
+import { Button } from '@/shared/UIKit/Button/Button';
 import { UserModel } from '@/shared/user/model/UserModel';
 
 export default async function Page({ searchParams }: LoginPageProps) {
@@ -18,9 +19,16 @@ export default async function Page({ searchParams }: LoginPageProps) {
   };
 
   return (
-    <form action={handleSubmit}>
-      <input name="name" required />
-      <button type="submit">Join</button>
-    </form>
+    <div className="flex items-center justify-center h-screen">
+      <form action={handleSubmit} className="flex gap-1">
+        <input
+          className="border border-solid border-primary-500 p-2"
+          name="name"
+          required
+          placeholder="Enter your name"
+        />
+        <Button type="submit">Join</Button>
+      </form>
+    </div>
   );
 }
