@@ -4,7 +4,6 @@ import './room.styles.css';
 
 import { useEffect, useMemo, useState } from 'react';
 
-import { resetVotes } from '@/app/actions/resetVotes';
 import { voting } from '@/app/actions/voting';
 import type { RoomProps } from '@/app/game/[...room]/types';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
@@ -131,6 +130,7 @@ export default function Room({ channelName, userName }: RoomProps) {
             channelName={channelName}
             meId={meId}
             voteValue={voteValue}
+            isRevealedCards={isRevealedCards}
           />
           <Members
             isRevealedCards={isRevealedCards}
@@ -173,10 +173,6 @@ export default function Room({ channelName, userName }: RoomProps) {
           <div>{avgVotes}</div>
         </div>
       )}
-      <form action={resetVotes}>
-        <input type="hidden" name="channelName" defaultValue={channelName} />
-        <button type="submit">Reset</button>
-      </form>
     </div>
   );
 }
