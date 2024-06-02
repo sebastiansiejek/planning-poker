@@ -19,6 +19,7 @@ import type { Vote } from '@/types/types';
 import { chunkMembers } from '@/widgets/room/libs/chunkMembers/chunkMembers';
 import { Members } from '@/widgets/room/ui/Members/Members';
 import { RoomTable } from '@/widgets/room/ui/RoomTable/RoomTable';
+import { VotingCard } from '@/widgets/room/ui/VotingCard/VotingCard';
 
 export default function Room({ channelName, userName }: RoomProps) {
   const [members, setMembers] = useState<PusherMember[]>([]);
@@ -109,7 +110,7 @@ export default function Room({ channelName, userName }: RoomProps) {
 
   return (
     <div>
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center flex-col">
         <div className="game-grid grid grid-cols-[12rem_1fr_12rem] grid-rows-[repeat(3,1fr)] gap-8 justify-center min-h-20 items-center">
           <Members
             isRevealedCards={isRevealedCards}
@@ -147,6 +148,24 @@ export default function Room({ channelName, userName }: RoomProps) {
             votes={votes}
           />
         </div>
+        {/* TODO: send/show value only if revealed button is clicked  */}
+        <form action={voting}>
+          <div className="flex gap-4">
+            {votingValues.map((option) => {
+              return (
+                <VotingCard
+                  key={option}
+                  isDisabled={isRevealedCards}
+                  voteValue={voteValue}
+                  option={option}
+                  setVoteValue={setVoteValue}
+                />
+              );
+            })}
+          </div>
+          <input type="hidden" name="userId" defaultValue={meId} />
+          <input type="hidden" name="channelName" defaultValue={channelName} />
+        </form>
       </div>
       {isRevealedCards && !!avgVotes && (
         <div>
@@ -154,29 +173,6 @@ export default function Room({ channelName, userName }: RoomProps) {
           <div>{avgVotes}</div>
         </div>
       )}
-      {/* TODO: send/show value only if revealed button is clicked  */}
-      <form action={voting}>
-        {votingValues.map((option) => {
-          return (
-            <label key={option}>
-              <input
-                name="value"
-                type="radio"
-                disabled={isRevealedCards}
-                value={option}
-                checked={voteValue === option}
-                onChange={(e) => {
-                  e.currentTarget.form?.requestSubmit();
-                  setVoteValue(e.currentTarget.value);
-                }}
-              />
-              {option}
-            </label>
-          );
-        })}
-        <input type="hidden" name="userId" defaultValue={meId} />
-        <input type="hidden" name="channelName" defaultValue={channelName} />
-      </form>
       <form action={resetVotes}>
         <input type="hidden" name="channelName" defaultValue={channelName} />
         <button type="submit">Reset</button>
