@@ -16,9 +16,9 @@ import type {
 } from '@/types/pusher/pusher';
 import type { Vote } from '@/types/types';
 import { chunkMembers } from '@/widgets/room/libs/chunkMembers/chunkMembers';
-import { getVotesAvg } from '@/widgets/room/libs/getVotesAvg/getVotesAvg';
 import { Members } from '@/widgets/room/ui/Members/Members';
 import { RoomTable } from '@/widgets/room/ui/RoomTable/RoomTable';
+import { VotingAvg } from '@/widgets/room/ui/VotingAvg/VotingAvg';
 import { VotingCard } from '@/widgets/room/ui/VotingCard/VotingCard';
 
 export default function Room({ channelName, userName }: RoomProps) {
@@ -29,18 +29,12 @@ export default function Room({ channelName, userName }: RoomProps) {
   const [voteValue, setVoteValue] = useState('');
   const [votedUserIds, setVotedUserIds] = useState<string[]>([]);
   const [isRevealedCards, setIsRevealedCards] = useState(false);
-  const correctVotes = votes
-    .map((vote) => parseInt(vote.value, 10))
-    .filter((v) => !Number.isNaN(v));
-  const avgVotes =
-    correctVotes.reduce((acc, v) => acc + v, 0) / correctVotes.length;
   const meId = me?.id || '';
   const chunks = chunkMembers(members);
   const topMembers = chunks[0];
   const leftMembers = chunks[1];
   const bottomMembers = chunks[2];
   const rightMembers = chunks[3];
-  const sameVotes = useMemo(() => getVotesAvg(votes), [votes]);
 
   useEffect(() => {
     if (channelName) {
@@ -169,25 +163,7 @@ export default function Room({ channelName, userName }: RoomProps) {
           <input type="hidden" name="channelName" defaultValue={channelName} />
         </form>
       </div>
-      {isRevealedCards && (
-        <div className="flex justify-center gap-5 mt-6 items-center">
-          {!!avgVotes && (
-            <div>
-              Average: <strong>{avgVotes}</strong>
-            </div>
-          )}
-          <div className="flex justify-center gap-4">
-            {sameVotes.map(({ value, count }) => (
-              <div key={value} className="text-center">
-                <div className="flex items-center justify-center rounded bg-primary-100 h-24 w-20 font-bold">
-                  {value}
-                </div>
-                <div className="mt-2">{count}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+      {isRevealedCards && <VotingAvg votes={votes} />}
     </div>
   );
 }
