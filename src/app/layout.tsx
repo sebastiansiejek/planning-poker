@@ -5,6 +5,8 @@ import { Inter } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
 import type { ReactNode } from 'react';
 
+import { ThemeSwitcher } from '@/widgets/global/ThemeSwitcher/ThemeSwitcher';
+
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -24,7 +26,7 @@ export default function RootLayout({
           <div className="h-screen flex flex-col">
             {children}
             <div className="mt-auto">
-              <footer className="p-2 text-xs text-center mt-6 bg-gray-100 dark:bg-gray-900">
+              <footer className="flex justify-center items-center gap-2 p-2 text-xs text-center mt-6 bg-gray-100 dark:bg-gray-900">
                 <a
                   href="https://sebastiansiejek.dev"
                   target="_blank"
@@ -33,6 +35,7 @@ export default function RootLayout({
                 >
                   sebastiansiejek.dev
                 </a>
+                <ThemeSwitcher />
               </footer>
             </div>
           </div>
