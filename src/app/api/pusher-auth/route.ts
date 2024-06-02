@@ -2,12 +2,6 @@ import z from 'zod';
 
 import { pusherServer } from '@/shared/pusher/lib/pusherServer';
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 export async function POST(req: Request) {
   const formData = await req.formData();
   const socketId = formData.get('socket_id') as string;
