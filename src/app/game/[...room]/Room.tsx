@@ -150,7 +150,7 @@ export default function Room({ channelName, userName }: RoomProps) {
         </div>
         {/* TODO: send/show value only if revealed button is clicked  */}
         <form action={voting}>
-          <div className="flex gap-4">
+          <div className="flex gap-4 mt-8">
             {votingValues.map((option) => {
               return (
                 <VotingCard
