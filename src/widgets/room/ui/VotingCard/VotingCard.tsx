@@ -35,7 +35,7 @@ export const VotingCard = ({
           {
             variants: {
               isDisabled: {
-                true: 'bg-gray-200 text-gray-500',
+                true: 'bg-gray-200 dark:bg-gray-900 text-gray-500',
               },
             },
           },

@@ -2,6 +2,7 @@ import type { Config } from 'tailwindcss';
 
 const config: Config = {
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
+  darkMode: ['selector', '[data-theme="dark"]'],
   theme: {
     colors: {
       white: '#fff',
@@ -12,6 +13,9 @@ const config: Config = {
         400: '#4FD1C5',
         500: '#3CEAB8',
         600: '#1EAE7E',
+        700: '#0F766E',
+        800: '#035666',
+        900: '#003E52',
       },
       gray: {
         100: '#F7FAFC',
@@ -20,9 +24,9 @@ const config: Config = {
         400: '#CBD5E0',
         500: '#A0AEC0',
         600: '#718096',
-        700: '#4A5568',
-        800: '#2D3748',
-        900: '#1A202C',
+        700: '#44403c',
+        800: '#292524',
+        900: '#1c1917',
       },
     },
   },

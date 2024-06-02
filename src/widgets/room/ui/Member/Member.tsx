@@ -14,7 +14,7 @@ export const Member = ({
       <div
         key={id}
         className={cva(
-          'h-20 w-16 flex justify-center items-center rounded border-2 border-solid text-primary-500 font-bold text-xl',
+          'h-20 w-16 flex justify-center items-center rounded border-2 dark:border-gray-800 border-solid text-primary-500 font-bold text-xl',
           {
             variants: {
               isVoted: {
@@ -31,8 +31,9 @@ export const Member = ({
                 className: 'border-primary-500',
               },
               {
+                isVoted: false,
                 isRevealedCards: false,
-                className: 'bg-gray-200',
+                className: 'bg-gray-200 dark:bg-gray-800',
               },
               {
                 isVoted: true,
