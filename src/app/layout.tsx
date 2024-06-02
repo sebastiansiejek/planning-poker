@@ -24,7 +24,7 @@ export default function RootLayout({
           <div className="h-screen flex flex-col">
             {children}
             <div className="mt-auto">
-              <footer className="p-2 text-xs text-center mt-6 bg-gray-100">
+              <footer className="p-2 text-xs text-center mt-6 bg-gray-100 dark:bg-gray-900">
                 <a
                   href="https://sebastiansiejek.dev"
                   target="_blank"

@@ -21,7 +21,7 @@ export const VotingAvg = ({ votes }: VotingAvgProps) => {
       <div className="flex justify-center gap-4">
         {sameVotes.map(({ value, count }) => (
           <div key={value} className="text-center">
-            <div className="flex items-center justify-center rounded bg-primary-100 h-24 w-20 font-bold">
+            <div className="flex items-center justify-center rounded bg-primary-100 dark:bg-gray-700 h-24 w-20 font-bold">
               {value}
             </div>
             <div className="mt-2">{count}</div>
