@@ -2,6 +2,7 @@ import './globals.css';
 
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import type { ReactNode } from 'react';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -13,11 +14,27 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <div className="h-screen flex flex-col">
+          {children}
+          <div className="mt-auto">
+            <footer className="p-2 text-xs text-center mt-6 bg-gray-100">
+              <a
+                href="https://sebastiansiejek.dev"
+                target="_blank"
+                rel="nofollow"
+                className="transition hover:text-primary-500"
+              >
+                sebastiansiejek.dev
+              </a>
+            </footer>
+          </div>
+        </div>
+      </body>
     </html>
   );
 }

@@ -1,0 +1,6 @@
+.game-grid {
+    grid-template-areas:
+        "left top right"
+        "left table right"
+        "left bottom right";
+}

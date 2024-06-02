@@ -1,9 +1,9 @@
 'use client';
 
+import './room.styles.css';
+
 import { useEffect, useMemo, useState } from 'react';
 
-import { resetVotes } from '@/app/actions/resetVotes';
-import { revealCards } from '@/app/actions/revealCards';
 import { voting } from '@/app/actions/voting';
 import type { RoomProps } from '@/app/game/[...room]/types';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
@@ -15,6 +15,11 @@ import type {
   PusherNewMember,
 } from '@/types/pusher/pusher';
 import type { Vote } from '@/types/types';
+import { chunkMembers } from '@/widgets/room/libs/chunkMembers/chunkMembers';
+import { Members } from '@/widgets/room/ui/Members/Members';
+import { RoomTable } from '@/widgets/room/ui/RoomTable/RoomTable';
+import { VotingAvg } from '@/widgets/room/ui/VotingAvg/VotingAvg';
+import { VotingCard } from '@/widgets/room/ui/VotingCard/VotingCard';
 
 export default function Room({ channelName, userName }: RoomProps) {
   const [members, setMembers] = useState<PusherMember[]>([]);
@@ -24,12 +29,9 @@ export default function Room({ channelName, userName }: RoomProps) {
   const [voteValue, setVoteValue] = useState('');
   const [votedUserIds, setVotedUserIds] = useState<string[]>([]);
   const [isRevealedCards, setIsRevealedCards] = useState(false);
-  const correctVotes = votes
-    .map((vote) => parseInt(vote.value, 10))
-    .filter((v) => !Number.isNaN(v));
-  const avgVotes =
-    correctVotes.reduce((acc, v) => acc + v, 0) / correctVotes.length;
   const meId = me?.id || '';
+  const chunks = chunkMembers(members);
+  const [topMembers, leftMembers, bottomMembers, rightMembers] = chunks;
 
   useEffect(() => {
     if (channelName) {
@@ -100,60 +102,65 @@ export default function Room({ channelName, userName }: RoomProps) {
 
   return (
     <div>
-      <h1>Game</h1>
-      {members.map((member) => {
-        const vote = votes.find(
-          (oldVotes) => oldVotes.userId === member.id,
-        )?.value;
-
-        return (
-          <div key={member.id}>
-            <div>name: {member.name}</div>
-            <div>id: {member.id}</div>
-            {isRevealedCards && <div>vote: {vote}</div>}
-            <div>{votedUserIds.includes(member.id) ? '✅' : '❌'}</div>
-          </div>
-        );
-      })}
-      {isRevealedCards && !!avgVotes && (
-        <div>
-          <h2>AVG</h2>
-          <div>{avgVotes}</div>
+      <div className="flex items-center justify-center flex-col">
+        <div className="game-grid grid grid-cols-[12rem_1fr_12rem] grid-rows-[repeat(3,1fr)] gap-8 justify-center min-h-20 items-center">
+          <Members
+            isRevealedCards={isRevealedCards}
+            votedUserIds={votedUserIds}
+            members={topMembers}
+            place="top"
+            votes={votes}
+          />
+          <Members
+            isRevealedCards={isRevealedCards}
+            votedUserIds={votedUserIds}
+            members={leftMembers}
+            place="left"
+            isVertical
+            votes={votes}
+          />
+          <RoomTable
+            channelName={channelName}
+            meId={meId}
+            voteValue={voteValue}
+            isRevealedCards={isRevealedCards}
+          />
+          <Members
+            isRevealedCards={isRevealedCards}
+            votedUserIds={votedUserIds}
+            members={rightMembers}
+            place="right"
+            isVertical
+            votes={votes}
+          />
+          <Members
+            isRevealedCards={isRevealedCards}
+            votedUserIds={votedUserIds}
+            members={bottomMembers}
+            place="bottom"
+            votes={votes}
+          />
         </div>
-      )}
-      {/* TODO: send/show value only if revealed button is clicked  */}
-      <form action={voting}>
-        {votingValues.map((option) => {
-          return (
-            <label key={option}>
-              <input
-                name="value"
-                type="radio"
-                disabled={isRevealedCards}
-                value={option}
-                checked={voteValue === option}
-                onChange={(e) => {
-                  e.currentTarget.form?.requestSubmit();
-                  setVoteValue(e.currentTarget.value);
-                }}
-              />
-              {option}
-            </label>
-          );
-        })}
-        <input type="hidden" name="userId" defaultValue={meId} />
-        <input type="hidden" name="channelName" defaultValue={channelName} />
-      </form>
-      <form action={revealCards}>
-        <input type="hidden" name="userId" defaultValue={meId} />
-        <input type="hidden" name="voteValue" defaultValue={voteValue} />
-        <input type="hidden" name="channelName" defaultValue={channelName} />
-        <button type="submit">Reveal cards</button>
-      </form>
-      <form action={resetVotes}>
-        <input type="hidden" name="channelName" defaultValue={channelName} />
-        <button type="submit">Reset</button>
-      </form>
+        {/* TODO: send/show value only if revealed button is clicked  */}
+        <form action={voting}>
+          <div className="flex gap-4 mt-8">
+            {votingValues.map((option) => {
+              return (
+                <VotingCard
+                  key={option}
+                  isDisabled={isRevealedCards}
+                  voteValue={voteValue}
+                  option={option}
+                  setVoteValue={setVoteValue}
+                />
+              );
+            })}
+          </div>
+          <input type="hidden" name="userId" defaultValue={meId} />
+          <input type="hidden" name="channelName" defaultValue={channelName} />
+        </form>
+      </div>
+      {isRevealedCards && <VotingAvg votes={votes} />}
     </div>
   );
 }
