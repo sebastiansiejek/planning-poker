@@ -19,7 +19,8 @@ export default async function Page({ searchParams }: LoginPageProps) {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex flex-col items-center justify-center h-screen">
+      <h1 className="mb-12 text-2xl font-medium">{room}</h1>
       <form action={handleSubmit} className="flex gap-1">
         <input
           className="border border-solid border-primary-500 p-2"
