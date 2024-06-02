@@ -1,6 +1,7 @@
 import { cva } from 'class-variance-authority';
 
 import type { PusherMember } from '@/types/pusher/pusher';
+import type { Vote } from '@/types/types';
 import { Member } from '@/widgets/room/ui/Member/Member';
 
 export const Members = ({
@@ -8,11 +9,15 @@ export const Members = ({
   place,
   votedUserIds = [],
   isVertical,
+  votes = [],
+  isRevealedCards,
 }: {
   members: PusherMember[];
   place: 'top' | 'left' | 'right' | 'bottom';
   votedUserIds: string[];
   isVertical?: boolean;
+  votes: Vote[];
+  isRevealedCards?: boolean;
 }) => {
   return (
     <div
@@ -32,9 +37,19 @@ export const Members = ({
       })({ place, isVertical })}
     >
       {members.map((member) => {
-        const isVoted = votedUserIds.includes(member.id);
+        const { id } = member;
+        const isVoted = votedUserIds.includes(id);
+        const vote = votes.find((oldVotes) => oldVotes.userId === id)?.value;
 
-        return <Member key={member.id} isVoted={isVoted} {...member} />;
+        return (
+          <Member
+            key={id}
+            isVoted={isVoted}
+            vote={vote}
+            isRevealedCards={isRevealedCards}
+            {...member}
+          />
+        );
       })}
     </div>
   );

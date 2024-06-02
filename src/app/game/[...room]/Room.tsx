@@ -112,15 +112,19 @@ export default function Room({ channelName, userName }: RoomProps) {
       <div className="flex items-center justify-center">
         <div className="game-grid grid grid-cols-[12rem_1fr_12rem] grid-rows-[repeat(3,1fr)] gap-8 justify-center min-h-20 items-center">
           <Members
+            isRevealedCards={isRevealedCards}
             votedUserIds={votedUserIds}
             members={topMembers}
             place="top"
+            votes={votes}
           />
           <Members
+            isRevealedCards={isRevealedCards}
             votedUserIds={votedUserIds}
             members={leftMembers}
             place="left"
             isVertical
+            votes={votes}
           />
           <RoomTable
             channelName={channelName}
@@ -128,29 +132,22 @@ export default function Room({ channelName, userName }: RoomProps) {
             voteValue={voteValue}
           />
           <Members
+            isRevealedCards={isRevealedCards}
             votedUserIds={votedUserIds}
             members={rightMembers}
             place="right"
             isVertical
+            votes={votes}
           />
           <Members
+            isRevealedCards={isRevealedCards}
             votedUserIds={votedUserIds}
             members={bottomMembers}
             place="bottom"
+            votes={votes}
           />
         </div>
       </div>
-      {members.map((member) => {
-        const vote = votes.find(
-          (oldVotes) => oldVotes.userId === member.id,
-        )?.value;
-
-        return (
-          <div key={member.id}>
-            {isRevealedCards && <div>vote: {vote}</div>}
-          </div>
-        );
-      })}
       {isRevealedCards && !!avgVotes && (
         <div>
           <h2>AVG</h2>
