@@ -103,7 +103,7 @@ export default function Room({ channelName, userName }: RoomProps) {
   return (
     <div>
       <div className="flex items-center justify-center flex-col">
-        <div className="game-grid grid grid-cols-[12rem_1fr_12rem] grid-rows-[repeat(3,0.6fr)] gap-8 justify-center min-h-20 items-center">
+        <div className="game-grid flex flex-col lg:grid lg:grid-cols-[12rem_1fr_12rem] lg:grid-rows-[repeat(3,0.6fr)] gap-8 justify-center min-h-20 items-center">
           <Members
             isRevealedCards={isRevealedCards}
             votedUserIds={votedUserIds}
@@ -143,7 +143,7 @@ export default function Room({ channelName, userName }: RoomProps) {
         </div>
         {/* TODO: send/show value only if revealed button is clicked  */}
         <form action={voting}>
-          <div className="flex gap-4 mt-8">
+          <div className="flex gap-4 mt-8 flex-wrap p-6 justify-center">
             {votingValues.map((option) => {
               return (
                 <VotingCard

@@ -30,7 +30,7 @@ export const Members = ({
             bottom: '[grid-area:bottom]',
           },
           isVertical: {
-            true: 'flex-col',
+            true: 'lg:flex-col',
             false: 'flex-row',
           },
         },
