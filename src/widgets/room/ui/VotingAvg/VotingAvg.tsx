@@ -12,13 +12,13 @@ export const VotingAvg = ({ votes }: VotingAvgProps) => {
     correctVotes.reduce((acc, v) => acc + v, 0) / correctVotes.length;
 
   return (
-    <div className="flex justify-center gap-5 mt-6 items-center">
+    <div className="flex justify-center items-center flex-col gap-5 p-6">
       {!!avgVotes && (
         <div>
           Average: <strong>{avgVotes}</strong>
         </div>
       )}
-      <div className="flex justify-center gap-4">
+      <div className="flex flex-wrap justify-center gap-4">
         {sameVotes.map(({ value, count }) => (
           <div key={value} className="text-center">
             <div className="flex items-center justify-center rounded bg-primary-100 dark:bg-gray-700 h-24 w-20 font-bold">

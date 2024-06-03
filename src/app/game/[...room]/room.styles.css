@@ -1,6 +1,8 @@
 .game-grid {
-    grid-template-areas:
+    @media screen and (min-width: 1024px) {
+        grid-template-areas:
         "left top right"
         "left table right"
         "left bottom right";
+    }
 }
