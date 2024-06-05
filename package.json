@@ -9,7 +9,8 @@
     "lint": "next lint",
     "prepare": "husky",
     "format": "next lint --fix && prettier '**/*.{json,yaml}' --write --ignore-path .gitignore",
-    "check-types": "tsc --noEmit --pretty"
+    "check-types": "tsc --noEmit --pretty",
+    "test": "jest"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.0",
