@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/sebastiansiejek/planning-poker/compare/v1.2.0...v1.3.0) (2024-06-11)
+
+
+### Features
+
+* add homepage ([#13](https://github.com/sebastiansiejek/planning-poker/issues/13)) ([47ae3e9](https://github.com/sebastiansiejek/planning-poker/commit/47ae3e9d9587391da2847308fc1e438437a84a88))
+
 # [1.2.0](https://github.com/sebastiansiejek/planning-poker/compare/v1.1.0...v1.2.0) (2024-06-11)
 
 
