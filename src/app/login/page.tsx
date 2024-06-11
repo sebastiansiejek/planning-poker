@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 
 import type { LoginPageProps } from '@/app/login/types';
+import { routes } from '@/shared/routes/routes';
 import { Button } from '@/shared/UIKit/Button/Button';
 import { TextInput } from '@/shared/UIKit/TextInput/TextInput';
 import { UserModel } from '@/shared/user/model/UserModel';
@@ -17,7 +18,7 @@ export default async function Page({ searchParams }: LoginPageProps) {
 
     if (name) {
       UserModel.setUserName(name);
-      redirect(`/game/${room || ''}`);
+      redirect(routes.game.singleGame.getPath(room || ''));
     }
   };
 
