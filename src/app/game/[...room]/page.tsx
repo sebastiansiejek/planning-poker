@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 
 import Room from '@/app/game/[...room]/Room';
+import { routes } from '@/shared/routes/routes';
 import { UserModel } from '@/shared/user/model/UserModel';
 
 export default async function Page({
@@ -14,7 +15,7 @@ export default async function Page({
   const room = params.room.toString();
 
   if (!userName) {
-    redirect(`/login?room=${room}`);
+    redirect(routes.login.getPath(room));
   }
 
   const channelName = `presence-${room}`;

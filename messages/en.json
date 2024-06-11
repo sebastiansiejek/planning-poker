@@ -1,0 +1,18 @@
+{
+  "Game": {
+    "inputName": {
+      "placeholder": "Enter game name"
+    },
+    "submitButton": {
+      "label": "Create or join"
+    }
+  },
+  "Login": {
+    "inputName": {
+      "placeholder": "Enter your name"
+    },
+    "submitButton": {
+      "label": "Join"
+    }
+  }
+}
