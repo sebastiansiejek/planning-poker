@@ -12,6 +12,7 @@ const config: Config = {
       },
     },
     colors: {
+      current: 'currentColor',
       white: '#fff',
       primary: {
         100: '#E6FFFA',
