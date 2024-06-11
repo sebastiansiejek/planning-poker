@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/sebastiansiejek/planning-poker/compare/v1.0.0...v1.1.0) (2024-06-11)
+
+
+### Features
+
+* create game page ([#11](https://github.com/sebastiansiejek/planning-poker/issues/11)) ([e1d623e](https://github.com/sebastiansiejek/planning-poker/commit/e1d623eb83ff6f81c8de686c256dc64967c9aeb8))
+
 # 1.0.0 (2024-06-05)
 
 
