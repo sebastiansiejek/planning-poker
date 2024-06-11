@@ -12,6 +12,7 @@ export default async function Page({
   };
 }) {
   const userName = UserModel.getUserName();
+  const avatarUrl = UserModel.getAvatarUrl();
   const room = params.room.toString();
 
   if (!userName) {
@@ -20,5 +21,7 @@ export default async function Page({
 
   const channelName = `presence-${room}`;
 
-  return <Room channelName={channelName} userName={userName} />;
+  return (
+    <Room channelName={channelName} userName={userName} avatarUrl={avatarUrl} />
+  );
 }

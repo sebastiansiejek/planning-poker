@@ -1,5 +1,6 @@
 import { cva } from 'class-variance-authority';
 
+import { Avatar } from '@/shared/UIKit/Avatar/Avatar';
 import type { MemberProps } from '@/widgets/room/ui/Member/types';
 
 export const Member = ({
@@ -8,6 +9,7 @@ export const Member = ({
   isVoted,
   vote,
   isRevealedCards,
+  avatarUrl,
 }: MemberProps) => {
   return (
     <div className="flex items-center flex-col min-w-16 min-h-28 text-center">
@@ -46,6 +48,11 @@ export const Member = ({
       >
         {isRevealedCards && vote}
       </div>
+      {avatarUrl && (
+        <div className="mt-2">
+          <Avatar url={avatarUrl} size={40} />
+        </div>
+      )}
       <div className="font-semibold mt-2">{name}</div>
     </div>
   );

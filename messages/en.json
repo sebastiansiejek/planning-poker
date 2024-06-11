@@ -18,5 +18,11 @@
     "submitButton": {
       "label": "Join"
     }
+  },
+  "Gravatar": {
+    "show": "Show",
+    "email": {
+      "placeholder": "Enter email for gravatar"
+    }
   }
 }
