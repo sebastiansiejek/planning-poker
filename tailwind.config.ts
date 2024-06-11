@@ -4,6 +4,13 @@ const config: Config = {
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   darkMode: ['selector', '[data-theme="dark"]'],
   theme: {
+    container: {
+      center: true,
+      padding: {
+        DEFAULT: '1.2rem',
+        sm: '0',
+      },
+    },
     colors: {
       white: '#fff',
       primary: {
