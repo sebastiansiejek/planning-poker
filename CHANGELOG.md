@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/sebastiansiejek/planning-poker/compare/v1.1.0...v1.2.0) (2024-06-11)
+
+
+### Features
+
+* add i18n powered by next-intl ([#12](https://github.com/sebastiansiejek/planning-poker/issues/12)) ([3d16902](https://github.com/sebastiansiejek/planning-poker/commit/3d169029053fc8b8ef443a09cfebb88db1b91e72))
+
 # [1.1.0](https://github.com/sebastiansiejek/planning-poker/compare/v1.0.0...v1.1.0) (2024-06-11)
 
 
