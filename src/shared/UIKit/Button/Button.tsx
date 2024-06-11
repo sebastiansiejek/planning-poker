@@ -13,8 +13,7 @@ export const Button = (props: ButtonProps) => {
         {
           variants: {
             variant: {
-              primary:
-                'bg-primary-500 dark:bg-gray-800 text-white hover:bg-primary-600',
+              primary: 'bg-primary-500 text-white hover:bg-primary-600',
               secondary:
                 'bg-white dark:bg-gray-700 text-primary-500 border border-primary-500 border-solid hover:bg-primary-500 dark:hover:bg-gray-800 hover:text-white',
             },
