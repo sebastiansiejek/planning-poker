@@ -1,4 +1,8 @@
 {
+  "Homepage": {
+    "title": "Planning Poker",
+    "description": "Play Planning Poker for better project planning! This fun Agile game helps teams estimate tasks accurately, boosts engagement, and enhances communication."
+  },
   "Game": {
     "inputName": {
       "placeholder": "Enter game name"
