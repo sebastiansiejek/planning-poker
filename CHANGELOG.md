@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/sebastiansiejek/planning-poker/compare/v1.3.0...v1.4.0) (2024-06-12)
+
+
+### Features
+
+* display user gravatar base on email from login page ([#14](https://github.com/sebastiansiejek/planning-poker/issues/14)) ([951247c](https://github.com/sebastiansiejek/planning-poker/commit/951247c254d9e10eafaf2333f7f3a5d215c9c08e))
+
 # [1.3.0](https://github.com/sebastiansiejek/planning-poker/compare/v1.2.0...v1.3.0) (2024-06-11)
 
 
