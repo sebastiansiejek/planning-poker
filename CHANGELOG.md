@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/sebastiansiejek/planning-poker/compare/v1.5.0...v1.6.0) (2024-06-12)
+
+
+### Features
+
+* add meta data ([#18](https://github.com/sebastiansiejek/planning-poker/issues/18)) ([c8f20f0](https://github.com/sebastiansiejek/planning-poker/commit/c8f20f08189d146a3e283784107f4d005749d739))
+
 # [1.5.0](https://github.com/sebastiansiejek/planning-poker/compare/v1.4.2...v1.5.0) (2024-06-12)
 
 
