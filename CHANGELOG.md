@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/sebastiansiejek/planning-poker/compare/v1.4.0...v1.4.1) (2024-06-12)
+
+
+### Bug Fixes
+
+* add missing variable to memo deps ([#16](https://github.com/sebastiansiejek/planning-poker/issues/16)) ([404a8eb](https://github.com/sebastiansiejek/planning-poker/commit/404a8ebd12a3b74213a056368c4d5fa4878de29b))
+
 # [1.4.0](https://github.com/sebastiansiejek/planning-poker/compare/v1.3.0...v1.4.0) (2024-06-12)
 
 
