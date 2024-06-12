@@ -6,6 +6,7 @@ import { getLocale, getMessages, getTranslations } from 'next-intl/server';
 import { ThemeProvider } from 'next-themes';
 import type { ReactNode } from 'react';
 
+import { META_CONSTANTS } from '@/shared/global/model/META_CONSTANTS';
 import { SiteFooter } from '@/widgets/global/SiteFooter/SiteFooter';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -20,12 +21,7 @@ export async function generateMetadata({
   return {
     title: 'Planning Poker',
     description: t('Meta.description'),
-    authors: [
-      {
-        url: 'https://sebastiansiejek.dev',
-        name: 'Sebastian Siejek',
-      },
-    ],
+    authors: [META_CONSTANTS.author],
   };
 }
 
