@@ -27,7 +27,7 @@ export default function Room({ channelName, userName, avatarUrl }: RoomProps) {
   const [me, setMe] = useState<PusherMember>();
   const pusher = useMemo(
     () => pusherClient({ name: userName, avatarUrl }),
-    [userName],
+    [userName, avatarUrl],
   );
   const [voteValue, setVoteValue] = useState('');
   const [votedUserIds, setVotedUserIds] = useState<string[]>([]);
