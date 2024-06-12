@@ -21,11 +21,14 @@ import { RoomTable } from '@/widgets/room/ui/RoomTable/RoomTable';
 import { VotingAvg } from '@/widgets/room/ui/VotingAvg/VotingAvg';
 import { VotingCard } from '@/widgets/room/ui/VotingCard/VotingCard';
 
-export default function Room({ channelName, userName }: RoomProps) {
+export default function Room({ channelName, userName, avatarUrl }: RoomProps) {
   const [members, setMembers] = useState<PusherMember[]>([]);
   const [votes, setVotes] = useState<Vote[]>([]);
   const [me, setMe] = useState<PusherMember>();
-  const pusher = useMemo(() => pusherClient({ name: userName }), [userName]);
+  const pusher = useMemo(
+    () => pusherClient({ name: userName, avatarUrl }),
+    [userName],
+  );
   const [voteValue, setVoteValue] = useState('');
   const [votedUserIds, setVotedUserIds] = useState<string[]>([]);
   const [isRevealedCards, setIsRevealedCards] = useState(false);

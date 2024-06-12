@@ -10,7 +10,10 @@ export const pusherClient = (userInfo: Omit<PusherMember, 'id'>) =>
     authTransport: 'ajax',
     auth: {
       params: {
-        userInfo: JSON.stringify({ ...userInfo, id: getPusherUserId() }),
+        userInfo: JSON.stringify({
+          ...userInfo,
+          id: getPusherUserId(),
+        }),
       },
     },
   });

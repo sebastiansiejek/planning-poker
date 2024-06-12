@@ -2,6 +2,7 @@ export type PusherMember = {
   id: string;
   name: string;
   vote?: string | number;
+  avatarUrl?: string;
 };
 
 export type PusherNewMember = {
@@ -9,6 +10,7 @@ export type PusherNewMember = {
   info: {
     id: string;
     name: string;
+    avatarUrl?: string;
   };
 };
 
