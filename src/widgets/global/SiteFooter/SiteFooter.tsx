@@ -1,4 +1,4 @@
-import { META_CONSTANTS } from '@/shared/global/model/META_CONSTANTS';
+import { META_CONSTANTS } from '@/shared/global/config/META_CONSTANTS';
 import { ThemeSwitcher } from '@/widgets/global/ThemeSwitcher/ThemeSwitcher';
 
 export const SiteFooter = () => {
