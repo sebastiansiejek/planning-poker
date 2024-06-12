@@ -50,13 +50,14 @@ export default function Room({ channelName, userName, avatarUrl }: RoomProps) {
 
       channel.bind(PUSHER_EVENTS.MEMBER_ADDED, (newMember: PusherNewMember) => {
         const {
-          info: { name, id },
+          info: { name, id, avatarUrl: userAvatarUrl },
         } = newMember;
         setMembers((oldMembers) => [
           ...oldMembers.filter((member) => member.id !== id),
           {
             name,
             id,
+            avatarUrl: userAvatarUrl,
           },
         ]);
       });
