@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/sebastiansiejek/planning-poker/compare/v1.4.2...v1.5.0) (2024-06-12)
+
+
+### Features
+
+* add missing translations ([#17](https://github.com/sebastiansiejek/planning-poker/issues/17)) ([5289803](https://github.com/sebastiansiejek/planning-poker/commit/52898031b8025dc44728b82215dc15229c850800))
+
 ## [1.4.2](https://github.com/sebastiansiejek/planning-poker/compare/v1.4.1...v1.4.2) (2024-06-12)
 
 
