@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/sebastiansiejek/planning-poker/compare/v1.6.0...v1.6.1) (2024-06-12)
+
+
+### Bug Fixes
+
+* user gravatar ([#19](https://github.com/sebastiansiejek/planning-poker/issues/19)) ([fbca642](https://github.com/sebastiansiejek/planning-poker/commit/fbca6421bb80f1239f62e3228addc2b9eaa5c47a))
+
 # [1.6.0](https://github.com/sebastiansiejek/planning-poker/compare/v1.5.0...v1.6.0) (2024-06-12)
 
 
