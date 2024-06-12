@@ -24,5 +24,13 @@
     "email": {
       "placeholder": "Enter email for gravatar"
     }
+  },
+  "Room": {
+    "reveal": {
+      "button": "Reveal cards"
+    },
+    "reset": {
+      "button": "Reset"
+    }
   }
 }
