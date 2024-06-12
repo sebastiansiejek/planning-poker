@@ -20,7 +20,7 @@ export default function Icon() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          color: 'white',
+          color: '#1c1917',
         }}
       >
         PP
