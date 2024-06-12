@@ -12,7 +12,9 @@ export const RevealCards = ({
       <input type="hidden" name="userId" defaultValue={meId} />
       <input type="hidden" name="voteValue" defaultValue={voteValue} />
       <input type="hidden" name="channelName" defaultValue={channelName} />
-      <Button type="submit">Reveal cards</Button>
+      <Button type="submit" variant="secondary">
+        Reveal cards
+      </Button>
     </form>
   );
 };
