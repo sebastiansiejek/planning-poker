@@ -39,7 +39,7 @@ export const GravatarInput = () => {
               });
             }}
           >
-            {t('show')}
+            {t('add')}
           </Button>
         )}
       </div>

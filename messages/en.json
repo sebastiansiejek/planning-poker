@@ -23,7 +23,7 @@
     }
   },
   "Gravatar": {
-    "show": "Show",
+    "add": "Add",
     "email": {
       "placeholder": "Enter email for gravatar"
     }
