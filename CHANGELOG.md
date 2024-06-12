@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/sebastiansiejek/planning-poker/compare/v1.4.1...v1.4.2) (2024-06-12)
+
+
+### Bug Fixes
+
+* set variant on secondary for reveal card button ([5c3e2d3](https://github.com/sebastiansiejek/planning-poker/commit/5c3e2d30d71d232d82a53988d78a780e2481700f))
+
 ## [1.4.1](https://github.com/sebastiansiejek/planning-poker/compare/v1.4.0...v1.4.1) (2024-06-12)
 
 
