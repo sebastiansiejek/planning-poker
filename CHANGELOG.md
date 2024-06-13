@@ -1,3 +1,10 @@
+## [1.6.2](https://github.com/sebastiansiejek/planning-poker/compare/v1.6.1...v1.6.2) (2024-06-13)
+
+
+### Bug Fixes
+
+* add missing dependency-name ([#21](https://github.com/sebastiansiejek/planning-poker/issues/21)) ([4091bd1](https://github.com/sebastiansiejek/planning-poker/commit/4091bd11639bc0ea07636a151e91e2c61e2b9288))
+
 ## [1.6.1](https://github.com/sebastiansiejek/planning-poker/compare/v1.6.0...v1.6.1) (2024-06-12)
 
 
