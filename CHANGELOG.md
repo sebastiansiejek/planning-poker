@@ -1,3 +1,10 @@
+## [1.6.5](https://github.com/sebastiansiejek/planning-poker/compare/v1.6.4...v1.6.5) (2024-06-13)
+
+
+### Bug Fixes
+
+* disable checking of body max line ([#28](https://github.com/sebastiansiejek/planning-poker/issues/28)) ([908afb8](https://github.com/sebastiansiejek/planning-poker/commit/908afb85171c41022cb9ac3cd615dcdcc037bf9a))
+
 ## [1.6.4](https://github.com/sebastiansiejek/planning-poker/compare/v1.6.3...v1.6.4) (2024-06-13)
 
 
