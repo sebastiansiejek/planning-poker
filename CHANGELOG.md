@@ -1,3 +1,10 @@
+## [1.6.4](https://github.com/sebastiansiejek/planning-poker/compare/v1.6.3...v1.6.4) (2024-06-13)
+
+
+### Bug Fixes
+
+* remove unused packages from dependabot and fix directory ([#24](https://github.com/sebastiansiejek/planning-poker/issues/24)) ([18e7737](https://github.com/sebastiansiejek/planning-poker/commit/18e773720df16b4c1b981fd60a3d8ac551e0e194))
+
 ## [1.6.3](https://github.com/sebastiansiejek/planning-poker/compare/v1.6.2...v1.6.3) (2024-06-13)
 
 
