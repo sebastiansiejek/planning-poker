@@ -1,3 +1,10 @@
+## [1.6.3](https://github.com/sebastiansiejek/planning-poker/compare/v1.6.2...v1.6.3) (2024-06-13)
+
+
+### Bug Fixes
+
+* use dependabot core code ([#22](https://github.com/sebastiansiejek/planning-poker/issues/22)) ([5437c32](https://github.com/sebastiansiejek/planning-poker/commit/5437c3241383066fddd9115d4e3bff9a8e83e52a))
+
 ## [1.6.2](https://github.com/sebastiansiejek/planning-poker/compare/v1.6.1...v1.6.2) (2024-06-13)
 
 
