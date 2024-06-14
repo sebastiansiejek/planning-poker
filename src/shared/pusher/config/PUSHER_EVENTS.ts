@@ -6,4 +6,5 @@ export const PUSHER_EVENTS = {
   SHOW_VOTES: 'SHOW_VOTES',
   REVEAL_VOTES: 'REVEAL_VOTES',
   RESET_VOTES: 'RESET_VOTES',
+  USER_ID: (id: string) => `USER_ID:${id}`,
 };

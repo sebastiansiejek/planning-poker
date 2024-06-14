@@ -35,5 +35,11 @@
     "reset": {
       "button": "Reset"
     }
+  },
+  "Member": {
+    "notification": {
+      "trigger": "Send notification",
+      "notice": "The team is waiting for your vote"
+    }
   }
 }

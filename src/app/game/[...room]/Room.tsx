@@ -7,12 +7,14 @@ import { useEffect, useMemo, useState } from 'react';
 import { voting } from '@/app/actions/voting';
 import type { RoomProps } from '@/app/game/[...room]/types';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
+import { getPusherUserId } from '@/shared/pusher/lib/getPusherUserId';
 import { pusherClient } from '@/shared/pusher/lib/pusherClient';
 import { votingValues } from '@/shared/voting/config/votingConstants';
 import type {
   PusherMember,
   PusherMembers,
   PusherNewMember,
+  PusherNotification,
 } from '@/types/pusher/pusher';
 import type { Vote } from '@/types/types';
 import { chunkMembers } from '@/widgets/room/libs/chunkMembers/chunkMembers';
@@ -37,10 +39,23 @@ export default function Room({ channelName, userName, avatarUrl }: RoomProps) {
   const [topMembers, leftMembers, bottomMembers, rightMembers] = chunks;
 
   useEffect(() => {
-    if (channelName) {
-      const channel = pusher.subscribe(channelName);
+    const pusherChannel = pusher.subscribe(channelName);
 
-      channel.bind(
+    if (pusherChannel) {
+      pusherChannel.bind(
+        PUSHER_EVENTS.USER_ID(getPusherUserId()),
+        async (data: PusherNotification) => {
+          if (data.type === 'alarm') {
+            const audio = new Audio('/alarm.mp3');
+
+            if (audio.paused) {
+              await audio.play();
+            }
+          }
+        },
+      );
+
+      pusherChannel.bind(
         PUSHER_EVENTS.SUBSCRIPTION_SUCCEEDED,
         (initialMembers: PusherMembers) => {
           setMembers(Object.values(initialMembers.members));
@@ -48,27 +63,33 @@ export default function Room({ channelName, userName, avatarUrl }: RoomProps) {
         },
       );
 
-      channel.bind(PUSHER_EVENTS.MEMBER_ADDED, (newMember: PusherNewMember) => {
-        const {
-          info: { name, id, avatarUrl: userAvatarUrl },
-        } = newMember;
-        setMembers((oldMembers) => [
-          ...oldMembers.filter((member) => member.id !== id),
-          {
-            name,
-            id,
-            avatarUrl: userAvatarUrl,
-          },
-        ]);
-      });
+      pusherChannel.bind(
+        PUSHER_EVENTS.MEMBER_ADDED,
+        (newMember: PusherNewMember) => {
+          const {
+            info: { name, id, avatarUrl: userAvatarUrl },
+          } = newMember;
+          setMembers((oldMembers) => [
+            ...oldMembers.filter((member) => member.id !== id),
+            {
+              name,
+              id,
+              avatarUrl: userAvatarUrl,
+            },
+          ]);
+        },
+      );
 
-      channel.bind(PUSHER_EVENTS.MEMBER_REMOVED, (member: PusherNewMember) => {
-        setMembers((oldMembers) =>
-          oldMembers.filter((m) => m.id !== member.id),
-        );
-      });
+      pusherChannel.bind(
+        PUSHER_EVENTS.MEMBER_REMOVED,
+        (member: PusherNewMember) => {
+          setMembers((oldMembers) =>
+            oldMembers.filter((m) => m.id !== member.id),
+          );
+        },
+      );
 
-      channel.bind(
+      pusherChannel.bind(
         PUSHER_EVENTS.VOTED,
         (data: { userId: string; value: string }) => {
           const { userId } = data;
@@ -80,21 +101,21 @@ export default function Room({ channelName, userName, avatarUrl }: RoomProps) {
         },
       );
 
-      channel.bind(PUSHER_EVENTS.SHOW_VOTES, (vote: Vote) => {
+      pusherChannel.bind(PUSHER_EVENTS.SHOW_VOTES, (vote: Vote) => {
         setVotes((oldVotes) => {
           const newVotes = oldVotes.filter((v) => v.userId !== vote.userId);
           return [...newVotes, vote];
         });
       });
 
-      channel.bind(PUSHER_EVENTS.RESET_VOTES, () => {
+      pusherChannel.bind(PUSHER_EVENTS.RESET_VOTES, () => {
         setVoteValue('');
         setVotes([]);
         setVotedUserIds([]);
         setIsRevealedCards(false);
       });
 
-      channel.bind(PUSHER_EVENTS.REVEAL_VOTES, async () => {
+      pusherChannel.bind(PUSHER_EVENTS.REVEAL_VOTES, async () => {
         setIsRevealedCards(true);
       });
     }
@@ -125,7 +146,6 @@ export default function Room({ channelName, userName, avatarUrl }: RoomProps) {
           />
           <RoomTable
             channelName={channelName}
-            meId={meId}
             voteValue={voteValue}
             isRevealedCards={isRevealedCards}
           />
