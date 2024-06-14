@@ -16,7 +16,6 @@ export const Member = ({
   isRevealedCards,
   avatarUrl,
 }: MemberProps) => {
-  // const { notify } = useNotification();
   // TODO: get params from context
   const params = useParams();
   const t = useTranslations('Member');

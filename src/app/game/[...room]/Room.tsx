@@ -2,10 +2,12 @@
 
 import './room.styles.css';
 
+import { useTranslations } from 'next-intl';
 import { useEffect, useMemo, useState } from 'react';
 
 import { voting } from '@/app/actions/voting';
 import type { RoomProps } from '@/app/game/[...room]/types';
+import useNotification from '@/shared/hooks/useNotification/useNotification';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { getPusherUserId } from '@/shared/pusher/lib/getPusherUserId';
 import { pusherClient } from '@/shared/pusher/lib/pusherClient';
@@ -37,6 +39,8 @@ export default function Room({ channelName, userName, avatarUrl }: RoomProps) {
   const meId = me?.id || '';
   const chunks = chunkMembers(members);
   const [topMembers, leftMembers, bottomMembers, rightMembers] = chunks;
+  const { notify } = useNotification();
+  const t = useTranslations();
 
   useEffect(() => {
     const pusherChannel = pusher.subscribe(channelName);
@@ -46,6 +50,7 @@ export default function Room({ channelName, userName, avatarUrl }: RoomProps) {
         PUSHER_EVENTS.USER_ID(getPusherUserId()),
         async (data: PusherNotification) => {
           if (data.type === 'alarm') {
+            notify(t('Member.notification.notice'));
             const audio = new Audio('/alarm.mp3');
 
             if (audio.paused) {
