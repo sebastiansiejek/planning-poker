@@ -2,9 +2,12 @@
 
 import './room.styles.css';
 
+import { useAnimate } from 'framer-motion';
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { useEffect, useMemo, useState } from 'react';
 
+import type { TriggerPaperThrowingParams } from '@/app/actions/notifications/triggerPaperThrowing';
 import { voting } from '@/app/actions/voting';
 import type { RoomProps } from '@/app/game/[...room]/types';
 import useNotification from '@/shared/hooks/useNotification/useNotification';
@@ -20,10 +23,82 @@ import type {
 } from '@/types/pusher/pusher';
 import type { Vote } from '@/types/types';
 import { chunkMembers } from '@/widgets/room/libs/chunkMembers/chunkMembers';
+import { useRoomContext } from '@/widgets/room/model/RoomContext';
 import { Members } from '@/widgets/room/ui/Members/Members';
 import { RoomTable } from '@/widgets/room/ui/RoomTable/RoomTable';
 import { VotingAvg } from '@/widgets/room/ui/VotingAvg/VotingAvg';
 import { VotingCard } from '@/widgets/room/ui/VotingCard/VotingCard';
+
+const Paper = ({
+  onEnd,
+  triggerUser,
+  targetUser,
+}: { onEnd?: () => void } & Pick<
+  TriggerPaperThrowingParams,
+  'targetUser' | 'triggerUser'
+>) => {
+  const [scope, animate] = useAnimate();
+  const [position, setPosition] = useState({
+    left: 0,
+    top: 0,
+  });
+
+  useEffect(() => {
+    const { id: targetUserId } = targetUser;
+    const { id: triggerUserId } = triggerUser;
+    const targetUserDOM = document.getElementById(targetUserId);
+    const triggerUserDOM = document.getElementById(triggerUserId);
+
+    if (!targetUserDOM || !triggerUserDOM) return;
+
+    if (scope) {
+      const triggerUserPosition = triggerUserDOM.getBoundingClientRect();
+      const targetUserPosition = targetUserDOM.getBoundingClientRect();
+      setPosition({
+        left: triggerUserPosition.left,
+        top: triggerUserPosition.top,
+      });
+      animate(
+        scope.current,
+        {
+          transformOrigin: 'center',
+          translateX: targetUserPosition.left - triggerUserPosition.left,
+          translateY: targetUserPosition.top - triggerUserPosition.top,
+          visibility: 'hidden',
+        },
+        {
+          duration: 1.5,
+          ease: 'linear',
+        },
+      ).then(() => {
+        onEnd?.();
+      });
+      animate(
+        scope.current,
+        {
+          rotate: 360,
+        },
+        {
+          duration: 0.7,
+          repeat: Infinity,
+          ease: 'linear',
+        },
+      );
+    }
+  }, []);
+
+  return (
+    <Image
+      className="fixed z-50"
+      src="/paper.png"
+      alt="paper"
+      width={30}
+      height={30}
+      ref={scope}
+      style={position}
+    />
+  );
+};
 
 export default function Room({ channelName, userName, avatarUrl }: RoomProps) {
   const [members, setMembers] = useState<PusherMember[]>([]);
@@ -48,6 +123,10 @@ export default function Room({ channelName, userName, avatarUrl }: RoomProps) {
   const [topMembers, leftMembers, bottomMembers, rightMembers] = memberChunks;
   const { notify } = useNotification();
   const t = useTranslations();
+  const [papers, setPapers] = useState<
+    Pick<TriggerPaperThrowingParams, 'triggerUser' | 'targetUser'>[]
+  >([]);
+  const { dispatch } = useRoomContext();
 
   useEffect(() => {
     const pusherChannel = pusher.subscribe(channelName);
@@ -68,11 +147,30 @@ export default function Room({ channelName, userName, avatarUrl }: RoomProps) {
       );
 
       pusherChannel.bind(
+        PUSHER_EVENTS.PAPER_THROWN,
+        ({ targetUser, triggerUser }: TriggerPaperThrowingParams) => {
+          setPapers((oldPapers) => [
+            ...oldPapers,
+            {
+              targetUser,
+              triggerUser,
+            },
+          ]);
+        },
+      );
+
+      pusherChannel.bind(
         PUSHER_EVENTS.SUBSCRIPTION_SUCCEEDED,
         (initialMembers: PusherMembers) => {
           const membersArray = Object.values(initialMembers.members);
           setMembers(membersArray);
           setMe(initialMembers.me);
+          dispatch({
+            type: 'SET_CURRENT_USER_ID',
+            payload: {
+              currentUserId: initialMembers.me.id,
+            },
+          });
         },
       );
 
@@ -198,6 +296,17 @@ export default function Room({ channelName, userName, avatarUrl }: RoomProps) {
         </form>
       </div>
       {isRevealedCards && <VotingAvg votes={votes} />}
+      {papers.map(({ targetUser, triggerUser }, index) => (
+        <Paper
+          // eslint-disable-next-line react/no-array-index-key
+          key={targetUser.id + index}
+          targetUser={targetUser}
+          triggerUser={triggerUser}
+          onEnd={() => {
+            setPapers((oldPapers) => oldPapers.filter((_, i) => i !== index));
+          }}
+        />
+      ))}
     </div>
   );
 }

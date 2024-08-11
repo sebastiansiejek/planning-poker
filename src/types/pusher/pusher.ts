@@ -22,5 +22,5 @@ export type PusherMembers = {
 };
 
 export type PusherNotification = {
-  type: 'alarm';
+  type: 'alarm' | 'paper';
 };

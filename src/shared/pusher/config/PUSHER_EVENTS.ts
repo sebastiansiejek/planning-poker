@@ -7,4 +7,5 @@ export const PUSHER_EVENTS = {
   REVEAL_VOTES: 'REVEAL_VOTES',
   RESET_VOTES: 'RESET_VOTES',
   USER_ID: (id: string) => `USER_ID:${id}`,
+  PAPER_THROWN: 'PAPER_THROWN',
 };

@@ -2,10 +2,12 @@ import { useEffect, useRef, useState } from 'react';
 
 import type { UseNotificationOptions } from '@/shared/hooks/useNotification/types';
 
+// TODO: separate this into a separate file
+const isSupported = !('Notification' in window);
+
 const useNotification = (options?: UseNotificationOptions) => {
-  const [isPermissionGranted, setIsPermissionGranted] = useState<boolean>(
-    Notification?.permission === 'granted',
-  );
+  const [isPermissionGranted, setIsPermissionGranted] =
+    useState<boolean>(false);
   const notification = useRef<Notification | null>(null);
 
   const notify = (title: string) => {
@@ -35,12 +37,19 @@ const useNotification = (options?: UseNotificationOptions) => {
   };
 
   useEffect(() => {
-    if (!isPermissionGranted) {
+    if (!isPermissionGranted && isSupported) {
       Notification.requestPermission().then((status) =>
         setIsPermissionGranted(status === 'granted'),
       );
     }
   }, [isPermissionGranted, notification, options]);
+
+  if (!isSupported) {
+    return {
+      notify: () => {},
+      close: () => {},
+    };
+  }
 
   return {
     notify,

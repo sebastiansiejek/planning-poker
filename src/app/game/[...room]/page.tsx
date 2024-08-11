@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import Room from '@/app/game/[...room]/Room';
 import { routes } from '@/shared/routes/routes';
 import { UserModel } from '@/shared/user/model/UserModel';
+import { RoomProvider } from '@/widgets/room/model/RoomContext';
 
 export default async function Page({
   params,
@@ -22,6 +23,12 @@ export default async function Page({
   const channelName = `presence-${room}`;
 
   return (
-    <Room channelName={channelName} userName={userName} avatarUrl={avatarUrl} />
+    <RoomProvider>
+      <Room
+        channelName={channelName}
+        userName={userName}
+        avatarUrl={avatarUrl}
+      />
+    </RoomProvider>
   );
 }
