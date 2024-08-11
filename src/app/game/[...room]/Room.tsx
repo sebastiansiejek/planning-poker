@@ -26,15 +26,23 @@ export default function Room({ channelName, userName, avatarUrl }: RoomProps) {
   const [votes, setVotes] = useState<Vote[]>([]);
   const [me, setMe] = useState<PusherMember>();
   const pusher = useMemo(
-    () => pusherClient({ name: userName, avatarUrl }),
+    () =>
+      pusherClient({
+        name: userName,
+        avatarUrl,
+      }),
     [userName, avatarUrl],
   );
   const [voteValue, setVoteValue] = useState('');
   const [votedUserIds, setVotedUserIds] = useState<string[]>([]);
   const [isRevealedCards, setIsRevealedCards] = useState(false);
   const meId = me?.id || '';
-  const chunks = chunkMembers(members);
-  const [topMembers, leftMembers, bottomMembers, rightMembers] = chunks;
+  const memberChunks = useMemo(
+    () => chunkMembers(members.sort((a, b) => a.name.localeCompare(b.name))),
+    [members.length],
+  );
+
+  const [topMembers, leftMembers, bottomMembers, rightMembers] = memberChunks;
 
   useEffect(() => {
     if (channelName) {
@@ -43,7 +51,8 @@ export default function Room({ channelName, userName, avatarUrl }: RoomProps) {
       channel.bind(
         PUSHER_EVENTS.SUBSCRIPTION_SUCCEEDED,
         (initialMembers: PusherMembers) => {
-          setMembers(Object.values(initialMembers.members));
+          const membersArray = Object.values(initialMembers.members);
+          setMembers(membersArray);
           setMe(initialMembers.me);
         },
       );
