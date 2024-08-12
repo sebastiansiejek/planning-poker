@@ -2,13 +2,12 @@
 
 import './room.styles.css';
 
-import { useAnimate } from 'framer-motion';
-import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { useEffect, useMemo, useState } from 'react';
 
 import type { TriggerPaperThrowingParams } from '@/app/actions/notifications/triggerPaperThrowing';
 import { voting } from '@/app/actions/voting';
+import { Paper } from '@/app/alerts/Paper/Paper';
 import type { RoomProps } from '@/app/game/[...room]/types';
 import useNotification from '@/shared/hooks/useNotification/useNotification';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
@@ -28,77 +27,6 @@ import { Members } from '@/widgets/room/ui/Members/Members';
 import { RoomTable } from '@/widgets/room/ui/RoomTable/RoomTable';
 import { VotingAvg } from '@/widgets/room/ui/VotingAvg/VotingAvg';
 import { VotingCard } from '@/widgets/room/ui/VotingCard/VotingCard';
-
-const Paper = ({
-  onEnd,
-  triggerUser,
-  targetUser,
-}: { onEnd?: () => void } & Pick<
-  TriggerPaperThrowingParams,
-  'targetUser' | 'triggerUser'
->) => {
-  const [scope, animate] = useAnimate();
-  const [position, setPosition] = useState({
-    left: 0,
-    top: 0,
-  });
-
-  useEffect(() => {
-    const { id: targetUserId } = targetUser;
-    const { id: triggerUserId } = triggerUser;
-    const targetUserDOM = document.getElementById(targetUserId);
-    const triggerUserDOM = document.getElementById(triggerUserId);
-
-    if (!targetUserDOM || !triggerUserDOM) return;
-
-    if (scope) {
-      const triggerUserPosition = triggerUserDOM.getBoundingClientRect();
-      const targetUserPosition = targetUserDOM.getBoundingClientRect();
-      setPosition({
-        left: triggerUserPosition.left,
-        top: triggerUserPosition.top,
-      });
-      animate(
-        scope.current,
-        {
-          transformOrigin: 'center',
-          translateX: targetUserPosition.left - triggerUserPosition.left,
-          translateY: targetUserPosition.top - triggerUserPosition.top,
-          visibility: 'hidden',
-        },
-        {
-          duration: 1.5,
-          ease: 'linear',
-        },
-      ).then(() => {
-        onEnd?.();
-      });
-      animate(
-        scope.current,
-        {
-          rotate: 360,
-        },
-        {
-          duration: 0.7,
-          repeat: Infinity,
-          ease: 'linear',
-        },
-      );
-    }
-  }, []);
-
-  return (
-    <Image
-      className="fixed z-50"
-      src="/paper.png"
-      alt="paper"
-      width={30}
-      height={30}
-      ref={scope}
-      style={position}
-    />
-  );
-};
 
 export default function Room({ channelName, userName, avatarUrl }: RoomProps) {
   const [members, setMembers] = useState<PusherMember[]>([]);
