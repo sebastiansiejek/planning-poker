@@ -13,7 +13,7 @@ export const Paper = ({
   TriggerPaperThrowingParams,
   'targetUser' | 'triggerUser'
 >) => {
-  const [scope, animatePaper] = useAnimate();
+  const [animationPaperScope, animatePaper] = useAnimate();
   const [position, setPosition] = useState<CSSProperties>({
     left: 0,
     top: 0,
@@ -28,7 +28,7 @@ export const Paper = ({
 
     if (!targetUserDOM || !triggerUserDOM) return;
 
-    if (scope) {
+    if (animationPaperScope) {
       const triggerUserPosition = triggerUserDOM.getBoundingClientRect();
       const targetUserPosition = targetUserDOM.getBoundingClientRect();
 
@@ -38,7 +38,7 @@ export const Paper = ({
         visibility: 'visible',
       });
       animatePaper(
-        scope.current,
+        animationPaperScope.current,
         {
           transformOrigin: 'center',
           translateX: targetUserPosition.left - triggerUserPosition.left,
@@ -63,7 +63,7 @@ export const Paper = ({
         onEnd?.();
       });
       animate(
-        scope.current,
+        animationPaperScope.current,
         {
           rotate: 360,
         },
@@ -83,7 +83,7 @@ export const Paper = ({
       alt="paper"
       width={30}
       height={30}
-      ref={scope}
+      ref={animationPaperScope}
       style={position}
     />
   );
