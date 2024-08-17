@@ -28,7 +28,7 @@ export const Member = ({
 
   return (
     <div
-      className="flex items-center flex-col min-w-16 min-h-28 text-center"
+      className="flex items-center flex-col min-w-16 min-h-28 text-center relative z-30"
       ref={memberRef}
     >
       {room?.currentUserId !== id && (

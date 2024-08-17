@@ -64,7 +64,7 @@ export const Paper = ({
 
   return (
     <Image
-      className="fixed z-50"
+      className="fixed z-20"
       src="/paper.png"
       alt="paper"
       width={30}
