@@ -1,4 +1,4 @@
-import { useAnimate } from 'framer-motion';
+import { animate, useAnimate } from 'framer-motion';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
@@ -12,7 +12,7 @@ export const Paper = ({
   TriggerPaperThrowingParams,
   'targetUser' | 'triggerUser'
 >) => {
-  const [scope, animate] = useAnimate();
+  const [scope, animatePaper] = useAnimate();
   const [position, setPosition] = useState({
     left: 0,
     top: 0,
@@ -33,7 +33,7 @@ export const Paper = ({
         left: triggerUserPosition.left,
         top: triggerUserPosition.top,
       });
-      animate(
+      animatePaper(
         scope.current,
         {
           transformOrigin: 'center',
@@ -46,6 +46,16 @@ export const Paper = ({
           ease: 'linear',
         },
       ).then(() => {
+        animate(
+          targetUserDOM,
+          {
+            rotate: [0, 10, -10, 10, -10, 10, -10, 0],
+          },
+          {
+            duration: 0.5,
+            ease: 'linear',
+          },
+        );
         onEnd?.();
       });
       animate(
