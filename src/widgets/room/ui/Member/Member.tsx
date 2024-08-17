@@ -1,12 +1,8 @@
 import { cva } from 'class-variance-authority';
-import Image from 'next/image';
-import { useParams } from 'next/navigation';
-import { useTranslations } from 'next-intl';
-import { useRef, useTransition } from 'react';
-import { MdNotificationsNone } from 'react-icons/md';
+import { useRef } from 'react';
 
-import { triggerPaperThrowing } from '@/app/actions/notifications/triggerPaperThrowing';
-import { notifyUserByPusher } from '@/app/actions/notifyUserByPusher';
+import { AlarmTrigger } from '@/app/alerts/widgets/AlarmTrigger/AlarmTrigger';
+import { PaperTrigger } from '@/app/alerts/widgets/PaperTrigger/PaperTrigger';
 import { Avatar } from '@/shared/UIKit/Avatar/Avatar';
 import { useRoomContext } from '@/widgets/room/model/RoomContext';
 import type { MemberProps } from '@/widgets/room/ui/Member/types';
@@ -19,10 +15,6 @@ export const Member = ({
   isRevealedCards,
   avatarUrl,
 }: MemberProps) => {
-  // TODO: get params from context
-  const params = useParams();
-  const t = useTranslations('Member');
-  const [pendingNotification, startNotificationTransition] = useTransition();
   const memberRef = useRef<HTMLDivElement>(null);
   const { room } = useRoomContext();
 
@@ -33,54 +25,8 @@ export const Member = ({
     >
       {room?.currentUserId !== id && (
         <div className="flex gap-1">
-          <button
-            aria-label={t('notification.trigger')}
-            type="button"
-            className="transition hover:text-primary-500"
-            disabled={pendingNotification}
-            onClick={() => {
-              startNotificationTransition(async () => {
-                const formData = new FormData();
-                formData.append('channelName', `presence-${params.room}`);
-                formData.append('userId', id);
-                formData.append('type', 'alarm');
-                await notifyUserByPusher(formData);
-              });
-            }}
-          >
-            <MdNotificationsNone />
-          </button>
-          <button
-            aria-label={t('notification.notice')}
-            type="button"
-            className="transition hover:text-primary-500"
-            disabled={pendingNotification}
-            onClick={() => {
-              startNotificationTransition(async () => {
-                const rect = memberRef.current?.getBoundingClientRect();
-
-                if (rect && room?.currentUserId) {
-                  await triggerPaperThrowing({
-                    channelName: `presence-${params.room}`,
-                    targetUser: {
-                      id,
-                    },
-                    triggerUser: {
-                      id: room.currentUserId,
-                    },
-                  });
-                }
-              });
-            }}
-          >
-            <Image
-              className="cursor-pointer"
-              src="/paper.png"
-              alt="paper"
-              width={20}
-              height={20}
-            />
-          </button>
+          <AlarmTrigger userId={id} />
+          <PaperTrigger userId={id} memberRef={memberRef} />
         </div>
       )}
       <div
