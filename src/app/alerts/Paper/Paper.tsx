@@ -1,5 +1,6 @@
 import { animate, useAnimate } from 'framer-motion';
 import Image from 'next/image';
+import type { CSSProperties } from 'react';
 import { useEffect, useState } from 'react';
 
 import type { TriggerPaperThrowingParams } from '@/app/actions/notifications/triggerPaperThrowing';
@@ -13,9 +14,10 @@ export const Paper = ({
   'targetUser' | 'triggerUser'
 >) => {
   const [scope, animatePaper] = useAnimate();
-  const [position, setPosition] = useState({
+  const [position, setPosition] = useState<CSSProperties>({
     left: 0,
     top: 0,
+    visibility: 'hidden',
   });
 
   useEffect(() => {
@@ -29,9 +31,11 @@ export const Paper = ({
     if (scope) {
       const triggerUserPosition = triggerUserDOM.getBoundingClientRect();
       const targetUserPosition = targetUserDOM.getBoundingClientRect();
+
       setPosition({
         left: triggerUserPosition.left,
         top: triggerUserPosition.top,
+        visibility: 'visible',
       });
       animatePaper(
         scope.current,
