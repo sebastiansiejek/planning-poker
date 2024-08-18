@@ -16,7 +16,6 @@ export const AlarmTrigger = ({ userId }: AlarmTriggerProps) => {
     <ButtonIcon
       aria-label={t('notification.trigger')}
       type="button"
-      className="transition hover:text-primary-500"
       disabled={pendingNotification}
       onClick={() => {
         startNotificationTransition(async () => {

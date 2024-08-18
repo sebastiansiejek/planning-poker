@@ -18,7 +18,6 @@ export const PaperTrigger = ({ userId, memberRef }: PaperTriggerProps) => {
     <ButtonIcon
       aria-label={t('notification.notice')}
       type="button"
-      className="transition hover:text-primary-500"
       disabled={pendingNotification}
       onClick={() => {
         startNotificationTransition(async () => {
