@@ -230,9 +230,6 @@ export default function Room({ channelName, userName, avatarUrl }: RoomProps) {
           key={targetUser.id + index}
           targetUser={targetUser}
           triggerUser={triggerUser}
-          onEnd={() => {
-            setPapers((oldPapers) => oldPapers.filter((_, i) => i !== index));
-          }}
         />
       ))}
     </div>
