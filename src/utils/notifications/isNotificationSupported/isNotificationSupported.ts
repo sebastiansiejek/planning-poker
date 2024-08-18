@@ -1,1 +1,4 @@
-export const isNotificationSupported = () => 'Notification' in window;
+'use client';
+
+export const isNotificationSupported = () =>
+  typeof window !== 'undefined' && 'Notification' in window;
