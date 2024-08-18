@@ -31,7 +31,7 @@ export const Member = ({
     >
       {room?.currentUserId !== id && isOpen && (
         <div
-          className="flex gap-1"
+          className="flex gap-1 p-1"
           ref={(ref) => setPopperElement(ref as HTMLDivElement)}
           style={styles.popper}
           onMouseEnter={() => setIsOpen(true)}
