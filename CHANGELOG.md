@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/sebastiansiejek/planning-poker/compare/v1.6.5...v1.7.0) (2024-08-18)
+
+
+### Features
+
+* add push notifcations ([#42](https://github.com/sebastiansiejek/planning-poker/issues/42)) ([815bc5e](https://github.com/sebastiansiejek/planning-poker/commit/815bc5e57719eb5648955e28aa245aaebab1924c))
+
 ## [1.6.5](https://github.com/sebastiansiejek/planning-poker/compare/v1.6.4...v1.6.5) (2024-06-13)
 
 
