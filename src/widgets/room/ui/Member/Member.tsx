@@ -1,5 +1,6 @@
 import { cva } from 'class-variance-authority';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+import { usePopper } from 'react-popper';
 
 import { AlarmTrigger } from '@/app/alerts/widgets/AlarmTrigger/AlarmTrigger';
 import { PaperTrigger } from '@/app/alerts/widgets/PaperTrigger/PaperTrigger';
@@ -17,14 +18,26 @@ export const Member = ({
 }: MemberProps) => {
   const memberRef = useRef<HTMLDivElement>(null);
   const { room } = useRoomContext();
+  const [popperElement, setPopperElement] = useState<HTMLDivElement>();
+  const { styles, attributes } = usePopper(memberRef.current, popperElement, {
+    placement: 'top',
+  });
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div
       className="flex items-center flex-col min-w-16 min-h-28 text-center relative z-30"
       ref={memberRef}
     >
-      {room?.currentUserId !== id && (
-        <div className="flex gap-1">
+      {room?.currentUserId !== id && isOpen && (
+        <div
+          className="flex gap-1"
+          ref={(ref) => setPopperElement(ref as HTMLDivElement)}
+          style={styles.popper}
+          onMouseEnter={() => setIsOpen(true)}
+          onMouseLeave={() => setIsOpen(false)}
+          {...attributes.popper}
+        >
           <AlarmTrigger userId={id} />
           <PaperTrigger userId={id} memberRef={memberRef} />
         </div>
@@ -32,6 +45,8 @@ export const Member = ({
       <div
         key={id}
         id={id}
+        onMouseEnter={() => setIsOpen(true)}
+        onMouseLeave={() => setIsOpen(false)}
         className={cva(
           'h-20 w-16 flex justify-center items-center rounded border-2 dark:border-gray-800 border-solid text-primary-500 font-bold text-xl',
           {
