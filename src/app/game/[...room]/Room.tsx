@@ -46,6 +46,7 @@ export default function Room({ channelName, userName, avatarUrl }: RoomProps) {
   const meId = me?.id || '';
   const memberChunks = useMemo(
     () => chunkMembers(members.sort((a, b) => a.name.localeCompare(b.name))),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [members.length],
   );
   const [topMembers, leftMembers, bottomMembers, rightMembers] = memberChunks;
@@ -162,6 +163,7 @@ export default function Room({ channelName, userName, avatarUrl }: RoomProps) {
     return () => {
       pusher.unsubscribe(channelName);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [channelName, pusher, userName]);
 
   return (
