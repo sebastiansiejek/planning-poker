@@ -5,6 +5,7 @@ import { useTransition } from 'react';
 
 import { triggerPaperThrowing } from '@/app/actions/notifications/triggerPaperThrowing';
 import type { PaperTriggerProps } from '@/app/alerts/widgets/PaperTrigger/types';
+import { ButtonIcon } from '@/shared/UIKit/Button/ButtonIcon/ButtonIcon';
 import { useRoomContext } from '@/widgets/room/model/RoomContext';
 
 export const PaperTrigger = ({ userId, memberRef }: PaperTriggerProps) => {
@@ -14,7 +15,7 @@ export const PaperTrigger = ({ userId, memberRef }: PaperTriggerProps) => {
   const { room } = useRoomContext();
 
   return (
-    <button
+    <ButtonIcon
       aria-label={t('notification.notice')}
       type="button"
       className="transition hover:text-primary-500"
@@ -36,14 +37,15 @@ export const PaperTrigger = ({ userId, memberRef }: PaperTriggerProps) => {
           }
         });
       }}
-    >
-      <Image
-        className="cursor-pointer"
-        src="/paper.png"
-        alt="paper"
-        width={20}
-        height={20}
-      />
-    </button>
+      icon={
+        <Image
+          className="cursor-pointer"
+          src="/paper.png"
+          alt="paper"
+          width={20}
+          height={20}
+        />
+      }
+    />
   );
 };

@@ -5,6 +5,7 @@ import { MdNotificationsNone } from 'react-icons/md';
 
 import { notifyUserByPusher } from '@/app/actions/notifyUserByPusher';
 import type { AlarmTriggerProps } from '@/app/alerts/widgets/AlarmTrigger/types';
+import { ButtonIcon } from '@/shared/UIKit/Button/ButtonIcon/ButtonIcon';
 
 export const AlarmTrigger = ({ userId }: AlarmTriggerProps) => {
   const t = useTranslations('Member');
@@ -12,7 +13,7 @@ export const AlarmTrigger = ({ userId }: AlarmTriggerProps) => {
   const params = useParams();
 
   return (
-    <button
+    <ButtonIcon
       aria-label={t('notification.trigger')}
       type="button"
       className="transition hover:text-primary-500"
@@ -26,8 +27,7 @@ export const AlarmTrigger = ({ userId }: AlarmTriggerProps) => {
           await notifyUserByPusher(formData);
         });
       }}
-    >
-      <MdNotificationsNone />
-    </button>
+      icon={<MdNotificationsNone />}
+    />
   );
 };
