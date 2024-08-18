@@ -20,3 +20,7 @@ export type PusherMembers = {
   members: Record<string, PusherMember>;
   myID: string;
 };
+
+export type PusherNotification = {
+  type: 'alarm' | 'paper';
+};

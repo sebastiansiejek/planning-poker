@@ -1,8 +1,7 @@
 import { cva } from 'class-variance-authority';
 
-import type { PusherMember } from '@/types/pusher/pusher';
-import type { Vote } from '@/types/types';
 import { Member } from '@/widgets/room/ui/Member/Member';
+import type { MembersProps } from '@/widgets/room/ui/Members/Members.types';
 
 export const Members = ({
   members,
@@ -11,14 +10,7 @@ export const Members = ({
   isVertical,
   votes = [],
   isRevealedCards,
-}: {
-  members: PusherMember[];
-  place: 'top' | 'left' | 'right' | 'bottom';
-  votedUserIds: string[];
-  isVertical?: boolean;
-  votes: Vote[];
-  isRevealedCards?: boolean;
-}) => {
+}: MembersProps) => {
   return (
     <div
       className={cva('flex gap-8 h-full p-6 justify-center', {
