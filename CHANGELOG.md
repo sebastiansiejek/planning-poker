@@ -1,3 +1,10 @@
+## [1.7.1](https://github.com/sebastiansiejek/planning-poker/compare/v1.7.0...v1.7.1) (2024-08-21)
+
+
+### Bug Fixes
+
+* reveal cards without passing userId ([#45](https://github.com/sebastiansiejek/planning-poker/issues/45)) ([5bdca01](https://github.com/sebastiansiejek/planning-poker/commit/5bdca01688873282940c13a0857f40d375a37451))
+
 # [1.7.0](https://github.com/sebastiansiejek/planning-poker/compare/v1.6.5...v1.7.0) (2024-08-18)
 
 
