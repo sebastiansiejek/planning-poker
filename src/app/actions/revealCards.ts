@@ -7,18 +7,15 @@ import { pusherServer } from '@/shared/pusher/lib/pusherServer';
 
 export const revealCards = async (data: FormData) => {
   const channelName = data.get('channelName') as string;
-  const userId = data.get('userId') as string;
   const voteValue = data.get('voteValue') as string;
 
   try {
     z.object({
       channelName: z.string(),
-      userId: z.string(),
       voteValue: z.string(),
-    }).parse({ channelName, userId, voteValue });
+    }).parse({ channelName, voteValue });
 
     await pusherServer.trigger(channelName, PUSHER_EVENTS.REVEAL_VOTES, {
-      userId,
       value: voteValue,
     });
   } catch (error) {
