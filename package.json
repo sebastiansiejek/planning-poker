@@ -10,7 +10,12 @@
     "prepare": "husky",
     "format": "next lint --fix && prettier '**/*.{json,yaml}' --write --ignore-path .gitignore",
     "check-types": "tsc --noEmit --pretty",
-    "test": "jest"
+    "test": "jest",
+    "preinstall": "npx only-allow pnpm"
+  },
+  "engines": {
+    "node": "^20.9.0",
+    "pnpm": "^9.8.0"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
