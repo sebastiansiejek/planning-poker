@@ -28,7 +28,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "pnpm"
-      - run: pnpm ci
+      - run: pnpm install
       - run: pnpm run build
 
   test:
@@ -45,7 +45,7 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 9
-          
+
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0 # Retrieve Git history, needed to verify commits
@@ -54,7 +54,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "pnpm"
-      - run: pnpm ci
+      - run: pnpm install
 
       - if: github.event_name == 'pull_request'
         name: Validate all commits from PR

@@ -24,7 +24,7 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 9
-          
+
       - uses: actions/checkout@v3
       - name: Install Vercel CLI
         run: pnpm install --global vercel@latest
@@ -63,7 +63,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "pnpm"
-      - run: HUSKY=0 pnpm ci
+      - run: HUSKY=0 pnpm install
 
       - name: Release
         env:
