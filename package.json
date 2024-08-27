@@ -11,7 +11,10 @@
     "format": "next lint --fix && prettier '**/*.{json,yaml}' --write --ignore-path .gitignore",
     "check-types": "tsc --noEmit --pretty",
     "test": "jest",
-    "preinstall": "npx only-allow pnpm"
+    "preinstall": "npx only-allow pnpm",
+    "test:e2e": "npx playwright test",
+    "test:e2e:watch": "npx playwright test --ui",
+    "playwright:codegen": "npx playwright codegen"
   },
   "engines": {
     "node": "^20.9.0",
@@ -40,14 +43,14 @@
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
     "@commitlint/cz-commitlint": "^19.2.0",
-    "@percy/playwright": "^1.0.5",
-    "@playwright/test": "^1.44.1",
+    "@playwright/test": "^1.46.1",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "^16.0.0",
     "@types/jest": "^29.5.12",
     "@types/js-cookie": "^3.0.6",
+    "@types/lodash.random": "^3.2.9",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
