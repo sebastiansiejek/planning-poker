@@ -18,10 +18,13 @@ export default async function Page({ searchParams }: LoginPageProps) {
           name="name"
           required
           placeholder={t('inputName.placeholder')}
+          data-testid="login-name"
         />
         <GravatarInput />
         <div className="mt-2">
-          <Button type="submit">{t('submitButton.label')}</Button>
+          <Button type="submit" data-testid="login-submit">
+            {t('submitButton.label')}
+          </Button>
         </div>
         <input type="hidden" name="room" defaultValue={room} />
       </form>

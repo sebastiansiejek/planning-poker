@@ -14,7 +14,7 @@ export const VotingAvg = ({ votes }: VotingAvgProps) => {
   return (
     <div className="flex justify-center items-center flex-col gap-5 p-6">
       {!!avgVotes && (
-        <div>
+        <div data-testid="voting-avg">
           Average: <strong>{avgVotes}</strong>
         </div>
       )}
