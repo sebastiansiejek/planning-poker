@@ -2,13 +2,11 @@ name: Release
 
 on:
   workflow_run:
-    workflows: [ "CI" ]
+    workflows: [ CI ]
     types:
       - completed
-    push:
-      # Pattern matched against refs/tags
-      tags:
-        - '*' # Push events to every tag not containing /
+    branches:
+      - main
 
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
