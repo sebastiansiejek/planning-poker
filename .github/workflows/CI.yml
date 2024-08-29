@@ -66,7 +66,7 @@ jobs:
       - name: Type checking
         run: pnpm run check-types
 
-      - name: Run unit tests
+      - name: Run run tests
         run: pnpm run test
 
       - uses: actions/upload-artifact@v4
