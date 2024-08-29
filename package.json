@@ -10,8 +10,9 @@
     "prepare": "husky",
     "format": "next lint --fix && prettier '**/*.{json,yaml}' --write --ignore-path .gitignore",
     "check-types": "tsc --noEmit --pretty",
-    "test": "jest",
     "preinstall": "npx only-allow pnpm",
+    "test": "jest && npx playwright test",
+    "test:unit": "jest",
     "test:e2e": "npx playwright test",
     "test:e2e:watch": "npx playwright test --ui",
     "playwright:codegen": "npx playwright codegen"
