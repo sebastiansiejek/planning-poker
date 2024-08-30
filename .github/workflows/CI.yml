@@ -49,6 +49,10 @@ jobs:
         run: pnpm start &
         env:
           PORT: 3000
+          PUSHER_APP_ID: ${{secrets.PUSHER_APP_ID}}
+          PUSHER_SECRET: ${{secrets.PUSHER_SECRET}}
+          NEXT_PUBLIC_PUSHER_KEY: ${{secrets.NEXT_PUBLIC_PUSHER_KEY}}
+          NEXT_PUBLIC_PUSHER_CLUSTER: ${{secrets.NEXT_PUBLIC_PUSHER_CLUSTER}}
 
       - name: Wait for Next.js to start
         run: npx wait-on http://localhost:3000
@@ -60,8 +64,8 @@ jobs:
         run: pnpm run test
 
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: ${{ !cancelled() }}
         with:
-          name: test-results
-          path: test-results/
+          name: playwright-report
+          path: playwright-report/
           retention-days: 7
