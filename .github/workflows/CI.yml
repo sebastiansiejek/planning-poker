@@ -42,13 +42,15 @@ jobs:
       - name: Type checking
         run: pnpm run check-types
 
+      - name: Create env.local file with variables
+        run: |
+          echo PUSHER_APP_ID=${{ secrets.PUSHER_APP_ID }} >> .env.local
+          echo PUSHER_SECRET=${{ secrets.PUSHER_SECRET }} >> .env.local
+          echo NEXT_PUBLIC_PUSHER_KEY=${{ secrets.NEXT_PUBLIC_PUSHER_KEY }} >> .env.local
+          echo NEXT_PUBLIC_PUSHER_CLUSTER=${{ secrets.NEXT_PUBLIC_PUSHER_CLUSTER }} >> .env.local
+
       - name: Build
         run: pnpm run build
-        env:
-          PUSHER_APP_ID: ${{secrets.PUSHER_APP_ID}}
-          PUSHER_SECRET: ${{secrets.PUSHER_SECRET}}
-          NEXT_PUBLIC_PUSHER_KEY: ${{secrets.NEXT_PUBLIC_PUSHER_KEY}}
-          NEXT_PUBLIC_PUSHER_CLUSTER: ${{secrets.NEXT_PUBLIC_PUSHER_CLUSTER}}
 
       - name: Start Next.js app
         run: pnpm start &
