@@ -16,8 +16,11 @@ export default async function CreateGamePage() {
         required
         placeholder={t('inputName.placeholder')}
         name="name"
+        data-testid="game-name"
       />
-      <Button type="submit">{t('submitButton.label')}</Button>
+      <Button type="submit" data-testid="create-game-submit">
+        {t('submitButton.label')}
+      </Button>
     </form>
   );
 }

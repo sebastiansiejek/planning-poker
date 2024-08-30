@@ -7,30 +7,6 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-    strategy:
-      matrix:
-        node-version: [ 20.x ]
-
-    name: Build with ${{ matrix.node-version }}
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
-      - uses: actions/checkout@v4
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "pnpm"
-      - run: pnpm install
-      - run: pnpm run build
-
   test:
     strategy:
       matrix:
@@ -66,12 +42,33 @@ jobs:
       - name: Type checking
         run: pnpm run check-types
 
-      - name: Run unit tests
+      - name: Create env.local file with variables
+        run: |
+          echo PUSHER_APP_ID=${{ secrets.PUSHER_APP_ID }} >> .env.local
+          echo PUSHER_SECRET=${{ secrets.PUSHER_SECRET }} >> .env.local
+          echo NEXT_PUBLIC_PUSHER_KEY=${{ secrets.NEXT_PUBLIC_PUSHER_KEY }} >> .env.local
+          echo NEXT_PUBLIC_PUSHER_CLUSTER=${{ secrets.NEXT_PUBLIC_PUSHER_CLUSTER }} >> .env.local
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Start Next.js app
+        run: pnpm start &
+        env:
+          PORT: 3000
+
+      - name: Wait for Next.js to start
+        run: npx wait-on http://localhost:3000
+
+      - name: Install Playwright Browsers
+        run: pnpm exec playwright install --with-deps
+
+      - name: Run run tests
         run: pnpm run test
 
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: ${{ !cancelled() }}
         with:
-          name: test-results
-          path: test-results/
+          name: playwright-report
+          path: playwright-report/
           retention-days: 7
