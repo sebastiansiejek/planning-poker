@@ -18,16 +18,16 @@ import type {
 } from '@/shared/types/pusher/pusher';
 import type { Vote } from '@/shared/types/types';
 import { votingValues } from '@/shared/voting/config/votingConstants';
-import { Paper } from '@/widgets/alerts/ui/Paper/Paper';
-import type { TriggerPaperThrowingParams } from '@/widgets/room/actions/alerts/triggerPaperThrowing';
-import { voting } from '@/widgets/room/actions/voting';
-import { chunkMembers } from '@/widgets/room/libs/chunkMembers/chunkMembers';
-import { useRoomContext } from '@/widgets/room/model/RoomContext';
-import { GameContainer } from '@/widgets/room/ui/Game/GameContainer/GameContainer';
-import { Members } from '@/widgets/room/ui/Members/Members';
-import { RoomTable } from '@/widgets/room/ui/RoomTable/RoomTable';
-import { VotingAvg } from '@/widgets/room/ui/VotingAvg/VotingAvg';
-import { VotingCard } from '@/widgets/room/ui/VotingCard/VotingCard';
+import { Paper } from '@/widgets/Alerts/ui/Paper/Paper';
+import type { TriggerPaperThrowingParams } from '@/widgets/Room/actions/alerts/triggerPaperThrowing';
+import { voting } from '@/widgets/Room/actions/voting';
+import { chunkMembers } from '@/widgets/Room/libs/chunkMembers/chunkMembers';
+import { useRoomContext } from '@/widgets/Room/model/RoomContext';
+import { GameContainer } from '@/widgets/Room/ui/Game/GameContainer/GameContainer';
+import { Members } from '@/widgets/Room/ui/Members/Members';
+import { RoomTable } from '@/widgets/Room/ui/RoomTable/RoomTable';
+import { VotingAvg } from '@/widgets/Room/ui/VotingAvg/VotingAvg';
+import { VotingCard } from '@/widgets/Room/ui/VotingCard/VotingCard';
 
 export default function Room({ channelName, userName, avatarUrl }: RoomProps) {
   const [members, setMembers] = useState<PusherMember[]>([]);

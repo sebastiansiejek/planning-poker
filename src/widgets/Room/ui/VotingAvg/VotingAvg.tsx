@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
-import { getVotesAvg } from '@/widgets/room/libs/getVotesAvg/getVotesAvg';
-import type { VotingAvgProps } from '@/widgets/room/ui/VotingAvg/types';
+import { getVotesAvg } from '@/widgets/Room/libs/getVotesAvg/getVotesAvg';
+import type { VotingAvgProps } from '@/widgets/Room/ui/VotingAvg/types';
 
 export const VotingAvg = ({ votes }: VotingAvgProps) => {
   const sameVotes = useMemo(() => getVotesAvg(votes), [votes]);

@@ -2,7 +2,7 @@ import { getTranslations } from 'next-intl/server';
 
 import { Button } from '@/shared/UIKit/Button/Button';
 import { TextInput } from '@/shared/UIKit/TextInput/TextInput';
-import { createOrJoinToRoom } from '@/widgets/room/actions/createOrJoinToRoom';
+import { createOrJoinToRoom } from '@/widgets/Room/actions/createOrJoinToRoom';
 
 export default async function CreateGamePage() {
   const t = await getTranslations('Game');

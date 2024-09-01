@@ -4,8 +4,8 @@ import { useTransition } from 'react';
 import { MdNotificationsNone } from 'react-icons/md';
 
 import { ButtonIcon } from '@/shared/UIKit/Button/ButtonIcon/ButtonIcon';
-import type { AlarmTriggerProps } from '@/widgets/alerts/ui/AlarmTrigger/types';
-import { notifyUserByPusher } from '@/widgets/room/actions/notifyUserByPusher';
+import type { AlarmTriggerProps } from '@/widgets/Alerts/ui/AlarmTrigger/types';
+import { notifyUserByPusher } from '@/widgets/Room/actions/notifyUserByPusher';
 
 export const AlarmTrigger = ({ userId }: AlarmTriggerProps) => {
   const t = useTranslations('Member');

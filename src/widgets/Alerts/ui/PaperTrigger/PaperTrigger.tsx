@@ -4,9 +4,9 @@ import { useTranslations } from 'next-intl';
 import { useTransition } from 'react';
 
 import { ButtonIcon } from '@/shared/UIKit/Button/ButtonIcon/ButtonIcon';
-import type { PaperTriggerProps } from '@/widgets/alerts/ui/PaperTrigger/types';
-import { triggerPaperThrowing } from '@/widgets/room/actions/alerts/triggerPaperThrowing';
-import { useRoomContext } from '@/widgets/room/model/RoomContext';
+import type { PaperTriggerProps } from '@/widgets/Alerts/ui/PaperTrigger/types';
+import { triggerPaperThrowing } from '@/widgets/Room/actions/alerts/triggerPaperThrowing';
+import { useRoomContext } from '@/widgets/Room/model/RoomContext';
 
 export const PaperTrigger = ({ userId, memberRef }: PaperTriggerProps) => {
   const t = useTranslations('Member');

@@ -1,6 +1,6 @@
-import type { MembersProps } from '@/widgets/room/ui/Members/Members.types';
-import { MembersContainer } from '@/widgets/room/ui/MembersContainer/MembersContainer';
-import { RoomMember } from '@/widgets/room/ui/RoomMember/RoomMember';
+import type { MembersProps } from '@/widgets/Room/ui/Members/Members.types';
+import { MembersContainer } from '@/widgets/Room/ui/MembersContainer/MembersContainer';
+import { RoomMember } from '@/widgets/Room/ui/RoomMember/RoomMember';
 
 export const Members = ({
   members,

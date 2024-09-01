@@ -1,8 +1,8 @@
 import Skeleton from 'react-loading-skeleton';
 
 import { Member } from '@/widgets/Member/ui/Member';
-import { GameContainer } from '@/widgets/room/ui/Game/GameContainer/GameContainer';
-import { MembersContainer } from '@/widgets/room/ui/MembersContainer/MembersContainer';
+import { GameContainer } from '@/widgets/Room/ui/Game/GameContainer/GameContainer';
+import { MembersContainer } from '@/widgets/Room/ui/MembersContainer/MembersContainer';
 
 export default function RoomLoading() {
   return (

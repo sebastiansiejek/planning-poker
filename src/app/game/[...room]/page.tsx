@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import Room from '@/app/game/[...room]/Room';
 import { UserModel } from '@/entities/user/model/UserModel';
 import { routes } from '@/shared/routes/routes';
-import { RoomProvider } from '@/widgets/room/model/RoomContext';
+import { RoomProvider } from '@/widgets/Room/model/RoomContext';
 
 export default async function Page({
   params,

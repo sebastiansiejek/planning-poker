@@ -1,6 +1,6 @@
 import { cva } from 'class-variance-authority';
 
-import type { VotingCardProps } from '@/widgets/room/ui/VotingCard/types';
+import type { VotingCardProps } from '@/widgets/Room/ui/VotingCard/types';
 
 export const VotingCard = ({
   isDisabled,

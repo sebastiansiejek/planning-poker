@@ -4,7 +4,7 @@ import type { LoginPageProps } from '@/app/login/types';
 import { Button } from '@/shared/UIKit/Button/Button';
 import { TextInput } from '@/shared/UIKit/TextInput/TextInput';
 import { GravatarInput } from '@/widgets/LoginForm/ui/GravatarInput/GravatarInput';
-import { login } from '@/widgets/room/actions/login';
+import { login } from '@/widgets/Room/actions/login';
 
 export default async function Page({ searchParams }: LoginPageProps) {
   const { room } = searchParams;

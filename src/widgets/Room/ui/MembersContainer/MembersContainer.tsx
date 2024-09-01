@@ -1,6 +1,6 @@
 import { cva } from 'class-variance-authority';
 
-import type { MembersContainerProps } from '@/widgets/room/ui/MembersContainer/types';
+import type { MembersContainerProps } from '@/widgets/Room/ui/MembersContainer/types';
 
 export const MembersContainer = ({
   children,

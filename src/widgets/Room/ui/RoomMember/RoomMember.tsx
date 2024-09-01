@@ -1,6 +1,6 @@
 import { Member } from '@/widgets/Member/ui/Member';
-import { useRoomContext } from '@/widgets/room/model/RoomContext';
-import type { MemberProps } from '@/widgets/room/ui/RoomMember/types';
+import { useRoomContext } from '@/widgets/Room/model/RoomContext';
+import type { MemberProps } from '@/widgets/Room/ui/RoomMember/types';
 
 export const RoomMember = (props: MemberProps) => {
   const { id } = props;

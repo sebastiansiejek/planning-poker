@@ -2,13 +2,13 @@
 
 import { useRef, useState } from 'react';
 
-import { AlarmTrigger } from '@/widgets/alerts/ui/AlarmTrigger/AlarmTrigger';
-import { PaperTrigger } from '@/widgets/alerts/ui/PaperTrigger/PaperTrigger';
+import { AlarmTrigger } from '@/widgets/Alerts/ui/AlarmTrigger/AlarmTrigger';
+import { PaperTrigger } from '@/widgets/Alerts/ui/PaperTrigger/PaperTrigger';
 import { MemberAvatar } from '@/widgets/Member/ui/MemberAvatar/MemberAvatar';
 import { MemberCard } from '@/widgets/Member/ui/MemberCard/MemberCard';
 import { MemberName } from '@/widgets/Member/ui/MemberName/MemberName';
 import { MemberTooltip } from '@/widgets/Member/ui/MemberTooltip/MemberTooltip';
-import type { MemberProps } from '@/widgets/room/ui/RoomMember/types';
+import type { MemberProps } from '@/widgets/Room/ui/RoomMember/types';
 
 export const Member = ({
   avatarUrl,
