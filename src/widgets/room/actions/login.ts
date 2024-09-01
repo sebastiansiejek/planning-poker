@@ -2,8 +2,8 @@
 
 import { redirect } from 'next/navigation';
 
+import { UserModel } from '@/entities/user/model/UserModel';
 import { routes } from '@/shared/routes/routes';
-import { UserModel } from '@/shared/user/model/UserModel';
 
 export const login = async (formData: FormData) => {
   'use server';

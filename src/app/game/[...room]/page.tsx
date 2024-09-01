@@ -1,8 +1,8 @@
 import { redirect } from 'next/navigation';
 
 import Room from '@/app/game/[...room]/Room';
+import { UserModel } from '@/entities/user/model/UserModel';
 import { routes } from '@/shared/routes/routes';
-import { UserModel } from '@/shared/user/model/UserModel';
 import { RoomProvider } from '@/widgets/room/model/RoomContext';
 
 export default async function Page({
