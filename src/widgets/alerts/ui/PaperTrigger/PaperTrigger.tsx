@@ -3,7 +3,7 @@ import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useTransition } from 'react';
 
-import { triggerPaperThrowing } from '@/app/actions/notifications/triggerPaperThrowing';
+import { triggerPaperThrowing } from '@/app/actions/alerts/triggerPaperThrowing';
 import { ButtonIcon } from '@/shared/UIKit/Button/ButtonIcon/ButtonIcon';
 import type { PaperTriggerProps } from '@/widgets/alerts/ui/PaperTrigger/types';
 import { useRoomContext } from '@/widgets/room/model/RoomContext';

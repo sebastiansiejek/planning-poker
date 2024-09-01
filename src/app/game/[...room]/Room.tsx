@@ -5,7 +5,7 @@ import './room.styles.css';
 import { useTranslations } from 'next-intl';
 import { useEffect, useMemo, useState } from 'react';
 
-import type { TriggerPaperThrowingParams } from '@/app/actions/notifications/triggerPaperThrowing';
+import type { TriggerPaperThrowingParams } from '@/app/actions/alerts/triggerPaperThrowing';
 import { voting } from '@/app/actions/voting';
 import type { RoomProps } from '@/app/game/[...room]/types';
 import useNotification from '@/shared/hooks/useNotification/useNotification';

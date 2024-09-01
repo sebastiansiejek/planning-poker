@@ -3,7 +3,7 @@ import Image from 'next/image';
 import type { CSSProperties } from 'react';
 import { useEffect, useState } from 'react';
 
-import type { TriggerPaperThrowingParams } from '@/app/actions/notifications/triggerPaperThrowing';
+import type { TriggerPaperThrowingParams } from '@/app/actions/alerts/triggerPaperThrowing';
 
 export const Paper = ({
   onEnd,
