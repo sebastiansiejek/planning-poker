@@ -53,7 +53,7 @@
     "@types/jest": "^29.5.12",
     "@types/js-cookie": "^3.0.6",
     "@types/lodash.random": "^3.2.9",
-    "@types/node": "^20",
+    "@types/node": "^22",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
