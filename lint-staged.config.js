@@ -1,4 +1,3 @@
 module.exports = {
-  '*': ['eslint --fix'],
-  '**/*.ts?(x)': () => 'npm run check-types',
+  '**/*.ts?(x)': () => ['pnpm run lint', 'pnpm run check-types'],
 };
