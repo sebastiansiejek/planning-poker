@@ -3,9 +3,9 @@ import { useTranslations } from 'next-intl';
 import { useTransition } from 'react';
 import { MdNotificationsNone } from 'react-icons/md';
 
-import { notifyUserByPusher } from '@/app/actions/notifyUserByPusher';
 import { ButtonIcon } from '@/shared/UIKit/Button/ButtonIcon/ButtonIcon';
 import type { AlarmTriggerProps } from '@/widgets/alerts/ui/AlarmTrigger/types';
+import { notifyUserByPusher } from '@/widgets/room/actions/notifyUserByPusher';
 
 export const AlarmTrigger = ({ userId }: AlarmTriggerProps) => {
   const t = useTranslations('Member');

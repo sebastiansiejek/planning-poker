@@ -1,9 +1,9 @@
 import { getTranslations } from 'next-intl/server';
 
-import { login } from '@/app/actions/login';
 import type { LoginPageProps } from '@/app/login/types';
 import { Button } from '@/shared/UIKit/Button/Button';
 import { TextInput } from '@/shared/UIKit/TextInput/TextInput';
+import { login } from '@/widgets/room/actions/login';
 import { GravatarInput } from '@/widgets/user/ui/GravatarInput/GravatarInput';
 
 export default async function Page({ searchParams }: LoginPageProps) {

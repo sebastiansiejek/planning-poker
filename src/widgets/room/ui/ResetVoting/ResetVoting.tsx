@@ -1,7 +1,7 @@
 import { useTranslations } from 'next-intl';
 
-import { resetVotes } from '@/app/actions/resetVotes';
 import { Button } from '@/shared/UIKit/Button/Button';
+import { resetVotes } from '@/widgets/room/actions/resetVotes';
 
 export const ResetVoting = ({ channelName }: { channelName: string }) => {
   const t = useTranslations('Room');

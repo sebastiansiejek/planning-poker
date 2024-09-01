@@ -5,8 +5,6 @@ import './room.styles.css';
 import { useTranslations } from 'next-intl';
 import { useEffect, useMemo, useState } from 'react';
 
-import type { TriggerPaperThrowingParams } from '@/app/actions/alerts/triggerPaperThrowing';
-import { voting } from '@/app/actions/voting';
 import type { RoomProps } from '@/app/game/[...room]/types';
 import useNotification from '@/shared/hooks/useNotification/useNotification';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
@@ -21,6 +19,8 @@ import type {
 import type { Vote } from '@/shared/types/types';
 import { votingValues } from '@/shared/voting/config/votingConstants';
 import { Paper } from '@/widgets/alerts/ui/Paper/Paper';
+import type { TriggerPaperThrowingParams } from '@/widgets/room/actions/alerts/triggerPaperThrowing';
+import { voting } from '@/widgets/room/actions/voting';
 import { chunkMembers } from '@/widgets/room/libs/chunkMembers/chunkMembers';
 import { useRoomContext } from '@/widgets/room/model/RoomContext';
 import { GameContainer } from '@/widgets/room/ui/Game/GameContainer/GameContainer';
