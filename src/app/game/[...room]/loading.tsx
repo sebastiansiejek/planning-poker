@@ -8,17 +8,17 @@ export default function RoomLoading() {
   return (
     <GameContainer>
       <MembersContainer place="top">
-        <Member id="asfa" name="xv" isLoading />
+        <Member id="1" name="John Doe" isLoading />
       </MembersContainer>
       <MembersContainer place="left" isVertical>
-        <Member id="asfa" name="xv" isLoading />
+        <Member id="2" name="Megan Fox" isLoading />
       </MembersContainer>
       <Skeleton count={1} height={100} />
       <MembersContainer place="right" isVertical>
-        <Member id="asfa" name="xv" isLoading />
+        <Member id="3" name="Superman" isLoading />
       </MembersContainer>
       <MembersContainer place="bottom">
-        <Member id="asfa" name="xv" isLoading />
+        <Member id="4" name="Marco" isLoading />
       </MembersContainer>
     </GameContainer>
   );
