@@ -17,10 +17,10 @@ import type {
   PusherNotification,
 } from '@/shared/types/pusher/pusher';
 import type { Vote } from '@/shared/types/types';
-import { votingValues } from '@/shared/voting/config/votingConstants';
 import { Paper } from '@/widgets/Alerts/ui/Paper/Paper';
 import type { TriggerPaperThrowingParams } from '@/widgets/Room/actions/alerts/triggerPaperThrowing';
 import { voting } from '@/widgets/Room/actions/voting';
+import { votingValues } from '@/widgets/Room/config/votingConstants';
 import { chunkMembers } from '@/widgets/Room/libs/chunkMembers/chunkMembers';
 import { useRoomContext } from '@/widgets/Room/model/RoomContext';
 import { GameContainer } from '@/widgets/Room/ui/Game/GameContainer/GameContainer';
