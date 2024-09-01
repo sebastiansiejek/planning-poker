@@ -1,8 +1,8 @@
 import { useTranslations } from 'next-intl';
 
 import { revealCards } from '@/app/actions/revealCards';
-import type { RevealCardsProps } from '@/features/room/RevealCards/types';
 import { Button } from '@/shared/UIKit/Button/Button';
+import type { RevealCardsProps } from '@/widgets/room/ui/RevealCards/types';
 
 export const RevealCards = ({ voteValue, channelName }: RevealCardsProps) => {
   const t = useTranslations('Room');

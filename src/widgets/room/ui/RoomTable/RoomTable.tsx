@@ -1,6 +1,6 @@
-import { ResetVoting } from '@/features/room/ResetVoting/ResetVoting';
-import { RevealCards } from '@/features/room/RevealCards/RevealCards';
-import type { RevealCardsProps } from '@/features/room/RevealCards/types';
+import { ResetVoting } from '@/widgets/room/ui/ResetVoting/ResetVoting';
+import { RevealCards } from '@/widgets/room/ui/RevealCards/RevealCards';
+import type { RevealCardsProps } from '@/widgets/room/ui/RevealCards/types';
 
 export const RoomTable = (props: RevealCardsProps) => {
   const { channelName, isRevealedCards } = props;
