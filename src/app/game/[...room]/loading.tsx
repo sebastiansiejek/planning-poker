@@ -1,6 +1,6 @@
 import Skeleton from 'react-loading-skeleton';
 
-import { Member } from '@/widgets/Member/Member';
+import { Member } from '@/widgets/Member/ui/Member';
 import { GameContainer } from '@/widgets/room/ui/Game/GameContainer/GameContainer';
 import { MembersContainer } from '@/widgets/room/ui/MembersContainer/MembersContainer';
 

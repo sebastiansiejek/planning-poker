@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 import Skeleton from 'react-loading-skeleton';
 
-import type { MemberCardProps } from '@/widgets/Member/MemberCard/types';
+import type { MemberCardProps } from '@/widgets/Member/ui/MemberCard/types';
 
 export const MemberCard = (props: MemberCardProps) => {
   const {

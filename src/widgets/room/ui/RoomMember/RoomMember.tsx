@@ -1,4 +1,4 @@
-import { Member } from '@/widgets/Member/Member';
+import { Member } from '@/widgets/Member/ui/Member';
 import { useRoomContext } from '@/widgets/room/model/RoomContext';
 import type { MemberProps } from '@/widgets/room/ui/RoomMember/types';
 

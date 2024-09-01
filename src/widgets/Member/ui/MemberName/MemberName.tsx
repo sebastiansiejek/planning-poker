@@ -1,6 +1,6 @@
 import Skeleton from 'react-loading-skeleton';
 
-import type { MemberNameProps } from '@/widgets/Member/MemberName/types';
+import type { MemberNameProps } from '@/widgets/Member/ui/MemberName/types';
 
 export const MemberName = ({ name, isLoading }: MemberNameProps) => {
   return (

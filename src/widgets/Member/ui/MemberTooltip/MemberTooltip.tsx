@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { usePopper } from 'react-popper';
 
-import type { MemberTooltipProps } from '@/widgets/Member/MemberTooltip/types';
+import type { MemberTooltipProps } from '@/widgets/Member/ui/MemberTooltip/types';
 
 export const MemberTooltip = ({
   children,
