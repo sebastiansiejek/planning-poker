@@ -2,8 +2,8 @@
 
 import { useRef, useState } from 'react';
 
-import { AlarmTrigger } from '@/app/alerts/widgets/AlarmTrigger/AlarmTrigger';
-import { PaperTrigger } from '@/app/alerts/widgets/PaperTrigger/PaperTrigger';
+import { AlarmTrigger } from '@/widgets/alerts/ui/AlarmTrigger/AlarmTrigger';
+import { PaperTrigger } from '@/widgets/alerts/ui/PaperTrigger/PaperTrigger';
 import { MemberAvatar } from '@/widgets/Member/ui/MemberAvatar/MemberAvatar';
 import { MemberCard } from '@/widgets/Member/ui/MemberCard/MemberCard';
 import { MemberName } from '@/widgets/Member/ui/MemberName/MemberName';
