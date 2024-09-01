@@ -23,6 +23,7 @@ import type {
 import type { Vote } from '@/types/types';
 import { chunkMembers } from '@/widgets/room/libs/chunkMembers/chunkMembers';
 import { useRoomContext } from '@/widgets/room/model/RoomContext';
+import { GameContainer } from '@/widgets/room/ui/Game/GameContainer/GameContainer';
 import { Members } from '@/widgets/room/ui/Members/Members';
 import { RoomTable } from '@/widgets/room/ui/RoomTable/RoomTable';
 import { VotingAvg } from '@/widgets/room/ui/VotingAvg/VotingAvg';
@@ -169,7 +170,7 @@ export default function Room({ channelName, userName, avatarUrl }: RoomProps) {
   return (
     <div>
       <div className="flex items-center justify-center flex-col lg:p-4">
-        <div className="game-grid flex flex-col lg:grid lg:grid-cols-[12rem_1fr_12rem] lg:grid-rows-[repeat(3,0.6fr)] gap-8 justify-center min-h-20 items-center">
+        <GameContainer>
           <Members
             isRevealedCards={isRevealedCards}
             votedUserIds={votedUserIds}
@@ -205,7 +206,7 @@ export default function Room({ channelName, userName, avatarUrl }: RoomProps) {
             place="bottom"
             votes={votes}
           />
-        </div>
+        </GameContainer>
         {/* TODO: send/show value only if revealed button is clicked  */}
         <form action={voting}>
           <div className="flex gap-4 mt-8 flex-wrap p-6 justify-center">

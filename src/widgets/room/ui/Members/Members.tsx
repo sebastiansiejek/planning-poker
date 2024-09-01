@@ -1,40 +1,24 @@
-import { cva } from 'class-variance-authority';
-
-import { Member } from '@/widgets/room/ui/Member/Member';
 import type { MembersProps } from '@/widgets/room/ui/Members/Members.types';
+import { MembersContainer } from '@/widgets/room/ui/MembersContainer/MembersContainer';
+import { RoomMember } from '@/widgets/room/ui/RoomMember/RoomMember';
 
 export const Members = ({
   members,
-  place,
   votedUserIds = [],
-  isVertical,
   votes = [],
   isRevealedCards,
+  place,
+  isVertical,
 }: MembersProps) => {
   return (
-    <div
-      className={cva('flex gap-8 h-full p-6 justify-center', {
-        variants: {
-          place: {
-            top: '[grid-area:top]',
-            left: '[grid-area:left]',
-            right: '[grid-area:right]',
-            bottom: '[grid-area:bottom]',
-          },
-          isVertical: {
-            true: 'lg:flex-col',
-            false: 'flex-row',
-          },
-        },
-      })({ place, isVertical })}
-    >
+    <MembersContainer place={place} isVertical={isVertical}>
       {members.map((member) => {
         const { id } = member;
         const isVoted = votedUserIds.includes(id);
         const vote = votes.find((oldVotes) => oldVotes.userId === id)?.value;
 
         return (
-          <Member
+          <RoomMember
             key={id}
             isVoted={isVoted}
             vote={vote}
@@ -43,6 +27,6 @@ export const Members = ({
           />
         );
       })}
-    </div>
+    </MembersContainer>
   );
 };
