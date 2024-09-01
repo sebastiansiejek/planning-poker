@@ -1,4 +1,4 @@
-import type { PusherMember } from '@/types/pusher/pusher';
+import type { PusherMember } from '@/shared/types/pusher/pusher';
 
 export type MemberProps = PusherMember & {
   isVoted?: boolean;

@@ -13,14 +13,14 @@ import useNotification from '@/shared/hooks/useNotification/useNotification';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { getPusherUserId } from '@/shared/pusher/lib/getPusherUserId';
 import { pusherClient } from '@/shared/pusher/lib/pusherClient';
-import { votingValues } from '@/shared/voting/config/votingConstants';
 import type {
   PusherMember,
   PusherMembers,
   PusherNewMember,
   PusherNotification,
-} from '@/types/pusher/pusher';
-import type { Vote } from '@/types/types';
+} from '@/shared/types/pusher/pusher';
+import type { Vote } from '@/shared/types/types';
+import { votingValues } from '@/shared/voting/config/votingConstants';
 import { chunkMembers } from '@/widgets/room/libs/chunkMembers/chunkMembers';
 import { useRoomContext } from '@/widgets/room/model/RoomContext';
 import { GameContainer } from '@/widgets/room/ui/Game/GameContainer/GameContainer';

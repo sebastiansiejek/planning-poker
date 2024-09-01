@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import Skeleton from 'react-loading-skeleton';
 
+import type { ILoader } from '@/shared/types/types';
 import type { UserAvatarProps } from '@/shared/UIKit/Avatar/types';
-import type { ILoader } from '@/types/types';
 
 export const Avatar = ({
   url,

@@ -1,7 +1,7 @@
 import Pusher from 'pusher-js';
 
 import { getPusherUserId } from '@/shared/pusher/lib/getPusherUserId';
-import type { PusherMember } from '@/types/pusher/pusher';
+import type { PusherMember } from '@/shared/types/pusher/pusher';
 
 export const pusherClient = (userInfo: Omit<PusherMember, 'id'>) =>
   new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, {

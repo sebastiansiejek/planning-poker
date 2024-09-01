@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import type { UseNotificationOptions } from '@/shared/hooks/useNotification/types';
-import { isNotificationSupported } from '@/utils/notifications/isNotificationSupported/isNotificationSupported';
+import { isNotificationSupported } from '@/shared/utils/notifications/isNotificationSupported/isNotificationSupported';
 
 const useNotification = (options?: UseNotificationOptions) => {
   const [isPermissionGranted, setIsPermissionGranted] =

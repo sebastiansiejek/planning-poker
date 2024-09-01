@@ -1,4 +1,4 @@
-import type { Vote } from '@/types/types';
+import type { Vote } from '@/shared/types/types';
 
 export const getVotesAvg = (votes: Vote[]) =>
   votes.reduce(

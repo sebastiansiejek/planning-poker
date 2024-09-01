@@ -1,4 +1,4 @@
-import type { Vote } from '@/types/types';
+import type { Vote } from '@/shared/types/types';
 
 export type VotingAvgProps = {
   votes: Vote[];

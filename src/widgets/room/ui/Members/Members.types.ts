@@ -1,5 +1,5 @@
-import type { PusherMember } from '@/types/pusher/pusher';
-import type { Vote } from '@/types/types';
+import type { PusherMember } from '@/shared/types/pusher/pusher';
+import type { Vote } from '@/shared/types/types';
 
 export type MembersProps = {
   members: PusherMember[];
