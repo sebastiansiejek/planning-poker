@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/sebastiansiejek/planning-poker/compare/v1.7.1...v1.8.0) (2024-09-04)
+
+
+### Features
+
+* add skeleton room loader and refactor file structure ([#60](https://github.com/sebastiansiejek/planning-poker/issues/60)) ([e5f6c6a](https://github.com/sebastiansiejek/planning-poker/commit/e5f6c6a192070d8d0143535bf3c173b13b0e8d41))
+
 ## [1.7.1](https://github.com/sebastiansiejek/planning-poker/compare/v1.7.0...v1.7.1) (2024-08-21)
 
 
