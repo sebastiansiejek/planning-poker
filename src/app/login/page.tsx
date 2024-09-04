@@ -1,10 +1,10 @@
 import { getTranslations } from 'next-intl/server';
 
-import { login } from '@/app/actions/login';
 import type { LoginPageProps } from '@/app/login/types';
 import { Button } from '@/shared/UIKit/Button/Button';
 import { TextInput } from '@/shared/UIKit/TextInput/TextInput';
-import { GravatarInput } from '@/widgets/user/ui/GravatarInput/GravatarInput';
+import { GravatarInput } from '@/widgets/LoginForm/ui/GravatarInput/GravatarInput';
+import { login } from '@/widgets/Room/actions/login';
 
 export default async function Page({ searchParams }: LoginPageProps) {
   const { room } = searchParams;

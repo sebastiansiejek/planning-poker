@@ -5,28 +5,29 @@ import './room.styles.css';
 import { useTranslations } from 'next-intl';
 import { useEffect, useMemo, useState } from 'react';
 
-import type { TriggerPaperThrowingParams } from '@/app/actions/notifications/triggerPaperThrowing';
-import { voting } from '@/app/actions/voting';
-import { Paper } from '@/app/alerts/Paper/Paper';
 import type { RoomProps } from '@/app/game/[...room]/types';
 import useNotification from '@/shared/hooks/useNotification/useNotification';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { getPusherUserId } from '@/shared/pusher/lib/getPusherUserId';
 import { pusherClient } from '@/shared/pusher/lib/pusherClient';
-import { votingValues } from '@/shared/voting/config/votingConstants';
 import type {
   PusherMember,
   PusherMembers,
   PusherNewMember,
   PusherNotification,
-} from '@/types/pusher/pusher';
-import type { Vote } from '@/types/types';
-import { chunkMembers } from '@/widgets/room/libs/chunkMembers/chunkMembers';
-import { useRoomContext } from '@/widgets/room/model/RoomContext';
-import { Members } from '@/widgets/room/ui/Members/Members';
-import { RoomTable } from '@/widgets/room/ui/RoomTable/RoomTable';
-import { VotingAvg } from '@/widgets/room/ui/VotingAvg/VotingAvg';
-import { VotingCard } from '@/widgets/room/ui/VotingCard/VotingCard';
+} from '@/shared/types/pusher/pusher';
+import type { Vote } from '@/shared/types/types';
+import { Paper } from '@/widgets/Alerts/ui/Paper/Paper';
+import type { TriggerPaperThrowingParams } from '@/widgets/Room/actions/alerts/triggerPaperThrowing';
+import { voting } from '@/widgets/Room/actions/voting';
+import { votingValues } from '@/widgets/Room/config/votingConstants';
+import { chunkMembers } from '@/widgets/Room/libs/chunkMembers/chunkMembers';
+import { useRoomContext } from '@/widgets/Room/model/RoomContext';
+import { GameContainer } from '@/widgets/Room/ui/Game/GameContainer/GameContainer';
+import { Members } from '@/widgets/Room/ui/Members/Members';
+import { RoomTable } from '@/widgets/Room/ui/RoomTable/RoomTable';
+import { VotingAvg } from '@/widgets/Room/ui/VotingAvg/VotingAvg';
+import { VotingCard } from '@/widgets/Room/ui/VotingCard/VotingCard';
 
 export default function Room({ channelName, userName, avatarUrl }: RoomProps) {
   const [members, setMembers] = useState<PusherMember[]>([]);
@@ -169,7 +170,7 @@ export default function Room({ channelName, userName, avatarUrl }: RoomProps) {
   return (
     <div>
       <div className="flex items-center justify-center flex-col lg:p-4">
-        <div className="game-grid flex flex-col lg:grid lg:grid-cols-[12rem_1fr_12rem] lg:grid-rows-[repeat(3,0.6fr)] gap-8 justify-center min-h-20 items-center">
+        <GameContainer>
           <Members
             isRevealedCards={isRevealedCards}
             votedUserIds={votedUserIds}
@@ -205,7 +206,7 @@ export default function Room({ channelName, userName, avatarUrl }: RoomProps) {
             place="bottom"
             votes={votes}
           />
-        </div>
+        </GameContainer>
         {/* TODO: send/show value only if revealed button is clicked  */}
         <form action={voting}>
           <div className="flex gap-4 mt-8 flex-wrap p-6 justify-center">

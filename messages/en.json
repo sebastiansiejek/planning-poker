@@ -41,5 +41,9 @@
       "trigger": "Send notification",
       "notice": "The team is waiting for your vote"
     }
+  },
+  "ErrorPage": {
+    "title": "Oops! Something went wrong",
+    "retry": "Try again"
   }
 }
