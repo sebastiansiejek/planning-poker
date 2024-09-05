@@ -16,7 +16,7 @@ on:
 jobs:
   Deploy-Preview:
     runs-on: ubuntu-latest
-    environment: Development
+    environment: Preview
 
     steps:
       - uses: actions/checkout@v4
