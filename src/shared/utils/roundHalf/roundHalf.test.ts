@@ -2,6 +2,7 @@ import { roundHalf } from './roundHalf';
 
 describe('roundHalf', () => {
   it('should round to the nearest half', () => {
+    expect(roundHalf(0.5)).toBe(0.5);
     expect(roundHalf(0.8)).toBe(1);
     expect(roundHalf(1.1)).toBe(1);
     expect(roundHalf(1.211111)).toBe(1);
