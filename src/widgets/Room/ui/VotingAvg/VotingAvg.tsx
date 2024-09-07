@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { roundHalf } from '@/shared/utils/roundHalf/roundHalf';
+import { calcVotingAvg } from '@/widgets/Room/libs/calcVotingAvg/calcVotingAvg';
 import { getNumberVotes } from '@/widgets/Room/libs/getNumberVotes/getNumberVotes';
 import { getVotesAvg } from '@/widgets/Room/libs/getVotesAvg/getVotesAvg';
 import type { VotingAvgProps } from '@/widgets/Room/ui/VotingAvg/types';
@@ -8,9 +8,7 @@ import type { VotingAvgProps } from '@/widgets/Room/ui/VotingAvg/types';
 export const VotingAvg = ({ votes }: VotingAvgProps) => {
   const sameVotes = useMemo(() => getVotesAvg(votes), [votes]);
   const numberVotes = getNumberVotes(votes);
-  const avgVotes = roundHalf(
-    numberVotes.reduce((acc, v) => acc + v, 0) / numberVotes.length,
-  );
+  const avgVotes = calcVotingAvg(numberVotes);
 
   return (
     <div className="flex justify-center items-center flex-col gap-5 p-6">

@@ -7,7 +7,9 @@ export const getVotesAvg = (votes: Vote[]) =>
       const found = acc.find((v) => v.value === value);
       if (found) {
         found.count += 1;
-      } else {
+      }
+
+      if (!found) {
         acc.push({ value, count: 1 });
       }
 
