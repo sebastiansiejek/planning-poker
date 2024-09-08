@@ -13,6 +13,7 @@ export const VotingAvg = ({ votes }: VotingAvgProps) => {
   const numberVotes = getNumberVotes(votes);
   const avgVotes = calcVotingAvg(numberVotes);
   const translate = useTranslations('Voting');
+  const areVotes = sameVotes.length > 0;
 
   return (
     <div className="flex justify-center items-center flex-col gap-5 p-6">
@@ -23,7 +24,7 @@ export const VotingAvg = ({ votes }: VotingAvgProps) => {
           })}
         </div>
       )}
-      {/* non votes state */}
+      {!areVotes && <div>{translate('noVotes')}</div>}
       <div className="flex flex-wrap justify-center gap-4">
         {sameVotes.map(({ value, count }) => (
           <div key={value} className="text-center">

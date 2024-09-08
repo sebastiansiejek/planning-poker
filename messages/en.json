@@ -47,6 +47,7 @@
     "retry": "Try again"
   },
   "Voting": {
-    "avg": "Average: {avg}"
+    "avg": "Average: {avg}",
+    "noVotes": "Nobody voted. 😔"
   }
 }
