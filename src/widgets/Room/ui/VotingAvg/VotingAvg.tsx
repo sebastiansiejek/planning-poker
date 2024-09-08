@@ -1,3 +1,6 @@
+'use client';
+
+import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
 
 import { calcVotingAvg } from '@/widgets/Room/libs/calcVotingAvg/calcVotingAvg';
@@ -9,14 +12,18 @@ export const VotingAvg = ({ votes }: VotingAvgProps) => {
   const sameVotes = useMemo(() => getVotesAvg(votes), [votes]);
   const numberVotes = getNumberVotes(votes);
   const avgVotes = calcVotingAvg(numberVotes);
+  const translate = useTranslations('Voting');
 
   return (
     <div className="flex justify-center items-center flex-col gap-5 p-6">
       {!!avgVotes && (
         <div data-testid="voting-avg">
-          Average: <strong>{avgVotes}</strong>
+          {translate.rich('avg', {
+            avg: avgVotes,
+          })}
         </div>
       )}
+      {/* non votes state */}
       <div className="flex flex-wrap justify-center gap-4">
         {sameVotes.map(({ value, count }) => (
           <div key={value} className="text-center">
