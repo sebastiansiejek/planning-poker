@@ -1,23 +1,30 @@
+'use client';
+
+import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
 
+import { calcVotingAvg } from '@/widgets/Room/libs/calcVotingAvg/calcVotingAvg';
+import { getNumberVotes } from '@/widgets/Room/libs/getNumberVotes/getNumberVotes';
 import { getVotesAvg } from '@/widgets/Room/libs/getVotesAvg/getVotesAvg';
 import type { VotingAvgProps } from '@/widgets/Room/ui/VotingAvg/types';
 
 export const VotingAvg = ({ votes }: VotingAvgProps) => {
   const sameVotes = useMemo(() => getVotesAvg(votes), [votes]);
-  const correctVotes = votes
-    .map((vote) => parseInt(vote.value, 10))
-    .filter((v) => !Number.isNaN(v));
-  const avgVotes =
-    correctVotes.reduce((acc, v) => acc + v, 0) / correctVotes.length;
+  const numberVotes = getNumberVotes(votes);
+  const avgVotes = calcVotingAvg(numberVotes);
+  const translate = useTranslations('Voting');
+  const areVotes = sameVotes.length > 0;
 
   return (
     <div className="flex justify-center items-center flex-col gap-5 p-6">
       {!!avgVotes && (
         <div data-testid="voting-avg">
-          Average: <strong>{avgVotes}</strong>
+          {translate.rich('avg', {
+            avg: avgVotes,
+          })}
         </div>
       )}
+      {!areVotes && <div>{translate('noVotes')}</div>}
       <div className="flex flex-wrap justify-center gap-4">
         {sameVotes.map(({ value, count }) => (
           <div key={value} className="text-center">

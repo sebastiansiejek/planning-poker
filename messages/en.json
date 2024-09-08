@@ -45,5 +45,9 @@
   "ErrorPage": {
     "title": "Oops! Something went wrong",
     "retry": "Try again"
+  },
+  "Voting": {
+    "avg": "Average: {avg}",
+    "noVotes": "Nobody voted. 😔"
   }
 }
