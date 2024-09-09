@@ -10,7 +10,6 @@ export const Button = (props: ButtonProps) => {
     variant = 'primary',
     isLoading = false,
     children,
-    disabled,
     ...rest
   } = props;
 
@@ -28,19 +27,14 @@ export const Button = (props: ButtonProps) => {
                 secondary:
                   'bg-white dark:bg-gray-700 text-primary-500 border border-primary-500 border-solid hover:bg-primary-500 dark:hover:bg-gray-800 hover:text-white',
               },
-              disabled: {
-                true: 'pointer-events-none opacity-50',
-                false: '',
-              },
             },
           },
         )({
           variant,
-          disabled,
         }),
         rest.className,
       )}
-      disabled={disabled || isLoading}
+      disabled={isLoading}
     >
       {children}
       {isLoading && <Spinner />}
