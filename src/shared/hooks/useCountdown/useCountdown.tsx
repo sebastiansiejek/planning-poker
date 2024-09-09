@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 
-import type { UseCounterParams } from '@/shared/hooks/useCounter/useCounter.types';
+import type { UseCounterParams } from './useCountdown.types';
 
-export const useCounter = ({ time, enabled = true }: UseCounterParams) => {
+export const useCountdown = ({ time, enabled = true }: UseCounterParams) => {
   const [counter, setCounter] = useState<number>(0);
 
   useEffect(() => {
