@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import type { UseCounterParams } from './useCountdown.types';
 
 export const useCountdown = ({ time, enabled = true }: UseCounterParams) => {
-  const [counter, setCounter] = useState<number>(0);
+  const [counter, setCounter] = useState<number>(1);
 
   useEffect(() => {
     if (!enabled) {
