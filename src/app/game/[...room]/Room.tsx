@@ -57,6 +57,7 @@ export default function Room({ channelName, userName, avatarUrl }: RoomProps) {
     Pick<TriggerPaperThrowingParams, 'triggerUser' | 'targetUser'>[]
   >([]);
   const { dispatch } = useRoomContext();
+  const areVotes = votes.length > 0;
 
   useEffect(() => {
     const pusherChannel = pusher.subscribe(channelName);
@@ -190,6 +191,7 @@ export default function Room({ channelName, userName, avatarUrl }: RoomProps) {
             channelName={channelName}
             voteValue={voteValue}
             isRevealedCards={isRevealedCards}
+            areVotes={areVotes}
           />
           <Members
             isRevealedCards={isRevealedCards}
