@@ -20,7 +20,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.workflow_run.head_branch || github.ref }}
+          ref: ${{ github.event.pull_request.head.sha || github.ref }}
+
+      - name: Run build steps
+        run: echo "Building on branch ${{ github.event.pull_request.head.sha }} - ${{ github.ref }} - ${{ github.event.workflow_run.head_branch }}"
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
