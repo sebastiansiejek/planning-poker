@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/sebastiansiejek/planning-poker/compare/v1.8.0...v1.9.0) (2024-09-13)
+
+
+### Features
+
+* disable reset voting button until countdown is done ([#72](https://github.com/sebastiansiejek/planning-poker/issues/72)) ([3e21489](https://github.com/sebastiansiejek/planning-poker/commit/3e2148931cdad304b960dcb12ab09ae30cf23166))
+
 # [1.9.0](https://github.com/sebastiansiejek/planning-poker/compare/v1.8.0...v1.9.0) (2024-09-10)
 
 
