@@ -27,7 +27,6 @@ jobs:
         with:
           version: 8
 
-      - uses: actions/checkout@v4
       - name: Install Vercel CLI
         run: pnpm install --global vercel@latest
 
