@@ -25,7 +25,7 @@ export const Member = ({
 
   return (
     <div
-      className="flex items-center flex-col min-w-16 min-h-28 text-center relative z-30"
+      className="flex items-center flex-col min-w-16 min-h-28 text-center relative z-30 max-w-56"
       ref={ref}
     >
       <MemberCard
