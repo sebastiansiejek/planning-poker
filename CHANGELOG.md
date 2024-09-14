@@ -11,6 +11,19 @@
 * disable reset voting button until countdown is done ([#72](https://github.com/sebastiansiejek/planning-poker/issues/72)) ([3e21489](https://github.com/sebastiansiejek/planning-poker/commit/3e2148931cdad304b960dcb12ab09ae30cf23166))
 * truncate member name ([#77](https://github.com/sebastiansiejek/planning-poker/issues/77)) ([d3d02a2](https://github.com/sebastiansiejek/planning-poker/commit/d3d02a2f767b658b0653d980ad38f7ce3ab64984))
 
+# [1.9.0](https://github.com/sebastiansiejek/planning-poker/compare/v1.8.0...v1.9.0) (2024-09-14)
+
+
+### Bug Fixes
+
+* remove duplicated checkout ([aa9cdd5](https://github.com/sebastiansiejek/planning-poker/commit/aa9cdd5ee7db9deb7f2ec5c217e52eb75326f855))
+
+
+### Features
+
+* disable reset voting button until countdown is done ([#72](https://github.com/sebastiansiejek/planning-poker/issues/72)) ([3e21489](https://github.com/sebastiansiejek/planning-poker/commit/3e2148931cdad304b960dcb12ab09ae30cf23166))
+* truncate member name ([#77](https://github.com/sebastiansiejek/planning-poker/issues/77)) ([d3d02a2](https://github.com/sebastiansiejek/planning-poker/commit/d3d02a2f767b658b0653d980ad38f7ce3ab64984))
+
 # [1.9.0](https://github.com/sebastiansiejek/planning-poker/compare/v1.8.0...v1.9.0) (2024-09-13)
 
 
