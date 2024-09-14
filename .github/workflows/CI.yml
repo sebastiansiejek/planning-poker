@@ -42,12 +42,12 @@ jobs:
       - name: Type checking
         run: pnpm run check-types
 
-      - name: Create env.local file with variables
+      - name: Create env file with variables
         run: |
-          echo PUSHER_APP_ID=${{ secrets.PUSHER_APP_ID }} >> .env.local
-          echo PUSHER_SECRET=${{ secrets.PUSHER_SECRET }} >> .env.local
-          echo NEXT_PUBLIC_PUSHER_KEY=${{ secrets.NEXT_PUBLIC_PUSHER_KEY }} >> .env.local
-          echo NEXT_PUBLIC_PUSHER_CLUSTER=${{ secrets.NEXT_PUBLIC_PUSHER_CLUSTER }} >> .env.local
+          echo PUSHER_APP_ID=${{ secrets.PUSHER_APP_ID }} >> .env
+          echo PUSHER_SECRET=${{ secrets.PUSHER_SECRET }} >> .env
+          echo NEXT_PUBLIC_PUSHER_KEY=${{ secrets.NEXT_PUBLIC_PUSHER_KEY }} >> .env
+          echo NEXT_PUBLIC_PUSHER_CLUSTER=${{ secrets.NEXT_PUBLIC_PUSHER_CLUSTER }} >> .env
 
       - name: Build
         run: pnpm run build
