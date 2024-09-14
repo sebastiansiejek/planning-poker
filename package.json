@@ -24,6 +24,7 @@
   "dependencies": {
     "@commitlint/types": "^19.5.0",
     "@popperjs/core": "^2.11.8",
+    "@prisma/client": "5.19.1",
     "@sentry/nextjs": "^8",
     "class-variance-authority": "^0.7.0",
     "framer-motion": "^11.5.4",
