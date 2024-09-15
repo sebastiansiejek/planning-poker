@@ -1,9 +1,10 @@
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import type { AuthOptions } from 'next-auth';
 import { getServerSession } from 'next-auth';
 import GitHubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 
-// const prisma = new PrismaClient();
+import prisma from '@/shared/database/prisma';
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -16,7 +17,7 @@ export const authOptions: AuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
   ],
-  // adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(prisma),
 };
 
-export const getSession = () => getServerSession(authOptions);
+export const getSession = async () => getServerSession(authOptions);
