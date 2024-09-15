@@ -6,6 +6,8 @@ import { getLocale, getMessages, getTranslations } from 'next-intl/server';
 import { ThemeProvider } from 'next-themes';
 import type { ReactNode } from 'react';
 
+import { getSession } from '@/shared/auth/auth';
+import SessionProvider from '@/shared/auth/SessionProvider';
 import { META_CONSTANTS } from '@/shared/global/config/META_CONSTANTS';
 import { SiteFooter } from '@/widgets/SiteFooter/ui/SiteFooter';
 
@@ -32,18 +34,21 @@ export default async function RootLayout({
 }>) {
   const locale = await getLocale();
   const messages = await getMessages();
+  const session = await getSession();
 
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={inter.className}>
-        <NextIntlClientProvider messages={messages}>
-          <ThemeProvider>
-            <div className="h-screen flex flex-col">
-              {children}
-              <SiteFooter />
-            </div>
-          </ThemeProvider>
-        </NextIntlClientProvider>
+        <SessionProvider session={session}>
+          <NextIntlClientProvider messages={messages}>
+            <ThemeProvider>
+              <div className="h-screen flex flex-col">
+                {children}
+                <SiteFooter />
+              </div>
+            </ThemeProvider>
+          </NextIntlClientProvider>
+        </SessionProvider>
       </body>
     </html>
   );
