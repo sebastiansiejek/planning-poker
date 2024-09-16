@@ -1,7 +1,12 @@
-import type { Session } from 'next-auth';
+'use client';
+
+import { useSession } from 'next-auth/react';
 
 import { Avatar } from '@/shared/UIKit/Avatar/Avatar';
 
-export const UserAvatar = ({ image }: Pick<Session['user'], 'image'>) => {
+export const UserAvatar = () => {
+  const { data } = useSession();
+  const image = data?.user?.image;
+
   return <div>{image && <Avatar url={image} size={40} />}</div>;
 };

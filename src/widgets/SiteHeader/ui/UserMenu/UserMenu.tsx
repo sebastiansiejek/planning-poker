@@ -9,7 +9,6 @@ import { IoIosArrowDown } from 'react-icons/io';
 import { MdOutlineLogout } from 'react-icons/md';
 
 import { Button } from '@/shared/UIKit/Button/Button';
-import type { UserMenuProps } from '@/widgets/SiteHeader/ui/UserMenu/UserMenu.types';
 
 const UserName = () => {
   const { data } = useSession();
@@ -47,7 +46,9 @@ const MenuItemButton = ({
   );
 };
 
-export const UserMenu = ({ isLogged }: UserMenuProps) => {
+export const UserMenu = () => {
+  const { data } = useSession();
+  const isLogged = !!data;
   const translations = useTranslations();
 
   if (!isLogged) {
