@@ -1,4 +1,7 @@
 {
+  "Common": {
+    "signIn": "Sign in"
+  },
   "Meta": {
     "description": "Planning Poker is a fun way to estimate tasks in a team."
   },
@@ -49,5 +52,9 @@
   "Voting": {
     "avg": "Average: {avg}",
     "noVotes": "Nobody voted. 😔"
+  },
+  "UserMenu": {
+    "logout": "Logout",
+    "switchAccount": "Switch account"
   }
 }

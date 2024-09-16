@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@commitlint/types": "^19.5.0",
+    "@headlessui/react": "^2.1.8",
     "@next-auth/prisma-adapter": "^1.0.7",
     "@popperjs/core": "^2.11.8",
     "@prisma/client": "5.19.1",

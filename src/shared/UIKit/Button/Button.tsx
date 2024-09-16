@@ -1,3 +1,4 @@
+import { Button as ButtonUI } from '@headlessui/react';
 import { cva } from 'class-variance-authority';
 import { twMerge } from 'tailwind-merge';
 
@@ -15,7 +16,7 @@ export const Button = (props: ButtonProps) => {
   } = props;
 
   return (
-    <button
+    <ButtonUI
       type={type === 'submit' ? 'submit' : 'button'}
       {...rest}
       className={twMerge(
@@ -27,6 +28,7 @@ export const Button = (props: ButtonProps) => {
                 primary: 'bg-primary-500 text-white hover:bg-primary-600',
                 secondary:
                   'bg-white dark:bg-gray-700 text-primary-500 border border-primary-500 border-solid hover:bg-primary-500 dark:hover:bg-gray-800 hover:text-white',
+                text: 'text-primary-500 hover:text-primary-600',
               },
               disabled: {
                 true: 'pointer-events-none opacity-50',
@@ -44,6 +46,6 @@ export const Button = (props: ButtonProps) => {
     >
       {children}
       {isLoading && <Spinner />}
-    </button>
+    </ButtonUI>
   );
 };

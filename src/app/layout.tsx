@@ -10,6 +10,7 @@ import { getSession } from '@/shared/auth/auth';
 import SessionProvider from '@/shared/auth/SessionProvider';
 import { META_CONSTANTS } from '@/shared/global/config/META_CONSTANTS';
 import { SiteFooter } from '@/widgets/SiteFooter/ui/SiteFooter';
+import { SiteHeader } from '@/widgets/SiteHeader/SiteHeader';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -43,6 +44,7 @@ export default async function RootLayout({
           <NextIntlClientProvider messages={messages}>
             <ThemeProvider>
               <div className="h-screen flex flex-col">
+                <SiteHeader />
                 {children}
                 <SiteFooter />
               </div>
