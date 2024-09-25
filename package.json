@@ -15,7 +15,8 @@
     "test:unit": "jest",
     "test:e2e": "npx playwright test",
     "test:e2e:watch": "npx playwright test --ui",
-    "playwright:codegen": "npx playwright codegen"
+    "playwright:codegen": "npx playwright codegen",
+    "prisma:generate": "npx prisma generate"
   },
   "engines": {
     "node": "^20.9.0",
