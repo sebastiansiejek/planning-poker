@@ -41,7 +41,7 @@ erDiagram
     }
   
 
-  "VerificationRequest" {
+  "verification_requests" {
     String id "🗝️"
     String identifier 
     String token 
@@ -51,7 +51,7 @@ erDiagram
     }
   
 
-  "Game" {
+  "rooms" {
     String id "🗝️"
     String name 
     DateTime createdAt 
@@ -59,34 +59,36 @@ erDiagram
     }
   
 
-  "GameUser" {
+  "games" {
     String id "🗝️"
-    String game_id 
-    String user_id 
+    String name "❓"
+    String description "❓"
     DateTime createdAt 
     DateTime updatedAt 
     }
   
 
-  "Vote" {
+  "user_votes" {
     String id "🗝️"
-    String user_id 
-    String game_id 
-    Int vote 
+    String vote 
     DateTime createdAt 
     DateTime updatedAt 
     }
   
     "users" o{--}o "accounts" : "accounts"
     "users" o{--}o "sessions" : "sessions"
-    "users" o{--}o "Vote" : "Vote"
-    "users" o{--}o "GameUser" : "GameUser"
+    "users" o{--}o "rooms" : "roomsAuthored"
+    "users" o{--}o "rooms" : "roomsJoined"
+    "users" o{--}o "rooms" : "Room"
+    "users" o{--}o "user_votes" : "UserVote"
     "accounts" o|--|| "users" : "user"
     "sessions" o|--|o "users" : "user"
-    "Game" o{--}o "Vote" : "Vote"
-    "Game" o{--}o "GameUser" : "GameUser"
-    "GameUser" o|--|| "Game" : "game"
-    "GameUser" o|--|| "users" : "user"
-    "Vote" o|--|| "users" : "user"
-    "Vote" o|--|| "Game" : "game"
+    "rooms" o|--|| "users" : "author"
+    "rooms" o{--}o "users" : "users"
+    "rooms" o|--|o "users" : "User"
+    "rooms" o{--}o "games" : "Game"
+    "games" o|--|| "rooms" : "room"
+    "games" o{--}o "user_votes" : "UserVote"
+    "user_votes" o|--|| "users" : "user"
+    "user_votes" o|--|| "games" : "game"
 ```
