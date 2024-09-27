@@ -1,5 +1,5 @@
-import { CreateOrJoinGameForm } from '@/widgets/CreateGame/ui/CreateOrJoinGameForm/CreateOrJoinGameForm';
+import { CreateGameForm } from '@/widgets/CreateGame/ui/CreateGameForm/CreateGameForm';
 
 export default async function CreateGamePage() {
-  return <CreateOrJoinGameForm />;
+  return <CreateGameForm />;
 }

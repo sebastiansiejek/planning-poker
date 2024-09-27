@@ -16,9 +16,7 @@ export default async function Home() {
         </p>
         <div className="mt-2">
           <Link href={routes.game.getPath()}>
-            <Button data-testid="go-to-game">
-              {t('Game.submitButton.label')}
-            </Button>
+            <Button data-testid="go-to-game">{t('Game.create.label')}</Button>
           </Link>
         </div>
       </div>

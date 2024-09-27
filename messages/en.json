@@ -11,10 +11,14 @@
   },
   "Game": {
     "inputName": {
+      "label": "Name",
       "placeholder": "Enter game name"
     },
-    "submitButton": {
-      "label": "Create or join"
+    "create": {
+      "label": "Create game"
+    },
+    "errors": {
+      "P2002": "You are already created a room with this name"
     }
   },
   "Login": {
