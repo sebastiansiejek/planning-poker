@@ -13,6 +13,9 @@ importers:
       "@headlessui/react":
         specifier: ^2.1.8
         version: 2.1.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      "@hookform/error-message":
+        specifier: ^2.0.1
+        version: 2.0.1(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.0(react@18.3.1))(react@18.3.1)
       "@next-auth/prisma-adapter":
         specifier: ^1.0.7
         version: 1.0.7(@prisma/client@5.19.1)(next-auth@4.24.7(next@14.2.11(@babel/core@7.24.6)(@opentelemetry/api@1.9.0)(@playwright/test@1.47.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
@@ -28,6 +31,9 @@ importers:
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.0
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
       framer-motion:
         specifier: ^11.5.4
         version: 11.5.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -46,6 +52,9 @@ importers:
       next-intl:
         specifier: ^3.19.1
         version: 3.19.1(next@14.2.11(@babel/core@7.24.6)(@opentelemetry/api@1.9.0)(@playwright/test@1.47.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+      next-safe-action:
+        specifier: ^7.9.3
+        version: 7.9.3(next@14.2.11(@babel/core@7.24.6)(@opentelemetry/api@1.9.0)(@playwright/test@1.47.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod@3.23.8)
       next-themes:
         specifier: ^0.3.0
         version: 0.3.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -61,6 +70,9 @@ importers:
       react-dom:
         specifier: ^18
         version: 18.3.1(react@18.3.1)
+      react-hook-form:
+        specifier: ^7.53.0
+        version: 7.53.0(react@18.3.1)
       react-icons:
         specifier: ^5.3.0
         version: 5.3.0(react@18.3.1)
@@ -839,6 +851,16 @@ packages:
     peerDependencies:
       react: ^18
       react-dom: ^18
+
+  "@hookform/error-message@2.0.1":
+    resolution:
+      {
+        integrity: sha512-U410sAr92xgxT1idlu9WWOVjndxLdgPUHEB8Schr27C9eh7/xUnITWpCMF93s+lGiG++D4JnbSnrb5A21AdSNg==,
+      }
+    peerDependencies:
+      react: ">=16.8.0"
+      react-dom: ">=16.8.0"
+      react-hook-form: ^7.0.0
 
   "@humanwhocodes/config-array@0.11.14":
     resolution:
@@ -3441,6 +3463,13 @@ packages:
     resolution:
       {
         integrity: sha512-rQ1+kcj+ttHG0MKVGBUXwayCCF1oh39BF5COIpRzuCEv8Mwjv0XucrI2ExNTOn9IlLifGClWQcU9BrZORvtw6Q==,
+      }
+    engines: { node: ">=6" }
+
+  clsx@2.1.1:
+    resolution:
+      {
+        integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==,
       }
     engines: { node: ">=6" }
 
@@ -7423,6 +7452,30 @@ packages:
       next: ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0 || ^14.0.0
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
 
+  next-safe-action@7.9.3:
+    resolution:
+      {
+        integrity: sha512-2GH7/iRiM5R/y6sIQZsNHGeRr/iKQJsg8ejP63WhTS7fXS9KzxVbEKrWwLNNhL33V9cn0448cPSI/aiSK/PUbA==,
+      }
+    engines: { node: ">=18.17" }
+    peerDependencies:
+      "@sinclair/typebox": ">= 0.33.3"
+      next: ">= 14.0.0"
+      react: ">= 18.2.0"
+      react-dom: ">= 18.2.0"
+      valibot: ">= 0.36.0"
+      yup: ">= 1.0.0"
+      zod: ">= 3.0.0"
+    peerDependenciesMeta:
+      "@sinclair/typebox":
+        optional: true
+      valibot:
+        optional: true
+      yup:
+        optional: true
+      zod:
+        optional: true
+
   next-themes@0.3.0:
     resolution:
       {
@@ -8476,6 +8529,15 @@ packages:
       {
         integrity: sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==,
       }
+
+  react-hook-form@7.53.0:
+    resolution:
+      {
+        integrity: sha512-M1n3HhqCww6S2hxLxciEXy2oISPnAzxY7gvwVPrtlczTM/1dDadXgUxDpHMrMTblDOcm/AXtXxHwZ3jpg1mqKQ==,
+      }
+    engines: { node: ">=18.0.0" }
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18 || ^19
 
   react-icons@5.3.0:
     resolution:
@@ -10745,6 +10807,12 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
+  "@hookform/error-message@2.0.1(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.0(react@18.3.1))(react@18.3.1)":
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      react-hook-form: 7.53.0(react@18.3.1)
+
   "@humanwhocodes/config-array@0.11.14":
     dependencies:
       "@humanwhocodes/object-schema": 2.0.3
@@ -11403,7 +11471,7 @@ snapshots:
       "@react-aria/utils": 3.25.2(react@18.3.1)
       "@react-types/shared": 3.24.1(react@18.3.1)
       "@swc/helpers": 0.5.5
-      clsx: 2.0.0
+      clsx: 2.1.1
       react: 18.3.1
 
   "@react-aria/interactions@3.22.2(react@18.3.1)":
@@ -11425,7 +11493,7 @@ snapshots:
       "@react-stately/utils": 3.10.3(react@18.3.1)
       "@react-types/shared": 3.24.1(react@18.3.1)
       "@swc/helpers": 0.5.5
-      clsx: 2.0.0
+      clsx: 2.1.1
       react: 18.3.1
 
   "@react-stately/utils@3.10.3(react@18.3.1)":
@@ -12728,6 +12796,8 @@ snapshots:
   clone@1.0.4: {}
 
   clsx@2.0.0: {}
+
+  clsx@2.1.1: {}
 
   co@4.6.0: {}
 
@@ -15527,6 +15597,14 @@ snapshots:
       react: 18.3.1
       use-intl: 3.19.1(react@18.3.1)
 
+  next-safe-action@7.9.3(next@14.2.11(@babel/core@7.24.6)(@opentelemetry/api@1.9.0)(@playwright/test@1.47.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod@3.23.8):
+    dependencies:
+      next: 14.2.11(@babel/core@7.24.6)(@opentelemetry/api@1.9.0)(@playwright/test@1.47.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+    optionalDependencies:
+      zod: 3.23.8
+
   next-themes@0.3.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       react: 18.3.1
@@ -16090,6 +16168,10 @@ snapshots:
       scheduler: 0.23.2
 
   react-fast-compare@3.2.2: {}
+
+  react-hook-form@7.53.0(react@18.3.1):
+    dependencies:
+      react: 18.3.1
 
   react-icons@5.3.0(react@18.3.1):
     dependencies:
