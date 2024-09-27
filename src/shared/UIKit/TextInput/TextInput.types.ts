@@ -8,5 +8,4 @@ export type TextInputProps = Omit<
   innerRef?: Ref<HTMLInputElement>;
   errors?: FieldErrors;
   name: string;
-  label?: string;
 };
