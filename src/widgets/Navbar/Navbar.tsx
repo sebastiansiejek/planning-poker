@@ -22,7 +22,7 @@ export const Navbar = () => {
           >
             <Link
               href={href}
-              className="flex items-center gap-2 transition hover:text-primary-500"
+              className="text-sm flex items-center gap-2 p-1 transition hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
             >
               {icon}
               <span>{label}</span>
