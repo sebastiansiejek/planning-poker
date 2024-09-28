@@ -1,4 +1,7 @@
 export const routes = {
+  home: {
+    getPath: () => '/',
+  },
   game: {
     getPath: () => '/game',
     singleGame: {

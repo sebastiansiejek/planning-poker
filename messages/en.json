@@ -60,5 +60,9 @@
   "UserMenu": {
     "logout": "Logout",
     "switchAccount": "Switch account"
+  },
+  "Navbar": {
+    "home": "Home",
+    "createGame": "Create game"
   }
 }
