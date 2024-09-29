@@ -9,6 +9,7 @@ export const Button = (props: ButtonProps) => {
   const {
     type,
     variant = 'primary',
+    color = 'primary',
     isLoading = false,
     children,
     disabled,
@@ -34,11 +35,16 @@ export const Button = (props: ButtonProps) => {
                 true: 'pointer-events-none opacity-50',
                 false: '',
               },
+              color: {
+                primary: '',
+                danger: 'bg-red-500 hover:bg-red-600',
+              },
             },
           },
         )({
           variant,
           disabled,
+          color,
         }),
         rest.className,
       )}
