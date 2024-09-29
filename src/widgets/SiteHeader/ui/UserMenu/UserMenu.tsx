@@ -1,13 +1,21 @@
 'use client';
 
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
+import {
+  Button as ButtonHeadlessUI,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems,
+} from '@headlessui/react';
+import Link from 'next/link';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
 import type { PropsWithChildren } from 'react';
 import type { IconType } from 'react-icons';
 import { IoIosArrowDown } from 'react-icons/io';
-import { MdOutlineLogout } from 'react-icons/md';
+import { MdOutlineDashboard, MdOutlineLogout } from 'react-icons/md';
 
+import { routes } from '@/shared/routes/routes';
 import { Button } from '@/shared/UIKit/Button/Button';
 
 const UserName = () => {
@@ -30,18 +38,18 @@ const MenuItemButton = ({
   onClick,
 }: PropsWithChildren<{
   Icon?: IconType;
-  onClick: () => void;
+  onClick?: () => void;
 }>) => {
   return (
     <MenuItem>
-      <button
+      <ButtonHeadlessUI
         type="button"
         className="w-full text-left flex items-center gap-2 dark:data-[focus]:bg-gray-700 data-[focus]:bg-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700 p-2 rounded-md text-sm"
         onClick={onClick}
       >
         {Icon && <Icon />}
         {children}
-      </button>
+      </ButtonHeadlessUI>
     </MenuItem>
   );
 };
@@ -73,6 +81,11 @@ export const UserMenu = () => {
         anchor="bottom start"
         className="bg-gray-100 dark:bg-gray-800 w-56 mt-4 p-1"
       >
+        <Link href={routes.dashboard.getPath()}>
+          <MenuItemButton Icon={MdOutlineDashboard}>
+            {translations('UserMenu.dashboard')}
+          </MenuItemButton>
+        </Link>
         <MenuItemButton Icon={MdOutlineLogout} onClick={() => signOut()}>
           {translations('UserMenu.logout')}
         </MenuItemButton>

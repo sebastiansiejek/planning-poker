@@ -59,7 +59,7 @@
   },
   "UserMenu": {
     "logout": "Logout",
-    "switchAccount": "Switch account"
+    "dashboard": "Dashboard"
   },
   "Navbar": {
     "home": "Home",
