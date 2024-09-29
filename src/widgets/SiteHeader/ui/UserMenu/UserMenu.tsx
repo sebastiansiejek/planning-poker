@@ -73,14 +73,7 @@ export const UserMenu = () => {
         anchor="bottom start"
         className="bg-gray-100 dark:bg-gray-800 w-56 mt-4 p-1"
       >
-        <MenuItemButton
-          Icon={MdOutlineLogout}
-          onClick={() =>
-            signOut({
-              redirect: false,
-            })
-          }
-        >
+        <MenuItemButton Icon={MdOutlineLogout} onClick={() => signOut()}>
           {translations('UserMenu.logout')}
         </MenuItemButton>
       </MenuItems>

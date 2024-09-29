@@ -11,4 +11,7 @@ export const routes = {
   login: {
     getPath: (room?: string) => `/login${room ? `?room=${room}` : ''}`,
   },
+  dashboard: {
+    getPath: () => '/dashboard',
+  },
 };
