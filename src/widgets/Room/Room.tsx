@@ -1,6 +1,6 @@
 'use client';
 
-import './room.styles.css';
+import './ui/room.styles.css';
 
 import { useTranslations } from 'next-intl';
 import { useEffect, useMemo, useState } from 'react';
