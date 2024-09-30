@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 
 import Room from '@/app/game/[...room]/Room';
 import { UserModel } from '@/entities/user/model/UserModel';
+import prisma from '@/shared/database/prisma';
 import { routes } from '@/shared/routes/routes';
 import { RoomProvider } from '@/widgets/Room/model/RoomContext';
 
@@ -14,13 +15,22 @@ export default async function Page({
 }) {
   const userName = UserModel.getUserName();
   const avatarUrl = UserModel.getAvatarUrl();
-  const room = params.room.toString();
+  const roomId = params.room.toString();
+  const isRoomExists = !!(await prisma.room.count({
+    where: {
+      id: roomId,
+    },
+  }));
 
-  if (!userName) {
-    redirect(routes.login.getPath(room));
+  if (!isRoomExists) {
+    return redirect(routes.game.getPath());
   }
 
-  const channelName = `presence-${room}`;
+  if (!userName) {
+    return redirect(routes.login.getPath(roomId));
+  }
+
+  const channelName = `presence-${roomId}`;
 
   return (
     <RoomProvider>
