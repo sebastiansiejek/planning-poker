@@ -17,6 +17,8 @@ import type {
   PusherNotification,
 } from '@/shared/types/pusher/pusher';
 import type { Vote } from '@/shared/types/types';
+import { Container } from '@/shared/UIKit/Container/Container';
+import { Heading } from '@/shared/UIKit/Heading/Heading';
 import { Paper } from '@/widgets/Alerts/ui/Paper/Paper';
 import type { TriggerPaperThrowingParams } from '@/widgets/Room/actions/alerts/triggerPaperThrowing';
 import { voting } from '@/widgets/Room/actions/voting';
@@ -29,7 +31,12 @@ import { RoomTable } from '@/widgets/Room/ui/RoomTable/RoomTable';
 import { VotingAvg } from '@/widgets/Room/ui/VotingAvg/VotingAvg';
 import { VotingCard } from '@/widgets/Room/ui/VotingCard/VotingCard';
 
-export default function Room({ channelName, userName, avatarUrl }: RoomProps) {
+export default function Room({
+  channelName,
+  userName,
+  avatarUrl,
+  name: roomName,
+}: RoomProps) {
   const [members, setMembers] = useState<PusherMember[]>([]);
   const [votes, setVotes] = useState<Vote[]>([]);
   const [me, setMe] = useState<PusherMember>();
@@ -169,7 +176,15 @@ export default function Room({ channelName, userName, avatarUrl }: RoomProps) {
   }, [channelName, pusher, userName]);
 
   return (
-    <div>
+    <Container>
+      <Heading
+        variant="h1"
+        htmlAttributes={{
+          className: 'text-center',
+        }}
+      >
+        {roomName}
+      </Heading>
       <div className="flex items-center justify-center flex-col lg:p-4">
         <GameContainer>
           <Members
@@ -237,6 +252,6 @@ export default function Room({ channelName, userName, avatarUrl }: RoomProps) {
           triggerUser={triggerUser}
         />
       ))}
-    </div>
+    </Container>
   );
 }

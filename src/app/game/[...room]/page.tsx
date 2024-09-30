@@ -16,13 +16,16 @@ export default async function Page({
   const userName = UserModel.getUserName();
   const avatarUrl = UserModel.getAvatarUrl();
   const roomId = params.room.toString();
-  const isRoomExists = !!(await prisma.room.count({
+  const room = await prisma.room.findUnique({
+    select: {
+      name: true,
+    },
     where: {
       id: roomId,
     },
-  }));
+  });
 
-  if (!isRoomExists) {
+  if (!room) {
     return redirect(routes.game.getPath());
   }
 
@@ -31,6 +34,7 @@ export default async function Page({
   }
 
   const channelName = `presence-${roomId}`;
+  const { name } = room;
 
   return (
     <RoomProvider>
@@ -38,6 +42,7 @@ export default async function Page({
         channelName={channelName}
         userName={userName}
         avatarUrl={avatarUrl}
+        name={name}
       />
     </RoomProvider>
   );
