@@ -59,6 +59,13 @@ erDiagram
     }
   
 
+  "room_users" {
+    String id "🗝️"
+    DateTime createdAt 
+    DateTime updatedAt 
+    }
+  
+
   "games" {
     String id "🗝️"
     String name "❓"
@@ -80,11 +87,15 @@ erDiagram
     "users" o{--}o "rooms" : "roomsAuthored"
     "users" o{--}o "rooms" : "roomsJoined"
     "users" o{--}o "user_votes" : "UserVote"
+    "users" o{--}o "room_users" : "RoomUser"
     "accounts" o|--|| "users" : "user"
     "sessions" o|--|o "users" : "user"
     "rooms" o|--|| "users" : "author"
     "rooms" o{--}o "users" : "users"
     "rooms" o{--}o "games" : "Game"
+    "rooms" o{--}o "room_users" : "RoomUser"
+    "room_users" o|--|| "rooms" : "room"
+    "room_users" o|--|| "users" : "user"
     "games" o|--|| "rooms" : "room"
     "games" o{--}o "user_votes" : "UserVote"
     "user_votes" o|--|| "users" : "user"

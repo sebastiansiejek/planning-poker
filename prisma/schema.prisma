@@ -32,6 +32,7 @@ model User {
   roomsAuthored Room[]     @relation("RoomAuthor") // One-to-many for rooms authored
   roomsJoined   Room[]     @relation("RoomParticipants") // Many-to-many for rooms joined
   UserVote      UserVote[]
+  RoomUser      RoomUser[]
 
   @@map("users")
 }
@@ -82,17 +83,31 @@ model VerificationRequest {
 }
 
 model Room {
-  id        String   @id @default(cuid())
+  id        String     @id @default(cuid())
   name      String
   authorId  String
-  author    User     @relation("RoomAuthor", fields: [authorId], references: [id])
-  users     User[]   @relation("RoomParticipants")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  author    User       @relation("RoomAuthor", fields: [authorId], references: [id])
+  users     User[]     @relation("RoomParticipants")
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   Game      Game[]
+  RoomUser  RoomUser[]
 
   @@unique([authorId, name])
   @@map("rooms")
+}
+
+model RoomUser {
+  id        String   @id @default(cuid())
+  roomId    String
+  userId    String
+  room      Room     @relation(fields: [roomId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([roomId, userId])
+  @@map("room_users")
 }
 
 model Game {
