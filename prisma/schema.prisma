@@ -31,7 +31,6 @@ model User {
   sessions      Session[]
   roomsAuthored Room[]     @relation("RoomAuthor") // One-to-many for rooms authored
   roomsJoined   Room[]     @relation("RoomParticipants") // Many-to-many for rooms joined
-  Room          Room[]
   UserVote      UserVote[]
 
   @@map("users")
@@ -88,8 +87,6 @@ model Room {
   authorId  String
   author    User     @relation("RoomAuthor", fields: [authorId], references: [id])
   users     User[]   @relation("RoomParticipants")
-  User      User?    @relation(fields: [userId], references: [id])
-  userId    String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   Game      Game[]
