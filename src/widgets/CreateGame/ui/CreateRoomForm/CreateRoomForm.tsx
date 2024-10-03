@@ -12,7 +12,7 @@ import { TextInput } from '@/shared/UIKit/TextInput/TextInput';
 import type { CreateOrJoinToRoomParams } from '@/widgets/Room/actions/createRoom';
 import { createRoom } from '@/widgets/Room/actions/createRoom';
 
-export const CreateGameForm = () => {
+export const CreateRoomForm = () => {
   const t = useTranslations('Game');
   const { push } = useRouter();
   const form = useForm<CreateOrJoinToRoomParams>({

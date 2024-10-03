@@ -37,6 +37,7 @@ export const createRoom = actionClient
     } catch (error) {
       const typedError = error as PrismaClientKnownRequestError;
       return {
+        success: false,
         error: {
           code: typedError.code,
         },
