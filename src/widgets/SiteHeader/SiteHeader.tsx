@@ -4,7 +4,7 @@ import { UserMenu } from '@/widgets/SiteHeader/ui/UserMenu/UserMenu';
 
 export const SiteHeader = async () => {
   return (
-    <div className="sticky flex items-center justify-between top-0 p-2">
+    <div className="sticky bg-white dark:bg-gray-900 flex items-center justify-between top-0 p-2">
       <Navbar />
       <div className="flex items-center gap-1 ml-auto">
         <UserAvatar />
