@@ -2,22 +2,32 @@
 
 import z from 'zod';
 
+import { actionClient } from '@/shared/lib/safeAction';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { pusherServer } from '@/shared/pusher/lib/pusherServer';
 
-export const voting = async (data: FormData) => {
-  const userId = data.get('userId');
-  const value = data.get('value');
-  const channelName = data.get('channelName') as string;
+const schema = z.object({
+  userId: z.string(),
+  value: z.string(),
+  roomId: z.string(),
+});
 
-  try {
-    z.string().parse(userId);
+export const voting = actionClient
+  .schema(schema)
+  .action(async ({ parsedInput: { userId, value, roomId } }) => {
+    try {
+      const data = await pusherServer.trigger(roomId, PUSHER_EVENTS.VOTED, {
+        userId,
+        value,
+      });
 
-    await pusherServer.trigger(channelName, PUSHER_EVENTS.VOTED, {
-      userId,
-      value,
-    });
-  } catch (error) {
-    console.error(error);
-  }
-};
+      return {
+        success: true,
+        data,
+      };
+    } catch (error) {
+      return {
+        success: false,
+      };
+    }
+  });
