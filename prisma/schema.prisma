@@ -110,15 +110,21 @@ model RoomUser {
   @@map("room_users")
 }
 
+enum GameStatus {
+  STARTED
+  FINISHED
+}
+
 model Game {
   id          String     @id @default(cuid())
   name        String?
   description String?
   roomId      String
   room        Room       @relation(fields: [roomId], references: [id])
+  UserVote    UserVote[]
+  status      GameStatus @default(STARTED)
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
-  UserVote    UserVote[]
 
   @@map("games")
 }

@@ -1,6 +1,11 @@
 ```mermaid
 erDiagram
 
+        GameStatus {
+            STARTED STARTED
+FINISHED FINISHED
+        }
+    
   "users" {
     String id "🗝️"
     String name 
@@ -70,6 +75,7 @@ erDiagram
     String id "🗝️"
     String name "❓"
     String description "❓"
+    GameStatus status 
     DateTime createdAt 
     DateTime updatedAt 
     }
@@ -98,6 +104,7 @@ erDiagram
     "room_users" o|--|| "users" : "user"
     "games" o|--|| "rooms" : "room"
     "games" o{--}o "user_votes" : "UserVote"
+    "games" o|--|| "GameStatus" : "enum:status"
     "user_votes" o|--|| "users" : "user"
     "user_votes" o|--|| "games" : "game"
 ```
