@@ -1,13 +1,15 @@
 import { cva } from 'class-variance-authority';
 
+import { useRoomContext } from '@/widgets/Room/model/RoomContext';
 import type { VotingCardProps } from '@/widgets/Room/ui/VotingCard/types';
 
 export const VotingCard = ({
   isDisabled,
   option,
   voteValue,
-  setVoteValue,
 }: VotingCardProps) => {
+  const { dispatch } = useRoomContext();
+
   return (
     <label
       className={cva('', {
@@ -26,7 +28,12 @@ export const VotingCard = ({
         checked={voteValue === option}
         onChange={(e) => {
           e.currentTarget.form?.requestSubmit();
-          setVoteValue(e.currentTarget.value);
+          dispatch({
+            type: 'SET_VOTE',
+            payload: {
+              value: e.currentTarget.value,
+            },
+          });
         }}
       />
       <div

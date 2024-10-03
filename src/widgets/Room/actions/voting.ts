@@ -16,14 +16,13 @@ export const voting = actionClient
   .schema(schema)
   .action(async ({ parsedInput: { userId, value, roomId } }) => {
     try {
-      const data = await pusherServer.trigger(roomId, PUSHER_EVENTS.VOTED, {
+      await pusherServer.trigger(roomId, PUSHER_EVENTS.VOTED, {
         userId,
         value,
       });
 
       return {
         success: true,
-        data,
       };
     } catch (error) {
       return {

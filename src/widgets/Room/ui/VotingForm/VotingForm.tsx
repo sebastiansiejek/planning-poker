@@ -9,7 +9,6 @@ type VotingFormProps = {
   roomId: string;
   isRevealedCards: boolean;
   voteValue: string;
-  setVoteValue: (value: string) => void;
 };
 
 export const VotingForm = ({
@@ -17,13 +16,13 @@ export const VotingForm = ({
   roomId,
   isRevealedCards,
   voteValue,
-  setVoteValue,
 }: VotingFormProps) => {
   const { execute } = useAction(voting);
 
   return (
     <form
       onSubmit={(e) => {
+        e.preventDefault();
         const formData = new FormData(e.target as HTMLFormElement);
 
         execute({
@@ -41,7 +40,6 @@ export const VotingForm = ({
               isDisabled={isRevealedCards}
               voteValue={voteValue}
               option={option}
-              setVoteValue={setVoteValue}
             />
           );
         })}

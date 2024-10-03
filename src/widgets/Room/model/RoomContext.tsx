@@ -5,12 +5,20 @@ import { createContext, useContext, useMemo, useReducer } from 'react';
 
 type RoomContextType = {
   currentUserId?: string;
+  vote?: string;
 };
 
-type Action = {
-  type: 'SET_CURRENT_USER_ID';
-  payload: Pick<RoomContextType, 'currentUserId'>;
-};
+type Action =
+  | {
+      type: 'SET_CURRENT_USER_ID';
+      payload: Pick<RoomContextType, 'currentUserId'>;
+    }
+  | {
+      type: 'SET_VOTE';
+      payload: {
+        value: string;
+      };
+    };
 
 export const RoomContext = createContext<{
   room: RoomContextType | null;
@@ -26,7 +34,15 @@ const roomReducer = (
 ): RoomContextType | null => {
   switch (action.type) {
     case 'SET_CURRENT_USER_ID':
-      return action.payload;
+      return {
+        ...state,
+        currentUserId: action.payload.currentUserId,
+      };
+    case 'SET_VOTE':
+      return {
+        ...state,
+        vote: action.payload.value,
+      };
     default:
       return state;
   }
