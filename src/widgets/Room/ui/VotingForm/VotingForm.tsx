@@ -9,6 +9,7 @@ type VotingFormProps = {
   roomId: string;
   isRevealedCards: boolean;
   voteValue: string;
+  gameId: string;
 };
 
 export const VotingForm = ({
@@ -16,6 +17,7 @@ export const VotingForm = ({
   roomId,
   isRevealedCards,
   voteValue,
+  gameId,
 }: VotingFormProps) => {
   const { execute } = useAction(voting);
 
@@ -29,6 +31,7 @@ export const VotingForm = ({
           roomId,
           userId: meId,
           value: formData.get('value') as string,
+          gameId,
         });
       }}
     >
