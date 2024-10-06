@@ -1,8 +1,8 @@
-import type { PusherMember } from '@/shared/types/pusher/pusher';
+import type { RoomMember } from '@/app/game/[...room]/types';
 import type { Vote } from '@/shared/types/types';
 
 export type MembersProps = {
-  members: PusherMember[];
+  members: RoomMember[];
   place: 'top' | 'left' | 'right' | 'bottom';
   votedUserIds: string[];
   isVertical?: boolean;

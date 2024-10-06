@@ -14,10 +14,12 @@ export const Members = ({
     <MembersContainer place={place} isVertical={isVertical}>
       {members.map((member) => {
         const { id } = member;
+        // @ts-ignore
         const isVoted = votedUserIds.includes(id);
         const vote = votes.find((oldVotes) => oldVotes.userId === id)?.value;
 
         return (
+          // @ts-ignore
           <RoomMember
             key={id}
             isVoted={isVoted}

@@ -10,7 +10,6 @@ import { getPusherUserId } from '@/shared/pusher/lib/getPusherUserId';
 import { pusherClient } from '@/shared/pusher/lib/pusherClient';
 import type {
   PusherMember,
-  PusherMembers,
   PusherNewMember,
   PusherNotification,
 } from '@/shared/types/pusher/pusher';
@@ -19,25 +18,26 @@ import { Container } from '@/shared/UIKit/Container/Container';
 import { Heading } from '@/shared/UIKit/Heading/Heading';
 import { Paper } from '@/widgets/Alerts/ui/Paper/Paper';
 import type { TriggerPaperThrowingParams } from '@/widgets/Room/actions/alerts/triggerPaperThrowing';
-import { voting } from '@/widgets/Room/actions/voting';
-import { votingValues } from '@/widgets/Room/config/votingConstants';
 import { chunkMembers } from '@/widgets/Room/libs/chunkMembers/chunkMembers';
 import { useRoomContext } from '@/widgets/Room/model/RoomContext';
+import { CreateGameForm } from '@/widgets/Room/ui/CreateGameForm/CreateGameForm';
 import { GameContainer } from '@/widgets/Room/ui/Game/GameContainer/GameContainer';
 import { Members } from '@/widgets/Room/ui/Members/Members';
 import { RoomTable } from '@/widgets/Room/ui/RoomTable/RoomTable';
 import { VotingAvg } from '@/widgets/Room/ui/VotingAvg/VotingAvg';
-import { VotingCard } from '@/widgets/Room/ui/VotingCard/VotingCard';
+import { VotingForm } from '@/widgets/Room/ui/VotingForm/VotingForm';
 
 export default function Room({
-  channelName,
+  id: roomId,
   userName,
   avatarUrl,
   name: roomName,
+  members: initialMembers,
+  activeGameId,
 }: RoomProps) {
-  const [members, setMembers] = useState<PusherMember[]>([]);
+  const [members, setMembers] = useState<RoomProps['members']>(initialMembers);
   const [votes, setVotes] = useState<Vote[]>([]);
-  const [me, setMe] = useState<PusherMember>();
+  const [me] = useState<PusherMember>();
   const pusher = useMemo(
     () =>
       pusherClient({
@@ -46,7 +46,6 @@ export default function Room({
       }),
     [userName, avatarUrl],
   );
-  const [voteValue, setVoteValue] = useState('');
   const [votedUserIds, setVotedUserIds] = useState<string[]>([]);
   const [isRevealedCards, setIsRevealedCards] = useState(false);
   const meId = me?.id || '';
@@ -61,11 +60,20 @@ export default function Room({
   const [papers, setPapers] = useState<
     Pick<TriggerPaperThrowingParams, 'triggerUser' | 'targetUser'>[]
   >([]);
-  const { dispatch } = useRoomContext();
+  const { dispatch, room } = useRoomContext();
+  const setVoteValue = (value: string) => {
+    dispatch({
+      type: 'SET_VOTE',
+      payload: {
+        value,
+      },
+    });
+  };
+  const voteValue = room?.vote || '';
   const areVotes = votes.length > 0;
 
   useEffect(() => {
-    const pusherChannel = pusher.subscribe(channelName);
+    const pusherChannel = pusher.subscribe(roomId);
 
     if (pusherChannel) {
       pusherChannel.bind(
@@ -95,20 +103,20 @@ export default function Room({
         },
       );
 
-      pusherChannel.bind(
-        PUSHER_EVENTS.SUBSCRIPTION_SUCCEEDED,
-        (initialMembers: PusherMembers) => {
-          const membersArray = Object.values(initialMembers.members);
-          setMembers(membersArray);
-          setMe(initialMembers.me);
-          dispatch({
-            type: 'SET_CURRENT_USER_ID',
-            payload: {
-              currentUserId: initialMembers.me.id,
-            },
-          });
-        },
-      );
+      // pusherChannel.bind(
+      //   PUSHER_EVENTS.SUBSCRIPTION_SUCCEEDED,
+      //   (initialMembers: PusherMembers) => {
+      //     const membersArray = Object.values(initialMembers.members);
+      //     setMembers(membersArray);
+      //     setMe(initialMembers.me);
+      //     dispatch({
+      //       type: 'SET_CURRENT_USER_ID',
+      //       payload: {
+      //         currentUserId: initialMembers.me.id,
+      //       },
+      //     });
+      //   },
+      // );
 
       pusherChannel.bind(
         PUSHER_EVENTS.MEMBER_ADDED,
@@ -168,10 +176,10 @@ export default function Room({
     }
 
     return () => {
-      pusher.unsubscribe(channelName);
+      pusher.unsubscribe(roomId);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [channelName, pusher, userName]);
+  }, [roomId, pusher, userName]);
 
   return (
     <Container>
@@ -183,6 +191,7 @@ export default function Room({
       >
         {roomName}
       </Heading>
+      <CreateGameForm roomId={roomId} />
       <div className="flex items-center justify-center flex-col lg:p-4">
         <GameContainer>
           <Members
@@ -201,7 +210,7 @@ export default function Room({
             votes={votes}
           />
           <RoomTable
-            channelName={channelName}
+            channelName={roomId}
             voteValue={voteValue}
             isRevealedCards={isRevealedCards}
             areVotes={areVotes}
@@ -222,24 +231,15 @@ export default function Room({
             votes={votes}
           />
         </GameContainer>
-        {/* TODO: send/show value only if revealed button is clicked  */}
-        <form action={voting}>
-          <div className="flex gap-4 mt-8 flex-wrap p-6 justify-center">
-            {votingValues.map((option) => {
-              return (
-                <VotingCard
-                  key={option}
-                  isDisabled={isRevealedCards}
-                  voteValue={voteValue}
-                  option={option}
-                  setVoteValue={setVoteValue}
-                />
-              );
-            })}
-          </div>
-          <input type="hidden" name="userId" defaultValue={meId} />
-          <input type="hidden" name="channelName" defaultValue={channelName} />
-        </form>
+        {activeGameId && (
+          <VotingForm
+            roomId={roomId}
+            voteValue={voteValue}
+            isRevealedCards={isRevealedCards}
+            meId={meId}
+            gameId={activeGameId}
+          />
+        )}
       </div>
       {isRevealedCards && <VotingAvg votes={votes} />}
       {papers.map(({ targetUser, triggerUser }, index) => (

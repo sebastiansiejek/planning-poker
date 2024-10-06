@@ -14,13 +14,6 @@ export type PusherNewMember = {
   };
 };
 
-export type PusherMembers = {
-  count: number;
-  me: PusherMember;
-  members: Record<string, PusherMember>;
-  myID: string;
-};
-
 export type PusherNotification = {
   type: 'alarm' | 'paper';
 };
