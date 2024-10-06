@@ -83,7 +83,8 @@ export default async function Page({
   const activeGame = await prisma.game.findFirst({
     select: {
       id: true,
-      room: true,
+      name: true,
+      description: true,
     },
     where: {
       roomId,
@@ -99,7 +100,7 @@ export default async function Page({
         userName={userName}
         avatarUrl={avatarUrl}
         name={name}
-        activeGameId={activeGame?.id}
+        activeGame={activeGame}
       />
     </RoomProvider>
   );

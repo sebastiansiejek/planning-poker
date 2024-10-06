@@ -16,6 +16,7 @@ import type {
 import type { Vote } from '@/shared/types/types';
 import { Container } from '@/shared/UIKit/Container/Container';
 import { Heading } from '@/shared/UIKit/Heading/Heading';
+import { Paragraph } from '@/shared/UIKit/Paragraph/Paragraph';
 import { Paper } from '@/widgets/Alerts/ui/Paper/Paper';
 import type { TriggerPaperThrowingParams } from '@/widgets/Room/actions/alerts/triggerPaperThrowing';
 import { chunkMembers } from '@/widgets/Room/libs/chunkMembers/chunkMembers';
@@ -33,7 +34,7 @@ export default function Room({
   avatarUrl,
   name: roomName,
   members: initialMembers,
-  activeGameId,
+  activeGame,
 }: RoomProps) {
   const [members, setMembers] = useState<RoomProps['members']>(initialMembers);
   const [votes, setVotes] = useState<Vote[]>([]);
@@ -191,7 +192,16 @@ export default function Room({
       >
         {roomName}
       </Heading>
-      <CreateGameForm roomId={roomId} />
+      {!activeGame && <CreateGameForm roomId={roomId} />}
+      {/* TODO: separate */}
+      {activeGame && (activeGame.name || activeGame.description) && (
+        <div>
+          {activeGame.name && <Heading variant="h2">{activeGame.name}</Heading>}
+          {activeGame.description && (
+            <Paragraph>{activeGame.description}</Paragraph>
+          )}
+        </div>
+      )}
       <div className="flex items-center justify-center flex-col lg:p-4">
         <GameContainer>
           <Members
@@ -231,13 +241,13 @@ export default function Room({
             votes={votes}
           />
         </GameContainer>
-        {activeGameId && (
+        {activeGame?.id && (
           <VotingForm
             roomId={roomId}
             voteValue={voteValue}
             isRevealedCards={isRevealedCards}
             meId={meId}
-            gameId={activeGameId}
+            gameId={activeGame.id}
           />
         )}
       </div>
