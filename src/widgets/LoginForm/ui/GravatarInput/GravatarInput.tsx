@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { useEffect, useState, useTransition } from 'react';
 
-import { getGravatarUrl } from '@/shared/gravatar/getGravatarUrl';
+import { getGravatarUrl } from '@/shared/lib/gravatar/getGravatarUrl';
 import { Avatar } from '@/shared/UIKit/Avatar/Avatar';
 import { Button } from '@/shared/UIKit/Button/Button';
 import { TextInput } from '@/shared/UIKit/TextInput/TextInput';
