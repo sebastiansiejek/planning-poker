@@ -1,4 +1,5 @@
 import { useTranslations } from 'next-intl';
+import { useAction } from 'next-safe-action/hooks';
 
 import { useCountdown } from '@/shared/hooks/useCountdown/useCountdown';
 import { Button } from '@/shared/UIKit/Button/Button';
@@ -10,14 +11,23 @@ export const ResetVoting = ({ channelName }: ResetVotingProps) => {
   const { counter } = useCountdown({ time: 3000 });
   const isCounter = counter > 0;
 
+  const { execute } = useAction(resetVotes);
+
   return (
-    <form action={resetVotes}>
-      <input type="hidden" name="channelName" defaultValue={channelName} />
-      <Button type="submit" variant="secondary" disabled={isCounter}>
+    <div>
+      <Button
+        variant="secondary"
+        disabled={isCounter}
+        onClick={() => {
+          execute({
+            channelName,
+          });
+        }}
+      >
         <span>
           {t('reset.button')} {isCounter && `(${counter})`}
         </span>
       </Button>
-    </form>
+    </div>
   );
 };
