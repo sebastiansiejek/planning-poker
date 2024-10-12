@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { useAction } from 'next-safe-action/hooks';
 import { useTransition } from 'react';
 
 import { ButtonIcon } from '@/shared/UIKit/Button/ButtonIcon/ButtonIcon';
@@ -14,6 +15,7 @@ export const PaperTrigger = ({ userId, memberRef }: PaperTriggerProps) => {
   const params = useParams();
   const { room } = useRoomContext();
   const roomId = params.room.toString();
+  const { execute } = useAction(triggerPaperThrowing);
 
   return (
     <ButtonIcon
@@ -25,7 +27,7 @@ export const PaperTrigger = ({ userId, memberRef }: PaperTriggerProps) => {
           const rect = memberRef.current?.getBoundingClientRect();
 
           if (rect && room?.currentUserId) {
-            await triggerPaperThrowing({
+            execute({
               channelName: roomId,
               targetUser: {
                 id: userId,
