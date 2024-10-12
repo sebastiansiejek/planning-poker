@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { useAction } from 'next-safe-action/hooks';
 import { useEffect, useMemo, useState } from 'react';
 
 import type { RoomProps } from '@/app/game/[...room]/types';
@@ -19,6 +20,7 @@ import { Heading } from '@/shared/UIKit/Heading/Heading';
 import { Paragraph } from '@/shared/UIKit/Paragraph/Paragraph';
 import { Paper } from '@/widgets/Alerts/ui/Paper/Paper';
 import type { TriggerPaperThrowingParams } from '@/widgets/Room/actions/alerts/triggerPaperThrowing';
+import { getGameVotes } from '@/widgets/Room/actions/getGameVotes';
 import { chunkMembers } from '@/widgets/Room/libs/chunkMembers/chunkMembers';
 import { useRoomContext } from '@/widgets/Room/model/RoomContext';
 import { CreateGameForm } from '@/widgets/Room/ui/CreateGameForm/CreateGameForm';
@@ -70,8 +72,23 @@ export default function Room({
       },
     });
   };
+  const gameId = activeGame?.id;
   const voteValue = room?.vote || '';
-  const areVotes = votes.length > 0;
+  // const areVotes = votes.length > 0;
+  const { execute: executeGetGameVote } = useAction(getGameVotes, {
+    onSuccess: ({ data }) => {
+      const gameVotes = data?.data.reduce((acc: Vote[], { vote, user }) => {
+        if (vote) {
+          acc.push({
+            userId: user.id,
+            value: vote,
+          });
+        }
+        return acc;
+      }, []);
+      if (gameVotes) setVotes(gameVotes);
+    },
+  });
 
   useEffect(() => {
     const pusherChannel = pusher.subscribe(roomId);
@@ -104,21 +121,6 @@ export default function Room({
         },
       );
 
-      // pusherChannel.bind(
-      //   PUSHER_EVENTS.SUBSCRIPTION_SUCCEEDED,
-      //   (initialMembers: PusherMembers) => {
-      //     const membersArray = Object.values(initialMembers.members);
-      //     setMembers(membersArray);
-      //     setMe(initialMembers.me);
-      //     dispatch({
-      //       type: 'SET_CURRENT_USER_ID',
-      //       payload: {
-      //         currentUserId: initialMembers.me.id,
-      //       },
-      //     });
-      //   },
-      // );
-
       pusherChannel.bind(
         PUSHER_EVENTS.MEMBER_ADDED,
         (newMember: PusherNewMember) => {
@@ -145,17 +147,10 @@ export default function Room({
         },
       );
 
-      pusherChannel.bind(
-        PUSHER_EVENTS.VOTED,
-        (data: { userId: string; value: string }) => {
-          const { userId } = data;
-          setVotedUserIds((oldVotedUsers) => [...oldVotedUsers, userId]);
-          setVotes((oldVotes) => {
-            const newVotes = oldVotes.filter((v) => v.userId !== userId);
-            return [...newVotes, data];
-          });
-        },
-      );
+      // pusherChannel.bind(PUSHER_EVENTS.VOTED, (data: { userId: string }) => {
+      //   const { userId } = data;
+      //   setVotedUserIds((oldVotedUsers) => [...oldVotedUsers, userId]);
+      // });
 
       pusherChannel.bind(PUSHER_EVENTS.SHOW_VOTES, (vote: Vote) => {
         setVotes((oldVotes) => {
@@ -172,6 +167,8 @@ export default function Room({
       });
 
       pusherChannel.bind(PUSHER_EVENTS.REVEAL_VOTES, async () => {
+        if (!gameId) return;
+        executeGetGameVote({ gameId });
         setIsRevealedCards(true);
       });
     }
@@ -222,8 +219,10 @@ export default function Room({
           <RoomTable
             channelName={roomId}
             voteValue={voteValue}
+            // TODO: uncomment when the game is started
+            // areVotes={areVotes}
             isRevealedCards={isRevealedCards}
-            areVotes={areVotes}
+            areVotes
           />
           <Members
             isRevealedCards={isRevealedCards}
