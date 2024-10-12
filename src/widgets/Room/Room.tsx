@@ -177,7 +177,7 @@ export default function Room({
       pusher.unsubscribe(roomId);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [roomId, pusher, userName]);
+  }, [roomId]);
 
   return (
     <Container>

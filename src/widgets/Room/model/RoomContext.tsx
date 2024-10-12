@@ -48,8 +48,13 @@ const roomReducer = (
   }
 };
 
-export const RoomProvider = ({ children }: PropsWithChildren) => {
-  const [room, dispatch] = useReducer(roomReducer, null);
+export const RoomProvider = ({
+  children,
+  currentUserId,
+}: PropsWithChildren<Pick<RoomContextType, 'currentUserId'>>) => {
+  const [room, dispatch] = useReducer(roomReducer, {
+    currentUserId,
+  });
   const defaultValue = useMemo(() => ({ room, dispatch }), [room]);
 
   return (

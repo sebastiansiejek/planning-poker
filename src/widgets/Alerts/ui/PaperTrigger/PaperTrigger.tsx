@@ -13,6 +13,7 @@ export const PaperTrigger = ({ userId, memberRef }: PaperTriggerProps) => {
   const [pendingNotification, startNotificationTransition] = useTransition();
   const params = useParams();
   const { room } = useRoomContext();
+  const roomId = params.room.toString();
 
   return (
     <ButtonIcon
@@ -25,7 +26,7 @@ export const PaperTrigger = ({ userId, memberRef }: PaperTriggerProps) => {
 
           if (rect && room?.currentUserId) {
             await triggerPaperThrowing({
-              channelName: `presence-${params.room}`,
+              channelName: roomId,
               targetUser: {
                 id: userId,
               },

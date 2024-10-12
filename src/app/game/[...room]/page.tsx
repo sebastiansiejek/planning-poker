@@ -35,12 +35,9 @@ export default async function Page({
   }
 
   const session = await getSession();
+  const userId = session?.user.id as string;
 
-  if (session) {
-    const {
-      user: { id: userId },
-    } = session;
-
+  if (session && userId) {
     await prisma.roomUser.upsert({
       create: {
         room: {
@@ -93,7 +90,7 @@ export default async function Page({
   });
 
   return (
-    <RoomProvider>
+    <RoomProvider currentUserId={userId}>
       <Room
         id={roomId}
         members={roomMembers.map(({ user }) => user)}
