@@ -2,27 +2,24 @@
 
 import { z } from 'zod';
 
+import { actionClient } from '@/shared/lib/safeAction';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { pusherServer } from '@/shared/pusher/lib/pusherServer';
 
-export const notifyUserByPusher = async (data: FormData) => {
-  const channelName = data.get('channelName') as string;
-  const userId = data.get('userId') as string;
-  const type = data.get('type') as string;
+const schema = z.object({
+  channelName: z.string(),
+  userId: z.string(),
+  type: z.string(),
+});
 
-  try {
-    z.object({
-      channelName: z.string(),
-      userId: z.string(),
-    }).parse({
-      channelName,
-      userId,
-    });
-
+export const notifyUserByPusher = actionClient
+  .schema(schema)
+  .action(async ({ parsedInput: { userId, channelName, type } }) => {
     await pusherServer.trigger(channelName, PUSHER_EVENTS.USER_ID(userId), {
       type,
     });
-  } catch (e) {
-    console.log(e);
-  }
-};
+
+    return {
+      success: true,
+    };
+  });
