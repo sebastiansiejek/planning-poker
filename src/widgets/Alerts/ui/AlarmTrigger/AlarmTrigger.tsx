@@ -11,6 +11,7 @@ export const AlarmTrigger = ({ userId }: AlarmTriggerProps) => {
   const t = useTranslations('Member');
   const [pendingNotification, startNotificationTransition] = useTransition();
   const params = useParams();
+  const roomId = params.room.toString();
 
   return (
     <ButtonIcon
@@ -20,7 +21,7 @@ export const AlarmTrigger = ({ userId }: AlarmTriggerProps) => {
       onClick={() => {
         startNotificationTransition(async () => {
           const formData = new FormData();
-          formData.append('channelName', `presence-${params.room}`);
+          formData.append('channelName', roomId);
           formData.append('userId', userId);
           formData.append('type', 'alarm');
           await notifyUserByPusher(formData);

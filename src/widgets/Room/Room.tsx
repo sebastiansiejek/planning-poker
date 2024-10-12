@@ -7,7 +7,6 @@ import { useEffect, useMemo, useState } from 'react';
 import type { RoomProps } from '@/app/game/[...room]/types';
 import useNotification from '@/shared/hooks/useNotification/useNotification';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
-import { getPusherUserId } from '@/shared/pusher/lib/getPusherUserId';
 import { pusherClient } from '@/shared/pusher/lib/pusherClient';
 import type {
   PusherMember,
@@ -74,6 +73,7 @@ export default function Room({
   };
   const gameId = activeGame?.id;
   const voteValue = room?.vote || '';
+  const currentUserId = room?.currentUserId || '';
   // const areVotes = votes.length > 0;
   const { execute: executeGetGameVote } = useAction(getGameVotes, {
     onSuccess: ({ data }) => {
@@ -92,10 +92,9 @@ export default function Room({
 
   useEffect(() => {
     const pusherChannel = pusher.subscribe(roomId);
-
     if (pusherChannel) {
       pusherChannel.bind(
-        PUSHER_EVENTS.USER_ID(getPusherUserId()),
+        PUSHER_EVENTS.USER_ID(currentUserId),
         async (data: PusherNotification) => {
           if (data.type === 'alarm') {
             notify(t('Member.notification.notice'));
@@ -177,7 +176,7 @@ export default function Room({
       pusher.unsubscribe(roomId);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [roomId]);
+  }, [roomId, currentUserId]);
 
   return (
     <Container>
