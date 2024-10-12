@@ -60,7 +60,6 @@ export const voting = actionClient
 
       await pusherServer.trigger(roomId, PUSHER_EVENTS.VOTED, {
         userId,
-        value,
       });
 
       return {
