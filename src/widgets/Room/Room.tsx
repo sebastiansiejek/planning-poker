@@ -31,8 +31,6 @@ import { VotingForm } from '@/widgets/Room/ui/VotingForm/VotingForm';
 
 export default function Room({
   id: roomId,
-  userName,
-  avatarUrl,
   name: roomName,
   members: initialMembers,
   activeGame,
@@ -40,14 +38,7 @@ export default function Room({
   const [members, setMembers] = useState<RoomProps['members']>(initialMembers);
   const [votes, setVotes] = useState<Vote[]>([]);
   const [me] = useState<PusherMember>();
-  const pusher = useMemo(
-    () =>
-      pusherClient({
-        name: userName,
-        avatarUrl,
-      }),
-    [userName, avatarUrl],
-  );
+  const pusher = useMemo(() => pusherClient(), []);
   const [votedUserIds, setVotedUserIds] = useState<string[]>([]);
   const [isRevealedCards, setIsRevealedCards] = useState(false);
   const meId = me?.id || '';
@@ -122,16 +113,13 @@ export default function Room({
 
       pusherChannel.bind(
         PUSHER_EVENTS.MEMBER_ADDED,
-        (newMember: PusherNewMember) => {
-          const {
-            info: { name, id, avatarUrl: userAvatarUrl },
-          } = newMember;
+        ({ name, id, avatarUrl: userAvatarUrl }: PusherNewMember) => {
           setMembers((oldMembers) => [
             ...oldMembers.filter((member) => member.id !== id),
             {
               name,
               id,
-              avatarUrl: userAvatarUrl,
+              image: userAvatarUrl,
             },
           ]);
         },
@@ -139,10 +127,8 @@ export default function Room({
 
       pusherChannel.bind(
         PUSHER_EVENTS.MEMBER_REMOVED,
-        (member: PusherNewMember) => {
-          setMembers((oldMembers) =>
-            oldMembers.filter((m) => m.id !== member.id),
-          );
+        ({ id }: PusherNewMember) => {
+          setMembers((oldMembers) => oldMembers.filter((m) => m.id !== id));
         },
       );
 

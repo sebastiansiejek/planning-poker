@@ -3,6 +3,8 @@ import { redirect } from 'next/navigation';
 import { UserModel } from '@/entities/user/model/UserModel';
 import { getSession } from '@/shared/auth/auth';
 import prisma from '@/shared/database/prisma';
+import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
+import { pusherServer } from '@/shared/pusher/lib/pusherServer';
 import { routes } from '@/shared/routes/routes';
 import { RoomProvider } from '@/widgets/Room/model/RoomContext';
 import Room from '@/widgets/Room/Room';
@@ -89,13 +91,18 @@ export default async function Page({
     },
   });
 
+  await pusherServer.trigger(roomId, PUSHER_EVENTS.MEMBER_ADDED, {
+    id: userId,
+    avatarUrl: session?.user.image || avatarUrl || '',
+    name: session?.user.name || '',
+  });
+
   return (
     <RoomProvider currentUserId={userId}>
       <Room
         id={roomId}
         members={roomMembers.map(({ user }) => user)}
         userName={userName}
-        avatarUrl={avatarUrl}
         name={name}
         activeGame={activeGame}
       />

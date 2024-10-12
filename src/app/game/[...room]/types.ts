@@ -16,7 +16,6 @@ type Game = Pick<
 export type RoomProps = {
   id: string;
   userName: string;
-  avatarUrl?: string;
   name: string;
   members: RoomMember[];
   activeGame: Game;

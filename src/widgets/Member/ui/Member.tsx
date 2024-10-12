@@ -11,7 +11,7 @@ import { MemberTooltip } from '@/widgets/Member/ui/MemberTooltip/MemberTooltip';
 import type { MemberProps } from '@/widgets/Room/ui/RoomMember/types';
 
 export const Member = ({
-  avatarUrl,
+  image,
   id,
   vote,
   isRevealedCards,
@@ -49,7 +49,7 @@ export const Member = ({
           <PaperTrigger userId={id} memberRef={ref} />
         </MemberTooltip>
       )}
-      <MemberAvatar avatarUrl={avatarUrl} isLoading={isLoading} />
+      <MemberAvatar image={image} isLoading={isLoading} />
       <MemberName name={name} isLoading={isLoading} />
     </div>
   );
