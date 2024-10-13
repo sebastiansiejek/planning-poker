@@ -38,8 +38,11 @@ export default async function Page({
   }
 
   const { name } = room;
-  const roomMembers = await roomUserApi.getRoomMembers(roomId);
-  const activeGame = await roomUserApi.getActiveRoomGame(roomId);
+  const [roomMembers, activeGame] = await Promise.all([
+    roomUserApi.getRoomMembers(roomId),
+    roomUserApi.getActiveRoomGame(roomId),
+  ]);
+
   const areVotes = activeGame?.id
     ? await roomUserApi.areVotes(activeGame.id)
     : false;
