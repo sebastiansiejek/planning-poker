@@ -132,10 +132,10 @@ export default function Room({
         },
       );
 
-      // pusherChannel.bind(PUSHER_EVENTS.VOTED, (data: { userId: string }) => {
-      //   const { userId } = data;
-      //   setVotedUserIds((oldVotedUsers) => [...oldVotedUsers, userId]);
-      // });
+      pusherChannel.bind(PUSHER_EVENTS.VOTED, (data: { userId: string }) => {
+        const { userId } = data;
+        setVotedUserIds((oldVotedUsers) => [...oldVotedUsers, userId]);
+      });
 
       pusherChannel.bind(PUSHER_EVENTS.SHOW_VOTES, (vote: Vote) => {
         setVotes((oldVotes) => {
