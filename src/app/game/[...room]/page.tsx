@@ -91,6 +91,12 @@ export default async function Page({
     },
   });
 
+  const areVotes = await prisma.userVote.count({
+    where: {
+      gameId: activeGame?.id,
+    },
+  });
+
   await pusherServer.trigger(roomId, PUSHER_EVENTS.MEMBER_ADDED, {
     id: userId,
     avatarUrl: session?.user.image || avatarUrl || '',
@@ -105,6 +111,7 @@ export default async function Page({
         userName={userName}
         name={name}
         activeGame={activeGame}
+        areVotes={areVotes > 0}
       />
     </RoomProvider>
   );

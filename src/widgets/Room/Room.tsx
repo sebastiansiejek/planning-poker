@@ -34,6 +34,7 @@ export default function Room({
   name: roomName,
   members: initialMembers,
   activeGame,
+  areVotes: initialAreVotes = false,
 }: RoomProps) {
   const [members, setMembers] = useState<RoomProps['members']>(initialMembers);
   const [votes, setVotes] = useState<Vote[]>([]);
@@ -41,6 +42,7 @@ export default function Room({
   const pusher = useMemo(() => pusherClient(), []);
   const [votedUserIds, setVotedUserIds] = useState<string[]>([]);
   const [isRevealedCards, setIsRevealedCards] = useState(false);
+  const [areVotes, setAreVotes] = useState(initialAreVotes);
   const meId = me?.id || '';
   const memberChunks = useMemo(
     () => chunkMembers(members.sort((a, b) => a.name.localeCompare(b.name))),
@@ -65,7 +67,6 @@ export default function Room({
   const gameId = activeGame?.id;
   const voteValue = room?.vote || '';
   const currentUserId = room?.currentUserId || '';
-  // const areVotes = votes.length > 0;
   const { execute: executeGetGameVote } = useAction(getGameVotes, {
     onSuccess: ({ data }) => {
       const gameVotes = data?.data.reduce((acc: Vote[], { vote, user }) => {
@@ -135,6 +136,7 @@ export default function Room({
       pusherChannel.bind(PUSHER_EVENTS.VOTED, (data: { userId: string }) => {
         const { userId } = data;
         setVotedUserIds((oldVotedUsers) => [...oldVotedUsers, userId]);
+        setAreVotes(true);
       });
 
       pusherChannel.bind(PUSHER_EVENTS.SHOW_VOTES, (vote: Vote) => {
@@ -205,9 +207,8 @@ export default function Room({
             channelName={roomId}
             voteValue={voteValue}
             // TODO: uncomment when the game is started
-            // areVotes={areVotes}
+            areVotes={areVotes}
             isRevealedCards={isRevealedCards}
-            areVotes
           />
           <Members
             isRevealedCards={isRevealedCards}

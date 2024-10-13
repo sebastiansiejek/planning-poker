@@ -19,4 +19,5 @@ export type RoomProps = {
   name: string;
   members: RoomMember[];
   activeGame: Game;
+  areVotes: boolean;
 };
