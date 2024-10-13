@@ -2,10 +2,10 @@ import { redirect } from 'next/navigation';
 
 import { UserModel } from '@/entities/user/model/UserModel';
 import { getSession } from '@/shared/auth/auth';
-import prisma from '@/shared/database/prisma';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { pusherServer } from '@/shared/pusher/lib/pusherServer';
 import { routes } from '@/shared/routes/routes';
+import { RoomApiService } from '@/widgets/Room/api/RoomApiService';
 import { RoomProvider } from '@/widgets/Room/model/RoomContext';
 import Room from '@/widgets/Room/Room';
 
@@ -16,17 +16,11 @@ export default async function Page({
     room: string[];
   };
 }) {
+  const roomUserApi = new RoomApiService();
   const userName = UserModel.getUserName();
   const avatarUrl = UserModel.getAvatarUrl();
   const roomId = params.room.toString();
-  const room = await prisma.room.findUnique({
-    select: {
-      name: true,
-    },
-    where: {
-      id: roomId,
-    },
-  });
+  const room = await roomUserApi.getRoomName(roomId);
 
   if (!room) {
     return redirect(routes.game.getPath());
@@ -40,62 +34,15 @@ export default async function Page({
   const userId = session?.user.id as string;
 
   if (session && userId) {
-    await prisma.roomUser.upsert({
-      create: {
-        room: {
-          connect: {
-            id: roomId,
-          },
-        },
-        user: {
-          connect: {
-            id: userId,
-          },
-        },
-      },
-      update: {},
-      where: {
-        roomId_userId: {
-          roomId,
-          userId,
-        },
-      },
-    });
+    await roomUserApi.addUserToRoom(userId, roomId);
   }
 
   const { name } = room;
-  const roomMembers = await prisma.roomUser.findMany({
-    select: {
-      user: {
-        select: {
-          id: true,
-          name: true,
-          image: true,
-        },
-      },
-    },
-    where: {
-      roomId,
-    },
-  });
-
-  const activeGame = await prisma.game.findFirst({
-    select: {
-      id: true,
-      name: true,
-      description: true,
-    },
-    where: {
-      roomId,
-      status: 'STARTED',
-    },
-  });
-
-  const areVotes = await prisma.userVote.count({
-    where: {
-      gameId: activeGame?.id,
-    },
-  });
+  const roomMembers = await roomUserApi.getRoomMembers(roomId);
+  const activeGame = await roomUserApi.getActiveRoomGame(roomId);
+  const areVotes = activeGame?.id
+    ? await roomUserApi.areVotes(activeGame.id)
+    : false;
 
   await pusherServer.trigger(roomId, PUSHER_EVENTS.MEMBER_ADDED, {
     id: userId,
@@ -111,7 +58,7 @@ export default async function Page({
         userName={userName}
         name={name}
         activeGame={activeGame}
-        areVotes={areVotes > 0}
+        areVotes={areVotes}
       />
     </RoomProvider>
   );
