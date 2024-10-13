@@ -15,7 +15,7 @@ const schema = z.object({
 export const leftGame = actionClient
   .schema(schema)
   .action(async ({ parsedInput: { channelId, userId } }) => {
-    prisma.roomUser.delete({
+    await prisma.roomUser.delete({
       where: {
         roomId_userId: {
           roomId: channelId,
@@ -23,6 +23,7 @@ export const leftGame = actionClient
         },
       },
     });
+
     await pusherServer.trigger(channelId, PUSHER_EVENTS.MEMBER_REMOVED, {
       id: userId,
     });

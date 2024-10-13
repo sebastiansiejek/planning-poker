@@ -3,6 +3,7 @@
 import { useRef, useState } from 'react';
 
 import { AlarmTrigger } from '@/widgets/Alerts/ui/AlarmTrigger/AlarmTrigger';
+import { KickUser } from '@/widgets/Alerts/ui/KickUser/KickUser';
 import { PaperTrigger } from '@/widgets/Alerts/ui/PaperTrigger/PaperTrigger';
 import { MemberAvatar } from '@/widgets/Member/ui/MemberAvatar/MemberAvatar';
 import { MemberCard } from '@/widgets/Member/ui/MemberCard/MemberCard';
@@ -47,6 +48,7 @@ export const Member = ({
         >
           <AlarmTrigger userId={id} />
           <PaperTrigger userId={id} memberRef={ref} />
+          <KickUser userId={id} />
         </MemberTooltip>
       )}
       <MemberAvatar image={image} isLoading={isLoading} />
