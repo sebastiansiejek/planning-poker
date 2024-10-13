@@ -34,15 +34,15 @@ export default function Room({
   name: roomName,
   members: initialMembers,
   activeGame,
-  areVotes: initialAreVotes = false,
+  initialVotes = [],
 }: RoomProps) {
   const [members, setMembers] = useState<RoomProps['members']>(initialMembers);
   const [votes, setVotes] = useState<Vote[]>([]);
   const [me] = useState<PusherMember>();
   const pusher = useMemo(() => pusherClient(), []);
-  const [votedUserIds, setVotedUserIds] = useState<string[]>([]);
+  const [votedUserIds, setVotedUserIds] = useState<string[]>(initialVotes);
   const [isRevealedCards, setIsRevealedCards] = useState(false);
-  const [areVotes, setAreVotes] = useState(initialAreVotes);
+  const [areVotes, setAreVotes] = useState(!!initialVotes);
   const meId = me?.id || '';
   const memberChunks = useMemo(
     () => chunkMembers(members.sort((a, b) => a.name.localeCompare(b.name))),

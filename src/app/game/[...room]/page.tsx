@@ -16,11 +16,11 @@ export default async function Page({
     room: string[];
   };
 }) {
-  const roomUserApi = new RoomApiService();
+  const roomApi = new RoomApiService();
   const userName = UserModel.getUserName();
   const avatarUrl = UserModel.getAvatarUrl();
   const roomId = params.room.toString();
-  const room = await roomUserApi.getRoomName(roomId);
+  const room = await roomApi.getRoomName(roomId);
 
   if (!room) {
     return redirect(routes.game.getPath());
@@ -34,18 +34,16 @@ export default async function Page({
   const userId = session?.user.id as string;
 
   if (session && userId) {
-    await roomUserApi.addUserToRoom(userId, roomId);
+    await roomApi.addUserToRoom(userId, roomId);
   }
 
   const { name } = room;
   const [roomMembers, activeGame] = await Promise.all([
-    roomUserApi.getRoomMembers(roomId),
-    roomUserApi.getActiveRoomGame(roomId),
+    roomApi.getRoomMembers(roomId),
+    roomApi.getActiveRoomGame(roomId),
   ]);
 
-  const areVotes = activeGame?.id
-    ? await roomUserApi.areVotes(activeGame.id)
-    : false;
+  const votes = activeGame ? await roomApi.getVotedUsers(activeGame.id) : [];
 
   await pusherServer.trigger(roomId, PUSHER_EVENTS.MEMBER_ADDED, {
     id: userId,
@@ -61,7 +59,7 @@ export default async function Page({
         userName={userName}
         name={name}
         activeGame={activeGame}
-        areVotes={areVotes}
+        initialVotes={votes.map(({ userId: votedUser }) => votedUser)}
       />
     </RoomProvider>
   );
