@@ -6,7 +6,7 @@ import { useEffect, useState, useTransition } from 'react';
 import { getGravatarUrl } from '@/shared/lib/gravatar/getGravatarUrl';
 import { Avatar, AvatarImage } from '@/shared/UIKit/Avatar/Avatar';
 import { Button } from '@/shared/UIKit/Button/Button';
-import { TextInput } from '@/shared/UIKit/TextInput/TextInput';
+import { Input } from '@/shared/UIKit/TextInput/TextInput';
 
 export const GravatarInput = () => {
   const t = useTranslations('Gravatar');
@@ -23,7 +23,7 @@ export const GravatarInput = () => {
   return (
     <div>
       <div className="flex gap-2">
-        <TextInput
+        <Input
           name="email"
           placeholder={t('email.placeholder')}
           onChange={(e) => setEmail(e.currentTarget.value)}

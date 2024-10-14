@@ -1,23 +1,26 @@
-import { Input } from '@headlessui/react';
+import type { InputHTMLAttributes } from 'react';
+import * as React from 'react';
+import { forwardRef } from 'react';
 
-import type { TextInputProps } from '@/shared/UIKit/TextInput/TextInput.types';
 import { renderClass } from '@/shared/utils/renderClass/renderClass';
 
-export const TextInput = (props: TextInputProps) => {
-  const { name } = props;
-  const { innerRef, errors, className, ...rest } = props;
+export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
 
-  return (
-    <Input
-      className={renderClass(
-        'border border-solid border-primary-500 p-2 w-full',
-        {
-          'border-red-500': errors?.[name],
-          [className || '']: className,
-        },
-      )}
-      ref={innerRef}
-      {...rest}
-    />
-  );
-};
+const Input = forwardRef<HTMLInputElement, InputProps>(
+  ({ className, type, ...props }, ref) => {
+    return (
+      <input
+        type={type}
+        className={renderClass(
+          'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+          className,
+        )}
+        ref={ref}
+        {...props}
+      />
+    );
+  },
+);
+Input.displayName = 'Input';
+
+export { Input };

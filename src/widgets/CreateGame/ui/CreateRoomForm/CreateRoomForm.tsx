@@ -8,7 +8,7 @@ import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { routes } from '@/shared/routes/routes';
 import { Button } from '@/shared/UIKit/Button/Button';
 import { FormField } from '@/shared/UIKit/Form/FormField/FormField';
-import { TextInput } from '@/shared/UIKit/TextInput/TextInput';
+import { Input } from '@/shared/UIKit/TextInput/TextInput';
 import type { CreateOrJoinToRoomParams } from '@/widgets/Room/actions/createRoom';
 import { createRoom } from '@/widgets/Room/actions/createRoom';
 
@@ -50,11 +50,11 @@ export const CreateRoomForm = () => {
           render={({ field: { ref, ...field } }) => {
             return (
               <FormField name="name" label={t('inputName.label')}>
-                <TextInput
+                <Input
                   placeholder={t('inputName.placeholder')}
                   data-testid="game-name"
                   required
-                  innerRef={ref}
+                  ref={ref}
                   autoFocus
                   autoComplete="off"
                   {...field}
