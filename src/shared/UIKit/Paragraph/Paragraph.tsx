@@ -6,5 +6,9 @@ export const Paragraph = ({
 }: PropsWithChildren & {
   htmlAttributes?: HTMLAttributes<HTMLParagraphElement>;
 }) => {
-  return <p {...htmlAttributes}>{children}</p>;
+  return (
+    <p className="leading-7 [&:not(:first-child)]:mt-6" {...htmlAttributes}>
+      {children}
+    </p>
+  );
 };
