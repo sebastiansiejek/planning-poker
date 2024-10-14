@@ -51,7 +51,7 @@ export const Member = ({
           <KickUser userId={id} />
         </MemberTooltip>
       )}
-      <MemberAvatar image={image} isLoading={isLoading} />
+      <MemberAvatar image={image} />
       <MemberName name={name} isLoading={isLoading} />
     </div>
   );

@@ -1,12 +1,14 @@
-import { Avatar } from '@/shared/UIKit/Avatar/Avatar';
+import { Avatar, AvatarImage } from '@/shared/UIKit/Avatar/Avatar';
 import type { MemberAvatarProps } from '@/widgets/Member/ui/MemberAvatar/types';
 
-export const MemberAvatar = ({ image, isLoading }: MemberAvatarProps) => {
-  if (!image && !isLoading) return null;
+export const MemberAvatar = ({ image }: MemberAvatarProps) => {
+  if (!image) return null;
 
   return (
     <div className="mt-2">
-      <Avatar url={image as string} size={40} isLoading={isLoading} />
+      <Avatar>
+        <AvatarImage src={image as string} height={40} />
+      </Avatar>
     </div>
   );
 };
