@@ -28,12 +28,19 @@ export const createRoom = actionClient
     }
 
     try {
-      await prisma.room.create({
+      const room = await prisma.room.create({
         data: {
           name,
           authorId,
         },
       });
+
+      revalidatePath(routes.dashboard.getPath());
+
+      return {
+        success: true,
+        data: room,
+      };
     } catch (error) {
       const typedError = error as PrismaClientKnownRequestError;
       return {
@@ -43,12 +50,6 @@ export const createRoom = actionClient
         },
       };
     }
-
-    revalidatePath(routes.dashboard.getPath());
-
-    return {
-      success: true,
-    };
   });
 
 export type CreateOrJoinToRoomParams = z.infer<typeof schema>;

@@ -22,7 +22,7 @@ export const CreateRoomForm = () => {
   });
   const { handleSubmit, setError, control } = form;
   const { execute, isPending } = useAction(createRoom, {
-    onSuccess: ({ data, input: { name } }) => {
+    onSuccess: ({ data }) => {
       if (data?.error) {
         if (data.error.code === 'P2002') {
           setError('name', {
@@ -30,8 +30,8 @@ export const CreateRoomForm = () => {
           });
         }
       }
-      if (data?.success) {
-        push(routes.game.singleGame.getPath(name));
+      if (data?.success && data.data) {
+        push(routes.game.singleGame.getPath(data.data.id));
       }
     },
   });
