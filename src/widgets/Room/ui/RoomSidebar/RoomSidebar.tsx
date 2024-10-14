@@ -17,7 +17,7 @@ export const RoomSidebar = ({ name, id }: Pick<RoomProps, 'id' | 'name'>) => {
       {game && (gameName || gameDescription) && (
         <div>
           {gameName && (
-            <Heading variant="h2" htmlAttributes={{ className: 'text-sm' }}>
+            <Heading variant="h2" htmlAttributes={{ className: 'border-none' }}>
               {gameName}
             </Heading>
           )}
