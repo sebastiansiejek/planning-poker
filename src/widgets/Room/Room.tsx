@@ -40,7 +40,7 @@ export default function Room({
   const pusher = useMemo(() => pusherClient(), []);
   const [votedUserIds, setVotedUserIds] = useState<string[]>(initialVotes);
   const [isRevealedCards, setIsRevealedCards] = useState(false);
-  const [areVotes, setAreVotes] = useState(initialVotes.length > 0);
+  const areVotes = votedUserIds.length > 0;
   const meId = me?.id || '';
   const memberChunks = useMemo(
     () => chunkMembers(members.sort((a, b) => a.name.localeCompare(b.name))),
@@ -144,7 +144,6 @@ export default function Room({
       pusherChannel.bind(PUSHER_EVENTS.VOTED, (data: { userId: string }) => {
         const { userId } = data;
         setVotedUserIds((oldVotedUsers) => [...oldVotedUsers, userId]);
-        setAreVotes(true);
       });
 
       pusherChannel.bind(PUSHER_EVENTS.SHOW_VOTES, (vote: Vote) => {
@@ -158,7 +157,6 @@ export default function Room({
         setVoteValue('');
         setVotes([]);
         setVotedUserIds([]);
-        setAreVotes(false);
         setIsRevealedCards(false);
         dispatch({
           type: 'SET_GAME',
