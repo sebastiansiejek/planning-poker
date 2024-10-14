@@ -67,15 +67,18 @@ export default function Room({
   const currentUserId = room?.currentUserId || '';
   const { execute: executeGetGameVote } = useAction(getGameVotes, {
     onSuccess: ({ data }) => {
-      const gameVotes = data?.data.reduce((acc: Vote[], { vote, user }) => {
-        if (vote) {
-          acc.push({
-            userId: user.id,
-            value: vote,
-          });
-        }
-        return acc;
-      }, []);
+      const gameVotes = data?.data.gameVotes.reduce(
+        (acc: Vote[], { vote, user }) => {
+          if (vote) {
+            acc.push({
+              userId: user.id,
+              value: vote,
+            });
+          }
+          return acc;
+        },
+        [],
+      );
       if (gameVotes) setVotes(gameVotes);
     },
   });

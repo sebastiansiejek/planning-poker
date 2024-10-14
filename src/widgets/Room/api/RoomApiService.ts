@@ -96,4 +96,15 @@ export class RoomApiService extends BasePrismaService {
       },
     });
   }
+
+  async finishGame(gameId: string) {
+    return this.prisma.game.update({
+      data: {
+        status: 'FINISHED',
+      },
+      where: {
+        id: gameId,
+      },
+    });
+  }
 }
