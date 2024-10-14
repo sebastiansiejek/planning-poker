@@ -42,9 +42,11 @@ export const createGame = actionClient
         },
       });
 
-      await pusherServer.trigger(roomId, PUSHER_EVENTS.GAME_CREATED, {
-        data,
-      });
+      if (data) {
+        await pusherServer.trigger(roomId, PUSHER_EVENTS.GAME_CREATED, {
+          data,
+        });
+      }
 
       return {
         success: true,
