@@ -61,7 +61,7 @@ export const UserMenu = () => {
 
   if (!isLogged) {
     return (
-      <Button variant="text" onClick={() => signIn()}>
+      <Button variant="ghost" onClick={() => signIn()}>
         {translations('Common.signIn')}
       </Button>
     );
