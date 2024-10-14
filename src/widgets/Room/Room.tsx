@@ -159,6 +159,10 @@ export default function Room({
         setVotes([]);
         setVotedUserIds([]);
         setIsRevealedCards(false);
+        dispatch({
+          type: 'SET_GAME',
+          payload: undefined,
+        });
       });
 
       pusherChannel.bind(PUSHER_EVENTS.REVEAL_VOTES, async () => {
