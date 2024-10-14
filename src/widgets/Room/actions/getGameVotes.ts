@@ -13,16 +13,12 @@ export const getGameVotes = actionClient
   .schema(schema)
   .action(async ({ parsedInput: { gameId } }) => {
     const roomApiService = new RoomApiService();
-    const [gameVotes, finishedGame] = await Promise.all([
-      roomApiService.getGameVotes(gameId),
-      roomApiService.finishGame(gameId),
-    ]);
+    const gameVotes = await roomApiService.getGameVotes(gameId);
 
     return {
       success: true,
       data: {
         gameVotes,
-        finishedGame,
       },
     };
   });

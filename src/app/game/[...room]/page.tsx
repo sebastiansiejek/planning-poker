@@ -52,7 +52,11 @@ export default async function Page({
   });
 
   return (
-    <RoomProvider currentUserId={userId}>
+    <RoomProvider
+      currentUserId={userId}
+      gameId={activeGame?.id}
+      roomId={roomId}
+    >
       <Room
         id={roomId}
         members={roomMembers.map(({ user }) => user)}

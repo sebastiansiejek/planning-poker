@@ -190,9 +190,6 @@ export default function Room({
                 votes={votes}
               />
               <RoomTable
-                channelName={roomId}
-                voteValue={voteValue}
-                // TODO: uncomment when the game is started
                 areVotes={areVotes}
                 isRevealedCards={isRevealedCards}
               />
