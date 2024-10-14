@@ -1,7 +1,7 @@
+import { LogOut } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useAction } from 'next-safe-action/hooks';
-import { GiHighKick } from 'react-icons/gi';
 
 import { ButtonIcon } from '@/shared/UIKit/Button/ButtonIcon/ButtonIcon';
 import { leftGame } from '@/widgets/Room/actions/leftGame';
@@ -20,7 +20,7 @@ export const KickUser = ({ userId }: { userId: string }) => {
       onClick={() => {
         execute({ userId, channelId: roomId });
       }}
-      icon={<GiHighKick />}
+      icon={<LogOut />}
     />
   );
 };

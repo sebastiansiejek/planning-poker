@@ -1,7 +1,9 @@
 'use client';
 
+import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import { MdDarkMode, MdOutlineDarkMode } from 'react-icons/md';
+
+const ICON_SIZE = 14;
 
 export const ThemeSwitcher = () => {
   const { resolvedTheme, setTheme } = useTheme();
@@ -14,7 +16,11 @@ export const ThemeSwitcher = () => {
         setTheme(resolvedTheme === 'light' ? 'dark' : 'light');
       }}
     >
-      {resolvedTheme === 'light' ? <MdOutlineDarkMode /> : <MdDarkMode />}
+      {resolvedTheme === 'light' ? (
+        <Moon size={ICON_SIZE} />
+      ) : (
+        <Sun size={ICON_SIZE} />
+      )}
     </button>
   );
 };

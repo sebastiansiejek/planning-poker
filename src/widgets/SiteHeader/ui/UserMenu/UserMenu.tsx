@@ -7,13 +7,12 @@ import {
   MenuItem,
   MenuItems,
 } from '@headlessui/react';
+import type { LucideProps } from 'lucide-react';
+import { ArrowDown, LayoutDashboard, LogOut } from 'lucide-react';
 import Link from 'next/link';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
-import type { PropsWithChildren } from 'react';
-import type { IconType } from 'react-icons';
-import { IoIosArrowDown } from 'react-icons/io';
-import { MdOutlineDashboard, MdOutlineLogout } from 'react-icons/md';
+import type { FC, PropsWithChildren } from 'react';
 
 import { routes } from '@/shared/routes/routes';
 import { Button } from '@/shared/UIKit/Button/Button';
@@ -37,7 +36,7 @@ const MenuItemButton = ({
   Icon,
   onClick,
 }: PropsWithChildren<{
-  Icon?: IconType;
+  Icon?: FC<LucideProps>;
   onClick?: () => void;
 }>) => {
   return (
@@ -47,7 +46,7 @@ const MenuItemButton = ({
         className="w-full text-left flex items-center gap-2 dark:data-[focus]:bg-gray-700 data-[focus]:bg-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700 p-2 rounded-md text-sm"
         onClick={onClick}
       >
-        {Icon && <Icon />}
+        {Icon && <Icon size={16} />}
         {children}
       </ButtonHeadlessUI>
     </MenuItem>
@@ -73,7 +72,10 @@ export const UserMenu = () => {
         {({ active }) => (
           <>
             <UserName />
-            <IoIosArrowDown className={active ? 'transform rotate-180' : ''} />
+            <ArrowDown
+              className={active ? 'transform rotate-180' : ''}
+              size={16}
+            />
           </>
         )}
       </MenuButton>
@@ -82,11 +84,11 @@ export const UserMenu = () => {
         className="bg-gray-100 dark:bg-gray-800 w-56 mt-4 p-1"
       >
         <Link href={routes.dashboard.getPath()}>
-          <MenuItemButton Icon={MdOutlineDashboard}>
+          <MenuItemButton Icon={LayoutDashboard}>
             {translations('UserMenu.dashboard')}
           </MenuItemButton>
         </Link>
-        <MenuItemButton Icon={MdOutlineLogout} onClick={() => signOut()}>
+        <MenuItemButton Icon={LogOut} onClick={() => signOut()}>
           {translations('UserMenu.logout')}
         </MenuItemButton>
       </MenuItems>

@@ -1,7 +1,7 @@
+import { Bell } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useAction } from 'next-safe-action/hooks';
-import { MdNotificationsNone } from 'react-icons/md';
 
 import { ButtonIcon } from '@/shared/UIKit/Button/ButtonIcon/ButtonIcon';
 import type { AlarmTriggerProps } from '@/widgets/Alerts/ui/AlarmTrigger/types';
@@ -21,7 +21,7 @@ export const AlarmTrigger = ({ userId }: AlarmTriggerProps) => {
       onClick={() => {
         execute({ userId, channelName: roomId, type: 'alarm' });
       }}
-      icon={<MdNotificationsNone />}
+      icon={<Bell />}
     />
   );
 };

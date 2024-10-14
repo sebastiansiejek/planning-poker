@@ -1,6 +1,6 @@
+import { Gamepad, Home } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
-import { FaGamepad, FaHome } from 'react-icons/fa';
 
 import { routes } from '@/shared/routes/routes';
 
@@ -12,12 +12,12 @@ export const useNavbarItems = () => {
       {
         label: translate('home'),
         href: routes.home.getPath(),
-        icon: <FaHome />,
+        icon: <Home size={16} />,
       },
       {
         label: translate('createGame'),
         href: routes.game.getPath(),
-        icon: <FaGamepad />,
+        icon: <Gamepad size={16} />,
       },
     ],
     [translate],
