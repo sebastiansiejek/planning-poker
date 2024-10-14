@@ -1,12 +1,12 @@
 'use server';
 
 import type { PrismaClientKnownRequestError } from '@prisma/client/runtime/binary';
-import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
 import prisma from '@/shared/database/prisma';
 import { actionClient } from '@/shared/lib/safeAction';
-import { routes } from '@/shared/routes/routes';
+import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
+import { pusherServer } from '@/shared/pusher/lib/pusherServer';
 
 const schema = z.object({
   roomId: z.string(),
@@ -42,7 +42,9 @@ export const createGame = actionClient
         },
       });
 
-      revalidatePath(routes.game.singleGame.getPath(roomId));
+      await pusherServer.trigger(roomId, PUSHER_EVENTS.GAME_CREATED, {
+        data,
+      });
 
       return {
         success: true,

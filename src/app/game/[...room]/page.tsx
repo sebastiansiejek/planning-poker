@@ -54,7 +54,7 @@ export default async function Page({
   return (
     <RoomProvider
       currentUserId={userId}
-      gameId={activeGame?.id}
+      game={activeGame || undefined}
       roomId={roomId}
     >
       <Room
@@ -62,7 +62,6 @@ export default async function Page({
         members={roomMembers.map(({ user }) => user)}
         userName={userName}
         name={name}
-        activeGame={activeGame}
         initialVotes={votes.map(({ userId: votedUser }) => votedUser)}
       />
     </RoomProvider>

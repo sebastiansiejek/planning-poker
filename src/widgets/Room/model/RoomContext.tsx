@@ -1,13 +1,14 @@
 'use client';
 
+import type { Game } from '@prisma/client';
 import type { Dispatch, PropsWithChildren } from 'react';
 import { createContext, useContext, useMemo, useReducer } from 'react';
 
-type RoomContextType = {
+export type RoomContextType = {
   currentUserId?: string;
   vote?: string;
-  gameId?: string;
   roomId?: string;
+  game?: Pick<Game, 'id' | 'name' | 'description'>;
 };
 
 type Action =
@@ -20,6 +21,10 @@ type Action =
       payload: {
         value: string;
       };
+    }
+  | {
+      type: 'SET_GAME';
+      payload: RoomContextType['game'];
     };
 
 export const RoomContext = createContext<{
@@ -45,6 +50,11 @@ const roomReducer = (
         ...state,
         vote: action.payload.value,
       };
+    case 'SET_GAME':
+      return {
+        ...state,
+        game: action.payload,
+      };
     default:
       return state;
   }
@@ -53,15 +63,15 @@ const roomReducer = (
 export const RoomProvider = ({
   children,
   currentUserId,
-  gameId,
   roomId,
+  game,
 }: PropsWithChildren<
-  Pick<RoomContextType, 'currentUserId' | 'gameId' | 'roomId'>
+  Pick<RoomContextType, 'currentUserId' | 'roomId' | 'game'>
 >) => {
   const [room, dispatch] = useReducer(roomReducer, {
     currentUserId,
-    gameId,
     roomId,
+    game,
   });
   const defaultValue = useMemo(() => ({ room, dispatch }), [room]);
 

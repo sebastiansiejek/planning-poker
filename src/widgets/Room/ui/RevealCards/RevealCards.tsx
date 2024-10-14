@@ -9,7 +9,7 @@ export const RevealCards = () => {
   const t = useTranslations('Room');
   const { execute, isPending } = useAction(revealCards);
   const { room } = useRoomContext();
-  const gameId = room?.gameId as string;
+  const gameId = room?.game?.id as string;
   const roomId = room?.roomId as string;
 
   return (

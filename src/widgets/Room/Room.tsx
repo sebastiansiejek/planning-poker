@@ -19,6 +19,7 @@ import { Paper } from '@/widgets/Alerts/ui/Paper/Paper';
 import type { TriggerPaperThrowingParams } from '@/widgets/Room/actions/alerts/triggerPaperThrowing';
 import { getGameVotes } from '@/widgets/Room/actions/getGameVotes';
 import { chunkMembers } from '@/widgets/Room/libs/chunkMembers/chunkMembers';
+import type { RoomContextType } from '@/widgets/Room/model/RoomContext';
 import { useRoomContext } from '@/widgets/Room/model/RoomContext';
 import { GameContainer } from '@/widgets/Room/ui/Game/GameContainer/GameContainer';
 import { Members } from '@/widgets/Room/ui/Members/Members';
@@ -31,7 +32,6 @@ export default function Room({
   id: roomId,
   name: roomName,
   members: initialMembers,
-  activeGame,
   initialVotes = [],
 }: RoomProps) {
   const [members, setMembers] = useState<RoomProps['members']>(initialMembers);
@@ -54,12 +54,19 @@ export default function Room({
     Pick<TriggerPaperThrowingParams, 'triggerUser' | 'targetUser'>[]
   >([]);
   const { dispatch, room } = useRoomContext();
+  const activeGame = room?.game;
   const setVoteValue = (value: string) => {
     dispatch({
       type: 'SET_VOTE',
       payload: {
         value,
       },
+    });
+  };
+  const setActiveGame = (game: RoomContextType['game']) => {
+    dispatch({
+      type: 'SET_GAME',
+      payload: game,
     });
   };
   const gameId = activeGame?.id;
@@ -159,6 +166,13 @@ export default function Room({
         executeGetGameVote({ gameId });
         setIsRevealedCards(true);
       });
+
+      pusherChannel.bind(
+        PUSHER_EVENTS.GAME_CREATED,
+        async ({ data }: { data: RoomContextType['game'] }) => {
+          setActiveGame(data);
+        },
+      );
     }
 
     return () => {
@@ -171,7 +185,7 @@ export default function Room({
     <>
       <Container>
         <div className="grid lg:grid-cols-[1fr_3fr] gap-8">
-          <RoomSidebar id={roomId} activeGame={activeGame} name={roomName} />
+          <RoomSidebar id={roomId} name={roomName} />
           <div className="flex items-center justify-center flex-col lg:p-4">
             <GameContainer>
               <Members
@@ -209,7 +223,7 @@ export default function Room({
                 votes={votes}
               />
             </GameContainer>
-            {activeGame?.id && (
+            {activeGame && (
               <VotingForm
                 roomId={roomId}
                 voteValue={voteValue}

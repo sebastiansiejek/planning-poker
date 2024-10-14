@@ -8,16 +8,10 @@ export type RoomMember = Pick<
   'id' | 'name' | 'image'
 >;
 
-type Game = Pick<
-  Args<typeof prisma.game, 'create'>['data'],
-  'id' | 'name' | 'description'
-> | null;
-
 export type RoomProps = {
   id: string;
   userName: string;
   name: string;
   members: RoomMember[];
-  activeGame: Game;
   initialVotes: string[];
 };
