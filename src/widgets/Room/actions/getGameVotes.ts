@@ -2,8 +2,8 @@
 
 import { z } from 'zod';
 
-import prisma from '@/shared/database/prisma';
 import { actionClient } from '@/shared/lib/safeAction';
+import { RoomApiService } from '@/widgets/Room/api/RoomApiService';
 
 const schema = z.object({
   gameId: z.string(),
@@ -12,19 +12,8 @@ const schema = z.object({
 export const getGameVotes = actionClient
   .schema(schema)
   .action(async ({ parsedInput: { gameId } }) => {
-    const data = await prisma.userVote.findMany({
-      select: {
-        vote: true,
-        user: {
-          select: {
-            id: true,
-          },
-        },
-      },
-      where: {
-        gameId,
-      },
-    });
+    const roomApiService = new RoomApiService();
+    const data = await roomApiService.getGameVotes(gameId);
 
     return {
       success: true,

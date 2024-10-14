@@ -67,7 +67,7 @@ export class RoomApiService extends BasePrismaService {
     });
   }
 
-  getVotedUsers(gameId: string) {
+  async getVotedUsers(gameId: string) {
     return this.prisma.userVote.findMany({
       select: {
         userId: true,
@@ -77,6 +77,22 @@ export class RoomApiService extends BasePrismaService {
         vote: {
           not: undefined,
         },
+      },
+    });
+  }
+
+  async getGameVotes(gameId: string) {
+    return this.prisma.userVote.findMany({
+      select: {
+        vote: true,
+        user: {
+          select: {
+            id: true,
+          },
+        },
+      },
+      where: {
+        gameId,
       },
     });
   }
