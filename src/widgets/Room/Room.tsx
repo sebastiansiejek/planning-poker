@@ -15,16 +15,14 @@ import type {
 } from '@/shared/types/pusher/pusher';
 import type { Vote } from '@/shared/types/types';
 import { Container } from '@/shared/UIKit/Container/Container';
-import { Heading } from '@/shared/UIKit/Heading/Heading';
-import { Paragraph } from '@/shared/UIKit/Paragraph/Paragraph';
 import { Paper } from '@/widgets/Alerts/ui/Paper/Paper';
 import type { TriggerPaperThrowingParams } from '@/widgets/Room/actions/alerts/triggerPaperThrowing';
 import { getGameVotes } from '@/widgets/Room/actions/getGameVotes';
 import { chunkMembers } from '@/widgets/Room/libs/chunkMembers/chunkMembers';
 import { useRoomContext } from '@/widgets/Room/model/RoomContext';
-import { CreateGameForm } from '@/widgets/Room/ui/CreateGameForm/CreateGameForm';
 import { GameContainer } from '@/widgets/Room/ui/Game/GameContainer/GameContainer';
 import { Members } from '@/widgets/Room/ui/Members/Members';
+import { RoomSidebar } from '@/widgets/Room/ui/RoomSidebar/RoomSidebar';
 import { RoomTable } from '@/widgets/Room/ui/RoomTable/RoomTable';
 import { VotingAvg } from '@/widgets/Room/ui/VotingAvg/VotingAvg';
 import { VotingForm } from '@/widgets/Room/ui/VotingForm/VotingForm';
@@ -167,84 +165,73 @@ export default function Room({
   }, []);
 
   return (
-    <Container>
-      <Heading
-        variant="h1"
-        htmlAttributes={{
-          className: 'text-center',
-        }}
-      >
-        {roomName}
-      </Heading>
-      {!activeGame && <CreateGameForm roomId={roomId} />}
-      {/* TODO: separate */}
-      {activeGame && (activeGame.name || activeGame.description) && (
-        <div>
-          {activeGame.name && <Heading variant="h2">{activeGame.name}</Heading>}
-          {activeGame.description && (
-            <Paragraph>{activeGame.description}</Paragraph>
-          )}
+    <>
+      <Container>
+        <div className="grid lg:grid-cols-[1fr_3fr] gap-8">
+          <RoomSidebar id={roomId} activeGame={activeGame} name={roomName} />
+          <div className="flex items-center justify-center flex-col lg:p-4">
+            <GameContainer>
+              <Members
+                isRevealedCards={isRevealedCards}
+                votedUserIds={votedUserIds}
+                members={topMembers}
+                place="top"
+                votes={votes}
+              />
+              <Members
+                isRevealedCards={isRevealedCards}
+                votedUserIds={votedUserIds}
+                members={leftMembers}
+                place="left"
+                isVertical
+                votes={votes}
+              />
+              <RoomTable
+                channelName={roomId}
+                voteValue={voteValue}
+                // TODO: uncomment when the game is started
+                areVotes={areVotes}
+                isRevealedCards={isRevealedCards}
+              />
+              <Members
+                isRevealedCards={isRevealedCards}
+                votedUserIds={votedUserIds}
+                members={rightMembers}
+                place="right"
+                isVertical
+                votes={votes}
+              />
+              <Members
+                isRevealedCards={isRevealedCards}
+                votedUserIds={votedUserIds}
+                members={bottomMembers}
+                place="bottom"
+                votes={votes}
+              />
+            </GameContainer>
+            {activeGame?.id && (
+              <VotingForm
+                roomId={roomId}
+                voteValue={voteValue}
+                isRevealedCards={isRevealedCards}
+                meId={meId}
+                gameId={activeGame.id}
+              />
+            )}
+          </div>
         </div>
-      )}
-      <div className="flex items-center justify-center flex-col lg:p-4">
-        <GameContainer>
-          <Members
-            isRevealedCards={isRevealedCards}
-            votedUserIds={votedUserIds}
-            members={topMembers}
-            place="top"
-            votes={votes}
+      </Container>
+      <Container>
+        {isRevealedCards && <VotingAvg votes={votes} />}
+        {papers.map(({ targetUser, triggerUser }, index) => (
+          <Paper
+            // eslint-disable-next-line react/no-array-index-key
+            key={targetUser.id + index}
+            targetUser={targetUser}
+            triggerUser={triggerUser}
           />
-          <Members
-            isRevealedCards={isRevealedCards}
-            votedUserIds={votedUserIds}
-            members={leftMembers}
-            place="left"
-            isVertical
-            votes={votes}
-          />
-          <RoomTable
-            channelName={roomId}
-            voteValue={voteValue}
-            // TODO: uncomment when the game is started
-            areVotes={areVotes}
-            isRevealedCards={isRevealedCards}
-          />
-          <Members
-            isRevealedCards={isRevealedCards}
-            votedUserIds={votedUserIds}
-            members={rightMembers}
-            place="right"
-            isVertical
-            votes={votes}
-          />
-          <Members
-            isRevealedCards={isRevealedCards}
-            votedUserIds={votedUserIds}
-            members={bottomMembers}
-            place="bottom"
-            votes={votes}
-          />
-        </GameContainer>
-        {activeGame?.id && (
-          <VotingForm
-            roomId={roomId}
-            voteValue={voteValue}
-            isRevealedCards={isRevealedCards}
-            meId={meId}
-            gameId={activeGame.id}
-          />
-        )}
-      </div>
-      {isRevealedCards && <VotingAvg votes={votes} />}
-      {papers.map(({ targetUser, triggerUser }, index) => (
-        <Paper
-          // eslint-disable-next-line react/no-array-index-key
-          key={targetUser.id + index}
-          targetUser={targetUser}
-          triggerUser={triggerUser}
-        />
-      ))}
-    </Container>
+        ))}
+      </Container>
+    </>
   );
 }
