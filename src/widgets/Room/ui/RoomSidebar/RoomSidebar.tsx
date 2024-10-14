@@ -17,7 +17,11 @@ export const RoomSidebar = ({
       {!activeGame && <CreateGameForm roomId={id} />}
       {activeGame && (gameName || gameDescription) && (
         <div>
-          {gameName && <Heading variant="h2">{gameName}</Heading>}
+          {gameName && (
+            <Heading variant="h2" htmlAttributes={{ className: 'text-sm' }}>
+              {gameName}
+            </Heading>
+          )}
           {gameDescription && <Paragraph>{gameDescription}</Paragraph>}
         </div>
       )}
