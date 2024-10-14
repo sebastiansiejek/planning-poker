@@ -25,6 +25,9 @@ importers:
       "@prisma/client":
         specifier: 5.20.0
         version: 5.20.0
+      "@radix-ui/react-icons":
+        specifier: ^1.3.0
+        version: 1.3.0(react@18.3.1)
       "@sentry/nextjs":
         specifier: ^8
         version: 8.27.0(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.26.0(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.52.1(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.26.0(@opentelemetry/api@1.9.0))(next@14.2.15(@babel/core@7.24.6)(@opentelemetry/api@1.9.0)(@playwright/test@1.48.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(webpack@5.94.0)
@@ -40,6 +43,9 @@ importers:
       js-cookie:
         specifier: ^3.0.5
         version: 3.0.5
+      lucide-react:
+        specifier: ^0.452.0
+        version: 0.452.0(react@18.3.1)
       nanoid:
         specifier: ^5.0.7
         version: 5.0.7
@@ -200,6 +206,9 @@ importers:
       tailwindcss:
         specifier: ^3.4.13
         version: 3.4.13(ts-node@10.9.2(@types/node@20.14.2)(typescript@5.6.3))
+      tailwindcss-animate:
+        specifier: ^1.0.7
+        version: 1.0.7(tailwindcss@3.4.13(ts-node@10.9.2(@types/node@20.14.2)(typescript@5.6.3)))
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2(@types/node@20.14.2)(typescript@5.6.3)
@@ -1676,6 +1685,14 @@ packages:
     peerDependenciesMeta:
       typescript:
         optional: true
+
+  "@radix-ui/react-icons@1.3.0":
+    resolution:
+      {
+        integrity: sha512-jQxj/0LKgp+j9BiTXz3O3sgs26RNet2iLWmsPyRz2SIcR4q/4SbazXfnYwbAr+vLYKSfc7qxzyGQA1HLlYiuNw==,
+      }
+    peerDependencies:
+      react: ^16.x || ^17.x || ^18.x
 
   "@react-aria/focus@3.18.2":
     resolution:
@@ -6898,6 +6915,14 @@ packages:
       }
     engines: { node: ">=10" }
 
+  lucide-react@0.452.0:
+    resolution:
+      {
+        integrity: sha512-kNefjOUOGm+Mu3KDiryONyPba9r+nhcrz5oJs3N6JDzGboQNEXw5GB3yB8rnV9/FA4bPyggNU6CRSihZm9MvSw==,
+      }
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0-rc
+
   lz-string@1.5.0:
     resolution:
       {
@@ -9351,6 +9376,14 @@ packages:
         integrity: sha512-d9ZolCAIzom1nf/5p4LdD5zvjmgSxY0BGgdSvmXIoMYAiPdAW/dSpP7joCDYFY7r/HkEa2qmPtkgsu0xjQeQtw==,
       }
 
+  tailwindcss-animate@1.0.7:
+    resolution:
+      {
+        integrity: sha512-bl6mpH3T7I3UFxuvDEXLxy/VuFxBk5bbzplh7tXI68mwMokNYd1t9qPBHlnyTwfa4JGC4zP516I1hYYtQ/vspA==,
+      }
+    peerDependencies:
+      tailwindcss: ">=3.0.0 || insiders"
+
   tailwindcss@3.4.13:
     resolution:
       {
@@ -11401,6 +11434,10 @@ snapshots:
       typescript: 5.6.3
     transitivePeerDependencies:
       - supports-color
+
+  "@radix-ui/react-icons@1.3.0(react@18.3.1)":
+    dependencies:
+      react: 18.3.1
 
   "@react-aria/focus@3.18.2(react@18.3.1)":
     dependencies:
@@ -15104,6 +15141,10 @@ snapshots:
     dependencies:
       yallist: 4.0.0
 
+  lucide-react@0.452.0(react@18.3.1):
+    dependencies:
+      react: 18.3.1
+
   lz-string@1.5.0: {}
 
   magic-string@0.30.11:
@@ -16585,6 +16626,10 @@ snapshots:
   tabbable@6.2.0: {}
 
   tailwind-merge@2.5.3: {}
+
+  tailwindcss-animate@1.0.7(tailwindcss@3.4.13(ts-node@10.9.2(@types/node@20.14.2)(typescript@5.6.3))):
+    dependencies:
+      tailwindcss: 3.4.13(ts-node@10.9.2(@types/node@20.14.2)(typescript@5.6.3))
 
   tailwindcss@3.4.13(ts-node@10.9.2(@types/node@20.14.2)(typescript@5.6.3)):
     dependencies:

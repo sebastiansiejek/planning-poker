@@ -42,7 +42,7 @@ export default async function RootLayout({
       <body className={inter.className}>
         <SessionProvider session={session}>
           <NextIntlClientProvider messages={messages}>
-            <ThemeProvider>
+            <ThemeProvider attribute="class" disableTransitionOnChange>
               <div className="h-screen flex flex-col">
                 <SiteHeader />
                 {children}
