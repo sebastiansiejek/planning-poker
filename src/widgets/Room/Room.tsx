@@ -158,6 +158,7 @@ export default function Room({
         setVoteValue('');
         setVotes([]);
         setVotedUserIds([]);
+        setAreVotes(false);
         setIsRevealedCards(false);
         dispatch({
           type: 'SET_GAME',
