@@ -1,16 +1,10 @@
 'use client';
 
-import { Prisma } from '@prisma/client/extension';
+import type { Room } from '@prisma/client';
 
-import type prisma from '@/shared/database/prisma';
 import { UserGameRow } from '@/widgets/UserGames/ui/UserGameRow/UserGameRow';
-import Args = Prisma.Args;
 
-export const UserGames = ({
-  rooms,
-}: {
-  rooms: Args<typeof prisma.room, 'create'>['data'][];
-}) => {
+export const UserGames = ({ rooms }: { rooms: Room[] }) => {
   if (rooms.length === 0) {
     return null;
   }

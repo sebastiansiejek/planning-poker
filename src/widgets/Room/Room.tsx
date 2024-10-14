@@ -128,7 +128,7 @@ export default function Room({
             {
               name,
               id,
-              image: userAvatarUrl,
+              image: userAvatarUrl || null,
             },
           ]);
         },
