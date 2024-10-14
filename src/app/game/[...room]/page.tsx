@@ -1,6 +1,5 @@
 import { redirect } from 'next/navigation';
 
-import { UserModel } from '@/entities/user/model/UserModel';
 import { getSession } from '@/shared/auth/auth';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { pusherServer } from '@/shared/pusher/lib/pusherServer';
@@ -17,17 +16,11 @@ export default async function Page({
   };
 }) {
   const roomApi = new RoomApiService();
-  const userName = UserModel.getUserName();
-  const avatarUrl = UserModel.getAvatarUrl();
   const roomId = params.room.toString();
   const room = await roomApi.getRoomName(roomId);
 
   if (!room) {
     return redirect(routes.game.getPath());
-  }
-
-  if (!userName) {
-    return redirect(routes.login.getPath(roomId));
   }
 
   const session = await getSession();
@@ -47,7 +40,7 @@ export default async function Page({
 
   await pusherServer.trigger(roomId, PUSHER_EVENTS.MEMBER_ADDED, {
     id: userId,
-    avatarUrl: session?.user.image || avatarUrl || '',
+    avatarUrl: session?.user.image || '',
     name: session?.user.name || '',
   });
 
@@ -60,7 +53,6 @@ export default async function Page({
       <Room
         id={roomId}
         members={roomMembers.map(({ user }) => user)}
-        userName={userName}
         name={name}
         initialVotes={votes.map(({ userId: votedUser }) => votedUser)}
       />

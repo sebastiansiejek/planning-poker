@@ -9,7 +9,7 @@ export const routes = {
     },
   },
   login: {
-    getPath: (room?: string) => `/login${room ? `?room=${room}` : ''}`,
+    getPath: () => '/api/auth/signin',
   },
   dashboard: {
     getPath: () => '/dashboard',
