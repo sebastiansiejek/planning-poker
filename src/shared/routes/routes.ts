@@ -3,9 +3,11 @@ export const routes = {
     getPath: () => '/',
   },
   game: {
-    getPath: () => '/game',
+    create: {
+      getPath: () => `/game/create`,
+    },
     singleGame: {
-      getPath: (gameId: string) => `${routes.game.getPath()}/${gameId}`,
+      getPath: (gameId: string) => `/game/${gameId}`,
     },
   },
   login: {

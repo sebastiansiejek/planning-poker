@@ -20,7 +20,7 @@ export default async function Page({
   const room = await roomApi.getRoomName(roomId);
 
   if (!room) {
-    return redirect(routes.game.getPath());
+    return redirect(routes.game.create.getPath());
   }
 
   const session = await getSession();

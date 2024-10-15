@@ -16,7 +16,7 @@ export const useNavbarItems = () => {
       },
       {
         label: translate('createGame'),
-        href: routes.game.getPath(),
+        href: routes.game.create.getPath(),
         icon: <Gamepad size={16} />,
       },
     ],
