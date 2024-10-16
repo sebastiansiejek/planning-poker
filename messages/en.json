@@ -1,6 +1,7 @@
 {
   "Common": {
-    "signIn": "Sign in"
+    "signIn": "Sign in",
+    "or": "or"
   },
   "Meta": {
     "description": "Planning Poker is a fun way to estimate tasks in a team."
@@ -15,7 +16,13 @@
       "placeholder": "Enter game name"
     },
     "create": {
-      "label": "Create game"
+      "label": "Create a game"
+    },
+    "join": {
+      "label": "Join to the game"
+    },
+    "inputId": {
+      "label": "Room ID"
     },
     "errors": {
       "P2002": "You are already created a room with this name"

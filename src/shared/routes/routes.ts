@@ -6,6 +6,9 @@ export const routes = {
     create: {
       getPath: () => `/game/create`,
     },
+    join: {
+      getPath: () => `/game/join`,
+    },
     singleGame: {
       getPath: (gameId: string) => `/game/${gameId}`,
     },

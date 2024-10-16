@@ -7,6 +7,7 @@ import { Controller, FormProvider, useForm } from 'react-hook-form';
 
 import { routes } from '@/shared/routes/routes';
 import { Button } from '@/shared/UIKit/Button/Button';
+import { Container } from '@/shared/UIKit/Container/Container';
 import { FormField } from '@/shared/UIKit/Form/FormField/FormField';
 import { Input } from '@/shared/UIKit/TextInput/TextInput';
 import type { CreateOrJoinToRoomParams } from '@/widgets/Room/actions/createRoom';
@@ -37,40 +38,42 @@ export const CreateRoomForm = () => {
   });
 
   return (
-    <FormProvider {...form}>
-      <form
-        onSubmit={handleSubmit(({ name }) => {
-          execute({ name });
-        })}
-        className="flex flex-col gap-6 justify-center items-center h-svh p-8 w-96 mx-auto"
-      >
-        <Controller
-          name="name"
-          control={control}
-          render={({ field: { ref, ...field } }) => {
-            return (
-              <FormField name="name" label={t('inputName.label')}>
-                <Input
-                  placeholder={t('inputName.placeholder')}
-                  data-testid="game-name"
-                  required
-                  ref={ref}
-                  autoFocus
-                  autoComplete="off"
-                  {...field}
-                />
-              </FormField>
-            );
-          }}
-        />
-        <Button
-          type="submit"
-          data-testid="create-game-submit"
-          isLoading={isPending}
+    <Container>
+      <FormProvider {...form}>
+        <form
+          onSubmit={handleSubmit(({ name }) => {
+            execute({ name });
+          })}
+          className="flex flex-col gap-6 justify-center items-center h-svh w-96 mx-auto"
         >
-          {t('create.label')}
-        </Button>
-      </form>
-    </FormProvider>
+          <Controller
+            name="name"
+            control={control}
+            render={({ field: { ref, ...field } }) => {
+              return (
+                <FormField name="name" label={t('inputName.label')}>
+                  <Input
+                    placeholder={t('inputName.placeholder')}
+                    data-testid="game-name"
+                    required
+                    ref={ref}
+                    autoFocus
+                    autoComplete="off"
+                    {...field}
+                  />
+                </FormField>
+              );
+            }}
+          />
+          <Button
+            type="submit"
+            data-testid="create-game-submit"
+            isLoading={isPending}
+          >
+            {t('create.label')}
+          </Button>
+        </form>
+      </FormProvider>
+    </Container>
   );
 };

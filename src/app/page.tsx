@@ -14,9 +14,13 @@ export default async function Home() {
         <p className="text-balance whitespace-pre-line">
           {t('Homepage.description')}
         </p>
-        <div className="mt-2">
+        <div className="flex items-center gap-4 mt-2 ">
           <Link href={routes.game.create.getPath()}>
             <Button data-testid="go-to-game">{t('Game.create.label')}</Button>
+          </Link>
+          <span>{t('Common.or')}</span>
+          <Link href={routes.game.join.getPath()}>
+            <Button data-testid="join-to-game">{t('Game.join.label')}</Button>
           </Link>
         </div>
       </div>
