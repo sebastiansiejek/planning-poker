@@ -13,7 +13,10 @@
   "Game": {
     "inputName": {
       "label": "Name",
-      "placeholder": "Enter game name"
+      "placeholder": "Enter game name",
+      "error": {
+        "required": "Name is required"
+      }
     },
     "create": {
       "label": "Create a game"
@@ -22,7 +25,10 @@
       "label": "Join to the game"
     },
     "inputId": {
-      "label": "Room ID"
+      "label": "Room ID",
+      "error": {
+        "required": "Room ID is required"
+      }
     },
     "errors": {
       "P2002": "You are already created a room with this name"
