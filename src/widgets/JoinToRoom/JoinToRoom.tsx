@@ -3,6 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { useAction } from 'next-safe-action/hooks';
 import { FormProvider, useForm } from 'react-hook-form';
 import z from 'zod';
 
@@ -17,29 +18,46 @@ import {
 } from '@/shared/UIKit/Form/ui';
 import { FormField } from '@/shared/UIKit/Form/ui/FormField/FormField';
 import { Input } from '@/shared/UIKit/TextInput/TextInput';
+import { joinToRoomValidator } from '@/widgets/Room/actions/joinToRoomValidator';
 
 export const JoinToRoom = () => {
   const translate = useTranslations('Game');
-  const formSchema = z.object({
-    id: z.string().min(1, {
-      message: translate('inputId.error.required'),
-    }),
-  });
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(
+      z.object({
+        id: z.string().min(1, {
+          message: translate('inputId.error.required'),
+        }),
+      }),
+    ),
     defaultValues: {
       id: '',
     },
   });
-  const { handleSubmit } = form;
+  const { handleSubmit, setError, setValue } = form;
   const { push } = useRouter();
+  const { execute } = useAction(joinToRoomValidator, {
+    onSuccess: ({ data, input: { id } }) => {
+      if (!data?.success) {
+        setError('id', {
+          message: translate('inputId.error.notFound'),
+        });
+        setValue('id', '');
+        return;
+      }
+
+      if (data?.success) {
+        push(routes.game.singleGame.getPath(id));
+      }
+    },
+  });
 
   return (
     <Container>
       <FormProvider {...form}>
         <form
           onSubmit={handleSubmit(({ id }) => {
-            push(routes.game.singleGame.getPath(id));
+            execute({ id });
           })}
           className="flex flex-col gap-6 justify-center items-center h-svh w-96 mx-auto"
         >

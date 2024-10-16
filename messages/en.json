@@ -27,7 +27,8 @@
     "inputId": {
       "label": "Room ID",
       "error": {
-        "required": "Room ID is required"
+        "required": "Room ID is required",
+        "notFound": "Room not found"
       }
     },
     "errors": {
