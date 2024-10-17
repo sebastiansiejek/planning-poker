@@ -2,34 +2,72 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import type { ReactNode } from 'react';
 
-import { renderClass } from '@/shared/utils/renderClass/renderClass';
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from '@/shared/UIKit/NavigationMenu/NavigationMenu';
 import { useNavbarItems } from '@/widgets/Navbar/lib/useNavbarItems/useNavbarItems';
 
-export const Navbar = () => {
+const LinkItem = ({
+  href,
+  icon,
+  label,
+}: {
+  href: string;
+  icon?: ReactNode;
+  label: string;
+}) => {
   const pathName = usePathname();
+
+  return (
+    <Link href={href} legacyBehavior passHref>
+      <NavigationMenuLink
+        className={navigationMenuTriggerStyle({
+          className: 'gap-2',
+        })}
+        active={pathName === href}
+      >
+        {icon && icon}
+        {label}
+      </NavigationMenuLink>
+    </Link>
+  );
+};
+
+export const Navbar = () => {
   const items = useNavbarItems();
 
   return (
-    <nav>
-      <ul className="flex gap-4">
-        {items.map(({ label, href, icon }) => (
-          <li
-            key={label}
-            className={renderClass({
-              'text-primary-500': pathName === href,
-            })}
-          >
-            <Link
-              href={href}
-              className="text-sm flex items-center gap-2 p-1 transition hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
-            >
-              {icon}
-              <span>{label}</span>
-            </Link>
-          </li>
+    <NavigationMenu>
+      <NavigationMenuList>
+        {items.map(({ label, icon, href, components }) => (
+          <NavigationMenuItem key={label + href}>
+            {components?.length && (
+              <>
+                <NavigationMenuTrigger className="gap-2">
+                  {icon}
+                  {label}
+                </NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                    {components.map((props) => {
+                      return <LinkItem key={props.href} {...props} />;
+                    })}
+                  </ul>
+                </NavigationMenuContent>
+              </>
+            )}
+            {href && <LinkItem href={href} icon={icon} label={label} />}
+          </NavigationMenuItem>
         ))}
-      </ul>
-    </nav>
+      </NavigationMenuList>
+    </NavigationMenu>
   );
 };

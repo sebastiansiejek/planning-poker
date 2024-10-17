@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowDown, LayoutDashboard, LogOut } from 'lucide-react';
+import { ChevronDown, LayoutDashboard, LogOut } from 'lucide-react';
 import Link from 'next/link';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
@@ -34,7 +34,7 @@ export const UserMenu = () => {
     <DropdownMenu onOpenChange={(open) => setIsActive(open)}>
       <DropdownMenuTrigger className="flex gap-2 items-center">
         <div>{data.user.name}</div>
-        <ArrowDown
+        <ChevronDown
           className={isActive ? 'transform rotate-180' : ''}
           size={16}
         />
