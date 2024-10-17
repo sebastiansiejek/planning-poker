@@ -19,7 +19,7 @@
       }
     },
     "create": {
-      "label": "Create a game"
+      "label": "Start new game"
     },
     "join": {
       "label": "Join to the game"
