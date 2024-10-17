@@ -1,4 +1,4 @@
-import { Gamepad, Home } from 'lucide-react';
+import { BadgePlus, Gamepad, Home } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
 
@@ -15,18 +15,14 @@ export const useNavbarItems = () => {
         icon: <Home size={16} />,
       },
       {
-        label: translate('Navbar.createGame'),
+        label: translate('Game.create.label'),
+        href: routes.game.create.getPath(),
+        icon: <BadgePlus size={16} />,
+      },
+      {
+        label: translate('Game.join.label'),
+        href: routes.game.join.getPath(),
         icon: <Gamepad size={16} />,
-        components: [
-          {
-            label: translate('Game.create.label'),
-            href: routes.game.create.getPath(),
-          },
-          {
-            label: translate('Game.join.label'),
-            href: routes.game.join.getPath(),
-          },
-        ],
       },
     ],
     [translate],

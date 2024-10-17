@@ -6,11 +6,9 @@ import type { ReactNode } from 'react';
 
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from '@/shared/UIKit/NavigationMenu/NavigationMenu';
 import { useNavbarItems } from '@/widgets/Navbar/lib/useNavbarItems/useNavbarItems';
@@ -47,24 +45,9 @@ export const Navbar = () => {
   return (
     <NavigationMenu>
       <NavigationMenuList>
-        {items.map(({ label, icon, href, components }) => (
+        {items.map(({ label, icon, href }) => (
           <NavigationMenuItem key={label + href}>
-            {components?.length && (
-              <>
-                <NavigationMenuTrigger className="gap-2">
-                  {icon}
-                  {label}
-                </NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                    {components.map((props) => {
-                      return <LinkItem key={props.href} {...props} />;
-                    })}
-                  </ul>
-                </NavigationMenuContent>
-              </>
-            )}
-            {href && <LinkItem href={href} icon={icon} label={label} />}
+            <LinkItem href={href} icon={icon} label={label} />
           </NavigationMenuItem>
         ))}
       </NavigationMenuList>
