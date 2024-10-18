@@ -6,6 +6,7 @@ import prisma from '@/shared/database/prisma';
 import { routes } from '@/shared/routes/routes';
 import { Container } from '@/shared/UIKit/Container/Container';
 import { Heading } from '@/shared/UIKit/Heading/Heading';
+import { PageHeading } from '@/shared/UIKit/PageHeading/PageHeading';
 import { UserGames } from '@/widgets/UserGames/UserGames';
 
 export default async function Home() {
@@ -29,7 +30,7 @@ export default async function Home() {
 
   return (
     <Container>
-      <Heading variant="h1">Dashboard</Heading>
+      <PageHeading title="Dashboard" />
       <Heading variant="h2">{translate('Dashboard.userGames')}</Heading>
       <UserGames rooms={rooms} />
     </Container>
