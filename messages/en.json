@@ -78,5 +78,13 @@
   "Navbar": {
     "home": "Home",
     "createGame": "Game"
+  },
+  "AlertDialog": {
+    "delete": {
+      "title": "Are you absolutely sure?",
+      "description": "You won't be able to revert this!",
+      "confirm": "Yes, delete it!",
+      "cancel": "No, cancel!"
+    }
   }
 }
