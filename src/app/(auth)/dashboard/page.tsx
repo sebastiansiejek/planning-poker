@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation';
+import { getTranslations } from 'next-intl/server';
 
 import { getSession } from '@/shared/auth/auth';
 import prisma from '@/shared/database/prisma';
@@ -24,10 +25,12 @@ export default async function Home() {
     },
   });
 
+  const translate = await getTranslations();
+
   return (
     <Container>
       <Heading variant="h1">Dashboard</Heading>
-      <Heading variant="h2">Rooms</Heading>
+      <Heading variant="h2">{translate('Dashboard.userGames')}</Heading>
       <UserGames rooms={rooms} />
     </Container>
   );
