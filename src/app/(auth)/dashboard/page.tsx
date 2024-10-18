@@ -14,9 +14,13 @@ export default async function Home() {
     redirect(routes.login.getPath());
   }
 
-  const myRooms = await prisma.room.findMany({
+  const rooms = await prisma.room.findMany({
     where: {
-      authorId: session.user.id,
+      RoomUser: {
+        some: {
+          userId: session.user.id,
+        },
+      },
     },
   });
 
@@ -24,7 +28,7 @@ export default async function Home() {
     <Container>
       <Heading variant="h1">Dashboard</Heading>
       <Heading variant="h2">Rooms</Heading>
-      <UserGames rooms={myRooms} />
+      <UserGames rooms={rooms} />
     </Container>
   );
 }
