@@ -16,6 +16,13 @@ import {
   TableRow,
 } from '@/shared/UIKit/Table/Table';
 
+declare module '@tanstack/react-table' {
+  // @ts-ignore
+  interface ColumnMeta {
+    className?: string;
+  }
+}
+
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -41,7 +48,6 @@ export function DataTable<TData, TValue>({
                 return (
                   <TableHead
                     key={header.id}
-                    // @ts-ignore
                     className={header.column.columnDef.meta?.className ?? ''}
                   >
                     {header.isPlaceholder
