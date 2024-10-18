@@ -3,7 +3,7 @@
 import type { Room } from '@prisma/client';
 import type { CellContext, ColumnDef } from '@tanstack/react-table';
 import dayjs from 'dayjs';
-import { CirclePlus, Trash2 } from 'lucide-react';
+import { SquareArrowOutUpRight, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { useAction } from 'next-safe-action/hooks';
@@ -52,7 +52,7 @@ const Actions = ({
   return (
     <div className="flex gap-2 justify-end">
       <Link href={routes.game.singleGame.getPath(id)}>
-        <ButtonIcon icon={<CirclePlus />} />
+        <ButtonIcon icon={<SquareArrowOutUpRight />} />
       </Link>
       <AlertDialog open={open} onOpenChange={setOpen}>
         <AlertDialogTrigger asChild>
