@@ -101,7 +101,7 @@ model RoomUser {
   id        String   @id @default(cuid())
   roomId    String
   userId    String
-  room      Room     @relation(fields: [roomId], references: [id])
+  room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -120,7 +120,7 @@ model Game {
   name        String?
   description String?
   roomId      String
-  room        Room       @relation(fields: [roomId], references: [id])
+  room        Room       @relation(fields: [roomId], references: [id], onDelete: Cascade)
   UserVote    UserVote[]
   status      GameStatus @default(STARTED)
   createdAt   DateTime   @default(now())
