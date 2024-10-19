@@ -24,6 +24,13 @@ export default async function Home() {
         },
       },
     },
+    include: {
+      _count: {
+        select: {
+          RoomUser: true,
+        },
+      },
+    },
   });
 
   const translate = await getTranslations();

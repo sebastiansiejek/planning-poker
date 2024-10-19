@@ -1,7 +1,10 @@
 {
   "Common": {
     "signIn": "Sign in",
-    "or": "or"
+    "or": "or",
+    "users": "Users",
+    "created_at": "Created at",
+    "actions": "Actions"
   },
   "Meta": {
     "description": "Planning Poker is a fun way to estimate tasks in a team."
