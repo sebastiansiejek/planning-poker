@@ -1,6 +1,11 @@
 import { Menu } from 'lucide-react';
 
-import { Sheet, SheetContent, SheetTrigger } from '@/shared/UIKit/Sheet/Sheet';
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from '@/shared/UIKit/Sheet/Sheet';
 import { Navbar } from '@/widgets/Navbar/Navbar';
 
 export const MobileNavbar = () => {
@@ -10,6 +15,7 @@ export const MobileNavbar = () => {
         <Menu />
       </SheetTrigger>
       <SheetContent>
+        <SheetTitle>Menu</SheetTitle>
         <Navbar orientation="vertical" />
       </SheetContent>
     </Sheet>
