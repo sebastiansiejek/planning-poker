@@ -2,7 +2,8 @@
   "Common": {
     "signIn": "Sign in",
     "or": "or",
-    "users": "Users",
+    "name": "Name",
+    "players_count": "Players count",
     "created_at": "Created at",
     "actions": "Actions"
   },

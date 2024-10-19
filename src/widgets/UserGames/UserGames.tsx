@@ -49,26 +49,20 @@ export const UserGames = ({ rooms }: { rooms: UserGamesProps }) => {
   const columns: ColumnDef<UserGamesColumns>[] = [
     {
       accessorKey: 'name',
-      header: translate('Common.users'),
+      header: translate('Common.name'),
+    },
+    {
+      accessorKey: '_count.RoomUser',
+      header: translate('Common.players_count'),
+      // eslint-disable-next-line react/no-unstable-nested-components
+      cell: ({ getValue }) => {
+        return <div>{getValue() as number}</div>;
+      },
     },
     {
       accessorKey: 'createdAt',
       header: translate('Common.created_at'),
       cell: ({ getValue }) => dayjs(getValue() as string).format('DD/MM/YYYY'),
-    },
-    {
-      accessorKey: 'users',
-      header: translate('Common.users'),
-      // eslint-disable-next-line react/no-unstable-nested-components
-      cell: ({
-        row: {
-          original: {
-            _count: { RoomUser },
-          },
-        },
-      }) => {
-        return <div>{RoomUser}</div>;
-      },
     },
     {
       accessorKey: 'actions',
