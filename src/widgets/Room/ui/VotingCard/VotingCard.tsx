@@ -39,7 +39,7 @@ export const VotingCard = ({
       <div
         data-testid={`voting-card-${option}`}
         className={cva(
-          'transition font-bold flex items-center justify-center text-center p-4 text-xl rounded w-20 h-32 border-2 border-solid border-primary-500 cursor-pointer text-primary-500 hover:text-white hover:bg-primary-500 peer-checked:bg-primary-500 peer-checked:text-white',
+          'transition font-bold flex items-center justify-center text-center p-4 text-xl rounded w-16 h-24 border-2 border-solid border-primary-500 cursor-pointer text-primary-500 hover:text-white hover:bg-primary-500 peer-checked:bg-primary-500 peer-checked:text-white',
           {
             variants: {
               isDisabled: {
