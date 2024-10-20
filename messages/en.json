@@ -26,6 +26,7 @@
       "label": "Start new game"
     },
     "newGame": {
+      "title": "New game",
       "name": {
         "label": "Name"
       },

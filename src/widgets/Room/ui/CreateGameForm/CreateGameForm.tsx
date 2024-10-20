@@ -47,7 +47,7 @@ export const CreateGameForm = ({ roomId }: CreateGameFormProps) => {
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>New game</DialogTitle>
+            <DialogTitle>{translate('Game.newGame.title')}</DialogTitle>
           </DialogHeader>
           <form className="space-y-4">
             <FormField
@@ -95,7 +95,7 @@ export const CreateGameForm = ({ roomId }: CreateGameFormProps) => {
               isLoading={isPending}
               type="submit"
             >
-              Create game
+              {translate('Game.create.label')}
             </Button>
           </DialogFooter>
         </DialogContent>
