@@ -42,14 +42,22 @@ export const CreateGameForm = ({ roomId }: CreateGameFormProps) => {
   return (
     <FormProvider {...form}>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogTrigger asChild>
-          <Button variant="outline">Create new game</Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{translate('Game.newGame.title')}</DialogTitle>
-          </DialogHeader>
-          <form className="space-y-4">
+        <form
+          onSubmit={handleSubmit(({ name, description }) => {
+            execute({
+              name,
+              description,
+              roomId,
+            });
+          })}
+        >
+          <DialogTrigger asChild>
+            <Button variant="outline">Create new game</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{translate('Game.newGame.title')}</DialogTitle>
+            </DialogHeader>
             <FormField
               name="name"
               render={({ field }) => {
@@ -82,23 +90,13 @@ export const CreateGameForm = ({ roomId }: CreateGameFormProps) => {
             {/*    ); */}
             {/*  }} */}
             {/* /> */}
-          </form>
-          <DialogFooter>
-            <Button
-              onClick={handleSubmit(({ name, description }) => {
-                execute({
-                  name,
-                  description,
-                  roomId,
-                });
-              })}
-              isLoading={isPending}
-              type="submit"
-            >
-              {translate('Game.create.label')}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
+            <DialogFooter>
+              <Button isLoading={isPending} type="submit">
+                {translate('Game.create.label')}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </form>
       </Dialog>
     </FormProvider>
   );
