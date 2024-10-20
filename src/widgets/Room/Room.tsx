@@ -226,15 +226,6 @@ export default function Room({
                 votes={votes}
               />
             </GameContainer>
-            {activeGame && (
-              <VotingForm
-                roomId={roomId}
-                voteValue={voteValue}
-                isRevealedCards={isRevealedCards}
-                meId={meId}
-                gameId={activeGame.id}
-              />
-            )}
           </div>
         </div>
       </Container>
@@ -249,6 +240,15 @@ export default function Room({
           />
         ))}
       </Container>
+      {activeGame && (
+        <VotingForm
+          roomId={roomId}
+          voteValue={voteValue}
+          isRevealedCards={isRevealedCards}
+          meId={meId}
+          gameId={activeGame.id}
+        />
+      )}
     </>
   );
 }

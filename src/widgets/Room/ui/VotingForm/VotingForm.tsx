@@ -23,6 +23,7 @@ export const VotingForm = ({
 
   return (
     <form
+      className="lg:sticky bottom-0"
       onSubmit={(e) => {
         e.preventDefault();
         const formData = new FormData(e.target as HTMLFormElement);
@@ -35,7 +36,7 @@ export const VotingForm = ({
         });
       }}
     >
-      <div className="flex gap-4 mt-8 flex-wrap p-6 justify-center">
+      <div className="flex gap-4 flex-wrap p-4 justify-center">
         {votingValues.map((option) => {
           return (
             <VotingCard
