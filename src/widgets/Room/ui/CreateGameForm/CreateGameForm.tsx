@@ -19,7 +19,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/shared/UIKit/Form/ui';
-import { Textarea } from '@/shared/UIKit/Textarea/Textarea';
+// import { Textarea } from '@/shared/UIKit/Textarea/Textarea';
 import { Input } from '@/shared/UIKit/TextInput/TextInput';
 import type { CreateGameParams } from '@/widgets/Room/actions/createGame';
 import { createGame } from '@/widgets/Room/actions/createGame';
@@ -66,22 +66,22 @@ export const CreateGameForm = ({ roomId }: CreateGameFormProps) => {
                 );
               }}
             />
-            <FormField
-              name="description"
-              render={({ field }) => {
-                return (
-                  <FormItem>
-                    <FormLabel>
-                      {translate('Game.newGame.description.label')}
-                    </FormLabel>
-                    <FormControl>
-                      <Textarea {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                );
-              }}
-            />
+            {/* <FormField */}
+            {/*  name="description" */}
+            {/*  render={({ field }) => { */}
+            {/*    return ( */}
+            {/*      <FormItem> */}
+            {/*        <FormLabel> */}
+            {/*          {translate('Game.newGame.description.label')} */}
+            {/*        </FormLabel> */}
+            {/*        <FormControl> */}
+            {/*          <Textarea {...field} /> */}
+            {/*        </FormControl> */}
+            {/*        <FormMessage /> */}
+            {/*      </FormItem> */}
+            {/*    ); */}
+            {/*  }} */}
+            {/* /> */}
           </form>
           <DialogFooter>
             <Button
