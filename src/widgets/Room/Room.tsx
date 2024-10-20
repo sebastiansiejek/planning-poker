@@ -15,6 +15,7 @@ import type {
 } from '@/shared/types/pusher/pusher';
 import type { Vote } from '@/shared/types/types';
 import { Container } from '@/shared/UIKit/Container/Container';
+import { PageHeading } from '@/shared/UIKit/PageHeading/PageHeading';
 import { Paper } from '@/widgets/Alerts/ui/Paper/Paper';
 import type { TriggerPaperThrowingParams } from '@/widgets/Room/actions/alerts/triggerPaperThrowing';
 import { getGameVotes } from '@/widgets/Room/actions/getGameVotes';
@@ -23,7 +24,6 @@ import type { RoomContextType } from '@/widgets/Room/model/RoomContext';
 import { useRoomContext } from '@/widgets/Room/model/RoomContext';
 import { GameContainer } from '@/widgets/Room/ui/Game/GameContainer/GameContainer';
 import { Members } from '@/widgets/Room/ui/Members/Members';
-import { RoomSidebar } from '@/widgets/Room/ui/RoomSidebar/RoomSidebar';
 import { RoomTable } from '@/widgets/Room/ui/RoomTable/RoomTable';
 import { VotingAvg } from '@/widgets/Room/ui/VotingAvg/VotingAvg';
 import { VotingForm } from '@/widgets/Room/ui/VotingForm/VotingForm';
@@ -187,8 +187,11 @@ export default function Room({
   return (
     <>
       <Container>
-        <div className="grid lg:grid-cols-[1fr_3fr] gap-8">
-          <RoomSidebar name={roomName} />
+        <div className="grid gap-6">
+          <PageHeading
+            title={roomName}
+            description={activeGame?.name as string}
+          />
           <div className="flex items-center justify-center flex-col">
             <GameContainer>
               <Members
