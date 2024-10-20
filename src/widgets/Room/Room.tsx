@@ -188,7 +188,7 @@ export default function Room({
     <>
       <Container>
         <div className="grid lg:grid-cols-[1fr_3fr] gap-8">
-          <RoomSidebar id={roomId} name={roomName} />
+          <RoomSidebar name={roomName} />
           <div className="flex items-center justify-center flex-col lg:p-4">
             <GameContainer>
               <Members

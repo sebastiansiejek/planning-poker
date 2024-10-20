@@ -1,8 +1,17 @@
 import { useTranslations } from 'next-intl';
 import { useAction } from 'next-safe-action/hooks';
+import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { Button } from '@/shared/UIKit/Button/Button';
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/shared/UIKit/Dialog/Dialog';
 import {
   FormControl,
   FormField,
@@ -20,10 +29,11 @@ type CreateGameFormProps = {
 };
 
 export const CreateGameForm = ({ roomId }: CreateGameFormProps) => {
+  const [isOpen, setIsOpen] = useState(false);
   const { execute, isPending } = useAction(createGame, {
-    // onSuccess: ({ data }) => {
-    //   TODO: Display error message
-    // },
+    onSuccess: () => {
+      setIsOpen(false);
+    },
   });
   const form = useForm<CreateGameParams>();
   const { handleSubmit } = form;
@@ -31,50 +41,65 @@ export const CreateGameForm = ({ roomId }: CreateGameFormProps) => {
 
   return (
     <FormProvider {...form}>
-      <form
-        className="space-y-4"
-        onSubmit={handleSubmit(({ name, description }) => {
-          execute({
-            name,
-            description,
-            roomId,
-          });
-        })}
-      >
-        <FormField
-          name="name"
-          render={({ field }) => {
-            return (
-              <FormItem>
-                <FormLabel>{translate('Game.newGame.name.label')}</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            );
-          }}
-        />
-        <FormField
-          name="description"
-          render={({ field }) => {
-            return (
-              <FormItem>
-                <FormLabel>
-                  {translate('Game.newGame.description.label')}
-                </FormLabel>
-                <FormControl>
-                  <Textarea {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            );
-          }}
-        />
-        <Button isLoading={isPending} type="submit">
-          Create game
-        </Button>
-      </form>
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogTrigger asChild>
+          <Button variant="outline">Create new game</Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>New game</DialogTitle>
+          </DialogHeader>
+          <form className="space-y-4">
+            <FormField
+              name="name"
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <FormLabel>
+                      {translate('Game.newGame.name.label')}
+                    </FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
+            />
+            <FormField
+              name="description"
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <FormLabel>
+                      {translate('Game.newGame.description.label')}
+                    </FormLabel>
+                    <FormControl>
+                      <Textarea {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
+            />
+          </form>
+          <DialogFooter>
+            <Button
+              onClick={handleSubmit(({ name, description }) => {
+                execute({
+                  name,
+                  description,
+                  roomId,
+                });
+              })}
+              isLoading={isPending}
+              type="submit"
+            >
+              Create game
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </FormProvider>
   );
 };
