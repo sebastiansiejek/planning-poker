@@ -25,6 +25,14 @@
     "create": {
       "label": "Start new game"
     },
+    "newGame": {
+      "name": {
+        "label": "Name"
+      },
+      "description": {
+        "label": "Description"
+      }
+    },
     "join": {
       "label": "Join to the game"
     },
