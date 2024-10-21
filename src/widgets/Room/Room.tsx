@@ -232,8 +232,8 @@ export default function Room({
           </div>
         </div>
       </Container>
+      {isRevealedCards && <VotingAvg votes={votes} />}
       <Container>
-        {isRevealedCards && <VotingAvg votes={votes} />}
         {papers.map(({ targetUser, triggerUser }, index) => (
           <Paper
             // eslint-disable-next-line react/no-array-index-key
@@ -243,7 +243,7 @@ export default function Room({
           />
         ))}
       </Container>
-      {activeGame && (
+      {activeGame && !isRevealedCards && (
         <VotingForm
           roomId={roomId}
           voteValue={voteValue}
