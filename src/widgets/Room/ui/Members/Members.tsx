@@ -10,6 +10,10 @@ export const Members = ({
   place,
   isVertical,
 }: MembersProps) => {
+  if (members.length === 0) {
+    return null;
+  }
+
   return (
     <MembersContainer place={place} isVertical={isVertical}>
       {members.map((member) => {
