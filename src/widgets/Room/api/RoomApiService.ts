@@ -118,6 +118,11 @@ export class RoomApiService extends BasePrismaService {
         },
       },
       include: {
+        author: {
+          select: {
+            name: true,
+          },
+        },
         _count: {
           select: {
             RoomUser: true,

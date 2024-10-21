@@ -5,6 +5,7 @@
     "name": "Name",
     "players_count": "Players count",
     "created_at": "Created at",
+    "created_by": "Created by",
     "actions": "Actions"
   },
   "Meta": {

@@ -60,6 +60,10 @@ export const UserGames = ({ rooms }: { rooms: UserGamesProps }) => {
       },
     },
     {
+      accessorKey: 'author.name',
+      header: translate('Common.created_by'),
+    },
+    {
       accessorKey: 'createdAt',
       header: translate('Common.created_at'),
       cell: ({ getValue }) => dayjs(getValue() as string).format('DD/MM/YYYY'),
