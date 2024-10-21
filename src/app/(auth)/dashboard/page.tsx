@@ -2,11 +2,11 @@ import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 
 import { getSession } from '@/shared/auth/auth';
-import prisma from '@/shared/database/prisma';
 import { routes } from '@/shared/routes/routes';
 import { Container } from '@/shared/UIKit/Container/Container';
 import { Heading } from '@/shared/UIKit/Heading/Heading';
 import { PageHeading } from '@/shared/UIKit/PageHeading/PageHeading';
+import { RoomApiService } from '@/widgets/Room/api/RoomApiService';
 import { UserGames } from '@/widgets/UserGames/UserGames';
 
 export default async function Home() {
@@ -16,23 +16,11 @@ export default async function Home() {
     redirect(routes.login.getPath());
   }
 
-  const rooms = await prisma.room.findMany({
-    where: {
-      RoomUser: {
-        some: {
-          userId: session.user.id,
-        },
-      },
-    },
-    include: {
-      _count: {
-        select: {
-          RoomUser: true,
-        },
-      },
-    },
-  });
+  const roomApiService = new RoomApiService();
 
+  const rooms = await roomApiService.getRoomsWhereTheUserIsAParticipant(
+    session.user.id,
+  );
   const translate = await getTranslations();
 
   return (

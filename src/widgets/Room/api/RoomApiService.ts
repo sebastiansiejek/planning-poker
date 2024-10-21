@@ -107,4 +107,23 @@ export class RoomApiService extends BasePrismaService {
       },
     });
   }
+
+  async getRoomsWhereTheUserIsAParticipant(userId: string) {
+    return this.prisma.room.findMany({
+      where: {
+        RoomUser: {
+          some: {
+            userId,
+          },
+        },
+      },
+      include: {
+        _count: {
+          select: {
+            RoomUser: true,
+          },
+        },
+      },
+    });
+  }
 }
