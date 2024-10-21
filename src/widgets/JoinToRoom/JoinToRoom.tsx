@@ -9,7 +9,6 @@ import z from 'zod';
 
 import { routes } from '@/shared/routes/routes';
 import { Button } from '@/shared/UIKit/Button/Button';
-import { Container } from '@/shared/UIKit/Container/Container';
 import {
   FormControl,
   FormItem,
@@ -53,34 +52,32 @@ export const JoinToRoom = () => {
   });
 
   return (
-    <Container>
-      <FormProvider {...form}>
-        <form
-          onSubmit={handleSubmit(({ id }) => {
-            execute({ id });
-          })}
-          className="flex flex-col gap-6 justify-center items-center h-svh w-96 mx-auto"
-        >
-          <FormField
-            name="id"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{translate('inputId.label')}</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    autoComplete="off"
-                    autoFocus
-                    placeholder="9y1xxayrk0001yy211ttts2ss"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit">Join</Button>
-        </form>
-      </FormProvider>
-    </Container>
+    <FormProvider {...form}>
+      <form
+        onSubmit={handleSubmit(({ id }) => {
+          execute({ id });
+        })}
+        className="flex flex-col gap-6 justify-center items-center w-96 mx-auto"
+      >
+        <FormField
+          name="id"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{translate('inputId.label')}</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  autoComplete="off"
+                  autoFocus
+                  placeholder="9y1xxayrk0001yy211ttts2ss"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit">Join</Button>
+      </form>
+    </FormProvider>
   );
 };
