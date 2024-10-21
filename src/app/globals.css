@@ -15,6 +15,10 @@
         @apply outline-2;
         @apply outline-offset-2;
     }
+
+    ::selection {
+        @apply bg-primary-500 text-primary-foreground;
+    }
 }
 
 @layer base {
