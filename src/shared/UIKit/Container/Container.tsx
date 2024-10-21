@@ -1,5 +1,10 @@
-import type { PropsWithChildren } from 'react';
+import type { HTMLAttributes, PropsWithChildren } from 'react';
 
-export const Container = ({ children }: PropsWithChildren) => {
-  return <div className="container">{children}</div>;
+import { renderClass } from '@/shared/utils/renderClass/renderClass';
+
+export const Container = ({
+  children,
+  className,
+}: PropsWithChildren<HTMLAttributes<HTMLDivElement>>) => {
+  return <div className={renderClass('container', className)}>{children}</div>;
 };
