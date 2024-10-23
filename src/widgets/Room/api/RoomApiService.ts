@@ -42,16 +42,19 @@ export class RoomApiService extends BasePrismaService {
     });
   }
 
-  async getActiveRoomGame(roomId: string) {
+  async getLatestRoomGame(roomId: string) {
     return this.prisma.game.findFirst({
       select: {
         id: true,
         name: true,
         description: true,
+        status: true,
       },
       where: {
         roomId,
-        status: 'STARTED',
+      },
+      orderBy: {
+        createdAt: 'desc',
       },
     });
   }
@@ -71,6 +74,7 @@ export class RoomApiService extends BasePrismaService {
     return this.prisma.userVote.findMany({
       select: {
         userId: true,
+        vote: true,
       },
       where: {
         gameId,

@@ -20,7 +20,7 @@ export const Members = ({
         const { id } = member;
         // @ts-ignore
         const isVoted = votedUserIds.includes(id);
-        const vote = votes.find((oldVotes) => oldVotes.userId === id)?.value;
+        const vote = votes.find((oldVotes) => oldVotes.userId === id)?.vote;
 
         return (
           // @ts-ignore

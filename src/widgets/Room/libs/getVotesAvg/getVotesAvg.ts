@@ -3,14 +3,14 @@ import type { Vote } from '@/shared/types/types';
 export const getVotesAvg = (votes: Vote[]) =>
   votes.reduce(
     (acc, vote) => {
-      const { value } = vote;
-      const found = acc.find((v) => v.value === value);
+      const { vote: voteValue } = vote;
+      const found = acc.find((v) => v.value === voteValue);
       if (found) {
         found.count += 1;
       }
 
       if (!found) {
-        acc.push({ value, count: 1 });
+        acc.push({ value: voteValue, count: 1 });
       }
 
       return acc;
@@ -18,7 +18,7 @@ export const getVotesAvg = (votes: Vote[]) =>
     votes.length > 0
       ? [
           {
-            value: votes[0].value,
+            value: votes[0].vote,
             count: 0,
           },
         ]

@@ -4,13 +4,13 @@ import { getNumberVotes } from './getNumberVotes';
 
 describe('getNumberVotes', () => {
   const votes: Vote[] = [
-    { value: '0.5', userId: '1' },
-    { value: '2', userId: '2' },
-    { value: '3', userId: '3' },
-    { value: '4', userId: '4' },
-    { value: '5', userId: '5' },
-    { value: 'NaN', userId: '6' },
-    { value: '☕️', userId: '7' },
+    { vote: '0.5', userId: '1' },
+    { vote: '2', userId: '2' },
+    { vote: '3', userId: '3' },
+    { vote: '4', userId: '4' },
+    { vote: '5', userId: '5' },
+    { vote: 'NaN', userId: '6' },
+    { vote: '☕️', userId: '7' },
   ];
 
   it('should return an array of numbers', () => {

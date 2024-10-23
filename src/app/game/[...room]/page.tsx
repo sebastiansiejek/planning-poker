@@ -31,12 +31,12 @@ export default async function Page({
   }
 
   const { name } = room;
-  const [roomMembers, activeGame] = await Promise.all([
+  const [roomMembers, latestGame] = await Promise.all([
     roomApi.getRoomMembers(roomId),
-    roomApi.getActiveRoomGame(roomId),
+    roomApi.getLatestRoomGame(roomId),
   ]);
 
-  const votes = activeGame ? await roomApi.getVotedUsers(activeGame.id) : [];
+  const votes = latestGame ? await roomApi.getVotedUsers(latestGame.id) : [];
 
   await pusherServer.trigger(roomId, PUSHER_EVENTS.MEMBER_ADDED, {
     id: userId,
@@ -47,7 +47,7 @@ export default async function Page({
   return (
     <RoomProvider
       currentUserId={userId}
-      game={activeGame || undefined}
+      game={latestGame || undefined}
       roomId={roomId}
     >
       <Room
@@ -55,6 +55,7 @@ export default async function Page({
         members={roomMembers.map(({ user }) => user)}
         name={name}
         initialVotes={votes.map(({ userId: votedUser }) => votedUser)}
+        finishedGameVotes={latestGame?.status === 'FINISHED' ? votes : []}
       />
     </RoomProvider>
   );

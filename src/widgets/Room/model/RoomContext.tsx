@@ -8,7 +8,7 @@ export type RoomContextType = {
   currentUserId?: string;
   vote?: string;
   roomId?: string;
-  game?: Pick<Game, 'id' | 'name' | 'description'>;
+  game?: Pick<Game, 'id' | 'name' | 'description' | 'status'>;
 };
 
 type Action =

@@ -1,4 +1,4 @@
-export type Vote = { value: string; userId: string };
+export type Vote = { vote: string; userId: string };
 
 export type ILoader = {
   isLoading?: boolean;

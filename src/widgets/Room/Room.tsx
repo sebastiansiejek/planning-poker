@@ -33,13 +33,17 @@ export default function Room({
   name: roomName,
   members: initialMembers,
   initialVotes = [],
+  finishedGameVotes = [],
 }: RoomProps) {
+  const { dispatch, room } = useRoomContext();
   const [members, setMembers] = useState<RoomProps['members']>(initialMembers);
-  const [votes, setVotes] = useState<Vote[]>([]);
+  const [votes, setVotes] = useState<Vote[]>(finishedGameVotes);
+  const [votedUserIds, setVotedUserIds] = useState<string[]>(initialVotes);
   const [me] = useState<PusherMember>();
   const pusher = useMemo(() => pusherClient(), []);
-  const [votedUserIds, setVotedUserIds] = useState<string[]>(initialVotes);
-  const [isRevealedCards, setIsRevealedCards] = useState(false);
+  const activeGame = room?.game;
+  const isFinishedGame = activeGame?.status === 'FINISHED';
+  const [isRevealedCards, setIsRevealedCards] = useState(isFinishedGame);
   const areVotes = votedUserIds.length > 0;
   const meId = me?.id || '';
   const memberChunks = useMemo(
@@ -53,8 +57,6 @@ export default function Room({
   const [papers, setPapers] = useState<
     Pick<TriggerPaperThrowingParams, 'triggerUser' | 'targetUser'>[]
   >([]);
-  const { dispatch, room } = useRoomContext();
-  const activeGame = room?.game;
   const setVoteValue = (value: string) => {
     dispatch({
       type: 'SET_VOTE',
@@ -79,7 +81,7 @@ export default function Room({
           if (vote) {
             acc.push({
               userId: user.id,
-              value: vote,
+              vote,
             });
           }
           return acc;

@@ -5,10 +5,12 @@ import { useCountdown } from '@/shared/hooks/useCountdown/useCountdown';
 import { Button } from '@/shared/UIKit/Button/Button';
 import { resetVotes } from '@/widgets/Room/actions/resetVotes';
 import { useRoomContext } from '@/widgets/Room/model/RoomContext';
+import { useIsFinishedGame } from '@/widgets/Room/model/selectors/useIsFinishedGame';
 
 export const ResetVoting = () => {
+  const isFinishedGame = useIsFinishedGame();
   const t = useTranslations('Room');
-  const { counter } = useCountdown({ time: 3000 });
+  const { counter } = useCountdown({ time: 3000, enabled: !isFinishedGame });
   const isCounter = counter > 0;
   const { room } = useRoomContext();
   const channelName = room?.roomId as string;
