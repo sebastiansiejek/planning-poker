@@ -5,7 +5,6 @@ import { votingValues } from '@/widgets/Room/config/votingConstants';
 import { VotingCard } from '@/widgets/Room/ui/VotingCard/VotingCard';
 
 type VotingFormProps = {
-  meId: string;
   roomId: string;
   isRevealedCards: boolean;
   voteValue: string;
@@ -13,7 +12,6 @@ type VotingFormProps = {
 };
 
 export const VotingForm = ({
-  meId,
   roomId,
   isRevealedCards,
   voteValue,
@@ -30,7 +28,6 @@ export const VotingForm = ({
 
         execute({
           roomId,
-          userId: meId,
           value: formData.get('value') as string,
           gameId,
         });

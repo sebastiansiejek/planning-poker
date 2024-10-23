@@ -9,7 +9,6 @@ import useNotification from '@/shared/hooks/useNotification/useNotification';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { pusherClient } from '@/shared/pusher/lib/pusherClient';
 import type {
-  PusherMember,
   PusherNewMember,
   PusherNotification,
 } from '@/shared/types/pusher/pusher';
@@ -39,13 +38,11 @@ export default function Room({
   const [members, setMembers] = useState<RoomProps['members']>(initialMembers);
   const [votes, setVotes] = useState<Vote[]>(finishedGameVotes);
   const [votedUserIds, setVotedUserIds] = useState<string[]>(initialVotes);
-  const [me] = useState<PusherMember>();
   const pusher = useMemo(() => pusherClient(), []);
   const activeGame = room?.game;
   const isFinishedGame = activeGame?.status === 'FINISHED';
   const [isRevealedCards, setIsRevealedCards] = useState(isFinishedGame);
   const areVotes = votedUserIds.length > 0;
-  const meId = me?.id || '';
   const memberChunks = useMemo(
     () => chunkMembers(members.sort((a, b) => a.name.localeCompare(b.name))),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -250,7 +247,6 @@ export default function Room({
           roomId={roomId}
           voteValue={voteValue}
           isRevealedCards={isRevealedCards}
-          meId={meId}
           gameId={activeGame.id}
         />
       )}

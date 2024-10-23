@@ -10,7 +10,6 @@ import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { pusherServer } from '@/shared/pusher/lib/pusherServer';
 
 const schema = z.object({
-  userId: z.string(),
   value: z.string(),
   roomId: z.string(),
   gameId: z.string(),
