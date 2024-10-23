@@ -1,8 +1,10 @@
+import type { Room } from '@prisma/client';
 import { useTranslations } from 'next-intl';
 import { useAction } from 'next-safe-action/hooks';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
+import { useCountdown } from '@/shared/hooks/useCountdown/useCountdown';
 import { Button } from '@/shared/UIKit/Button/Button';
 import {
   Dialog,
@@ -19,16 +21,18 @@ import {
   FormLabel,
   FormMessage,
 } from '@/shared/UIKit/Form/ui';
-// import { Textarea } from '@/shared/UIKit/Textarea/Textarea';
 import { Input } from '@/shared/UIKit/TextInput/TextInput';
 import type { CreateGameParams } from '@/widgets/Room/actions/createGame';
 import { createGame } from '@/widgets/Room/actions/createGame';
+import { resetVotes } from '@/widgets/Room/actions/resetVotes';
 
-type CreateGameFormProps = {
-  roomId: string;
-};
-
-export const CreateGameForm = ({ roomId }: CreateGameFormProps) => {
+export const CreateGameForm = ({
+  roomId,
+  isWaitingForStartGame,
+}: {
+  roomId: Room['id'];
+  isWaitingForStartGame: boolean;
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const { execute, isPending } = useAction(createGame, {
     onSuccess: () => {
@@ -38,17 +42,30 @@ export const CreateGameForm = ({ roomId }: CreateGameFormProps) => {
   const form = useForm<CreateGameParams>();
   const { handleSubmit } = form;
   const translate = useTranslations();
+  const { execute: executeResetVotes } = useAction(resetVotes);
+  const { counter } = useCountdown({
+    time: 3000,
+    enabled: isWaitingForStartGame,
+  });
+  const isCounter = useMemo(() => counter > 0, [counter]);
 
   return (
     <FormProvider {...form}>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
-          <Button variant="outline">Create new game</Button>
+          <Button variant="outline" disabled={isCounter}>
+            <span>
+              {translate('Game.create.label')} {isCounter && `(${counter})`}
+            </span>
+          </Button>
         </DialogTrigger>
         <DialogContent>
           <form
             className="space-y-4"
             onSubmit={handleSubmit(({ name, description }) => {
+              executeResetVotes({
+                channelName: roomId,
+              });
               execute({
                 name,
                 description,

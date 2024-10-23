@@ -42,6 +42,7 @@ export default function Room({
   const pusher = useMemo(() => pusherClient(), []);
   const activeGame = room?.game;
   const isFinishedGame = useIsFinishedGame();
+  const [isWaitingForStartGame, setIsWaitingForStartGame] = useState(false);
   const [isRevealedCards, setIsRevealedCards] = useState(isFinishedGame);
   const areVotes = votedUserIds.length > 0;
   const memberChunks = useMemo(
@@ -158,6 +159,7 @@ export default function Room({
         setVotes([]);
         setVotedUserIds([]);
         setIsRevealedCards(false);
+        setIsWaitingForStartGame(false);
         dispatch({
           type: 'SET_GAME',
           payload: undefined,
@@ -168,6 +170,7 @@ export default function Room({
         if (!gameId) return;
         executeGetGameVote({ gameId });
         setIsRevealedCards(true);
+        setIsWaitingForStartGame(true);
       });
 
       pusherChannel.bind(
@@ -212,6 +215,7 @@ export default function Room({
               <RoomTable
                 areVotes={areVotes}
                 isRevealedCards={isRevealedCards}
+                isWaitingForStartGame={isWaitingForStartGame}
               />
               <Members
                 isRevealedCards={isRevealedCards}
