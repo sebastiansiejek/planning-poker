@@ -21,6 +21,7 @@ import { getGameVotes } from '@/widgets/Room/actions/getGameVotes';
 import { chunkMembers } from '@/widgets/Room/libs/chunkMembers/chunkMembers';
 import type { RoomContextType } from '@/widgets/Room/model/RoomContext';
 import { useRoomContext } from '@/widgets/Room/model/RoomContext';
+import { useIsFinishedGame } from '@/widgets/Room/model/selectors/useIsFinishedGame';
 import { GameContainer } from '@/widgets/Room/ui/Game/GameContainer/GameContainer';
 import { Members } from '@/widgets/Room/ui/Members/Members';
 import { RoomTable } from '@/widgets/Room/ui/RoomTable/RoomTable';
@@ -40,7 +41,7 @@ export default function Room({
   const [votedUserIds, setVotedUserIds] = useState<string[]>(initialVotes);
   const pusher = useMemo(() => pusherClient(), []);
   const activeGame = room?.game;
-  const isFinishedGame = activeGame?.status === 'FINISHED';
+  const isFinishedGame = useIsFinishedGame();
   const [isRevealedCards, setIsRevealedCards] = useState(isFinishedGame);
   const areVotes = votedUserIds.length > 0;
   const memberChunks = useMemo(
