@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useAction } from 'next-safe-action/hooks';
 import { useEffect, useMemo, useState } from 'react';
@@ -8,6 +9,7 @@ import type { RoomProps } from '@/app/game/[...room]/types';
 import useNotification from '@/shared/hooks/useNotification/useNotification';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { pusherClient } from '@/shared/pusher/lib/pusherClient';
+import { routes } from '@/shared/routes/routes';
 import type {
   PusherNewMember,
   PusherNotification,
@@ -15,6 +17,7 @@ import type {
 import type { Vote } from '@/shared/types/types';
 import { Container } from '@/shared/UIKit/Container/Container';
 import { PageHeading } from '@/shared/UIKit/PageHeading/PageHeading';
+import { toast } from '@/shared/UIKit/Toast/model/useToast';
 import { Paper } from '@/widgets/Alerts/ui/Paper/Paper';
 import type { TriggerPaperThrowingParams } from '@/widgets/Room/actions/alerts/triggerPaperThrowing';
 import { getGameVotes } from '@/widgets/Room/actions/getGameVotes';
@@ -36,6 +39,7 @@ export default function Room({
   finishedGameVotes = [],
 }: RoomProps) {
   const { dispatch, room } = useRoomContext();
+  const router = useRouter();
   const [members, setMembers] = useState<RoomProps['members']>(initialMembers);
   const [votes, setVotes] = useState<Vote[]>(finishedGameVotes);
   const [votedUserIds, setVotedUserIds] = useState<string[]>(initialVotes);
@@ -139,6 +143,13 @@ export default function Room({
         PUSHER_EVENTS.MEMBER_REMOVED,
         ({ id }: PusherNewMember) => {
           setMembers((oldMembers) => oldMembers.filter((m) => m.id !== id));
+          if (id === currentUserId) {
+            router.push(routes.game.join.getPath());
+            toast({
+              title: t('Room.kick.message'),
+              variant: 'destructive',
+            });
+          }
         },
       );
 
