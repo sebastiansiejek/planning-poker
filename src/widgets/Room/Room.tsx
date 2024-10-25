@@ -96,6 +96,8 @@ export default function Room({
   });
 
   useEffect(() => {
+    if (!pusher) return () => {};
+
     const pusherChannel = pusher.subscribe(roomId);
     if (pusherChannel) {
       pusherChannel.bind(
