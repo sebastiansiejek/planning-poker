@@ -61,20 +61,6 @@ export default function Room({
   const [topMembers, leftMembers, bottomMembers, rightMembers] = memberChunks;
   const { notify } = useNotification();
   const t = useTranslations();
-  const setVoteValue = (value: string) => {
-    dispatch({
-      type: 'SET_VOTE',
-      payload: {
-        value,
-      },
-    });
-  };
-  const setActiveGame = (game: RoomContextType['game']) => {
-    dispatch({
-      type: 'SET_GAME',
-      payload: game,
-    });
-  };
   const gameId = activeGame?.id;
   const voteValue = room?.vote || '';
   const { execute: executeGetGameVote } = useAction(getGameVotes, {
@@ -169,7 +155,12 @@ export default function Room({
       });
 
       pusherChannel.bind(PUSHER_EVENTS.RESET_VOTES, () => {
-        setVoteValue('');
+        dispatch({
+          type: 'SET_VOTE',
+          payload: {
+            value: '',
+          },
+        });
         setVotes([]);
         setVotedUserIds([]);
         setIsRevealedCards(false);
@@ -190,7 +181,10 @@ export default function Room({
       pusherChannel.bind(
         PUSHER_EVENTS.GAME_CREATED,
         async ({ data }: { data: RoomContextType['game'] }) => {
-          setActiveGame(data);
+          dispatch({
+            type: 'SET_GAME',
+            payload: data,
+          });
         },
       );
     }
