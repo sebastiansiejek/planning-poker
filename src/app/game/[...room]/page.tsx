@@ -1,12 +1,31 @@
 import { redirect } from 'next/navigation';
+import { cache } from 'react';
 
 import { getSession } from '@/shared/auth/auth';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { pusherServer } from '@/shared/pusher/lib/pusherServer';
 import { routes } from '@/shared/routes/routes';
+import { getPageMetaData } from '@/shared/utils/getPageMetaData';
 import { RoomApiService } from '@/widgets/Room/api/RoomApiService';
 import { RoomProvider } from '@/widgets/Room/model/RoomContext';
 import Room from '@/widgets/Room/Room';
+
+const getRoomName = cache(async (roomId: string) => {
+  const roomApi = new RoomApiService();
+  return (await roomApi.getRoomName(roomId))?.name;
+});
+
+export async function generateMetadata({
+  params: { room },
+}: {
+  params: { room: string[] };
+}) {
+  const title = await getRoomName(room.toString());
+
+  return getPageMetaData({
+    title,
+  });
+}
 
 export default async function Page({
   params,
@@ -17,9 +36,9 @@ export default async function Page({
 }) {
   const roomApi = new RoomApiService();
   const roomId = params.room.toString();
-  const room = await roomApi.getRoomName(roomId);
+  const roomName = await getRoomName(roomId);
 
-  if (!room) {
+  if (!roomName) {
     return redirect(routes.game.create.getPath());
   }
 
@@ -30,7 +49,6 @@ export default async function Page({
     await roomApi.addUserToRoom(userId, roomId);
   }
 
-  const { name } = room;
   const [roomMembers, latestGame] = await Promise.all([
     roomApi.getRoomMembers(roomId),
     roomApi.getLatestRoomGame(roomId),
@@ -53,7 +71,7 @@ export default async function Page({
       <Room
         id={roomId}
         members={roomMembers.map(({ user }) => user)}
-        name={name}
+        name={roomName}
         initialVotes={votes.map(({ userId: votedUser }) => votedUser)}
         finishedGameVotes={latestGame?.status === 'FINISHED' ? votes : []}
       />

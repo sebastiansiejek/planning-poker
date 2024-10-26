@@ -24,7 +24,11 @@
       }
     },
     "create": {
-      "label": "Start new game"
+      "label": "Start new game",
+      "meta": {
+        "title": "Create new game",
+        "description": "Create a new game to estimate tasks in a team."
+      }
     },
     "newGame": {
       "title": "New game",
@@ -36,7 +40,11 @@
       }
     },
     "join": {
-      "label": "Join to the game"
+      "label": "Join to the game",
+      "meta": {
+        "title": "Join to the game",
+        "description": "Join to the game to estimate tasks in a team."
+      }
     },
     "inputId": {
       "label": "Room ID",
@@ -105,6 +113,9 @@
     }
   },
   "Dashboard": {
-    "userGames": "Games in which you participate"
+    "userGames": "Games in which you participate",
+    "meta": {
+      "title": "Dashboard"
+    }
   }
 }
