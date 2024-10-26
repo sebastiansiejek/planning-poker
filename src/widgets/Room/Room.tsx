@@ -39,17 +39,20 @@ export default function Room({
   initialVotes = [],
   finishedGameVotes = [],
 }: RoomProps) {
+  const isFinishedGame = useIsFinishedGame();
+  const [votes, setVotes] = useState<Vote[]>(finishedGameVotes);
+  const [members, setMembers] = useState<RoomProps['members']>(initialMembers);
+  const [votedUserIds, setVotedUserIds] = useState<string[]>(initialVotes);
+  const [isWaitingForStartGame, setIsWaitingForStartGame] = useState(false);
+  const [isRevealedCards, setIsRevealedCards] = useState(isFinishedGame);
+  const [papers, setPapers] = useState<
+    Pick<TriggerPaperThrowingParams, 'triggerUser' | 'targetUser'>[]
+  >([]);
   const { data: session } = useSession();
   const { dispatch, room } = useRoomContext();
   const router = useRouter();
-  const [members, setMembers] = useState<RoomProps['members']>(initialMembers);
-  const [votes, setVotes] = useState<Vote[]>(finishedGameVotes);
-  const [votedUserIds, setVotedUserIds] = useState<string[]>(initialVotes);
   const pusher = useMemo(() => pusherClient(), []);
   const activeGame = room?.game;
-  const isFinishedGame = useIsFinishedGame();
-  const [isWaitingForStartGame, setIsWaitingForStartGame] = useState(false);
-  const [isRevealedCards, setIsRevealedCards] = useState(isFinishedGame);
   const areVotes = votedUserIds.length > 0;
   const memberChunks = useMemo(
     () => chunkMembers(members.sort((a, b) => a.name.localeCompare(b.name))),
@@ -58,9 +61,6 @@ export default function Room({
   const [topMembers, leftMembers, bottomMembers, rightMembers] = memberChunks;
   const { notify } = useNotification();
   const t = useTranslations();
-  const [papers, setPapers] = useState<
-    Pick<TriggerPaperThrowingParams, 'triggerUser' | 'targetUser'>[]
-  >([]);
   const setVoteValue = (value: string) => {
     dispatch({
       type: 'SET_VOTE',
