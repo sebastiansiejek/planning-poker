@@ -9,7 +9,6 @@ import z from 'zod';
 
 import { routes } from '@/shared/routes/routes';
 import { Button } from '@/shared/UIKit/Button/Button';
-import { Container } from '@/shared/UIKit/Container/Container';
 import {
   FormControl,
   FormItem,
@@ -53,43 +52,41 @@ export const CreateRoomForm = () => {
   });
 
   return (
-    <Container>
-      <FormProvider {...form}>
-        <form
-          onSubmit={handleSubmit(({ name }) => {
-            execute({ name });
-          })}
-          className="flex flex-col gap-6 justify-center items-center h-svh w-96 mx-auto"
+    <FormProvider {...form}>
+      <form
+        onSubmit={handleSubmit(({ name }) => {
+          execute({ name });
+        })}
+        className="flex flex-col gap-6 justify-center items-center w-96 mx-auto"
+      >
+        <FormField
+          name="name"
+          render={({ field: { ...field } }) => {
+            return (
+              <FormItem>
+                <FormLabel>{t('inputName.label')}</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder={t('inputName.placeholder')}
+                    data-testid="game-name"
+                    autoFocus
+                    autoComplete="off"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            );
+          }}
+        />
+        <Button
+          type="submit"
+          data-testid="create-game-submit"
+          isLoading={isPending}
         >
-          <FormField
-            name="name"
-            render={({ field: { ...field } }) => {
-              return (
-                <FormItem>
-                  <FormLabel>{t('inputName.label')}</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder={t('inputName.placeholder')}
-                      data-testid="game-name"
-                      autoFocus
-                      autoComplete="off"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              );
-            }}
-          />
-          <Button
-            type="submit"
-            data-testid="create-game-submit"
-            isLoading={isPending}
-          >
-            {t('create.label')}
-          </Button>
-        </form>
-      </FormProvider>
-    </Container>
+          {t('create.label')}
+        </Button>
+      </form>
+    </FormProvider>
   );
 };

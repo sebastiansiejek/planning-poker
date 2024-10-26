@@ -51,7 +51,6 @@ export default function Room({
   const areVotes = votedUserIds.length > 0;
   const memberChunks = useMemo(
     () => chunkMembers(members.sort((a, b) => a.name.localeCompare(b.name))),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [members.length],
   );
   const [topMembers, leftMembers, bottomMembers, rightMembers] = memberChunks;
