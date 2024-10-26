@@ -9,7 +9,7 @@ import { useEffect, useMemo, useState } from 'react';
 import type { RoomProps } from '@/app/game/[...room]/types';
 import useNotification from '@/shared/hooks/useNotification/useNotification';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
-import { pusherClient } from '@/shared/pusher/lib/pusherClient';
+import { usePusherClient } from '@/shared/pusher/hooks/usePusherClient/usePusherClient';
 import { routes } from '@/shared/routes/routes';
 import type {
   PusherNewMember,
@@ -51,7 +51,7 @@ export default function Room({
   const { data: session } = useSession();
   const { dispatch, room } = useRoomContext();
   const router = useRouter();
-  const pusher = useMemo(() => pusherClient(), []);
+  const pusher = usePusherClient();
   const activeGame = room?.game;
   const areVotes = votedUserIds.length > 0;
   const memberChunks = useMemo(
