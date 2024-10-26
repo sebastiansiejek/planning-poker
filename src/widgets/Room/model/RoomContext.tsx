@@ -5,17 +5,12 @@ import type { Dispatch, PropsWithChildren } from 'react';
 import { createContext, useContext, useMemo, useReducer } from 'react';
 
 export type RoomContextType = {
-  currentUserId?: string;
   vote?: string;
   roomId?: string;
   game?: Pick<Game, 'id' | 'name' | 'description' | 'status'>;
 };
 
 type Action =
-  | {
-      type: 'SET_CURRENT_USER_ID';
-      payload: Pick<RoomContextType, 'currentUserId'>;
-    }
   | {
       type: 'SET_VOTE';
       payload: {
@@ -40,11 +35,6 @@ const roomReducer = (
   action: Action,
 ): RoomContextType | null => {
   switch (action.type) {
-    case 'SET_CURRENT_USER_ID':
-      return {
-        ...state,
-        currentUserId: action.payload.currentUserId,
-      };
     case 'SET_VOTE':
       return {
         ...state,
@@ -62,14 +52,10 @@ const roomReducer = (
 
 export const RoomProvider = ({
   children,
-  currentUserId,
   roomId,
   game,
-}: PropsWithChildren<
-  Pick<RoomContextType, 'currentUserId' | 'roomId' | 'game'>
->) => {
+}: PropsWithChildren<Pick<RoomContextType, 'roomId' | 'game'>>) => {
   const [room, dispatch] = useReducer(roomReducer, {
-    currentUserId,
     roomId,
     game,
   });

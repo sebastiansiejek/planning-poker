@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
 import { useAction } from 'next-safe-action/hooks';
 import { useEffect, useMemo, useState } from 'react';
@@ -38,6 +39,7 @@ export default function Room({
   initialVotes = [],
   finishedGameVotes = [],
 }: RoomProps) {
+  const { data: session } = useSession();
   const { dispatch, room } = useRoomContext();
   const router = useRouter();
   const [members, setMembers] = useState<RoomProps['members']>(initialMembers);
@@ -75,7 +77,6 @@ export default function Room({
   };
   const gameId = activeGame?.id;
   const voteValue = room?.vote || '';
-  const currentUserId = room?.currentUserId || '';
   const { execute: executeGetGameVote } = useAction(getGameVotes, {
     onSuccess: ({ data }) => {
       const gameVotes = data?.data.gameVotes.reduce(
@@ -93,6 +94,7 @@ export default function Room({
       if (gameVotes) setVotes(gameVotes);
     },
   });
+  const currentUserId = session?.user.id as string;
 
   useEffect(() => {
     if (!pusher) return () => {};

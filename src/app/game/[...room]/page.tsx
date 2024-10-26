@@ -63,11 +63,7 @@ export default async function Page({
   });
 
   return (
-    <RoomProvider
-      currentUserId={userId}
-      game={latestGame || undefined}
-      roomId={roomId}
-    >
+    <RoomProvider game={latestGame || undefined} roomId={roomId}>
       <Room
         id={roomId}
         members={roomMembers.map(({ user }) => user)}
