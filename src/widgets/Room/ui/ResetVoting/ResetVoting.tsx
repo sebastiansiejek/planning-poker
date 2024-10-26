@@ -12,8 +12,9 @@ export const ResetVoting = () => {
   const t = useTranslations('Room');
   const { counter } = useCountdown({ time: 3000, enabled: !isFinishedGame });
   const isCounter = counter > 0;
-  const { room } = useRoomContext();
-  const channelName = room?.roomId as string;
+  const {
+    room: { roomId },
+  } = useRoomContext();
 
   const { execute } = useAction(resetVotes);
 
@@ -24,7 +25,7 @@ export const ResetVoting = () => {
         disabled={isCounter}
         onClick={() => {
           execute({
-            channelName,
+            channelName: roomId,
           });
         }}
       >

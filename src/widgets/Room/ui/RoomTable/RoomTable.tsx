@@ -5,14 +5,16 @@ import type { RoomTableProps } from '@/widgets/Room/ui/RoomTable/RoomTable.types
 
 export const RoomTable = (props: RoomTableProps) => {
   const { isRevealedCards, areVotes, isWaitingForStartGame } = props;
-  const { room } = useRoomContext();
+  const {
+    room: { roomId, game },
+  } = useRoomContext();
 
   return (
     <div className="bg-primary-500 flex items-center justify-center w-full h-full [grid-area:table] rounded p-4 min-w-72">
       {areVotes && !isRevealedCards && <RevealCards />}
-      {(!room?.game?.id || isRevealedCards) && (
+      {(!game?.id || isRevealedCards) && (
         <CreateGameForm
-          roomId={room?.roomId || ''}
+          roomId={roomId}
           isWaitingForStartGame={isWaitingForStartGame}
         />
       )}

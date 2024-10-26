@@ -5,9 +5,13 @@ import type { Dispatch, PropsWithChildren } from 'react';
 import { createContext, useContext, useMemo, useReducer } from 'react';
 
 export type RoomContextType = {
+  roomId: string;
   vote?: string;
-  roomId?: string;
   game?: Pick<Game, 'id' | 'name' | 'description' | 'status'>;
+};
+
+const initialState: RoomContextType = {
+  roomId: '',
 };
 
 type Action =
@@ -23,17 +27,17 @@ type Action =
     };
 
 export const RoomContext = createContext<{
-  room: RoomContextType | null;
+  room: RoomContextType;
   dispatch: Dispatch<Action>;
 }>({
-  room: null,
+  room: initialState,
   dispatch: () => {},
 });
 
 const roomReducer = (
-  state: RoomContextType | null,
+  state: RoomContextType,
   action: Action,
-): RoomContextType | null => {
+): RoomContextType => {
   switch (action.type) {
     case 'SET_VOTE':
       return {
