@@ -36,6 +36,9 @@ jobs:
         name: Validate all commits from PR
         run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
 
+      - name: Prepare postgres database
+        run: npx prisma migrate dev
+
       - name: Linter
         run: pnpm run lint
 
@@ -48,6 +51,7 @@ jobs:
           echo PUSHER_SECRET=${{ secrets.PUSHER_SECRET }} >> .env
           echo NEXT_PUBLIC_PUSHER_KEY=${{ secrets.NEXT_PUBLIC_PUSHER_KEY }} >> .env
           echo NEXT_PUBLIC_PUSHER_CLUSTER=${{ secrets.NEXT_PUBLIC_PUSHER_CLUSTER }} >> .env
+          echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
 
       - name: Build
         run: pnpm run build
