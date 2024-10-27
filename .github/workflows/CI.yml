@@ -33,6 +33,8 @@ jobs:
           echo NEXT_PUBLIC_PUSHER_KEY=${{ secrets.NEXT_PUBLIC_PUSHER_KEY }} >> .env
           echo NEXT_PUBLIC_PUSHER_CLUSTER=${{ secrets.NEXT_PUBLIC_PUSHER_CLUSTER }} >> .env
           echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env    
+          echo NEXTAUTH_URL=${{ 'http://localhost:3000' }} >> .env
+
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
