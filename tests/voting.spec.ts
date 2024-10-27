@@ -1,5 +1,9 @@
 import { expect, test } from '@playwright/test';
 
+import { databaseTestAuth } from '@/shared/lib/tests/utils';
+
+databaseTestAuth();
+
 test('voting', async ({ page }) => {
   await page.goto('/');
   await page.getByTestId('go-to-game').click();
