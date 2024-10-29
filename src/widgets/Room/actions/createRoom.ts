@@ -43,8 +43,18 @@ export const createRoom = actionClient
       };
     } catch (error) {
       const typedError = error as PrismaClientKnownRequestError;
+      const room = await prisma.room.findFirst({
+        where: {
+          name,
+          authorId,
+        },
+      });
+
       return {
         success: false,
+        data: {
+          id: room?.id,
+        },
         error: {
           code: typedError.code,
         },

@@ -36,20 +36,28 @@ export const CreateRoomForm = () => {
     },
   });
   const { handleSubmit, setError } = form;
-  const { execute, isPending } = useAction(createRoom, {
+  const {
+    execute,
+    isPending,
+    result: { data: createRoomResponse },
+  } = useAction(createRoom, {
     onSuccess: ({ data }) => {
       if (data?.error) {
         if (data.error.code === 'P2002') {
           setError('name', {
             message: t(`errors.${data.error.code}`),
+            type: 'P2002',
           });
         }
       }
-      if (data?.success && data.data) {
+
+      if (data?.success && data.data?.id) {
         push(routes.game.singleGame.getPath(data.data.id));
       }
     },
   });
+
+  const roomExists = form.getFieldState('name')?.error?.type === 'P2002';
 
   return (
     <FormProvider {...form}>
@@ -79,13 +87,30 @@ export const CreateRoomForm = () => {
             );
           }}
         />
-        <Button
-          type="submit"
-          data-testid="create-game-submit"
-          isLoading={isPending}
-        >
-          {t('create.label')}
-        </Button>
+        <div className="flex gap-6">
+          <Button
+            type="submit"
+            data-testid="create-game-submit"
+            isLoading={isPending}
+          >
+            {t('create.label')}
+          </Button>
+          {roomExists && (
+            <Button
+              type="button"
+              data-testid="join-to-game"
+              onClick={() => {
+                const roomId = createRoomResponse?.data?.id;
+
+                if (roomId) {
+                  push(routes.game.singleGame.getPath(roomId));
+                }
+              }}
+            >
+              {t('join.label')}
+            </Button>
+          )}
+        </div>
       </form>
     </FormProvider>
   );

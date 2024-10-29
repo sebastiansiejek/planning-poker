@@ -53,7 +53,11 @@ export const CreateGameForm = ({
     <FormProvider {...form}>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
-          <Button variant="outline" disabled={isCounter}>
+          <Button
+            variant="outline"
+            disabled={isCounter}
+            data-testid="create-game-trigger-button"
+          >
             <span>
               {translate('Game.create.label')} {isCounter && `(${counter})`}
             </span>
@@ -109,7 +113,11 @@ export const CreateGameForm = ({
             {/*  }} */}
             {/* /> */}
             <DialogFooter>
-              <Button isLoading={isPending} type="submit">
+              <Button
+                isLoading={isPending}
+                type="submit"
+                data-testid="create-game-submit"
+              >
                 {translate('Game.create.label')}
               </Button>
             </DialogFooter>
