@@ -20,7 +20,7 @@ const FormMessage = forwardRef<
       ref={ref}
       id={formMessageId}
       className={renderClass(
-        'text-[0.8rem] font-medium text-destructive',
+        'form-message text-[0.8rem] font-medium text-destructive',
         className,
       )}
       {...props}
