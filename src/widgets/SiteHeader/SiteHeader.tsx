@@ -5,7 +5,7 @@ import { UserMenu } from '@/widgets/SiteHeader/ui/UserMenu/UserMenu';
 
 export const SiteHeader = async () => {
   return (
-    <div className="sticky bg-white dark:bg-gray-900 flex items-center justify-between top-0 p-2">
+    <div className="sticky bg-white dark:bg-gray-900 flex items-center justify-between top-0 p-2 z-20">
       <div className="lg:hidden">
         <MobileNavbar />
       </div>
