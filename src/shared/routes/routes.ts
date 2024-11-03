@@ -19,4 +19,7 @@ export const routes = {
   dashboard: {
     getPath: () => '/dashboard',
   },
+  userSettings: {
+    getPath: () => '/user-settings',
+  },
 };

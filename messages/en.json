@@ -117,5 +117,19 @@
     "meta": {
       "title": "Dashboard"
     }
+  },
+  "UserSettings": {
+    "title": "Settings",
+    "controls": {
+      "name": {
+        "label": "Name"
+      },
+      "submit": {
+        "title": "Save"
+      }
+    },
+    "notifications": {
+      "success": "You settings updated successfully"
+    }
   }
 }

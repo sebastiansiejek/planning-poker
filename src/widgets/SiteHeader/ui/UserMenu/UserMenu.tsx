@@ -1,6 +1,6 @@
 'use client';
 
-import { ChevronDown, LayoutDashboard, LogOut } from 'lucide-react';
+import { ChevronDown, LayoutDashboard, LogOut, Settings } from 'lucide-react';
 import Link from 'next/link';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
@@ -44,6 +44,12 @@ export const UserMenu = () => {
           <DropdownMenuItem>
             <LayoutDashboard />
             {translations('UserMenu.dashboard')}
+          </DropdownMenuItem>
+        </Link>
+        <Link href={routes.userSettings.getPath()}>
+          <DropdownMenuItem>
+            <Settings />
+            {translations('UserSettings.title')}
           </DropdownMenuItem>
         </Link>
         <DropdownMenuSeparator />
