@@ -1,15 +1,16 @@
 import { LogOut } from 'lucide-react';
-import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useAction } from 'next-safe-action/hooks';
 
 import { ButtonIcon } from '@/shared/UIKit/Button/ButtonIcon/ButtonIcon';
 import { leftGame } from '@/widgets/Room/actions/leftGame';
+import { useRoomContext } from '@/widgets/Room/model/RoomContext';
 
 export const KickUser = ({ userId }: { userId: string }) => {
   const t = useTranslations('Member');
-  const params = useParams();
-  const roomId = params.room.toString();
+  const {
+    room: { game, roomId },
+  } = useRoomContext();
   const { execute, isPending } = useAction(leftGame);
 
   return (
@@ -18,7 +19,9 @@ export const KickUser = ({ userId }: { userId: string }) => {
       type="button"
       disabled={isPending}
       onClick={() => {
-        execute({ userId, channelId: roomId });
+        if (game) {
+          execute({ userId, roomId, gameId: game?.id });
+        }
       }}
       icon={<LogOut />}
     />

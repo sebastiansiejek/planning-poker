@@ -8,23 +8,34 @@ import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { pusherServer } from '@/shared/pusher/lib/pusherServer';
 
 const schema = z.object({
-  channelId: z.string(),
+  roomId: z.string(),
   userId: z.string(),
+  gameId: z.string(),
 });
 
 export const leftGame = actionClient
   .schema(schema)
-  .action(async ({ parsedInput: { channelId, userId } }) => {
-    await prisma.roomUser.delete({
-      where: {
-        roomId_userId: {
-          roomId: channelId,
-          userId,
+  .action(async ({ parsedInput: { roomId, userId, gameId } }) => {
+    await Promise.all([
+      prisma.roomUser.delete({
+        where: {
+          roomId_userId: {
+            userId,
+            roomId,
+          },
         },
-      },
-    });
+      }),
+      prisma.userVote.delete({
+        where: {
+          userId_gameId: {
+            userId,
+            gameId,
+          },
+        },
+      }),
+    ]);
 
-    await pusherServer.trigger(channelId, PUSHER_EVENTS.MEMBER_REMOVED, {
+    await pusherServer.trigger(roomId, PUSHER_EVENTS.MEMBER_REMOVED, {
       id: userId,
     });
 
