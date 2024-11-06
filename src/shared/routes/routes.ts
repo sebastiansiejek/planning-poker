@@ -20,6 +20,6 @@ export const routes = {
     getPath: () => '/dashboard',
   },
   userSettings: {
-    getPath: () => '/user-settings',
+    getPath: () => '/dashboard/user-settings',
   },
 };
