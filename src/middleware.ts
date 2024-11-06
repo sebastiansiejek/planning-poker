@@ -10,7 +10,9 @@ export const config = { matcher: ['/dashboard/:path*', '/game/:path*'] };
 
 // eslint-disable-next-line func-names,import/no-anonymous-default-export
 export default async function (request: NextRequest) {
-  const sessionCookie = request.cookies.get('next-auth.session-token')?.value;
+  const sessionCookie =
+    request.cookies.get('next-auth.session-token')?.value ??
+    request.cookies.get('__Secure-next-auth.session-token')?.value;
 
   if (sessionCookie) {
     const apiSessionClient = new ApiSessionClient();
