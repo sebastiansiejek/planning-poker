@@ -1,4 +1,7 @@
+import Link from 'next/link';
+
 import { META_CONSTANTS } from '@/shared/global/config/META_CONSTANTS';
+import { Button } from '@/shared/UIKit/Button/Button';
 import { ThemeSwitcher } from '@/widgets/ThemeSwitcher/ui/ThemeSwitcher';
 
 export const SiteFooter = () => {
@@ -14,6 +17,16 @@ export const SiteFooter = () => {
           {META_CONSTANTS.author.name}
         </a>
         <ThemeSwitcher />
+        <Link
+          href="https://www.buymeacoffee.com/sebastiansiejek"
+          target="_blank"
+          passHref
+          rel="noopener noreferrer"
+        >
+          <Button variant="secondary" size="sm">
+            ☕ Buy me a coffee
+          </Button>
+        </Link>
       </footer>
     </div>
   );
