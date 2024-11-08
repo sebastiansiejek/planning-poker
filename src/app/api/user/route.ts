@@ -2,8 +2,8 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import z from 'zod';
 
+import { UserApiService } from '@/shared/api/services/UserApiService';
 import { getSession } from '@/shared/auth/auth';
-import prisma from '@/shared/database/prisma';
 
 export async function PUT(req: NextRequest) {
   const session = await getSession();
@@ -28,13 +28,8 @@ export async function PUT(req: NextRequest) {
   } = session;
   const { name = defaultName } = bodyData;
 
-  const data = await prisma.user.update({
-    data: {
-      name,
-    },
-    where: {
-      id,
-    },
+  const data = await new UserApiService().updateUser(id, {
+    name,
   });
 
   return NextResponse.json({
