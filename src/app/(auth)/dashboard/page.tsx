@@ -1,13 +1,13 @@
 import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 
+import { RoomApiService } from '@/shared/api/services/RoomApiService';
 import { getSession } from '@/shared/auth/auth';
 import { routes } from '@/shared/routes/routes';
 import { Container } from '@/shared/UIKit/Container/Container';
 import { Heading } from '@/shared/UIKit/Heading/Heading';
 import { PageHeading } from '@/shared/UIKit/PageHeading/PageHeading';
 import { getPageMetaData } from '@/shared/utils/getPageMetaData';
-import { RoomApiService } from '@/widgets/Room/api/RoomApiService';
 import { UserGames } from '@/widgets/UserGames/UserGames';
 
 export async function generateMetadata({

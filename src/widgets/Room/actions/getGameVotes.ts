@@ -2,8 +2,8 @@
 
 import { z } from 'zod';
 
+import { RoomApiService } from '@/shared/api/services/RoomApiService';
 import { actionClient } from '@/shared/lib/safeAction';
-import { RoomApiService } from '@/widgets/Room/api/RoomApiService';
 
 const schema = z.object({
   gameId: z.string(),

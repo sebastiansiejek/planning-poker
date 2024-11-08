@@ -1,12 +1,12 @@
 import { redirect } from 'next/navigation';
 import { cache } from 'react';
 
+import { RoomApiService } from '@/shared/api/services/RoomApiService';
 import { getSession } from '@/shared/auth/auth';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { pusherServer } from '@/shared/pusher/lib/pusherServer';
 import { routes } from '@/shared/routes/routes';
 import { getPageMetaData } from '@/shared/utils/getPageMetaData';
-import { RoomApiService } from '@/widgets/Room/api/RoomApiService';
 import { RoomProvider } from '@/widgets/Room/model/RoomContext';
 import Room from '@/widgets/Room/Room';
 
