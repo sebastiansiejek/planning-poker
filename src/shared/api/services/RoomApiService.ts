@@ -1,3 +1,5 @@
+import type { Prisma } from '@prisma/client';
+
 import { BasePrismaService } from '@/shared/api/services/BasePrismaService';
 
 export class RoomApiService extends BasePrismaService {
@@ -85,22 +87,6 @@ export class RoomApiService extends BasePrismaService {
     });
   }
 
-  async getGameVotes(gameId: string) {
-    return this.prisma.userVote.findMany({
-      select: {
-        vote: true,
-        user: {
-          select: {
-            id: true,
-          },
-        },
-      },
-      where: {
-        gameId,
-      },
-    });
-  }
-
   async finishGame(gameId: string) {
     return this.prisma.game.update({
       data: {
@@ -134,5 +120,9 @@ export class RoomApiService extends BasePrismaService {
         },
       },
     });
+  }
+
+  async delete(data: Prisma.RoomUserDeleteArgs) {
+    return this.prisma.roomUser.delete(data);
   }
 }

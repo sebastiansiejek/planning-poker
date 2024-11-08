@@ -2,6 +2,7 @@
 
 import { z } from 'zod';
 
+import { UserVotePrismaService } from '@/shared/api/services/UserVotePrismaService';
 import prisma from '@/shared/database/prisma';
 import { actionClient } from '@/shared/lib/safeAction';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
@@ -16,6 +17,8 @@ const schema = z.object({
 export const leftGame = actionClient
   .schema(schema)
   .action(async ({ parsedInput: { roomId, userId, gameId } }) => {
+    const userVoteService = new UserVotePrismaService();
+
     await Promise.all([
       prisma.roomUser.delete({
         where: {
@@ -25,7 +28,7 @@ export const leftGame = actionClient
           },
         },
       }),
-      prisma.userVote.delete({
+      userVoteService.delete({
         where: {
           userId_gameId: {
             userId,

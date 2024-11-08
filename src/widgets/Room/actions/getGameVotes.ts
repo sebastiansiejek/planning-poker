@@ -2,7 +2,7 @@
 
 import { z } from 'zod';
 
-import { RoomApiService } from '@/shared/api/services/RoomApiService';
+import { UserVotePrismaService } from '@/shared/api/services/UserVotePrismaService';
 import { actionClient } from '@/shared/lib/safeAction';
 
 const schema = z.object({
@@ -12,8 +12,8 @@ const schema = z.object({
 export const getGameVotes = actionClient
   .schema(schema)
   .action(async ({ parsedInput: { gameId } }) => {
-    const roomApiService = new RoomApiService();
-    const gameVotes = await roomApiService.getGameVotes(gameId);
+    const userService = new UserVotePrismaService();
+    const gameVotes = await userService.getGameVotes(gameId);
 
     return {
       success: true,
