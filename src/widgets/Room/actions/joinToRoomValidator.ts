@@ -2,7 +2,7 @@
 
 import { z } from 'zod';
 
-import prisma from '@/shared/database/prisma';
+import { RoomApiService } from '@/shared/api/services/RoomApiService';
 import { actionClient } from '@/shared/lib/safeAction';
 
 const schema = z.object({
@@ -12,13 +12,10 @@ const schema = z.object({
 export const joinToRoomValidator = actionClient
   .schema(schema)
   .action(async ({ parsedInput: { id } }) => {
-    const room = await prisma.room.count({
-      where: {
-        id,
-      },
-    });
+    const roomService = new RoomApiService();
+    const isRoom = await roomService.count(id);
 
-    return room
+    return isRoom
       ? {
           success: true,
         }

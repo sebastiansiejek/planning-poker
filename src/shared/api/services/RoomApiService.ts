@@ -3,62 +3,14 @@ import type { Prisma } from '@prisma/client';
 import { BasePrismaService } from '@/shared/api/services/BasePrismaService';
 
 export class RoomApiService extends BasePrismaService {
-  async addUserToRoom(userId: string, roomId: string) {
-    return this.prisma.roomUser.upsert({
-      create: {
-        room: {
-          connect: {
-            id: roomId,
-          },
-        },
-        user: {
-          connect: {
-            id: userId,
-          },
-        },
-      },
-      update: {},
-      where: {
-        roomId_userId: {
-          roomId,
-          userId,
-        },
-      },
+  async create(data: Prisma.RoomUncheckedCreateInput) {
+    return this.prisma.room.create({
+      data,
     });
   }
 
-  async getRoomMembers(roomId: string) {
-    return this.prisma.roomUser.findMany({
-      select: {
-        user: {
-          select: {
-            id: true,
-            name: true,
-            image: true,
-          },
-        },
-      },
-      where: {
-        roomId,
-      },
-    });
-  }
-
-  async getLatestRoomGame(roomId: string) {
-    return this.prisma.game.findFirst({
-      select: {
-        id: true,
-        name: true,
-        description: true,
-        status: true,
-      },
-      where: {
-        roomId,
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
+  async findFirst(data: Prisma.RoomFindFirstArgs) {
+    return this.prisma.room.findFirst(data);
   }
 
   async getRoomName(roomId: string) {
@@ -68,32 +20,6 @@ export class RoomApiService extends BasePrismaService {
       },
       where: {
         id: roomId,
-      },
-    });
-  }
-
-  async getVotedUsers(gameId: string) {
-    return this.prisma.userVote.findMany({
-      select: {
-        userId: true,
-        vote: true,
-      },
-      where: {
-        gameId,
-        vote: {
-          not: undefined,
-        },
-      },
-    });
-  }
-
-  async finishGame(gameId: string) {
-    return this.prisma.game.update({
-      data: {
-        status: 'FINISHED',
-      },
-      where: {
-        id: gameId,
       },
     });
   }
@@ -122,7 +48,11 @@ export class RoomApiService extends BasePrismaService {
     });
   }
 
-  async delete(data: Prisma.RoomUserDeleteArgs) {
-    return this.prisma.roomUser.delete(data);
+  async count(id: string) {
+    return this.prisma.room.count({
+      where: {
+        id,
+      },
+    });
   }
 }

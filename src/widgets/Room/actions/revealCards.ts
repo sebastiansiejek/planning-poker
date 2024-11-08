@@ -2,7 +2,7 @@
 
 import { z } from 'zod';
 
-import { RoomApiService } from '@/shared/api/services/RoomApiService';
+import { GamePrismaService } from '@/shared/api/services/GamePrismaService';
 import { actionClient } from '@/shared/lib/safeAction';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { pusherServer } from '@/shared/pusher/lib/pusherServer';
@@ -15,8 +15,8 @@ const schema = z.object({
 export const revealCards = actionClient
   .schema(schema)
   .action(async ({ parsedInput: { roomId, gameId } }) => {
-    const roomApiService = new RoomApiService();
-    const finishedGame = await roomApiService.finishGame(gameId);
+    const gamePrismaService = new GamePrismaService();
+    const finishedGame = await gamePrismaService.finishGame(gameId);
 
     await pusherServer.trigger(roomId, PUSHER_EVENTS.REVEAL_VOTES, {});
 

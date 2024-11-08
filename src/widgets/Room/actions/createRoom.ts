@@ -4,8 +4,8 @@ import type { PrismaClientKnownRequestError } from '@prisma/client/runtime/binar
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
+import { RoomApiService } from '@/shared/api/services/RoomApiService';
 import { getSession } from '@/shared/auth/auth';
-import prisma from '@/shared/database/prisma';
 import { actionClient } from '@/shared/lib/safeAction';
 import { routes } from '@/shared/routes/routes';
 
@@ -18,6 +18,7 @@ export const createRoom = actionClient
   .action(async ({ parsedInput: { name } }) => {
     const session = await getSession();
     const authorId = session?.user?.id;
+    const roomService = new RoomApiService();
 
     if (!authorId) {
       return {
@@ -28,11 +29,9 @@ export const createRoom = actionClient
     }
 
     try {
-      const room = await prisma.room.create({
-        data: {
-          name,
-          authorId,
-        },
+      const room = await roomService.create({
+        name,
+        authorId,
       });
 
       revalidatePath(routes.dashboard.getPath());
@@ -43,7 +42,7 @@ export const createRoom = actionClient
       };
     } catch (error) {
       const typedError = error as PrismaClientKnownRequestError;
-      const room = await prisma.room.findFirst({
+      const room = await roomService.findFirst({
         where: {
           name,
           authorId,

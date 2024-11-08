@@ -57,4 +57,19 @@ export class UserVotePrismaService extends BasePrismaService {
       },
     });
   }
+
+  async getVotedUsers(gameId: string) {
+    return this.prisma.userVote.findMany({
+      select: {
+        userId: true,
+        vote: true,
+      },
+      where: {
+        gameId,
+        vote: {
+          not: undefined,
+        },
+      },
+    });
+  }
 }
