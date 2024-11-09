@@ -6,8 +6,13 @@ import { getLocale, getMessages, getTranslations } from 'next-intl/server';
 import { ThemeProvider } from 'next-themes';
 import type { ReactNode } from 'react';
 
+import { getSession } from '@/shared/auth/auth';
+import SessionProvider from '@/shared/auth/SessionProvider';
 import { META_CONSTANTS } from '@/shared/global/config/META_CONSTANTS';
+import { Toaster } from '@/shared/UIKit/Toast/model/Toaster';
+import { getPageMetaData } from '@/shared/utils/getPageMetaData';
 import { SiteFooter } from '@/widgets/SiteFooter/ui/SiteFooter';
+import { SiteHeader } from '@/widgets/SiteHeader/SiteHeader';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,11 +23,10 @@ export async function generateMetadata({
 }) {
   const t = await getTranslations({ locale });
 
-  return {
-    title: 'Planning Poker',
+  return getPageMetaData({
     description: t('Meta.description'),
     authors: [META_CONSTANTS.author],
-  };
+  });
 }
 
 export default async function RootLayout({
@@ -32,18 +36,23 @@ export default async function RootLayout({
 }>) {
   const locale = await getLocale();
   const messages = await getMessages();
+  const session = await getSession();
 
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={inter.className}>
-        <NextIntlClientProvider messages={messages}>
-          <ThemeProvider>
-            <div className="h-screen flex flex-col">
-              {children}
-              <SiteFooter />
-            </div>
-          </ThemeProvider>
-        </NextIntlClientProvider>
+        <SessionProvider session={session}>
+          <NextIntlClientProvider messages={messages}>
+            <ThemeProvider attribute="class" disableTransitionOnChange>
+              <div className="h-screen flex flex-col">
+                <SiteHeader />
+                {children}
+                <SiteFooter />
+              </div>
+              <Toaster />
+            </ThemeProvider>
+          </NextIntlClientProvider>
+        </SessionProvider>
       </body>
     </html>
   );

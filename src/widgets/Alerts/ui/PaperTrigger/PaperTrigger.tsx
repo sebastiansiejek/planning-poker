@@ -1,18 +1,24 @@
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
+import { useAction } from 'next-safe-action/hooks';
 import { useTransition } from 'react';
 
 import { ButtonIcon } from '@/shared/UIKit/Button/ButtonIcon/ButtonIcon';
 import type { PaperTriggerProps } from '@/widgets/Alerts/ui/PaperTrigger/types';
 import { triggerPaperThrowing } from '@/widgets/Room/actions/alerts/triggerPaperThrowing';
-import { useRoomContext } from '@/widgets/Room/model/RoomContext';
 
 export const PaperTrigger = ({ userId, memberRef }: PaperTriggerProps) => {
   const t = useTranslations('Member');
   const [pendingNotification, startNotificationTransition] = useTransition();
   const params = useParams();
-  const { room } = useRoomContext();
+  const roomId = params.room.toString();
+  const { execute } = useAction(triggerPaperThrowing);
+  const { data } = useSession();
+
+  if (!data) return null;
+  const { id: currentUserId } = data.user;
 
   return (
     <ButtonIcon
@@ -23,14 +29,14 @@ export const PaperTrigger = ({ userId, memberRef }: PaperTriggerProps) => {
         startNotificationTransition(async () => {
           const rect = memberRef.current?.getBoundingClientRect();
 
-          if (rect && room?.currentUserId) {
-            await triggerPaperThrowing({
-              channelName: `presence-${params.room}`,
+          if (rect) {
+            execute({
+              channelName: roomId,
               targetUser: {
                 id: userId,
               },
               triggerUser: {
-                id: room.currentUserId,
+                id: currentUserId,
               },
             });
           }

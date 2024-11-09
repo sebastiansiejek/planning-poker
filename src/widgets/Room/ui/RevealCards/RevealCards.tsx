@@ -1,23 +1,27 @@
 import { useTranslations } from 'next-intl';
+import { useAction } from 'next-safe-action/hooks';
 
 import { Button } from '@/shared/UIKit/Button/Button';
 import { revealCards } from '@/widgets/Room/actions/revealCards';
-import type { RevealCardsProps } from '@/widgets/Room/ui/RevealCards/types';
+import { useRoomContext } from '@/widgets/Room/model/RoomContext';
 
-export const RevealCards = ({ voteValue, channelName }: RevealCardsProps) => {
+export const RevealCards = () => {
   const t = useTranslations('Room');
+  const { execute, isPending } = useAction(revealCards);
+  const {
+    room: { roomId, game },
+  } = useRoomContext();
+  const gameId = game?.id as string;
 
   return (
-    <form action={revealCards}>
-      <input type="hidden" name="voteValue" defaultValue={voteValue} />
-      <input type="hidden" name="channelName" defaultValue={channelName} />
-      <Button
-        type="submit"
-        variant="secondary"
-        data-testid="reveal-cards-button"
-      >
-        {t('reveal.button')}
-      </Button>
-    </form>
+    <Button
+      onClick={() => execute({ gameId, roomId })}
+      type="submit"
+      variant="secondary"
+      data-testid="reveal-cards-button"
+      isLoading={isPending}
+    >
+      {t('reveal.button')}
+    </Button>
   );
 };

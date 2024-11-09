@@ -1,11 +1,25 @@
 export const routes = {
+  home: {
+    getPath: () => '/',
+  },
   game: {
-    getPath: () => '/game',
+    create: {
+      getPath: () => `/game/create`,
+    },
+    join: {
+      getPath: () => `/game/join`,
+    },
     singleGame: {
-      getPath: (gameId: string) => `${routes.game.getPath()}/${gameId}`,
+      getPath: (gameId: string) => `/game/${gameId}`,
     },
   },
   login: {
-    getPath: (room?: string) => `/login${room ? `?room=${room}` : ''}`,
+    getPath: () => '/api/auth/signin',
+  },
+  dashboard: {
+    getPath: () => '/dashboard',
+  },
+  userSettings: {
+    getPath: () => '/dashboard/user-settings',
   },
 };

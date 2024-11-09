@@ -3,6 +3,7 @@
 import { useRef, useState } from 'react';
 
 import { AlarmTrigger } from '@/widgets/Alerts/ui/AlarmTrigger/AlarmTrigger';
+import { KickUser } from '@/widgets/Alerts/ui/KickUser/KickUser';
 import { PaperTrigger } from '@/widgets/Alerts/ui/PaperTrigger/PaperTrigger';
 import { MemberAvatar } from '@/widgets/Member/ui/MemberAvatar/MemberAvatar';
 import { MemberCard } from '@/widgets/Member/ui/MemberCard/MemberCard';
@@ -11,7 +12,7 @@ import { MemberTooltip } from '@/widgets/Member/ui/MemberTooltip/MemberTooltip';
 import type { MemberProps } from '@/widgets/Room/ui/RoomMember/types';
 
 export const Member = ({
-  avatarUrl,
+  image,
   id,
   vote,
   isRevealedCards,
@@ -25,7 +26,7 @@ export const Member = ({
 
   return (
     <div
-      className="flex items-center flex-col min-w-16 min-h-28 text-center relative z-30 max-w-56"
+      className="flex items-center flex-col min-w-16 min-h-28 text-center relative max-w-56"
       ref={ref}
     >
       <MemberCard
@@ -47,9 +48,10 @@ export const Member = ({
         >
           <AlarmTrigger userId={id} />
           <PaperTrigger userId={id} memberRef={ref} />
+          <KickUser userId={id} />
         </MemberTooltip>
       )}
-      <MemberAvatar avatarUrl={avatarUrl} isLoading={isLoading} />
+      <MemberAvatar image={image} />
       <MemberName name={name} isLoading={isLoading} />
     </div>
   );

@@ -1,17 +1,17 @@
+import { Loader2 } from 'lucide-react';
+
+import { Button } from '@/shared/UIKit/Button/Button';
 import type { ButtonIconProps } from '@/shared/UIKit/Button/ButtonIcon/ButtonIcon.types';
 
 export const ButtonIcon = ({
   icon,
-  type = 'button',
+  isLoading,
+  size = 'icon',
   ...rest
 }: ButtonIconProps) => {
   return (
-    <button
-      type={type === 'submit' ? 'submit' : 'button'}
-      {...rest}
-      className="w-6 h-6 rounded-full bg-gray-600 dark:bg-gray-700 flex items-center justify-center hover:bg-primary-500 [&>svg]:fill-white"
-    >
-      {icon}
-    </button>
+    <Button variant="outline" disabled={isLoading} size={size} {...rest}>
+      {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : icon}
+    </Button>
   );
 };

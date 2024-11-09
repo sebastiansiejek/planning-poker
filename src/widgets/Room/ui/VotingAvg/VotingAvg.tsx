@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
 
+import { Container } from '@/shared/UIKit/Container/Container';
 import { calcVotingAvg } from '@/widgets/Room/libs/calcVotingAvg/calcVotingAvg';
 import { getNumberVotes } from '@/widgets/Room/libs/getNumberVotes/getNumberVotes';
 import { getVotesAvg } from '@/widgets/Room/libs/getVotesAvg/getVotesAvg';
@@ -16,7 +17,7 @@ export const VotingAvg = ({ votes }: VotingAvgProps) => {
   const areVotes = sameVotes.length > 0;
 
   return (
-    <div className="flex justify-center items-center flex-col gap-5 p-6">
+    <Container className="sticky bg-background bottom-0 flex justify-center items-center flex-col gap-5 py-4">
       {!!avgVotes && (
         <div data-testid="voting-avg">
           {translate.rich('avg', {
@@ -35,6 +36,6 @@ export const VotingAvg = ({ votes }: VotingAvgProps) => {
           </div>
         ))}
       </div>
-    </div>
+    </Container>
   );
 };

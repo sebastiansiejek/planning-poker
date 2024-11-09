@@ -1,9 +1,9 @@
-import type { PusherMember } from '@/shared/types/pusher/pusher';
+import type { RoomMember } from '@/app/game/[...room]/types';
 
 export const chunkMembers = (
-  arr: Array<PusherMember>,
-): Array<Array<PusherMember>> => {
-  const chunks: Array<Array<PusherMember>> = [[], [], [], []];
+  arr: Array<RoomMember>,
+): Array<Array<RoomMember>> => {
+  const chunks: Array<Array<RoomMember>> = [[], [], [], []];
 
   for (let i = 0; i < Math.min(4, arr.length); i += 1) {
     chunks[i].push(arr[i]);

@@ -2,17 +2,20 @@
 
 import z from 'zod';
 
+import { actionClient } from '@/shared/lib/safeAction';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { pusherServer } from '@/shared/pusher/lib/pusherServer';
 
-export const resetVotes = async (data: FormData) => {
-  const channelName = data.get('channelName') as string;
+const schema = z.object({
+  channelName: z.string(),
+});
 
-  try {
-    z.string().parse(channelName);
-
+export const resetVotes = actionClient
+  .schema(schema)
+  .action(async ({ parsedInput: { channelName } }) => {
     await pusherServer.trigger(channelName, PUSHER_EVENTS.RESET_VOTES, {});
-  } catch (error) {
-    console.error(error);
-  }
-};
+
+    return {
+      success: true,
+    };
+  });

@@ -1,4 +1,13 @@
 {
+  "Common": {
+    "signIn": "Sign in",
+    "or": "or",
+    "name": "Name",
+    "players_count": "Players count",
+    "created_at": "Created at",
+    "created_by": "Created by",
+    "actions": "Actions"
+  },
   "Meta": {
     "description": "Planning Poker is a fun way to estimate tasks in a team."
   },
@@ -8,10 +17,44 @@
   },
   "Game": {
     "inputName": {
-      "placeholder": "Enter game name"
+      "label": "Name",
+      "placeholder": "Enter game name",
+      "error": {
+        "required": "Name is required"
+      }
     },
-    "submitButton": {
-      "label": "Create or join"
+    "create": {
+      "label": "Start new game",
+      "meta": {
+        "title": "Create new game",
+        "description": "Create a new game to estimate tasks in a team."
+      }
+    },
+    "newGame": {
+      "title": "New game",
+      "name": {
+        "label": "Name"
+      },
+      "description": {
+        "label": "Description"
+      }
+    },
+    "join": {
+      "label": "Join to the game",
+      "meta": {
+        "title": "Join to the game",
+        "description": "Join to the game to estimate tasks in a team."
+      }
+    },
+    "inputId": {
+      "label": "Room ID",
+      "error": {
+        "required": "Room ID is required",
+        "notFound": "Room not found"
+      }
+    },
+    "errors": {
+      "P2002": "You are already created a room with this name"
     }
   },
   "Login": {
@@ -34,6 +77,9 @@
     },
     "reset": {
       "button": "Reset"
+    },
+    "kick": {
+      "message": "You have been kicked from the game"
     }
   },
   "Member": {
@@ -49,5 +95,41 @@
   "Voting": {
     "avg": "Average: {avg}",
     "noVotes": "Nobody voted. 😔"
+  },
+  "UserMenu": {
+    "logout": "Logout",
+    "dashboard": "Dashboard"
+  },
+  "Navbar": {
+    "home": "Home",
+    "createGame": "Game"
+  },
+  "AlertDialog": {
+    "delete": {
+      "title": "Are you absolutely sure?",
+      "description": "You won't be able to revert this!",
+      "confirm": "Yes, delete it!",
+      "cancel": "No, cancel!"
+    }
+  },
+  "Dashboard": {
+    "userGames": "Games in which you participate",
+    "meta": {
+      "title": "Dashboard"
+    }
+  },
+  "UserSettings": {
+    "title": "Settings",
+    "controls": {
+      "name": {
+        "label": "Name"
+      },
+      "submit": {
+        "title": "Save"
+      }
+    },
+    "notifications": {
+      "success": "You settings updated successfully"
+    }
   }
 }

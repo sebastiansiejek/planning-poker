@@ -1,54 +1,66 @@
-import type { PusherMember } from '@/shared/types/pusher/pusher';
+import type { RoomMember } from '@/app/game/[...room]/types';
 import { chunkMembers } from '@/widgets/Room/libs/chunkMembers/chunkMembers';
 
-const members: Array<PusherMember> = [
+const members: Array<RoomMember> = [
   {
     id: Math.random().toString(),
     name: 'John Doe',
+    image: null,
   },
   {
     id: Math.random().toString(),
     name: 'Jane Doe',
+    image: null,
   },
   {
     id: Math.random().toString(),
     name: 'John Smith',
+    image: null,
   },
   {
     id: Math.random().toString(),
     name: 'Jane Smith',
+    image: null,
   },
   {
     id: Math.random().toString(),
     name: 'John Doe',
+    image: null,
   },
   {
     id: Math.random().toString(),
     name: 'Jane Doe',
+    image: null,
   },
   {
     id: Math.random().toString(),
     name: 'John Smith',
+    image: null,
   },
   {
     id: Math.random().toString(),
     name: 'Jane Smith',
+    image: null,
   },
   {
     id: Math.random().toString(),
     name: 'John Doe2',
+    image: null,
   },
   {
     id: Math.random().toString(),
     name: 'Jane Doe',
+    image: null,
   },
   {
     id: Math.random().toString(),
     name: 'John Smith',
+    image: null,
   },
   {
     id: Math.random().toString(),
     name: 'Jane Smith',
+    image: null,
   },
 ];
 

@@ -1,5 +1,4 @@
-import Skeleton from 'react-loading-skeleton';
-
+import { Skeleton } from '@/shared/UIKit/Skeleton/Skeleton';
 import { Member } from '@/widgets/Member/ui/Member';
 import { GameContainer } from '@/widgets/Room/ui/Game/GameContainer/GameContainer';
 import { MembersContainer } from '@/widgets/Room/ui/MembersContainer/MembersContainer';
@@ -13,7 +12,7 @@ export default function RoomLoading() {
       <MembersContainer place="left" isVertical>
         <Member id="2" name="Megan Fox" isLoading />
       </MembersContainer>
-      <Skeleton count={1} height={100} />
+      <Skeleton className="h-[10rem]" />
       <MembersContainer place="right" isVertical>
         <Member id="3" name="Superman" isLoading />
       </MembersContainer>

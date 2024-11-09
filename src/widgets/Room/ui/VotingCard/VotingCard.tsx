@@ -1,13 +1,15 @@
 import { cva } from 'class-variance-authority';
 
+import { useRoomContext } from '@/widgets/Room/model/RoomContext';
 import type { VotingCardProps } from '@/widgets/Room/ui/VotingCard/types';
 
 export const VotingCard = ({
   isDisabled,
   option,
   voteValue,
-  setVoteValue,
 }: VotingCardProps) => {
+  const { dispatch } = useRoomContext();
+
   return (
     <label
       className={cva('', {
@@ -26,13 +28,18 @@ export const VotingCard = ({
         checked={voteValue === option}
         onChange={(e) => {
           e.currentTarget.form?.requestSubmit();
-          setVoteValue(e.currentTarget.value);
+          dispatch({
+            type: 'SET_VOTE',
+            payload: {
+              value: e.currentTarget.value,
+            },
+          });
         }}
       />
       <div
         data-testid={`voting-card-${option}`}
         className={cva(
-          'transition font-bold flex items-center justify-center text-center p-4 text-xl rounded w-20 h-32 border-2 border-solid border-primary-500 cursor-pointer text-primary-500 hover:text-white hover:bg-primary-500 peer-checked:bg-primary-500 peer-checked:text-white',
+          'transition font-bold flex items-center justify-center text-center p-4 text-xl rounded w-16 h-24 border-2 border-solid border-primary-500 cursor-pointer text-primary-500 hover:text-white hover:bg-primary-500 peer-checked:bg-primary-500 peer-checked:text-white',
           {
             variants: {
               isDisabled: {

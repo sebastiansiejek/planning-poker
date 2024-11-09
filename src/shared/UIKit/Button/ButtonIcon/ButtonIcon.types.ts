@@ -1,5 +1,9 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 
+import type { ButtonProps } from '@/shared/UIKit/Button/types';
+
 export type ButtonIconProps = {
   icon: ReactNode;
-} & ButtonHTMLAttributes<HTMLButtonElement>;
+  isLoading?: boolean;
+} & Pick<ButtonProps, 'size'> &
+  ButtonHTMLAttributes<HTMLButtonElement>;

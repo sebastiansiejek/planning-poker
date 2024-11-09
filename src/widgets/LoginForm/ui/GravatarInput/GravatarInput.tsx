@@ -3,10 +3,10 @@
 import { useTranslations } from 'next-intl';
 import { useEffect, useState, useTransition } from 'react';
 
-import { getGravatarUrl } from '@/shared/gravatar/getGravatarUrl';
-import { Avatar } from '@/shared/UIKit/Avatar/Avatar';
+import { getGravatarUrl } from '@/shared/lib/gravatar/getGravatarUrl';
+import { Avatar, AvatarImage } from '@/shared/UIKit/Avatar/Avatar';
 import { Button } from '@/shared/UIKit/Button/Button';
-import { TextInput } from '@/shared/UIKit/TextInput/TextInput';
+import { Input } from '@/shared/UIKit/TextInput/TextInput';
 
 export const GravatarInput = () => {
   const t = useTranslations('Gravatar');
@@ -23,7 +23,7 @@ export const GravatarInput = () => {
   return (
     <div>
       <div className="flex gap-2">
-        <TextInput
+        <Input
           name="email"
           placeholder={t('email.placeholder')}
           onChange={(e) => setEmail(e.currentTarget.value)}
@@ -46,7 +46,9 @@ export const GravatarInput = () => {
       <input type="hidden" name="gravatarUrl" value={url} />
       {email && url && (
         <div className="mt-2 flex justify-center">
-          <Avatar url={url} size={40} />
+          <Avatar>
+            <AvatarImage src={url} height={40} />
+          </Avatar>
         </div>
       )}
     </div>

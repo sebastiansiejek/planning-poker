@@ -1,9 +1,9 @@
 'use client';
 
 import { useRef } from 'react';
-import Skeleton from 'react-loading-skeleton';
 
 import { useIsEllipsisActive } from '@/shared/hooks/useIsEllipsisActive/useIsEllipsisActive';
+import { Skeleton } from '@/shared/UIKit/Skeleton/Skeleton';
 import type { MemberNameProps } from '@/widgets/Member/ui/MemberName/types';
 
 export const MemberName = ({ name, isLoading }: MemberNameProps) => {
@@ -16,7 +16,7 @@ export const MemberName = ({ name, isLoading }: MemberNameProps) => {
       ref={ref}
       {...(isEllipsisActive && { title: name })}
     >
-      {isLoading ? <Skeleton height={12} width={80} /> : name}
+      {isLoading ? <Skeleton className="h-[1.2rem] w-[8rem]" /> : name}
     </div>
   );
 };

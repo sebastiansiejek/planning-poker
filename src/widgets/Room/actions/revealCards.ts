@@ -1,24 +1,29 @@
 'use server';
 
-import z from 'zod';
+import { z } from 'zod';
 
+import { GamePrismaService } from '@/shared/api/services/GamePrismaService';
+import { actionClient } from '@/shared/lib/safeAction';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { pusherServer } from '@/shared/pusher/lib/pusherServer';
 
-export const revealCards = async (data: FormData) => {
-  const channelName = data.get('channelName') as string;
-  const voteValue = data.get('voteValue') as string;
+const schema = z.object({
+  roomId: z.string(),
+  gameId: z.string(),
+});
 
-  try {
-    z.object({
-      channelName: z.string(),
-      voteValue: z.string(),
-    }).parse({ channelName, voteValue });
+export const revealCards = actionClient
+  .schema(schema)
+  .action(async ({ parsedInput: { roomId, gameId } }) => {
+    const gamePrismaService = new GamePrismaService();
+    const finishedGame = await gamePrismaService.finishGame(gameId);
 
-    await pusherServer.trigger(channelName, PUSHER_EVENTS.REVEAL_VOTES, {
-      value: voteValue,
-    });
-  } catch (error) {
-    console.error(error);
-  }
-};
+    await pusherServer.trigger(roomId, PUSHER_EVENTS.REVEAL_VOTES, {});
+
+    return {
+      success: true,
+      data: {
+        finishedGame,
+      },
+    };
+  });

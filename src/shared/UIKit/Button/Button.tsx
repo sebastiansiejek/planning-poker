@@ -1,49 +1,59 @@
+import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
-import { twMerge } from 'tailwind-merge';
+import { Loader2 } from 'lucide-react';
+import { forwardRef } from 'react';
 
 import type { ButtonProps } from '@/shared/UIKit/Button/types';
-import { Spinner } from '@/shared/UIKit/Loaders/Spinner/Spinner';
+import { renderClass } from '@/shared/utils/renderClass/renderClass';
 
-export const Button = (props: ButtonProps) => {
-  const {
-    type,
-    variant = 'primary',
-    isLoading = false,
-    children,
-    disabled,
-    ...rest
-  } = props;
+const buttonVariants = cva(
+  'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+  {
+    variants: {
+      variant: {
+        default: 'bg-primary text-primary-foreground hover:bg-primary/90',
+        destructive:
+          'bg-destructive text-destructive-foreground hover:bg-destructive/90',
+        outline:
+          'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
+        secondary:
+          'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+        ghost: 'hover:bg-accent hover:text-accent-foreground',
+        link: 'text-primary underline-offset-4 hover:underline',
+      },
+      size: {
+        default: 'h-10 px-4 py-2',
+        sm: 'h-9 rounded-md px-3',
+        lg: 'h-11 rounded-md px-8',
+        icon: 'h-10 w-10',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+      size: 'default',
+    },
+  },
+);
 
-  return (
-    <button
-      type={type === 'submit' ? 'submit' : 'button'}
-      {...rest}
-      className={twMerge(
-        cva(
-          'transition-colors inline-flex justify-center items-center gap-2 py-2 px-4 rounded text-sm font-medium min-w-24',
-          {
-            variants: {
-              variant: {
-                primary: 'bg-primary-500 text-white hover:bg-primary-600',
-                secondary:
-                  'bg-white dark:bg-gray-700 text-primary-500 border border-primary-500 border-solid hover:bg-primary-500 dark:hover:bg-gray-800 hover:text-white',
-              },
-              disabled: {
-                true: 'pointer-events-none opacity-50',
-                false: '',
-              },
-            },
-          },
-        )({
-          variant,
-          disabled,
-        }),
-        rest.className,
-      )}
-      disabled={disabled || isLoading}
-    >
-      {children}
-      {isLoading && <Spinner />}
-    </button>
-  );
-};
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    { className, variant, size, asChild = false, isLoading = false, ...props },
+    ref,
+  ) => {
+    const Comp = asChild ? Slot : 'button';
+    return (
+      <Comp
+        className={renderClass(buttonVariants({ variant, size, className }))}
+        ref={ref}
+        disabled={isLoading || props.disabled}
+        {...props}
+      >
+        {props.children}
+        {isLoading && <Loader2 className="ml-2 h-4 w-4 animate-spin" />}
+      </Comp>
+    );
+  },
+);
+Button.displayName = 'Button';
+
+export { Button, buttonVariants };

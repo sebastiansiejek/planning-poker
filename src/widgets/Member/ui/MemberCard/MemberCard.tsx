@@ -1,6 +1,6 @@
 import { cva } from 'class-variance-authority';
-import Skeleton from 'react-loading-skeleton';
 
+import { Skeleton } from '@/shared/UIKit/Skeleton/Skeleton';
 import type { MemberCardProps } from '@/widgets/Member/ui/MemberCard/types';
 
 export const MemberCard = (props: MemberCardProps) => {
@@ -47,11 +47,7 @@ export const MemberCard = (props: MemberCardProps) => {
       )({ isVoted, isRevealedCards })}
     >
       {isLoading ? (
-        <Skeleton
-          height="100%"
-          width="100%"
-          containerClassName="flex h-full w-full"
-        />
+        <Skeleton className="flex h-full w-full" />
       ) : (
         isRevealedCards && vote
       )}
