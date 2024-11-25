@@ -1,34 +1,34 @@
+import { FirestoreAdapter } from '@auth/firebase-adapter';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import type { AuthOptions } from 'next-auth';
 import { getServerSession } from 'next-auth';
-import GitHubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 
+import { AuthSessionStrategy } from '@/features/auth/lib/AuthSessionStrategy';
+import { adminDb } from '@/shared/database/firebase';
 import prisma from '@/shared/database/prisma';
+
+const authSessionStrategy = new AuthSessionStrategy();
 
 export const authOptions: AuthOptions = {
   providers: [
-    GitHubProvider({
-      clientId: process.env.GITHUB_ID as string,
-      clientSecret: process.env.GITHUB_SECRET as string,
-    }),
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
-  callbacks: {
-    async session({ session, user: { id } }) {
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          id,
-        },
-      };
-    },
+  session: {
+    strategy: 'jwt',
   },
-  adapter: PrismaAdapter(prisma),
+  callbacks: {
+    session: async ({ session, token, user }) =>
+      authSessionStrategy.handleSession(session, { token, user }),
+    jwt: async ({ token, user }) => authSessionStrategy.handleJWT(token, user),
+  },
+  adapter:
+    process.env.DATABASE_PROVIDER === 'firebase'
+      ? FirestoreAdapter(adminDb)
+      : PrismaAdapter(prisma),
 };
 
 export const getSession = async () => getServerSession(authOptions);

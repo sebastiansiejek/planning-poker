@@ -1,5 +1,6 @@
 {
   // Configuration for JavaScript files
+  "plugins": ["sort-class-members"],
   "extends": [
     "airbnb-base",
     "next/core-web-vitals",
@@ -12,6 +13,21 @@
       {
         "singleQuote": true,
         "endOfLine": "auto"
+      }
+    ],
+    "sort-class-members/sort-class-members": [
+      2,
+      {
+        "order": [
+          "[static-properties]",
+          "[static-methods]",
+          "[properties]",
+          "[conventional-private-properties]",
+          "constructor",
+          "[methods]",
+          "[conventional-private-methods]"
+        ],
+        "accessorPairPositioning": "getThenSet"
       }
     ]
     // Avoid conflict rule between Prettier and Airbnb Eslint
