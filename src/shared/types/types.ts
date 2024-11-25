@@ -4,4 +4,4 @@ export type ILoader = {
   isLoading?: boolean;
 };
 
-export type DatabaseProvider = 'firebase' | 'postgres';
+export type DatabaseProvider = 'firebase' | 'prisma';

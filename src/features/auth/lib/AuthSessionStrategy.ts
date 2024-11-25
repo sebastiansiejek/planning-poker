@@ -31,7 +31,7 @@ export class AuthSessionStrategy {
     return session;
   }
 
-  static handleSessionWithPostgres(session: Session, { user }: SessionContext) {
+  static handleSessionWithPrisma(session: Session, { user }: SessionContext) {
     if (user?.id) {
       return {
         ...session,
@@ -67,12 +67,12 @@ export class AuthSessionStrategy {
   constructor() {
     this.sessionStrategies = {
       firebase: AuthSessionStrategy.handleSessionWithFirebase,
-      postgres: AuthSessionStrategy.handleSessionWithPostgres,
+      prisma: AuthSessionStrategy.handleSessionWithPrisma,
     };
 
     this.jwtStrategies = {
       firebase: AuthSessionStrategy.handleJWTWithFireBase,
-      postgres: AuthSessionStrategy.handleJWTDefault,
+      prisma: AuthSessionStrategy.handleJWTDefault,
     };
   }
 
