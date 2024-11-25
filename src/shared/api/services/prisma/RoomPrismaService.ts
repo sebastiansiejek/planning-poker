@@ -2,7 +2,7 @@ import type { Prisma } from '@prisma/client';
 
 import { BasePrismaService } from '@/shared/api/services/prisma/BasePrismaService';
 
-export class RoomApiService extends BasePrismaService {
+export class RoomPrismaService extends BasePrismaService {
   async create(data: Prisma.RoomUncheckedCreateInput) {
     return this.prisma.room.create({
       data,

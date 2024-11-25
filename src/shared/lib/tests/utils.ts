@@ -2,12 +2,12 @@ import { test } from '@playwright/test';
 import { hash } from 'bcryptjs';
 
 import { SessionPrismaService } from '@/shared/api/services/prisma/SessionPrismaService';
-import { UserApiService } from '@/shared/api/services/prisma/UserApiService';
+import { UserPrismaService } from '@/shared/api/services/prisma/UserPrismaService';
 
 const TEST_USER_EMAIL = 'test-planning-poker@sebastiansiejek.dev';
 
 async function createTestSession() {
-  const user = await new UserApiService().getOrCreateUserByEmail({
+  const user = await new UserPrismaService().getOrCreateUserByEmail({
     email: TEST_USER_EMAIL,
     name: 'Test User',
   });

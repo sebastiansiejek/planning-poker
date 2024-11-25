@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 import { cache } from 'react';
 
 import { GamePrismaService } from '@/shared/api/services/prisma/GamePrismaService';
-import { RoomApiService } from '@/shared/api/services/prisma/RoomApiService';
+import { RoomPrismaService } from '@/shared/api/services/prisma/RoomPrismaService';
 import { RoomUserPrismaService } from '@/shared/api/services/prisma/RoomUserPrismaService';
 import { UserVotePrismaService } from '@/shared/api/services/prisma/UserVotePrismaService';
 import { getSession } from '@/shared/auth/auth';
@@ -14,7 +14,7 @@ import { RoomProvider } from '@/widgets/Room/model/RoomContext';
 import Room from '@/widgets/Room/Room';
 
 const getRoomName = cache(async (roomId: string) => {
-  const roomService = new RoomApiService();
+  const roomService = new RoomPrismaService();
   return (await roomService.getRoomName(roomId))?.name;
 });
 

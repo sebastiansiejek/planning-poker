@@ -4,7 +4,7 @@ import type { PrismaClientKnownRequestError } from '@prisma/client/runtime/binar
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
-import { RoomApiService } from '@/shared/api/services/prisma/RoomApiService';
+import { RoomPrismaService } from '@/shared/api/services/prisma/RoomPrismaService';
 import { getSession } from '@/shared/auth/auth';
 import { actionClient } from '@/shared/lib/safeAction';
 import { routes } from '@/shared/routes/routes';
@@ -19,8 +19,6 @@ export const createRoom = actionClient
     const session = await getSession();
     const authorId = session?.user?.id;
 
-    const roomService = new RoomApiService();
-
     if (!authorId) {
       return {
         error: {
@@ -28,6 +26,8 @@ export const createRoom = actionClient
         },
       };
     }
+
+    const roomService = new RoomPrismaService();
 
     try {
       const room = await roomService.create({
