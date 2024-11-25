@@ -2,7 +2,7 @@
 
 import { z } from 'zod';
 
-import { UserVotePrismaService } from '@/shared/api/services/UserVotePrismaService';
+import { UserVotePrismaService } from '@/shared/api/services/prisma/UserVotePrismaService';
 import { actionClient } from '@/shared/lib/safeAction';
 
 const schema = z.object({

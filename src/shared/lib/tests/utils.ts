@@ -1,8 +1,8 @@
 import { test } from '@playwright/test';
 import { hash } from 'bcryptjs';
 
-import { SessionPrismaService } from '@/shared/api/services/SessionPrismaService';
-import { UserApiService } from '@/shared/api/services/UserApiService';
+import { SessionPrismaService } from '@/shared/api/services/prisma/SessionPrismaService';
+import { UserApiService } from '@/shared/api/services/prisma/UserApiService';
 
 const TEST_USER_EMAIL = 'test-planning-poker@sebastiansiejek.dev';
 

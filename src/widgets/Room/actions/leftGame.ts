@@ -2,8 +2,8 @@
 
 import { z } from 'zod';
 
-import { RoomUserPrismaService } from '@/shared/api/services/RoomUserPrismaService';
-import { UserVotePrismaService } from '@/shared/api/services/UserVotePrismaService';
+import { RoomUserPrismaService } from '@/shared/api/services/prisma/RoomUserPrismaService';
+import { UserVotePrismaService } from '@/shared/api/services/prisma/UserVotePrismaService';
 import { actionClient } from '@/shared/lib/safeAction';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { pusherServer } from '@/shared/pusher/lib/pusherServer';

@@ -2,7 +2,7 @@
 
 import { z } from 'zod';
 
-import { RoomApiService } from '@/shared/api/services/RoomApiService';
+import { RoomApiService } from '@/shared/api/services/prisma/RoomApiService';
 import { actionClient } from '@/shared/lib/safeAction';
 
 const schema = z.object({

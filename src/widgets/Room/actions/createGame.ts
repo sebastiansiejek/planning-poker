@@ -3,7 +3,7 @@
 import type { PrismaClientKnownRequestError } from '@prisma/client/runtime/binary';
 import { z } from 'zod';
 
-import { GamePrismaService } from '@/shared/api/services/GamePrismaService';
+import { GamePrismaService } from '@/shared/api/services/prisma/GamePrismaService';
 import { actionClient } from '@/shared/lib/safeAction';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { pusherServer } from '@/shared/pusher/lib/pusherServer';

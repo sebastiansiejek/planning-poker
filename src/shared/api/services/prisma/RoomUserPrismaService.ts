@@ -1,6 +1,6 @@
 import type { Prisma } from '@prisma/client';
 
-import { BasePrismaService } from '@/shared/api/services/BasePrismaService';
+import { BasePrismaService } from '@/shared/api/services/prisma/BasePrismaService';
 
 export class RoomUserPrismaService extends BasePrismaService {
   async delete(data: Prisma.RoomUserDeleteArgs) {

@@ -3,7 +3,7 @@
 import type { PrismaClientKnownRequestError } from '@prisma/client/runtime/binary';
 import z from 'zod';
 
-import { UserVotePrismaService } from '@/shared/api/services/UserVotePrismaService';
+import { UserVotePrismaService } from '@/shared/api/services/prisma/UserVotePrismaService';
 import { getSession } from '@/shared/auth/auth';
 import { actionClient } from '@/shared/lib/safeAction';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';

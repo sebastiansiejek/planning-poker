@@ -2,7 +2,7 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import z from 'zod';
 
-import { UserApiService } from '@/shared/api/services/UserApiService';
+import { UserApiService } from '@/shared/api/services/prisma/UserApiService';
 import { getSession } from '@/shared/auth/auth';
 
 export async function PUT(req: NextRequest) {

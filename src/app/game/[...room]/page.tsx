@@ -1,10 +1,10 @@
 import { redirect } from 'next/navigation';
 import { cache } from 'react';
 
-import { GamePrismaService } from '@/shared/api/services/GamePrismaService';
-import { RoomApiService } from '@/shared/api/services/RoomApiService';
-import { RoomUserPrismaService } from '@/shared/api/services/RoomUserPrismaService';
-import { UserVotePrismaService } from '@/shared/api/services/UserVotePrismaService';
+import { GamePrismaService } from '@/shared/api/services/prisma/GamePrismaService';
+import { RoomApiService } from '@/shared/api/services/prisma/RoomApiService';
+import { RoomUserPrismaService } from '@/shared/api/services/prisma/RoomUserPrismaService';
+import { UserVotePrismaService } from '@/shared/api/services/prisma/UserVotePrismaService';
 import { getSession } from '@/shared/auth/auth';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { pusherServer } from '@/shared/pusher/lib/pusherServer';
