@@ -4,6 +4,7 @@ import type { PrismaClientKnownRequestError } from '@prisma/client/runtime/binar
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
+import { FirebaseRoomService } from '@/shared/api/services/firestore/FirebaseRoomService';
 import { RoomPrismaService } from '@/shared/api/services/prisma/RoomPrismaService';
 import { getSession } from '@/shared/auth/auth';
 import { actionClient } from '@/shared/lib/safeAction';
@@ -27,10 +28,37 @@ export const createRoom = actionClient
       };
     }
 
-    const roomService = new RoomPrismaService();
+    const prismaRoomService = new RoomPrismaService();
+
+    if (process.env.DATABASE_PROVIDER === 'firebase') {
+      const room = await FirebaseRoomService.get(name, authorId);
+
+      if (room.exists()) {
+        const values = room.val();
+
+        return {
+          success: false,
+          data: {
+            id: values.id,
+          },
+          error: {
+            code: 'P2002',
+          },
+        };
+      }
+
+      await FirebaseRoomService.create(name, authorId);
+
+      revalidatePath(routes.dashboard.getPath());
+
+      return {
+        success: true,
+        data: room.val(),
+      };
+    }
 
     try {
-      const room = await roomService.create({
+      const room = await prismaRoomService.create({
         name,
         authorId,
       });
@@ -43,7 +71,7 @@ export const createRoom = actionClient
       };
     } catch (error) {
       const typedError = error as PrismaClientKnownRequestError;
-      const room = await roomService.findFirst({
+      const room = await prismaRoomService.findFirst({
         where: {
           name,
           authorId,
