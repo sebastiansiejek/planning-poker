@@ -18,7 +18,7 @@ export const authOptions: AuthOptions = {
     }),
   ],
   session: {
-    strategy: 'jwt',
+    strategy: process.env.DATABASE_PROVIDER === 'firebase' ? 'jwt' : 'database',
   },
   callbacks: {
     session: async ({ session, token, user }) =>
