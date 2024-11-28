@@ -1,10 +1,10 @@
 import { redirect } from 'next/navigation';
 import { cache } from 'react';
 
-import { GamePrismaService } from '@/shared/api/services/prisma/GamePrismaService';
-import { RoomPrismaService } from '@/shared/api/services/prisma/RoomPrismaService';
-import { RoomUserPrismaService } from '@/shared/api/services/prisma/RoomUserPrismaService';
-import { UserVotePrismaService } from '@/shared/api/services/prisma/UserVotePrismaService';
+import { PrismaGameService } from '@/shared/api/services/prisma/PrismaGameService';
+import { PrismaRoomService } from '@/shared/api/services/prisma/PrismaRoomService';
+import { PrismaRoomUserService } from '@/shared/api/services/prisma/PrismaRoomUserService';
+import { PrismaUserVoteService } from '@/shared/api/services/prisma/PrismaUserVoteService';
 import { getSession } from '@/shared/auth/auth';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { pusherServer } from '@/shared/pusher/lib/pusherServer';
@@ -14,7 +14,7 @@ import { RoomProvider } from '@/widgets/Room/model/RoomContext';
 import Room from '@/widgets/Room/Room';
 
 const getRoomName = cache(async (roomId: string) => {
-  const roomService = new RoomPrismaService();
+  const roomService = new PrismaRoomService();
   return (await roomService.getRoomName(roomId))?.name;
 });
 
@@ -37,9 +37,9 @@ export default async function Page({
     room: string[];
   };
 }) {
-  const userVoteService = new UserVotePrismaService();
-  const roomUserService = new RoomUserPrismaService();
-  const gameService = new GamePrismaService();
+  const userVoteService = new PrismaUserVoteService();
+  const roomUserService = new PrismaRoomUserService();
+  const gameService = new PrismaGameService();
   const roomId = params.room.toString();
   const roomName = await getRoomName(roomId);
 

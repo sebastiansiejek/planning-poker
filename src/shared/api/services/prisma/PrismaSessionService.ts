@@ -1,8 +1,8 @@
 import type { Prisma } from '@prisma/client';
 
-import { BasePrismaService } from '@/shared/api/services/prisma/BasePrismaService';
+import { PrismaBaseService } from '@/shared/api/services/prisma/PrismaBaseService';
 
-export class SessionPrismaService extends BasePrismaService {
+export class PrismaSessionService extends PrismaBaseService {
   async create(data: Prisma.SessionUncheckedCreateInput) {
     return this.prisma.session.create({
       data,

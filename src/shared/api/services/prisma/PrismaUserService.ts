@@ -1,9 +1,9 @@
 import type { Prisma } from '@prisma/client';
 
-import { BasePrismaService } from '@/shared/api/services/prisma/BasePrismaService';
+import { PrismaBaseService } from '@/shared/api/services/prisma/PrismaBaseService';
 import prisma from '@/shared/database/prisma';
 
-export class UserPrismaService extends BasePrismaService {
+export class PrismaUserService extends PrismaBaseService {
   async updateUser(id: string, data: Pick<Prisma.UserCreateManyInput, 'name'>) {
     return this.prisma.user.update({
       data,

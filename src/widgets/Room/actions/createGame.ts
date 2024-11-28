@@ -3,7 +3,7 @@
 import type { PrismaClientKnownRequestError } from '@prisma/client/runtime/binary';
 import { z } from 'zod';
 
-import { GamePrismaService } from '@/shared/api/services/prisma/GamePrismaService';
+import { PrismaGameService } from '@/shared/api/services/prisma/PrismaGameService';
 import { actionClient } from '@/shared/lib/safeAction';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { pusherServer } from '@/shared/pusher/lib/pusherServer';
@@ -17,7 +17,7 @@ const schema = z.object({
 export const createGame = actionClient
   .schema(schema)
   .action(async ({ parsedInput: { name, roomId, description } }) => {
-    const gamePrismaService = new GamePrismaService();
+    const gamePrismaService = new PrismaGameService();
     const isActiveGame = await gamePrismaService.getActiveGame({ roomId });
 
     if (isActiveGame) {

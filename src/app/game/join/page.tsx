@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 
-import { RoomPrismaService } from '@/shared/api/services/prisma/RoomPrismaService';
+import { PrismaRoomService } from '@/shared/api/services/prisma/PrismaRoomService';
 import { getSession } from '@/shared/auth/auth';
 import { routes } from '@/shared/routes/routes';
 import { Container } from '@/shared/UIKit/Container/Container';
@@ -26,7 +26,7 @@ export async function generateMetadata({
 
 export default async function JoinToRoomPage() {
   const session = await getSession();
-  const roomApiService = new RoomPrismaService();
+  const roomApiService = new PrismaRoomService();
   const translate = await getTranslations();
 
   if (!session) {

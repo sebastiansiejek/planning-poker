@@ -1,13 +1,13 @@
 import { test } from '@playwright/test';
 import { hash } from 'bcryptjs';
 
-import { SessionPrismaService } from '@/shared/api/services/prisma/SessionPrismaService';
-import { UserPrismaService } from '@/shared/api/services/prisma/UserPrismaService';
+import { PrismaSessionService } from '@/shared/api/services/prisma/PrismaSessionService';
+import { PrismaUserService } from '@/shared/api/services/prisma/PrismaUserService';
 
 const TEST_USER_EMAIL = 'test-planning-poker@sebastiansiejek.dev';
 
 async function createTestSession() {
-  const user = await new UserPrismaService().getOrCreateUserByEmail({
+  const user = await new PrismaUserService().getOrCreateUserByEmail({
     email: TEST_USER_EMAIL,
     name: 'Test User',
   });
@@ -15,7 +15,7 @@ async function createTestSession() {
   const sessionToken = 'test-session-token';
   const hashedToken = await hash(sessionToken, 10);
 
-  const sessionPrisma = new SessionPrismaService();
+  const sessionPrisma = new PrismaSessionService();
 
   await sessionPrisma.deleteMany({
     where: {
@@ -49,7 +49,7 @@ const beforeDatabaseTestAuth = () => {
 };
 
 const afterDatabaseTestAuth = () => {
-  const sessionPrisma = new SessionPrismaService();
+  const sessionPrisma = new PrismaSessionService();
 
   test.afterAll(async () => {
     sessionPrisma.deleteMany({

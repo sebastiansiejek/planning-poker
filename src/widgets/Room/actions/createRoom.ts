@@ -5,7 +5,7 @@ import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
 import { FirebaseRoomService } from '@/shared/api/services/firestore/FirebaseRoomService';
-import { RoomPrismaService } from '@/shared/api/services/prisma/RoomPrismaService';
+import { PrismaRoomService } from '@/shared/api/services/prisma/PrismaRoomService';
 import { getSession } from '@/shared/auth/auth';
 import { actionClient } from '@/shared/lib/safeAction';
 import { routes } from '@/shared/routes/routes';
@@ -28,7 +28,7 @@ export const createRoom = actionClient
       };
     }
 
-    const prismaRoomService = new RoomPrismaService();
+    const prismaRoomService = new PrismaRoomService();
 
     if (process.env.DATABASE_PROVIDER === 'firebase') {
       const room = await FirebaseRoomService.get(name, authorId);

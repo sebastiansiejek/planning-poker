@@ -1,6 +1,6 @@
 import prisma from '@/shared/database/prisma';
 
-export abstract class BasePrismaService {
+export abstract class PrismaBaseService {
   prisma: typeof prisma;
 
   constructor() {

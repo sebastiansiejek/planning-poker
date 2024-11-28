@@ -1,6 +1,6 @@
-import { BasePrismaService } from '@/shared/api/services/prisma/BasePrismaService';
+import { PrismaBaseService } from '@/shared/api/services/prisma/PrismaBaseService';
 
-export class GamePrismaService extends BasePrismaService {
+export class PrismaGameService extends PrismaBaseService {
   async getLatestRoomGame(roomId: string) {
     return this.prisma.game.findFirst({
       select: {
