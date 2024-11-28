@@ -2,22 +2,27 @@ import { child, get, ref, set } from 'firebase/database';
 import { nanoid } from 'nanoid';
 
 import { firebaseDatabase } from '@/shared/database/firebase';
+import type { RoomService } from '@/shared/factories/RoomServiceFactory';
 
-export class FirebaseRoomService {
+export class FirebaseRoomService implements RoomService {
   static ref = ref(firebaseDatabase, 'rooms');
 
-  static create(name: string, authorId: string) {
-    return set(child(FirebaseRoomService.ref, `${name}/users/${authorId}`), {
+  get: RoomService['get'] = async ({ name, authorId }) => {
+    if (authorId) {
+      return (
+        await get(child(FirebaseRoomService.ref, `${name}/users/${authorId}`))
+      ).val();
+    }
+
+    return (await get(child(FirebaseRoomService.ref, name))).val();
+  };
+
+  create: RoomService['create'] = async ({ name, authorId }) => {
+    await set(child(FirebaseRoomService.ref, `${name}/users/${authorId}`), {
       name,
       id: nanoid(),
     });
-  }
 
-  static get(name: string, authorId?: string) {
-    if (authorId) {
-      return get(child(FirebaseRoomService.ref, `${name}/users/${authorId}`));
-    }
-
-    return get(child(FirebaseRoomService.ref, name));
-  }
+    return (await this.get({ name, authorId }))!;
+  };
 }

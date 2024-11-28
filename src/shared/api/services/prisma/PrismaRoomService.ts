@@ -1,17 +1,24 @@
-import type { Prisma } from '@prisma/client';
-
 import { PrismaBaseService } from '@/shared/api/services/prisma/PrismaBaseService';
+import type { RoomService } from '@/shared/factories/RoomServiceFactory';
 
-export class PrismaRoomService extends PrismaBaseService {
-  async create(data: Prisma.RoomUncheckedCreateInput) {
+export class PrismaRoomService
+  extends PrismaBaseService
+  implements RoomService
+{
+  create: RoomService['create'] = async (data) => {
     return this.prisma.room.create({
       data,
     });
-  }
+  };
 
-  async findFirst(data: Prisma.RoomFindFirstArgs) {
-    return this.prisma.room.findFirst(data);
-  }
+  get: RoomService['get'] = async ({ authorId, name }) => {
+    return this.prisma.room.findFirst({
+      where: {
+        name,
+        authorId,
+      },
+    });
+  };
 
   async getRoomName(roomId: string) {
     return this.prisma.room.findUnique({
