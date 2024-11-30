@@ -1,15 +1,18 @@
 import { FirebaseRoomService } from '@/shared/api/services/firestore/FirebaseRoomService';
 import { PrismaRoomService } from '@/shared/api/services/prisma/PrismaRoomService';
 
+type Room = {
+  id: string;
+  name: string;
+};
+
 export type RoomService = {
-  create: (data: { name: string; authorId: string }) => Promise<{
-    id: string;
+  create: (data: { name: string; authorId: string }) => Promise<Room>;
+  get: (data: { id: string }) => Promise<Room | null>;
+  getByAuthorIdAndName: (data: {
     name: string;
-  }>;
-  get: (data: { name: string; authorId?: string }) => Promise<{
-    id: string;
-    name: string;
-  } | null>;
+    authorId: string;
+  }) => Promise<Room | null>;
 };
 
 export class RoomServiceFactory {

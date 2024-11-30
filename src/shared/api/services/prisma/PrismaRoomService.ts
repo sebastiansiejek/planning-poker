@@ -11,7 +11,18 @@ export class PrismaRoomService
     });
   };
 
-  get: RoomService['get'] = async ({ authorId, name }) => {
+  get: RoomService['get'] = async ({ id }) => {
+    return this.prisma.room.findUnique({
+      where: {
+        id,
+      },
+    });
+  };
+
+  getByAuthorIdAndName: RoomService['getByAuthorIdAndName'] = async ({
+    authorId,
+    name,
+  }) => {
     return this.prisma.room.findFirst({
       where: {
         name,

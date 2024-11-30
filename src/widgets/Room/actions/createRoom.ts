@@ -27,7 +27,7 @@ export const createRoom = actionClient
     }
 
     const roomServiceFactory = RoomServiceFactory.getService();
-    const room = await roomServiceFactory.get({
+    const room = await roomServiceFactory.getByAuthorIdAndName({
       name,
       authorId,
     });
