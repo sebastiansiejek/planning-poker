@@ -8,6 +8,13 @@ export type UserVoteService = {
       vote: string;
     }[]
   >;
+
+  upsert: (data: {
+    gameId: string;
+    vote: string;
+    userId: string;
+    roomId: string;
+  }) => any;
 };
 
 export class UserVoteServiceFactory {

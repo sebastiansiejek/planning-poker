@@ -3,8 +3,8 @@
 import type { PrismaClientKnownRequestError } from '@prisma/client/runtime/binary';
 import z from 'zod';
 
-import { PrismaUserVoteService } from '@/shared/api/services/prisma/PrismaUserVoteService';
 import { getSession } from '@/shared/auth/auth';
+import { UserVoteServiceFactory } from '@/shared/factories/UserVoteServiceFactory';
 import { actionClient } from '@/shared/lib/safeAction';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { pusherServer } from '@/shared/pusher/lib/pusherServer';
@@ -29,13 +29,13 @@ export const voting = actionClient
     }
 
     // TODO: add guest user support
-
-    const userVoteService = new PrismaUserVoteService();
+    const userVoteService = UserVoteServiceFactory.getService();
     try {
       await userVoteService.upsert({
         gameId,
         vote: value,
         userId,
+        roomId,
       });
 
       await pusherServer.trigger(roomId, PUSHER_EVENTS.VOTED, {

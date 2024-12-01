@@ -3,6 +3,12 @@ import { PrismaGameService } from '@/shared/api/services/prisma/PrismaGameServic
 
 export type GameService = {
   getLatestRoomGame: (roomId: string) => any;
+  create: (data: {
+    name?: string;
+    roomId: string;
+    description?: string;
+  }) => any;
+  getActiveGame: (data: { roomId: string }) => any;
 };
 
 export class GameServiceFactory {
