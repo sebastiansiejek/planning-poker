@@ -59,7 +59,7 @@ export default async function Page({
   ]);
 
   const votes = latestGame
-    ? await userVoteService.getVotedUsers(latestGame.id)
+    ? await userVoteService.getVotedUsers(latestGame.id, roomId)
     : [];
 
   await pusherServer.trigger(roomId, PUSHER_EVENTS.MEMBER_ADDED, {

@@ -12,8 +12,17 @@ import type { UserVoteService } from '@/shared/factories/UserVoteServiceFactory'
 import type { Vote } from '@/shared/types/types';
 
 export class FirebaseUserVoteService implements UserVoteService {
-  getVotedUsers: UserVoteService['getVotedUsers'] = () => {
-    return Promise.resolve([]);
+  getVotedUsers: UserVoteService['getVotedUsers'] = async (gameId, roomId) => {
+    if (!roomId) {
+      throw new Error('Room id is required for Firebase provider');
+    }
+
+    const roomDocRef = doc(firebaseStore, 'rooms', roomId);
+    const gameCollectionRef = collection(roomDocRef, 'games');
+    const gameDocRef = doc(gameCollectionRef, gameId);
+    const game = (await getDoc(gameDocRef)).data();
+
+    return game?.votes || [];
   };
 
   upsert: UserVoteService['upsert'] = async ({

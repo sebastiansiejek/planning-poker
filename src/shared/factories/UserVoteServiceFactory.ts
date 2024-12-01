@@ -2,7 +2,10 @@ import { FirebaseUserVoteService } from '@/shared/api/services/firestore/Firebas
 import { PrismaUserVoteService } from '@/shared/api/services/prisma/PrismaUserVoteService';
 
 export type UserVoteService = {
-  getVotedUsers: (gameId: string) => Promise<
+  getVotedUsers: (
+    gameId: string,
+    roomId?: string,
+  ) => Promise<
     {
       userId: string;
       vote: string;
