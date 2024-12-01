@@ -1,8 +1,12 @@
 import type { Prisma } from '@prisma/client';
 
 import { PrismaBaseService } from '@/shared/api/services/prisma/PrismaBaseService';
+import type { UserVoteService } from '@/shared/factories/UserVoteServiceFactory';
 
-export class PrismaUserVoteService extends PrismaBaseService {
+export class PrismaUserVoteService
+  extends PrismaBaseService
+  implements UserVoteService
+{
   async delete(data: Prisma.UserVoteDeleteArgs) {
     return this.prisma.userVote.delete(data);
   }

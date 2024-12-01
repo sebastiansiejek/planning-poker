@@ -1,6 +1,10 @@
 import { PrismaBaseService } from '@/shared/api/services/prisma/PrismaBaseService';
+import type { GameService } from '@/shared/factories/GameServiceFactory';
 
-export class PrismaGameService extends PrismaBaseService {
+export class PrismaGameService
+  extends PrismaBaseService
+  implements GameService
+{
   async getLatestRoomGame(roomId: string) {
     return this.prisma.game.findFirst({
       select: {

@@ -5,16 +5,45 @@ import {
   getDoc,
   getDocs,
   query,
+  serverTimestamp,
+  Timestamp,
   where,
 } from 'firebase/firestore';
 
 import { firebaseStore } from '@/shared/database/firebase';
-import type { RoomService } from '@/shared/factories/RoomServiceFactory';
+import type {
+  RoomDTO,
+  RoomService,
+} from '@/shared/factories/RoomServiceFactory';
+
+export type FirebaseRoomDTO = RoomDTO & {
+  authorId: string;
+  image: string;
+  users: Array<string>;
+};
+
+const normalizeRoomData = (
+  id: string,
+  data: {
+    name: string;
+    authorId: string;
+    createdAt: Timestamp;
+  },
+) => {
+  return {
+    ...data,
+    createdAt:
+      data?.createdAt instanceof Timestamp
+        ? data.createdAt.toDate().toISOString()
+        : data?.createdAt,
+    id,
+  } as unknown as FirebaseRoomDTO;
+};
 
 export class FirebaseRoomService implements RoomService {
   roomCollection = collection(firebaseStore, 'rooms');
 
-  get: RoomService['get'] = async ({ id }) => {
+  get = async ({ id }: Parameters<RoomService['get']>[0]) => {
     const roomDoc = doc(this.roomCollection, id);
     const roomSnapshot = await getDoc(roomDoc);
 
@@ -22,14 +51,21 @@ export class FirebaseRoomService implements RoomService {
       return null;
     }
 
-    return roomSnapshot.data() as ReturnType<RoomService['get']>;
+    return normalizeRoomData(
+      roomDoc.id,
+      roomSnapshot.data() as FirebaseRoomDTO,
+    );
+  };
+
+  getRoomName: RoomService['getRoomName'] = async (id) => {
+    return (await this.get({ id }))?.name;
   };
 
   getByAuthorIdAndName: RoomService['getByAuthorIdAndName'] = async ({
     name,
     authorId,
   }) => {
-    return (
+    const rooms = (
       await getDocs(
         query(
           this.roomCollection,
@@ -37,17 +73,24 @@ export class FirebaseRoomService implements RoomService {
           where('name', '==', name),
         ),
       )
-    ).docs?.[0].data() as ReturnType<RoomService['getByAuthorIdAndName']>;
+    ).docs;
+
+    if (rooms.length === 0) {
+      return null;
+    }
+
+    return rooms[0].data() as ReturnType<RoomService['getByAuthorIdAndName']>;
   };
 
   create: RoomService['create'] = async ({ name, authorId }) => {
     const createdRoom = await addDoc(this.roomCollection, {
       name,
       authorId,
+      createdAt: serverTimestamp(),
     });
 
-    return (await getDoc(createdRoom)).data() as ReturnType<
-      RoomService['create']
-    >;
+    const data = (await getDoc(createdRoom)).data() as FirebaseRoomDTO;
+
+    return normalizeRoomData(createdRoom.id, data);
   };
 }

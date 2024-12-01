@@ -1,11 +1,11 @@
 import { redirect } from 'next/navigation';
 import { cache } from 'react';
 
-import { PrismaGameService } from '@/shared/api/services/prisma/PrismaGameService';
-import { PrismaRoomService } from '@/shared/api/services/prisma/PrismaRoomService';
-import { PrismaRoomUserService } from '@/shared/api/services/prisma/PrismaRoomUserService';
-import { PrismaUserVoteService } from '@/shared/api/services/prisma/PrismaUserVoteService';
 import { getSession } from '@/shared/auth/auth';
+import { GameServiceFactory } from '@/shared/factories/GameServiceFactory';
+import { RoomServiceFactory } from '@/shared/factories/RoomServiceFactory';
+import { RoomUserServiceFactory } from '@/shared/factories/RoomUserServiceFactory';
+import { UserVoteServiceFactory } from '@/shared/factories/UserVoteServiceFactory';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { pusherServer } from '@/shared/pusher/lib/pusherServer';
 import { routes } from '@/shared/routes/routes';
@@ -14,8 +14,8 @@ import { RoomProvider } from '@/widgets/Room/model/RoomContext';
 import Room from '@/widgets/Room/Room';
 
 const getRoomName = cache(async (roomId: string) => {
-  const roomService = new PrismaRoomService();
-  return (await roomService.getRoomName(roomId))?.name;
+  const roomService = RoomServiceFactory.getService();
+  return roomService.getRoomName(roomId);
 });
 
 export async function generateMetadata({
@@ -37,20 +37,19 @@ export default async function Page({
     room: string[];
   };
 }) {
-  const userVoteService = new PrismaUserVoteService();
-  const roomUserService = new PrismaRoomUserService();
-  const gameService = new PrismaGameService();
+  const userVoteService = UserVoteServiceFactory.getService();
+  const roomUserService = RoomUserServiceFactory.getService();
+  const gameService = GameServiceFactory.getService();
   const roomId = params.room.toString();
   const roomName = await getRoomName(roomId);
 
   if (!roomName) {
     return redirect(routes.game.create.getPath());
   }
-
   const session = await getSession();
-  const userId = session?.user.id as string;
+  const userId = session?.user.id;
 
-  if (session && userId) {
+  if (userId) {
     await roomUserService.addUserToRoom(userId, roomId);
   }
 

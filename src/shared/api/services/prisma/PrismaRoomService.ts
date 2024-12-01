@@ -31,16 +31,18 @@ export class PrismaRoomService
     });
   };
 
-  async getRoomName(roomId: string) {
-    return this.prisma.room.findUnique({
-      select: {
-        name: true,
-      },
-      where: {
-        id: roomId,
-      },
-    });
-  }
+  getRoomName: RoomService['getRoomName'] = async (roomId: string) => {
+    return (
+      await this.prisma.room.findUnique({
+        select: {
+          name: true,
+        },
+        where: {
+          id: roomId,
+        },
+      })
+    )?.name;
+  };
 
   async getRoomsWhereTheUserIsAParticipant(userId: string) {
     return this.prisma.room.findMany({
