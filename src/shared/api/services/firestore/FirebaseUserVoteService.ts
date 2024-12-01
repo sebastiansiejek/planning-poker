@@ -1,10 +1,17 @@
-import { collection, doc, serverTimestamp, setDoc } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDoc,
+  serverTimestamp,
+  setDoc,
+  updateDoc,
+} from 'firebase/firestore';
 
 import { firebaseStore } from '@/shared/database/firebase';
 import type { UserVoteService } from '@/shared/factories/UserVoteServiceFactory';
+import type { Vote } from '@/shared/types/types';
 
 export class FirebaseUserVoteService implements UserVoteService {
-  // TODO: implement that
   getVotedUsers: UserVoteService['getVotedUsers'] = () => {
     return Promise.resolve([]);
   };
@@ -16,12 +23,32 @@ export class FirebaseUserVoteService implements UserVoteService {
     roomId,
   }) => {
     const roomDocRef = doc(firebaseStore, 'rooms', roomId);
-    const gameCollectionRef = collection(roomDocRef, 'game');
+    const gameCollectionRef = collection(roomDocRef, 'games');
     const gameDocRef = doc(gameCollectionRef, gameId);
+    const gameDoc = await getDoc(gameDocRef);
 
-    await setDoc(gameDocRef, {
-      votes: [vote, userId],
-      createdAt: serverTimestamp(),
+    if (!gameDoc.exists()) {
+      return setDoc(gameDocRef, {
+        votes: [vote, userId],
+        createdAt: serverTimestamp(),
+      });
+    }
+
+    const game = gameDoc.data() as {
+      votes: Vote[];
+    };
+
+    const votes = game.votes || [];
+    const existingVoteIndex = votes.findIndex((v) => v.userId === userId);
+
+    if (existingVoteIndex >= 0) {
+      votes[existingVoteIndex] = { userId, vote };
+    } else {
+      votes.push({ userId, vote });
+    }
+
+    return updateDoc(gameDocRef, {
+      votes,
     });
   };
 }
