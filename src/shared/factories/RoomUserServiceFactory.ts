@@ -4,6 +4,7 @@ import { PrismaRoomUserService } from '@/shared/api/services/prisma/PrismaRoomUs
 export type RoomUserService = {
   addUserToRoom: (userId: string, roomId: string) => any;
   getRoomMembers: (roomId: string) => any;
+  delete: (params: { roomId: string; userId: string }) => Promise<any>;
 };
 
 export class RoomUserServiceFactory {

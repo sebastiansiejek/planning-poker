@@ -1,5 +1,3 @@
-import type { Prisma } from '@prisma/client';
-
 import { PrismaBaseService } from '@/shared/api/services/prisma/PrismaBaseService';
 import type { RoomUserService } from '@/shared/factories/RoomUserServiceFactory';
 
@@ -7,9 +5,16 @@ export class PrismaRoomUserService
   extends PrismaBaseService
   implements RoomUserService
 {
-  async delete(data: Prisma.RoomUserDeleteArgs) {
-    return this.prisma.roomUser.delete(data);
-  }
+  delete: RoomUserService['delete'] = async ({ userId, roomId }) => {
+    return this.prisma.roomUser.delete({
+      where: {
+        roomId_userId: {
+          userId,
+          roomId,
+        },
+      },
+    });
+  };
 
   async addUserToRoom(userId: string, roomId: string) {
     return this.prisma.roomUser.upsert({

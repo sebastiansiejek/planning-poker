@@ -2,8 +2,8 @@
 
 import { z } from 'zod';
 
-import { PrismaRoomUserService } from '@/shared/api/services/prisma/PrismaRoomUserService';
-import { PrismaUserVoteService } from '@/shared/api/services/prisma/PrismaUserVoteService';
+import { RoomUserServiceFactory } from '@/shared/factories/RoomUserServiceFactory';
+import { UserVoteServiceFactory } from '@/shared/factories/UserVoteServiceFactory';
 import { actionClient } from '@/shared/lib/safeAction';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { pusherServer } from '@/shared/pusher/lib/pusherServer';
@@ -17,25 +17,18 @@ const schema = z.object({
 export const leftGame = actionClient
   .schema(schema)
   .action(async ({ parsedInput: { roomId, userId, gameId } }) => {
-    const userVoteService = new PrismaUserVoteService();
-    const roomUserService = new PrismaRoomUserService();
+    const userVoteService = UserVoteServiceFactory.getService();
+    const roomUserService = RoomUserServiceFactory.getService();
 
     await Promise.all([
       roomUserService.delete({
-        where: {
-          roomId_userId: {
-            userId,
-            roomId,
-          },
-        },
+        userId,
+        roomId,
       }),
       userVoteService.delete({
-        where: {
-          userId_gameId: {
-            userId,
-            gameId,
-          },
-        },
+        gameId,
+        roomId,
+        userId,
       }),
     ]);
 

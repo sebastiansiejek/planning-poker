@@ -11,13 +11,13 @@ export type UserVoteService = {
       vote: string;
     }[]
   >;
-
   upsert: (data: {
     gameId: string;
     vote: string;
     userId: string;
     roomId: string;
   }) => any;
+  delete: (params: { roomId: string; userId: string; gameId: string }) => any;
 };
 
 export class UserVoteServiceFactory {

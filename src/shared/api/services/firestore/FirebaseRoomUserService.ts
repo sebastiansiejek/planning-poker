@@ -1,4 +1,5 @@
 import {
+  arrayRemove,
   collection,
   doc,
   getDocs,
@@ -47,5 +48,13 @@ export class FirebaseRoomUserService implements RoomUserService {
         ...userDoc.data(),
       } as FirebaseRoomDTO,
     }));
+  };
+
+  delete: RoomUserService['delete'] = async ({ roomId, userId }) => {
+    const gameRef = doc(firebaseStore, 'rooms', roomId);
+
+    await updateDoc(gameRef, {
+      users: arrayRemove(userId),
+    });
   };
 }

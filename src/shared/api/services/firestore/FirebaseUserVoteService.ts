@@ -1,4 +1,5 @@
 import {
+  arrayRemove,
   collection,
   doc,
   getDoc,
@@ -58,6 +59,13 @@ export class FirebaseUserVoteService implements UserVoteService {
 
     return updateDoc(gameDocRef, {
       votes,
+    });
+  };
+
+  delete: UserVoteService['delete'] = async ({ roomId, userId }) => {
+    const gameRef = doc(firebaseStore, 'rooms', roomId);
+    await updateDoc(gameRef, {
+      users: arrayRemove(userId),
     });
   };
 }
