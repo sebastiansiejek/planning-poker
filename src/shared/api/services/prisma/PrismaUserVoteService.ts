@@ -16,6 +16,22 @@ export class PrismaUserVoteService
     });
   };
 
+  getGameVotes: UserVoteService['getGameVotes'] = async ({ gameId }) => {
+    return this.prisma.userVote.findMany({
+      select: {
+        vote: true,
+        user: {
+          select: {
+            id: true,
+          },
+        },
+      },
+      where: {
+        gameId,
+      },
+    });
+  };
+
   async upsert({
     userId,
     gameId,
@@ -47,22 +63,6 @@ export class PrismaUserVoteService
           userId,
           gameId,
         },
-      },
-    });
-  }
-
-  async getGameVotes(gameId: string) {
-    return this.prisma.userVote.findMany({
-      select: {
-        vote: true,
-        user: {
-          select: {
-            id: true,
-          },
-        },
-      },
-      where: {
-        gameId,
       },
     });
   }

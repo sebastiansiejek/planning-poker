@@ -173,7 +173,7 @@ export default function Room({
 
       pusherChannel.bind(PUSHER_EVENTS.REVEAL_VOTES, async () => {
         if (!gameId) return;
-        executeGetGameVote({ gameId });
+        executeGetGameVote({ gameId, roomId });
         setIsRevealedCards(true);
         setIsWaitingForStartGame(true);
       });

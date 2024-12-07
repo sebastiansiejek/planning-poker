@@ -68,4 +68,28 @@ export class FirebaseUserVoteService implements UserVoteService {
       users: arrayRemove(userId),
     });
   };
+
+  getGameVotes: UserVoteService['getGameVotes'] = async ({
+    gameId,
+    roomId,
+  }) => {
+    if (!roomId) {
+      throw new Error('Argument gameId is required');
+    }
+
+    const gameRef = doc(firebaseStore, 'rooms', roomId, 'games', gameId);
+    const gameData = (await getDoc(gameRef)).data() as {
+      votes: {
+        userId: string;
+        vote: string;
+      }[];
+    };
+
+    return gameData.votes.map(({ vote, userId }) => ({
+      user: {
+        id: userId,
+      },
+      vote,
+    }));
+  };
 }
