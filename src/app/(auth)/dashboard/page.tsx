@@ -1,8 +1,8 @@
 import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 
-import { PrismaRoomService } from '@/shared/api/services/prisma/PrismaRoomService';
 import { getSession } from '@/shared/auth/auth';
+import { RoomServiceFactory } from '@/shared/factories/RoomServiceFactory';
 import { routes } from '@/shared/routes/routes';
 import { Container } from '@/shared/UIKit/Container/Container';
 import { Heading } from '@/shared/UIKit/Heading/Heading';
@@ -29,7 +29,7 @@ export default async function Home() {
     redirect(routes.login.getPath());
   }
 
-  const roomApiService = new PrismaRoomService();
+  const roomApiService = RoomServiceFactory.getService();
 
   const rooms = await roomApiService.getRoomsWhereTheUserIsAParticipant(
     session.user.id,
