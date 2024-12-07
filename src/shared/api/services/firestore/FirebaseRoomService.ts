@@ -10,6 +10,7 @@ import {
   where,
 } from 'firebase/firestore';
 
+import { FirebaseUserService } from '@/shared/api/services/firestore/FirebaseUserService';
 import { firebaseStore } from '@/shared/database/firebase';
 import type {
   RoomDTO,
@@ -93,4 +94,34 @@ export class FirebaseRoomService implements RoomService {
 
     return normalizeRoomData(createdRoom.id, data);
   };
+
+  getRoomsWhereTheUserIsAParticipant: RoomService['getRoomsWhereTheUserIsAParticipant'] =
+    async (userId) => {
+      const userService = new FirebaseUserService();
+      const rooms = (
+        await getDocs(
+          query(this.roomCollection, where('users', 'array-contains', userId)),
+        )
+      ).docs;
+
+      return Promise.all(
+        rooms.map(async (room) => {
+          const roomData = room.data();
+          const author = await userService.get(roomData.authorId);
+
+          return {
+            id: room.id,
+            name: roomData.name,
+            createdAt: roomData.createdAt.toDate().toISOString(),
+            authorId: roomData.authorId,
+            author: {
+              name: author.name,
+            },
+            _count: {
+              RoomUser: roomData.users.length,
+            },
+          };
+        }),
+      );
+    };
 }

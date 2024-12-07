@@ -15,6 +15,16 @@ export type RoomService = {
     authorId: string;
   }) => Promise<RoomDTO | null>;
   getRoomName: (id: string) => Promise<string | undefined>;
+  getRoomsWhereTheUserIsAParticipant: (userId: string) => Promise<
+    {
+      name: string;
+      id: string;
+      authorId: string;
+      createdAt: Date;
+      author: { name: string };
+      _count: { RoomUser: number };
+    }[]
+  >;
 };
 
 export class RoomServiceFactory {

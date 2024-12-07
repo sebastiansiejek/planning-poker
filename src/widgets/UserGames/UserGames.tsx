@@ -1,6 +1,5 @@
 'use client';
 
-import type { Room } from '@prisma/client';
 import type { CellContext, ColumnDef } from '@tanstack/react-table';
 import dayjs from 'dayjs';
 import { SquareArrowOutUpRight } from 'lucide-react';
@@ -22,7 +21,7 @@ type UserGamesColumns = {
   };
 };
 
-type UserGamesProps = (Room & Pick<UserGamesColumns, '_count'>)[];
+type UserGamesProps = Pick<UserGamesColumns, '_count'>[];
 
 const Actions = ({
   row: {

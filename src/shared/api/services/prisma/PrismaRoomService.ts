@@ -44,29 +44,30 @@ export class PrismaRoomService
     )?.name;
   };
 
-  async getRoomsWhereTheUserIsAParticipant(userId: string) {
-    return this.prisma.room.findMany({
-      where: {
-        RoomUser: {
-          some: {
-            userId,
+  getRoomsWhereTheUserIsAParticipant: RoomService['getRoomsWhereTheUserIsAParticipant'] =
+    async (userId: string) => {
+      return this.prisma.room.findMany({
+        where: {
+          RoomUser: {
+            some: {
+              userId,
+            },
           },
         },
-      },
-      include: {
-        author: {
-          select: {
-            name: true,
+        include: {
+          author: {
+            select: {
+              name: true,
+            },
+          },
+          _count: {
+            select: {
+              RoomUser: true,
+            },
           },
         },
-        _count: {
-          select: {
-            RoomUser: true,
-          },
-        },
-      },
-    });
-  }
+      });
+    };
 
   async count(id: string) {
     return this.prisma.room.count({
