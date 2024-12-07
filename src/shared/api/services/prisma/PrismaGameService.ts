@@ -5,6 +5,17 @@ export class PrismaGameService
   extends PrismaBaseService
   implements GameService
 {
+  finishGame: GameService['finishGame'] = async ({ gameId }) => {
+    return this.prisma.game.update({
+      data: {
+        status: 'FINISHED',
+      },
+      where: {
+        id: gameId,
+      },
+    });
+  };
+
   async getLatestRoomGame(roomId: string) {
     return this.prisma.game.findFirst({
       select: {
@@ -18,17 +29,6 @@ export class PrismaGameService
       },
       orderBy: {
         createdAt: 'desc',
-      },
-    });
-  }
-
-  async finishGame(gameId: string) {
-    return this.prisma.game.update({
-      data: {
-        status: 'FINISHED',
-      },
-      where: {
-        id: gameId,
       },
     });
   }

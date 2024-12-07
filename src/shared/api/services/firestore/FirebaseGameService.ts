@@ -7,6 +7,7 @@ import {
   orderBy,
   query,
   serverTimestamp,
+  updateDoc,
   where,
 } from 'firebase/firestore';
 
@@ -61,5 +62,20 @@ export class FirebaseGameService implements GameService {
     }
 
     return querySnapshot.docs[0];
+  };
+
+  finishGame: GameService['finishGame'] = async ({ gameId, roomId }) => {
+    if (!roomId) {
+      throw new Error(`Argument roomId is required`);
+    }
+
+    const gameRef = doc(firebaseStore, 'rooms', roomId, 'games', gameId);
+    await updateDoc(gameRef, {
+      status: 'FINISHED',
+    });
+
+    return {
+      id: gameRef.id,
+    };
   };
 }

@@ -9,6 +9,15 @@ export type GameService = {
     description?: string;
   }) => any;
   getActiveGame: (data: { roomId: string }) => any;
+  finishGame: ({
+    roomId,
+    gameId,
+  }: {
+    roomId?: string;
+    gameId: string;
+  }) => Promise<{
+    id: string;
+  }>;
 };
 
 export class GameServiceFactory {
