@@ -17,8 +17,8 @@ const schema = z.object({
 export const createGame = actionClient
   .schema(schema)
   .action(async ({ parsedInput: { name, roomId, description } }) => {
-    const gamePrismaService = GameServiceFactory.getService();
-    const isActiveGame = await gamePrismaService.getActiveGame({ roomId });
+    const gameService = GameServiceFactory.getService();
+    const isActiveGame = await gameService.getActiveGame({ roomId });
 
     if (isActiveGame) {
       return {
@@ -30,7 +30,7 @@ export const createGame = actionClient
     }
 
     try {
-      const data = await gamePrismaService.create({
+      const data = await gameService.create({
         name,
         roomId,
         description,
