@@ -1,14 +1,22 @@
-import { FirestoreAdapter } from '@auth/firebase-adapter';
+import { FirestoreAdapter, initFirestore } from '@auth/firebase-adapter';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import admin from 'firebase-admin';
 import type { AuthOptions } from 'next-auth';
 import { getServerSession } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 
 import { AuthSessionStrategy } from '@/features/auth/lib/AuthSessionStrategy';
-import { adminDb } from '@/shared/database/firebase';
 import prisma from '@/shared/database/prisma';
 
 const authSessionStrategy = new AuthSessionStrategy();
+
+const adminDb = initFirestore({
+  credential: admin.credential.cert({
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+    privateKey: process.env.FIREBASE_PRIVATE_KEY,
+  }),
+});
 
 export const authOptions: AuthOptions = {
   providers: [
