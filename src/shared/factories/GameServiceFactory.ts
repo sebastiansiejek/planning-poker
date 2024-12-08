@@ -7,7 +7,9 @@ export type GameService = {
     name?: string;
     roomId: string;
     description?: string;
-  }) => any;
+  }) => Promise<{
+    id: string;
+  }>;
   getActiveGame: (data: { roomId: string }) => any;
   finishGame: ({
     roomId,

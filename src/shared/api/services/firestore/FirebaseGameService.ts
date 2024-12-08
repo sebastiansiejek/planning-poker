@@ -43,12 +43,16 @@ export class FirebaseGameService implements GameService {
       'games',
     );
 
-    await addDoc(gamesCollectionRef, {
+    const { id } = await addDoc(gamesCollectionRef, {
       description,
       name,
       status: 'STARTED',
       createdAt: serverTimestamp(),
     });
+
+    return {
+      id,
+    };
   };
 
   getActiveGame: GameService['getActiveGame'] = async ({ roomId }) => {
