@@ -1,3 +1,4 @@
+import { RoomFirebaseListener } from '@/features/room/lib/RoomListener/RoomFirebaseListener';
 import { RoomPrismaListener } from '@/features/room/lib/RoomListener/RoomPrismaListener';
 
 export class RoomListenerFactory {
@@ -6,8 +7,7 @@ export class RoomListenerFactory {
 
     switch (provider) {
       case 'firebase':
-        // TODO: implement that
-        return new RoomPrismaListener(roomId);
+        return new RoomFirebaseListener(roomId);
       case 'prisma':
         return new RoomPrismaListener(roomId);
       default:

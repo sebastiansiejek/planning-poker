@@ -1,12 +1,13 @@
 import type { Channel } from 'pusher-js';
 
+import type { IRoomListener } from '@/features/room/lib/RoomListener/RoomListener.types';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { pusherClient } from '@/shared/pusher/lib/pusherClient';
 import type { PusherNewMember } from '@/shared/types/pusher/pusher';
 import type { Vote } from '@/shared/types/types';
 import type { RoomContextType } from '@/widgets/Room/model/RoomContext';
 
-export class RoomPrismaListener {
+export class RoomPrismaListener implements IRoomListener {
   pusherClient = pusherClient();
 
   channel: Channel;

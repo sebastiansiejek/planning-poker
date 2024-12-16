@@ -76,32 +76,6 @@ export default function Room({
   });
   const currentUserId = session?.user.id as string;
 
-  // TODO: After refactor pusher
-  // useEffect(() => {
-  //   if (roomId) {
-  //     const gamesCollectionRef = collection(
-  //       firebaseStore,
-  //       `rooms/${roomId}/games`,
-  //     );
-  //     const q = query(
-  //       gamesCollectionRef,
-  //       where('createdAt', '>=', Timestamp.now()),
-  //     );
-  //
-  //     const gameCollectionSnapshot = onSnapshot(q, (snapshot) => {
-  //       snapshot.docChanges().forEach((change) => {
-  //         console.log(change);
-  //       });
-  //     });
-  //
-  //     return () => {
-  //       gameCollectionSnapshot();
-  //     };
-  //   }
-  //
-  //   return () => {};
-  // }, [roomId]);
-
   useEffect(() => {
     const roomListener = RoomListenerFactory.getService(roomId);
     const roomNotificationsListener = new RoomPusherNotificationsListener(
