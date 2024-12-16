@@ -26,7 +26,10 @@ export const authOptions: AuthOptions = {
     }),
   ],
   session: {
-    strategy: process.env.DATABASE_PROVIDER === 'firebase' ? 'jwt' : 'database',
+    strategy:
+      process.env.NEXT_PUBLIC_DATABASE_PROVIDER === 'firebase'
+        ? 'jwt'
+        : 'database',
   },
   callbacks: {
     session: async ({ session, token, user }) =>
@@ -34,7 +37,7 @@ export const authOptions: AuthOptions = {
     jwt: async ({ token, user }) => authSessionStrategy.handleJWT(token, user),
   },
   adapter:
-    process.env.DATABASE_PROVIDER === 'firebase'
+    process.env.NEXT_PUBLIC_DATABASE_PROVIDER === 'firebase'
       ? FirestoreAdapter(adminDb)
       : PrismaAdapter(prisma),
 };

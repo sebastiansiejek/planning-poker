@@ -46,7 +46,7 @@ export class AuthSessionStrategy {
   }
 
   static handleJWTWithFireBase(token: JWT, user: User) {
-    if (process.env.DATABASE_PROVIDER === 'firebase' && user) {
+    if (process.env.NEXT_PUBLIC_DATABASE_PROVIDER === 'firebase' && user) {
       // eslint-disable-next-line no-param-reassign
       token.sub = user.id;
 
@@ -77,7 +77,7 @@ export class AuthSessionStrategy {
   }
 
   handleSession(session: Session, context: SessionContext): Session {
-    const databaseProvider = process.env.DATABASE_PROVIDER;
+    const databaseProvider = process.env.NEXT_PUBLIC_DATABASE_PROVIDER;
 
     const strategy = this.sessionStrategies[databaseProvider];
 
@@ -85,7 +85,7 @@ export class AuthSessionStrategy {
   }
 
   handleJWT(token: JWT, user: User): JWT {
-    const databaseProvider = process.env.DATABASE_PROVIDER;
+    const databaseProvider = process.env.NEXT_PUBLIC_DATABASE_PROVIDER;
 
     const strategy = this.jwtStrategies[databaseProvider];
 

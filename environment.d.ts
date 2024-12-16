@@ -17,7 +17,7 @@ declare global {
       FIREBASE_DATABASE_URL?: string;
       FIREBASE_CLIENT_EMAIL?: string;
       FIREBASE_PRIVATE_KEY?: string;
-      DATABASE_PROVIDER: DatabaseProvider;
+      NEXT_PUBLIC_DATABASE_PROVIDER: DatabaseProvider;
     }
   }
 }

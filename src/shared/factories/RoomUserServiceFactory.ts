@@ -9,7 +9,7 @@ export type RoomUserService = {
 
 export class RoomUserServiceFactory {
   static getService() {
-    const provider = process.env.DATABASE_PROVIDER;
+    const provider = process.env.NEXT_PUBLIC_DATABASE_PROVIDER;
 
     switch (provider) {
       case 'firebase':
