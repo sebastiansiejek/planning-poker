@@ -7,14 +7,10 @@ import { useAction } from 'next-safe-action/hooks';
 import { useEffect, useMemo, useState } from 'react';
 
 import type { RoomProps } from '@/app/game/[...room]/types';
+import { RoomListenerFactory } from '@/features/room/lib/RoomListener/RoomListenerFactory';
+import { RoomPusherNotificationsListener } from '@/features/room/lib/RoomListener/RoomPusherNotificationsListener';
 import useNotification from '@/shared/hooks/useNotification/useNotification';
-import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
-import { usePusherClient } from '@/shared/pusher/hooks/usePusherClient/usePusherClient';
 import { routes } from '@/shared/routes/routes';
-import type {
-  PusherNewMember,
-  PusherNotification,
-} from '@/shared/types/pusher/pusher';
 import type { Vote } from '@/shared/types/types';
 import { Container } from '@/shared/UIKit/Container/Container';
 import { PageHeading } from '@/shared/UIKit/PageHeading/PageHeading';
@@ -23,7 +19,6 @@ import { Paper } from '@/widgets/Alerts/ui/Paper/Paper';
 import type { TriggerPaperThrowingParams } from '@/widgets/Room/actions/alerts/triggerPaperThrowing';
 import { getGameVotes } from '@/widgets/Room/actions/getGameVotes';
 import { chunkMembers } from '@/widgets/Room/libs/chunkMembers/chunkMembers';
-import type { RoomContextType } from '@/widgets/Room/model/RoomContext';
 import { useRoomContext } from '@/widgets/Room/model/RoomContext';
 import { useIsFinishedGame } from '@/widgets/Room/model/selectors/useIsFinishedGame';
 import { GameContainer } from '@/widgets/Room/ui/Game/GameContainer/GameContainer';
@@ -51,7 +46,6 @@ export default function Room({
   const { data: session } = useSession();
   const { dispatch, room } = useRoomContext();
   const router = useRouter();
-  const pusher = usePusherClient();
   const activeGame = room?.game;
   const areVotes = votedUserIds.length > 0;
   const memberChunks = useMemo(
@@ -109,27 +103,15 @@ export default function Room({
   // }, [roomId]);
 
   useEffect(() => {
-    if (!pusher) return () => {};
+    const roomListener = RoomListenerFactory.getService(roomId);
+    const roomNotificationsListener = new RoomPusherNotificationsListener(
+      roomId,
+    );
 
-    const pusherChannel = pusher.subscribe(roomId);
-    if (pusherChannel) {
-      pusherChannel.bind(
-        PUSHER_EVENTS.USER_ID(currentUserId),
-        async (data: PusherNotification) => {
-          if (data.type === 'alarm') {
-            notify(t('Member.notification.notice'));
-            const audio = new Audio('/alarm.mp3');
-
-            if (audio.paused) {
-              await audio.play();
-            }
-          }
-        },
-      );
-
-      pusherChannel.bind(
-        PUSHER_EVENTS.PAPER_THROWN,
-        ({ targetUser, triggerUser }: TriggerPaperThrowingParams) => {
+    if (window.pusherInstance) {
+      roomNotificationsListener
+        .onAlarm(currentUserId, () => notify(t('Member.notification.notice')))
+        .onThrownPaper(({ targetUser, triggerUser }) => {
           setPapers((oldPapers) => [
             ...oldPapers,
             {
@@ -137,12 +119,12 @@ export default function Room({
               triggerUser,
             },
           ]);
-        },
-      );
+        });
+    }
 
-      pusherChannel.bind(
-        PUSHER_EVENTS.MEMBER_ADDED,
-        ({ name, id, avatarUrl: userAvatarUrl }: PusherNewMember) => {
+    if (roomListener) {
+      roomListener
+        .onMemberAdded(({ name, id, avatarUrl: userAvatarUrl }) => {
           setMembers((oldMembers) => [
             ...oldMembers.filter((member) => member.id !== id),
             {
@@ -151,12 +133,8 @@ export default function Room({
               image: userAvatarUrl || null,
             },
           ]);
-        },
-      );
-
-      pusherChannel.bind(
-        PUSHER_EVENTS.MEMBER_REMOVED,
-        ({ id }: PusherNewMember) => {
+        })
+        .onMemberRemoved(({ id }) => {
           setMembers((oldMembers) => oldMembers.filter((m) => m.id !== id));
           if (id === currentUserId) {
             router.push(routes.game.join.getPath());
@@ -165,58 +143,48 @@ export default function Room({
               variant: 'destructive',
             });
           }
-        },
-      );
-
-      pusherChannel.bind(PUSHER_EVENTS.VOTED, (data: { userId: string }) => {
-        const { userId } = data;
-        setVotedUserIds((oldVotedUsers) => [...oldVotedUsers, userId]);
-      });
-
-      pusherChannel.bind(PUSHER_EVENTS.SHOW_VOTES, (vote: Vote) => {
-        setVotes((oldVotes) => {
-          const newVotes = oldVotes.filter((v) => v.userId !== vote.userId);
-          return [...newVotes, vote];
-        });
-      });
-
-      pusherChannel.bind(PUSHER_EVENTS.RESET_VOTES, () => {
-        dispatch({
-          type: 'SET_VOTE',
-          payload: {
-            value: '',
-          },
-        });
-        setVotes([]);
-        setVotedUserIds([]);
-        setIsRevealedCards(false);
-        setIsWaitingForStartGame(false);
-        dispatch({
-          type: 'SET_GAME',
-          payload: undefined,
-        });
-      });
-
-      pusherChannel.bind(PUSHER_EVENTS.REVEAL_VOTES, async () => {
-        if (!gameId) return;
-        executeGetGameVote({ gameId, roomId });
-        setIsRevealedCards(true);
-        setIsWaitingForStartGame(true);
-      });
-
-      pusherChannel.bind(
-        PUSHER_EVENTS.GAME_CREATED,
-        async ({ data }: { data: RoomContextType['game'] }) => {
+        })
+        .onVoted(({ userId }) => {
+          setVotedUserIds((oldVotedUsers) => [...oldVotedUsers, userId]);
+        })
+        .onShowVotes((vote) => {
+          setVotes((oldVotes) => {
+            const newVotes = oldVotes.filter((v) => v.userId !== vote.userId);
+            return [...newVotes, vote];
+          });
+        })
+        .onResetVotes(() => {
+          dispatch({
+            type: 'SET_VOTE',
+            payload: {
+              value: '',
+            },
+          });
+          setVotes([]);
+          setVotedUserIds([]);
+          setIsRevealedCards(false);
+          setIsWaitingForStartGame(false);
+          dispatch({
+            type: 'SET_GAME',
+            payload: undefined,
+          });
+        })
+        .onRevealVotes(() => {
+          if (!gameId) return;
+          executeGetGameVote({ gameId, roomId });
+          setIsRevealedCards(true);
+          setIsWaitingForStartGame(true);
+        })
+        .onGameCreated((data) => {
           dispatch({
             type: 'SET_GAME',
             payload: data,
           });
-        },
-      );
+        });
     }
 
     return () => {
-      pusher.unsubscribe(roomId);
+      // pusher.unsubscribe(roomId);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameId]);

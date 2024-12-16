@@ -13,5 +13,5 @@ export const pusherClient = () => {
     return window.pusherInstance;
   }
 
-  return null;
+  throw new Error('Pusher is not initialized');
 };
