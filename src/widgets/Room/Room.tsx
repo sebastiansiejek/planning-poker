@@ -98,7 +98,16 @@ export default function Room({
 
     if (roomListener) {
       roomListener
-        .onMemberAdded(({ name, id, avatarUrl: userAvatarUrl }) => {
+        .on('gameCreated', (game) => {
+          dispatch({
+            type: 'SET_GAME',
+            payload: game,
+          });
+        })
+        .on('voted', ({ userId }) => {
+          setVotedUserIds((oldVotedUsers) => [...oldVotedUsers, userId]);
+        })
+        .on('memberAdded', ({ name, id, avatarUrl: userAvatarUrl }) => {
           setMembers((oldMembers) => [
             ...oldMembers.filter((member) => member.id !== id),
             {
@@ -108,26 +117,13 @@ export default function Room({
             },
           ]);
         })
-        .onMemberRemoved(({ id }) => {
-          setMembers((oldMembers) => oldMembers.filter((m) => m.id !== id));
-          if (id === currentUserId) {
-            router.push(routes.game.join.getPath());
-            toast({
-              title: t('Room.kick.message'),
-              variant: 'destructive',
-            });
-          }
+        .on('revealVotes', () => {
+          if (!gameId) return;
+          executeGetGameVote({ gameId, roomId });
+          setIsRevealedCards(true);
+          setIsWaitingForStartGame(true);
         })
-        .onVoted(({ userId }) => {
-          setVotedUserIds((oldVotedUsers) => [...oldVotedUsers, userId]);
-        })
-        .onShowVotes((vote) => {
-          setVotes((oldVotes) => {
-            const newVotes = oldVotes.filter((v) => v.userId !== vote.userId);
-            return [...newVotes, vote];
-          });
-        })
-        .onResetVotes(() => {
+        .on('resetVotes', () => {
           dispatch({
             type: 'SET_VOTE',
             payload: {
@@ -143,22 +139,22 @@ export default function Room({
             payload: undefined,
           });
         })
-        .onRevealVotes(() => {
-          if (!gameId) return;
-          executeGetGameVote({ gameId, roomId });
-          setIsRevealedCards(true);
-          setIsWaitingForStartGame(true);
-        })
-        .onGameCreated((data) => {
-          dispatch({
-            type: 'SET_GAME',
-            payload: data,
-          });
+        .on('memberRemoved', ({ id }) => {
+          setMembers((oldMembers) => oldMembers.filter((m) => m.id !== id));
+          if (id === currentUserId) {
+            router.push(routes.game.join.getPath());
+            toast({
+              title: t('Room.kick.message'),
+              variant: 'destructive',
+            });
+          }
         });
     }
 
     return () => {
-      // pusher.unsubscribe(roomId);
+      roomListener.unsubscribeListener.forEach((unsubscribe) => {
+        unsubscribe();
+      });
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameId]);

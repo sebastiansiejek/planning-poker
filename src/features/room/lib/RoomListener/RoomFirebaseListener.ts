@@ -1,53 +1,83 @@
-import { collection, onSnapshot, query, where } from 'firebase/firestore';
+import { collection, doc, onSnapshot } from 'firebase/firestore';
 
-import type { IRoomListener } from '@/features/room/lib/RoomListener/RoomListener.types';
+import { RoomListener } from '@/features/room/lib/RoomListener/RoomListener';
 import { firebaseStore } from '@/shared/database/firebase';
-import type { PusherNewMember } from '@/shared/types/pusher/pusher';
-import type { Vote } from '@/shared/types/types';
-import type { RoomContextType } from '@/widgets/Room/model/RoomContext';
 
-export class RoomFirebaseListener implements IRoomListener {
-  constructor(private roomId: string) {}
-
-  onGameCreated(callback: (data: RoomContextType['game']) => void): this {
-    return this;
+export class RoomFirebaseListener extends RoomListener {
+  constructor(private roomId: string) {
+    super();
+    this.gameSnapshot();
+    this.roomSnapshot();
   }
 
-  onMemberAdded(callback: (params: PusherNewMember) => void): this {
-    return this;
+  private roomSnapshot() {
+    const roomCollectionRef = doc(firebaseStore, `rooms/${this.roomId}`);
+    let isInitialLoad = true;
+
+    const unsubscribe = onSnapshot(roomCollectionRef, (snapshot) => {
+      if (isInitialLoad) {
+        isInitialLoad = false;
+        return;
+      }
+
+      const data = snapshot.data();
+      if (data) {
+        const { name } = data;
+
+        this.emit('memberAdded', {
+          id: snapshot.id,
+          name,
+          // TODO: Get avatar url
+          avatarUrl: '',
+        });
+      }
+    });
+
+    this.unsubscribeListener.push(unsubscribe);
   }
 
-  onMemberRemoved(callback: (params: PusherNewMember) => void): this {
-    return this;
-  }
-
-  onResetVotes(callback: Function): this {
-    return this;
-  }
-
-  onRevealVotes(callback: Function): this {
-    return this;
-  }
-
-  onShowVotes(callback: (params: Vote) => void): this {
-    return this;
-  }
-
-  onVoted(callback: (params: { userId: string }) => void): this {
+  private gameSnapshot() {
     const gamesCollectionRef = collection(
       firebaseStore,
       `rooms/${this.roomId}/games`,
     );
-    const q = query(gamesCollectionRef, where('status', '==', 'STARTED'));
+    let isInitialLoad = true;
 
-    onSnapshot(q, (snapshot) => {
+    const unsubscribe = onSnapshot(gamesCollectionRef, (snapshot) => {
+      if (isInitialLoad) {
+        isInitialLoad = false;
+        return;
+      }
+
       snapshot.docChanges().forEach((change) => {
-        const data = change.doc.data();
-        const { userId } = data.votes.at(-1);
-        callback({ userId });
+        const { name, status, description, votes } = change.doc.data();
+
+        if (change.type === 'modified') {
+          if (votes) {
+            const { userId } = votes.at(-1);
+
+            this.emit('voted', {
+              userId,
+            });
+
+            if (status === 'FINISHED') {
+              this.emit('revealVotes');
+            }
+          }
+        }
+
+        if (change.type === 'added') {
+          this.emit('resetVotes');
+          this.emit('gameCreated', {
+            name,
+            status,
+            description,
+            id: change.doc.id,
+          });
+        }
       });
     });
 
-    return this;
+    this.unsubscribeListener.push(unsubscribe);
   }
 }

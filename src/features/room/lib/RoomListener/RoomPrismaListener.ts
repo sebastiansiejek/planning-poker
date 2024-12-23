@@ -1,53 +1,68 @@
 import type { Channel } from 'pusher-js';
 
-import type { IRoomListener } from '@/features/room/lib/RoomListener/RoomListener.types';
+import { RoomListener } from '@/features/room/lib/RoomListener/RoomListener';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { pusherClient } from '@/shared/pusher/lib/pusherClient';
 import type { PusherNewMember } from '@/shared/types/pusher/pusher';
-import type { Vote } from '@/shared/types/types';
 import type { RoomContextType } from '@/widgets/Room/model/RoomContext';
 
-export class RoomPrismaListener implements IRoomListener {
+export class RoomPrismaListener extends RoomListener {
   pusherClient = pusherClient();
 
   channel: Channel;
 
   constructor(roomId: string) {
+    super();
     this.channel = this.pusherClient.subscribe(roomId);
+    this.onMemberAdded()
+      .onVoted()
+      .onVoted()
+      .onResetVotes()
+      .onRevealVotes()
+      .onGameCreated()
+      .onMemberRemoved();
+
+    this.unsubscribeListener.push(() => this.pusherClient.unsubscribe(roomId));
   }
 
-  onMemberAdded(callback: (params: PusherNewMember) => void) {
-    this.channel.bind(PUSHER_EVENTS.MEMBER_ADDED, callback);
+  private onMemberAdded() {
+    this.channel.bind(PUSHER_EVENTS.MEMBER_ADDED, () =>
+      this.emit('memberAdded'),
+    );
     return this;
   }
 
-  onMemberRemoved(callback: (params: PusherNewMember) => void) {
-    this.channel.bind(PUSHER_EVENTS.MEMBER_REMOVED, callback);
+  private onMemberRemoved() {
+    this.channel.bind(PUSHER_EVENTS.MEMBER_REMOVED, (params: PusherNewMember) =>
+      this.emit('memberRemoved', params),
+    );
     return this;
   }
 
-  onVoted(callback: (params: { userId: string }) => void) {
-    this.channel.bind(PUSHER_EVENTS.VOTED, callback);
+  private onVoted() {
+    this.channel.bind(PUSHER_EVENTS.VOTED, (params: { userId: string }) =>
+      this.emit('voted', params),
+    );
     return this;
   }
 
-  onShowVotes(callback: (params: Vote) => void) {
-    this.channel.bind(PUSHER_EVENTS.SHOW_VOTES, callback);
+  private onResetVotes() {
+    this.channel.bind(PUSHER_EVENTS.RESET_VOTES, () => this.emit('resetVotes'));
     return this;
   }
 
-  onResetVotes(callback: Function) {
-    this.channel.bind(PUSHER_EVENTS.RESET_VOTES, callback);
+  private onRevealVotes() {
+    this.channel.bind(PUSHER_EVENTS.REVEAL_VOTES, () =>
+      this.emit('revealVotes'),
+    );
     return this;
   }
 
-  onRevealVotes(callback: Function) {
-    this.channel.bind(PUSHER_EVENTS.REVEAL_VOTES, callback);
-    return this;
-  }
-
-  onGameCreated(callback: (data: RoomContextType['game']) => void) {
-    this.channel.bind(PUSHER_EVENTS.GAME_CREATED, callback);
+  private onGameCreated() {
+    this.channel.bind(
+      PUSHER_EVENTS.GAME_CREATED,
+      (params: RoomContextType['game']) => this.emit('gameCreated', params),
+    );
     return this;
   }
 }

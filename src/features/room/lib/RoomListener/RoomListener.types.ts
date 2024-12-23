@@ -1,21 +1,19 @@
 import type { PusherNewMember } from '@/shared/types/pusher/pusher';
-import type { Vote } from '@/shared/types/types';
 import type { RoomContextType } from '@/widgets/Room/model/RoomContext';
 
-interface IRoomListener {
-  onMemberAdded(callback: (params: PusherNewMember) => void): this;
+export type RoomEvents =
+  | 'gameCreated'
+  | 'voted'
+  | 'memberAdded'
+  | 'revealVotes'
+  | 'resetVotes'
+  | 'memberRemoved';
 
-  onMemberRemoved(callback: (params: PusherNewMember) => void): this;
-
-  onVoted(callback: (params: { userId: string }) => void): this;
-
-  onShowVotes(callback: (params: Vote) => void): this;
-
-  onResetVotes(callback: Function): this;
-
-  onRevealVotes(callback: Function): this;
-
-  onGameCreated(callback: (data: RoomContextType['game']) => void): this;
-}
-
-export type { IRoomListener };
+export type RoomEventHandlers = {
+  gameCreated: (data: RoomContextType['game']) => void;
+  voted: (params: { userId: string }) => void;
+  memberAdded: (params: PusherNewMember) => void;
+  memberRemoved: (params: PusherNewMember) => void;
+  revealVotes: () => void;
+  resetVotes: () => void;
+};
