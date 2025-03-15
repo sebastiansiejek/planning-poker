@@ -20,7 +20,7 @@
     "postinstall": "prisma generate"
   },
   "engines": {
-    "node": "^20.9.0",
+    "node": "^22.14.0",
     "pnpm": ">=8"
   },
   "dependencies": {
@@ -145,5 +145,8 @@
       "@semantic-release/git",
       "@semantic-release/github"
     ]
+  },
+  "volta": {
+    "node": "22.14.0"
   }
 }
