@@ -2,7 +2,7 @@ import './globals.css';
 
 import { Inter } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
-import { getLocale, getMessages, getTranslations } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
 import { ThemeProvider } from 'next-themes';
 import type { ReactNode } from 'react';
 
@@ -37,14 +37,13 @@ export default async function RootLayout({
   children: ReactNode;
 }>) {
   const locale = await getLocale();
-  const messages = await getMessages();
   const session = await getSession();
 
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={inter.className}>
         <SessionProvider session={session}>
-          <NextIntlClientProvider messages={messages}>
+          <NextIntlClientProvider>
             <ThemeProvider attribute="class" disableTransitionOnChange>
               <div className="h-screen flex flex-col">
                 <SiteHeader />
