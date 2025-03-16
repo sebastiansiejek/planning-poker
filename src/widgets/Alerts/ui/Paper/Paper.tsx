@@ -1,4 +1,4 @@
-import { animate, useAnimate } from 'framer-motion';
+import { animate, useAnimate } from 'motion/react';
 import Image from 'next/image';
 import type { CSSProperties } from 'react';
 import { useEffect, useState } from 'react';
