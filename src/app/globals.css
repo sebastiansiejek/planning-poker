@@ -1,24 +1,126 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-[data-theme="dark"] {
-    .react-loading-skeleton {
-        --base-color: #363637;
-        --highlight-color: #4d4d4f;
-    }
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-*: initial;
+  --color-current: currentColor;
+  --color-white: #fff;
+  --color-black: #000;
+
+  --color-primary-100: #e6fffa;
+  --color-primary-200: #b2f5ea;
+  --color-primary-300: #81e6d9;
+  --color-primary-400: #4fd1c5;
+  --color-primary-500: #3ceab8;
+  --color-primary-600: #1eae7e;
+  --color-primary-700: #0f766e;
+  --color-primary-800: #035666;
+  --color-primary-900: #003e52;
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-gray-100: #f7fafc;
+  --color-gray-200: #edf2f7;
+  --color-gray-300: #e2e8f0;
+  --color-gray-400: #cbd5e0;
+  --color-gray-500: #a0aec0;
+  --color-gray-600: #718096;
+  --color-gray-700: #44403c;
+  --color-gray-800: #292524;
+  --color-gray-900: #121212;
+
+  --color-red-100: #fff5f5;
+  --color-red-200: #fed7d7;
+  --color-red-300: #feb2b2;
+  --color-red-400: #fc8181;
+  --color-red-500: #f56565;
+  --color-red-600: #e53e3e;
+  --color-red-700: #c53030;
+  --color-red-800: #9b2c2c;
+  --color-red-900: #742a2a;
+
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
 }
 
-* {
+@utility container {
+  margin-inline: auto;
+  padding-inline: 1.2rem;
+  @media (width >= theme(--breakpoint-sm)) {
+    padding-inline: 0;
+  }
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+@layer utilities {
+  [data-theme='dark'] {
+    .react-loading-skeleton {
+      --base-color: #363637;
+      --highlight-color: #4d4d4f;
+    }
+  }
+
+  * {
     &:focus-visible {
-        @apply outline-primary-500;
-        @apply outline-2;
-        @apply outline-offset-2;
+      @apply outline-primary-500;
+      @apply outline-2;
+      @apply outline-offset-2;
     }
 
     ::selection {
-        @apply bg-primary-500 text-primary-foreground;
+      @apply bg-primary-500 text-primary-foreground;
     }
+  }
 }
 
 @layer base {

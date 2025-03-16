@@ -7,7 +7,7 @@ export const Paragraph = ({
   htmlAttributes?: HTMLAttributes<HTMLParagraphElement>;
 }) => {
   return (
-    <p className="leading-7 [&:not(:first-child)]:mt-6" {...htmlAttributes}>
+    <p className="leading-7 not-first:mt-6" {...htmlAttributes}>
       {children}
     </p>
   );

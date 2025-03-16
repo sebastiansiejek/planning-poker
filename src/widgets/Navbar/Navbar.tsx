@@ -57,7 +57,7 @@ export const Navbar = ({
         {items.map(({ label, icon, href }) => (
           <NavigationMenuItem
             className={renderClass({
-              '!ml-0': isVertical,
+              'ml-0!': isVertical,
             })}
             key={label + href}
           >
