@@ -25,7 +25,7 @@
 1. copy `.env.example` to `.env`
 2. run `pnpm install`
 3. run `docker-compose up -d`
-4. run `npx prisma migrate dev`
+4. run `npx prisma generate`
 5. run `pnpm run dev`
 
 # Automation
