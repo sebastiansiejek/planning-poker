@@ -90,7 +90,7 @@
     "@types/jest": "^29.5.14",
     "@types/js-cookie": "^3.0.6",
     "@types/lodash.random": "^3.2.9",
-    "@types/node": "^20",
+    "@types/node": "^22",
     "@types/react": "19.0.10",
     "@types/react-dom": "19.0.4",
     "eslint": "^8",
