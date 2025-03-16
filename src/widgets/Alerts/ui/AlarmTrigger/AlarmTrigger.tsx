@@ -11,11 +11,11 @@ export const AlarmTrigger = ({ userId }: AlarmTriggerProps) => {
   const t = useTranslations('Member');
   const params = useParams();
 
-  if (typeof params.room !== 'string') {
-    throw new Error('RoomId is not a string');
+  if (params.room === undefined) {
+    throw new Error('Room param is not defined');
   }
 
-  const roomId = params.room;
+  const roomId = params.room.toString();
   const { execute, isPending } = useAction(notifyUserByPusher);
 
   return (
