@@ -18,7 +18,9 @@ export const MemberTooltip = ({
   return (
     <div
       className="flex gap-1 p-1"
-      ref={(ref) => setPopperElement(ref as HTMLDivElement)}
+      ref={(ref) => {
+        setPopperElement(ref as HTMLDivElement);
+      }}
       style={styles.popper}
       onMouseEnter={() => setIsOpenTooltip(true)}
       onMouseLeave={() => setIsOpenTooltip(false)}

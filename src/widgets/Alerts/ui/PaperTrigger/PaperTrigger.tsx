@@ -13,6 +13,11 @@ export const PaperTrigger = ({ userId, memberRef }: PaperTriggerProps) => {
   const t = useTranslations('Member');
   const [pendingNotification, startNotificationTransition] = useTransition();
   const params = useParams();
+
+  if (typeof params.room !== 'string') {
+    throw new Error('RoomId is not a string');
+  }
+
   const roomId = params.room.toString();
   const { execute } = useAction(triggerPaperThrowing);
   const { data } = useSession();

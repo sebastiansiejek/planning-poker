@@ -10,11 +10,13 @@ import { PageHeading } from '@/shared/UIKit/PageHeading/PageHeading';
 import { getPageMetaData } from '@/shared/utils/getPageMetaData';
 import { UserGames } from '@/widgets/UserGames/UserGames';
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
+export async function generateMetadata(props: {
+  params: Promise<{ locale: string }>;
 }) {
+  const params = await props.params;
+
+  const { locale } = params;
+
   const translate = await getTranslations({ locale });
 
   return getPageMetaData({

@@ -10,7 +10,12 @@ import { notifyUserByPusher } from '@/widgets/Room/actions/notifyUserByPusher';
 export const AlarmTrigger = ({ userId }: AlarmTriggerProps) => {
   const t = useTranslations('Member');
   const params = useParams();
-  const roomId = params.room.toString();
+
+  if (typeof params.room !== 'string') {
+    throw new Error('RoomId is not a string');
+  }
+
+  const roomId = params.room;
   const { execute, isPending } = useAction(notifyUserByPusher);
 
   return (

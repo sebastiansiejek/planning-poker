@@ -8,7 +8,7 @@ const isEllipsisActive = (element: HTMLElement) => {
   );
 };
 
-export const useIsEllipsisActive = (ref: RefObject<HTMLDivElement>) => {
+export const useIsEllipsisActive = (ref: RefObject<HTMLDivElement | null>) => {
   const [isEllipsis, setIsEllipsis] = useState(false);
 
   useEffect(() => {

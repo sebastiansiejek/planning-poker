@@ -18,11 +18,13 @@ const getRoomName = cache(async (roomId: string) => {
   return roomService.getRoomName(roomId);
 });
 
-export async function generateMetadata({
-  params: { room },
-}: {
-  params: { room: string[] };
+export async function generateMetadata(props: {
+  params: Promise<{ room: string[] }>;
 }) {
+  const params = await props.params;
+
+  const { room } = params;
+
   const title = await getRoomName(room.toString());
 
   return getPageMetaData({
@@ -30,13 +32,12 @@ export async function generateMetadata({
   });
 }
 
-export default async function Page({
-  params,
-}: {
-  params: {
+export default async function Page(props: {
+  params: Promise<{
     room: string[];
-  };
+  }>;
 }) {
+  const params = await props.params;
   const userVoteService = UserVoteServiceFactory.getService();
   const roomUserService = RoomUserServiceFactory.getService();
   const gameService = GameServiceFactory.getService();
