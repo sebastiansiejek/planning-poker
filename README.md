@@ -8,8 +8,7 @@
 3. [Development](#development)
 4. [Automation](#automation)
 5. [Environments](#environments)
-6. [Available scripts](#available-scripts)
-7. [Author](#author)
+6. [Author](#author)
 
 </details>
 
@@ -22,11 +21,29 @@
 
 ## Development
 
-1. copy `.env.example` to `.env`
-2. run `pnpm install`
-3. run `docker-compose up -d`
-4. run `npx prisma generate`
-5. run `pnpm run dev`
+1. Copy `.env.example` to `.env`
+2. Fill variables in `.env` file
+3. Run `pnpm install`
+
+### Databases
+
+You can choose between Firebase and Prisma ORM.
+
+#### Firebase
+
+1. Create Firestore Database
+2. Add variables `FIREBASE_DATABASE_URL`, `FIREBASE_CLIENT_EMAIL` and `FIREBASE_PRIVATE_KEY` in `.env` file
+
+#### Prisma
+
+1. Add `DATABASE_URL` variable in `.env` (default is configured)
+2. Run `docker-compose up -d`
+3. Run `npx prisma generate`
+
+> For **WebSockets** features you need to have configured [Pusher](https://pusher.com/)
+
+1. Create new project on [Pusher](https://pusher.com/)
+2. Add `PUSHER_APP_ID` and `PUSHER_SECRET` in `.env` file
 
 # Automation
 
@@ -54,52 +71,6 @@ Every pull request will trigger a deployment to the development environment.
 ## Production
 
 Every push to the `main` branch will trigger a deployment to the production environment.
-
-# Available scripts
-
-### Start dev server
-
-`pnpm run dev`
-
-### Production build
-
-`pnpm run build`
-
-### Start production server
-
-`pnpm run start`
-
-### Lint
-
-`pnpm run lint`
-
-### Format code
-
-`pnpm run format`
-
-### Check types
-
-`pnpm run check-types`
-
-### Run tests (unit and e2e)
-
-`pnpm run test`
-
-### Run unit tests
-
-`pnpm run test:unit`
-
-### Run e2e tests
-
-`pnpm run test:e2e`
-
-### Run e2e tests in watch mode
-
-`pnpm run test:e2e:watch`
-
-### Generate Playwright tests
-
-`pnpm run playwright:codegen`
 
 # Author
 
