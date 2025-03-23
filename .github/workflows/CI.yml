@@ -32,7 +32,6 @@ jobs:
           echo PUSHER_SECRET=${{ secrets.PUSHER_SECRET }} >> .env
           echo NEXT_PUBLIC_PUSHER_KEY=${{ secrets.NEXT_PUBLIC_PUSHER_KEY }} >> .env
           echo NEXT_PUBLIC_PUSHER_CLUSTER=${{ secrets.NEXT_PUBLIC_PUSHER_CLUSTER }} >> .env
-          echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env    
           echo NEXTAUTH_URL=${{ 'http://localhost:3000' }} >> .env
           echo NEXTAUTH_SECRET=$(openssl rand -base64 32) >> .env
 
@@ -47,9 +46,6 @@ jobs:
         name: Validate all commits from PR
         run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
 
-      - name: Prepare prisma database
-        run: npx prisma migrate dev
-
       - name: Linter
         run: pnpm run lint
 
@@ -59,8 +55,26 @@ jobs:
       - name: Build
         run: pnpm run build
 
+      - name: Set prisma provider
+        run: |
+          echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env    
+          echo NEXT_PUBLIC_DATABASE_PROVIDER=prisma >> .env
+
+      - name: Prepare prisma database
+        run: npx prisma migrate dev
+
       - name: Install Playwright Browsers
         run: pnpm exec playwright install webkit --with-deps
+
+      - name: Run run tests
+        run: pnpm run test
+
+      - name: Set firebase provider
+        run: |
+          echo NEXT_PUBLIC_DATABASE_PROVIDER=firebase >> .env
+          echo FIREBASE_DATABASE_URL=${{ secrets.FIREBASE_DATABASE_URL }} >> .env
+          echo FIREBASE_CLIENT_EMAIL=${{ secrets.FIREBASE_CLIENT_EMAIL }} >> .env
+          echo FIREBASE_PRIVATE_KEY=${{ secrets.FIREBASE_PRIVATE_KEY }} >> .env
 
       - name: Run run tests
         run: pnpm run test
