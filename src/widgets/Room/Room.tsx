@@ -212,7 +212,7 @@ export default function Room({
       <Container>
         {papers.map(({ targetUser, triggerUser }, index) => (
           <Paper
-            // eslint-disable-next-line react/no-array-index-key
+             
             key={targetUser.id + index}
             targetUser={targetUser}
             triggerUser={triggerUser}

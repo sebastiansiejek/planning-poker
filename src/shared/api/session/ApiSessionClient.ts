@@ -4,7 +4,7 @@ import type {
 } from '@/shared/api/session/ApiSessionClient.types';
 
 export class ApiSessionClient {
-  // eslint-disable-next-line class-methods-use-this
+   
   async getSession({ cookie, url }: ApiSessionClientGetSessionParams) {
     const res = await fetch(`${url}/api/check-session`, {
       headers: {

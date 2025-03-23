@@ -1,7 +1,7 @@
-import type { Session, User } from 'next-auth';
-import type { JWT } from 'next-auth/jwt';
+import type { Session, User } from "next-auth";
+import type { JWT } from "next-auth/jwt";
 
-import type { DatabaseProvider } from '@/shared/types/types';
+import type { DatabaseProvider } from "@/shared/types/types";
 
 type SessionContext = {
   token: JWT;
@@ -14,6 +14,24 @@ type SessionStrategyFunction = (
 type JwtStrategyFunction = (token: JWT, user: User) => JWT;
 
 export class AuthSessionStrategy {
+  private readonly sessionStrategies: Record<
+    DatabaseProvider,
+    SessionStrategyFunction
+  >;
+  private readonly jwtStrategies: Record<DatabaseProvider, JwtStrategyFunction>;
+
+  constructor() {
+    this.sessionStrategies = {
+      firebase: AuthSessionStrategy.handleSessionWithFirebase,
+      prisma: AuthSessionStrategy.handleSessionWithPrisma,
+    };
+
+    this.jwtStrategies = {
+      firebase: AuthSessionStrategy.handleJWTWithFireBase,
+      prisma: AuthSessionStrategy.handleJWTDefault,
+    };
+  }
+
   static handleSessionWithFirebase(
     session: Session,
     { token }: SessionContext,
@@ -46,8 +64,7 @@ export class AuthSessionStrategy {
   }
 
   static handleJWTWithFireBase(token: JWT, user: User) {
-    if (process.env.NEXT_PUBLIC_DATABASE_PROVIDER === 'firebase' && user) {
-      // eslint-disable-next-line no-param-reassign
+    if (process.env.NEXT_PUBLIC_DATABASE_PROVIDER === "firebase" && user) {
       token.sub = user.id;
 
       return token;
@@ -58,22 +75,6 @@ export class AuthSessionStrategy {
 
   static handleJWTDefault(token: JWT) {
     return token;
-  }
-
-  private sessionStrategies: Record<DatabaseProvider, SessionStrategyFunction>;
-
-  private jwtStrategies: Record<DatabaseProvider, JwtStrategyFunction>;
-
-  constructor() {
-    this.sessionStrategies = {
-      firebase: AuthSessionStrategy.handleSessionWithFirebase,
-      prisma: AuthSessionStrategy.handleSessionWithPrisma,
-    };
-
-    this.jwtStrategies = {
-      firebase: AuthSessionStrategy.handleJWTWithFireBase,
-      prisma: AuthSessionStrategy.handleJWTDefault,
-    };
   }
 
   handleSession(session: Session, context: SessionContext): Session {

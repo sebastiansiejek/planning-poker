@@ -1,15 +1,15 @@
 'use client';
 
-import type { CellContext, ColumnDef } from '@tanstack/react-table';
+import type {CellContext, ColumnDef} from '@tanstack/react-table';
 import dayjs from 'dayjs';
-import { SquareArrowOutUpRight } from 'lucide-react';
+import {SquareArrowOutUpRight} from 'lucide-react';
 import Link from 'next/link';
-import { useTranslations } from 'next-intl';
-import { useState } from 'react';
+import {useTranslations} from 'next-intl';
+import {useState} from 'react';
 
-import { routes } from '@/shared/routes/routes';
-import { ButtonIcon } from '@/shared/UIKit/Button/ButtonIcon/ButtonIcon';
-import { DataTable } from '@/shared/UIKit/DataTable/DataTable';
+import {routes} from '@/shared/routes/routes';
+import {ButtonIcon} from '@/shared/UIKit/Button/ButtonIcon/ButtonIcon';
+import {DataTable} from '@/shared/UIKit/DataTable/DataTable';
 
 type UserGamesColumns = {
   name: string;
@@ -24,20 +24,20 @@ type UserGamesColumns = {
 type UserGamesProps = Pick<UserGamesColumns, '_count'>[];
 
 const Actions = ({
-  row: {
-    original: { id },
-  },
-}: CellContext<UserGamesColumns, unknown>) => {
+                   row: {
+                     original: {id},
+                   },
+                 }: CellContext<UserGamesColumns, unknown>) => {
   return (
     <div className="flex gap-2 justify-end">
       <Link href={routes.game.singleGame.getPath(id)}>
-        <ButtonIcon icon={<SquareArrowOutUpRight />} />
+        <ButtonIcon icon={<SquareArrowOutUpRight/>}/>
       </Link>
     </div>
   );
 };
 
-export const UserGames = ({ rooms }: { rooms: UserGamesProps }) => {
+export const UserGames = ({rooms}: { rooms: UserGamesProps }) => {
   const [data] = useState(rooms);
   const translate = useTranslations();
 
@@ -53,8 +53,7 @@ export const UserGames = ({ rooms }: { rooms: UserGamesProps }) => {
     {
       accessorKey: '_count.RoomUser',
       header: translate('Common.players_count'),
-      // eslint-disable-next-line react/no-unstable-nested-components
-      cell: ({ getValue }) => {
+      cell: ({getValue}) => {
         return <div>{getValue() as number}</div>;
       },
     },
@@ -65,7 +64,7 @@ export const UserGames = ({ rooms }: { rooms: UserGamesProps }) => {
     {
       accessorKey: 'createdAt',
       header: translate('Common.created_at'),
-      cell: ({ getValue }) => dayjs(getValue() as string).format('DD/MM/YYYY'),
+      cell: ({getValue}) => dayjs(getValue() as string).format('DD/MM/YYYY'),
     },
     {
       accessorKey: 'actions',
@@ -79,5 +78,5 @@ export const UserGames = ({ rooms }: { rooms: UserGamesProps }) => {
   ];
 
   // @ts-ignore
-  return <DataTable columns={columns} data={data} />;
+  return <DataTable columns={columns} data={data}/>;
 };
