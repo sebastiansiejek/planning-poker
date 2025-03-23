@@ -61,7 +61,7 @@ jobs:
           echo NEXT_PUBLIC_DATABASE_PROVIDER=prisma >> .env
 
       - name: Prepare prisma database
-        run: npx prisma migrate dev
+        run: npx prisma migrate deploy
 
       - name: Install Playwright Browsers
         run: pnpm exec playwright install webkit --with-deps
