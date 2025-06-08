@@ -17,8 +17,8 @@ export type UserVoteService = {
     userId: string;
     roomId: string;
   }) => any;
-  delete: (params: { roomId: string; userId: string; gameId: string }) => any;
-  getGameVotes: (params: { gameId: string; roomId?: string }) => Promise<
+  delete: (parameters: { roomId: string; userId: string; gameId: string }) => any;
+  getGameVotes: (parameters: { gameId: string; roomId?: string }) => Promise<
     {
       user: {
         id: string;
@@ -28,17 +28,20 @@ export type UserVoteService = {
   >;
 };
 
-export class UserVoteServiceFactory {
-  static getService() {
+export const UserVoteServiceFactory = {
+  getService() {
     const provider = process.env.NEXT_PUBLIC_DATABASE_PROVIDER;
 
     switch (provider) {
-      case 'firebase':
+      case 'firebase': {
         return new FirebaseUserVoteService();
-      case 'prisma':
+      }
+      case 'prisma': {
         return new PrismaUserVoteService();
-      default:
+      }
+      default: {
         throw new Error(`Unsupported database provider: ${provider}`);
+      }
     }
-  }
-}
+  },
+};

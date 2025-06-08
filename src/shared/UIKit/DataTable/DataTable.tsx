@@ -23,7 +23,7 @@ declare module '@tanstack/react-table' {
   }
 }
 
-interface DataTableProps<TData, TValue> {
+interface DataTableProperties<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
@@ -31,7 +31,7 @@ interface DataTableProps<TData, TValue> {
 export function DataTable<TData, TValue>({
   columns,
   data,
-}: DataTableProps<TData, TValue>) {
+}: DataTableProperties<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,

@@ -3,14 +3,14 @@
 import Pusher from 'pusher-js';
 
 export const pusherClient = () => {
-  if (typeof window !== 'undefined') {
-    if (!window.pusherInstance) {
-      window.pusherInstance = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, {
+  if (globalThis.window !== undefined) {
+    if (!globalThis.pusherInstance) {
+      globalThis.pusherInstance = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, {
         cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER,
       });
     }
 
-    return window.pusherInstance;
+    return globalThis.pusherInstance;
   }
 
   throw new Error('Pusher is not initialized');

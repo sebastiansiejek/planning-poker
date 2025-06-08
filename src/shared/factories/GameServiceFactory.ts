@@ -22,17 +22,20 @@ export type GameService = {
   }>;
 };
 
-export class GameServiceFactory {
-  static getService() {
+export const GameServiceFactory = {
+  getService() {
     const provider = process.env.NEXT_PUBLIC_DATABASE_PROVIDER;
 
     switch (provider) {
-      case 'firebase':
+      case 'firebase': {
         return new FirebaseGameService();
-      case 'prisma':
+      }
+      case 'prisma': {
         return new PrismaGameService();
-      default:
+      }
+      default: {
         throw new Error(`Unsupported database provider: ${provider}`);
+      }
     }
-  }
-}
+  },
+};

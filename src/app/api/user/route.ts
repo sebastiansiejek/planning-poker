@@ -5,21 +5,21 @@ import z from 'zod';
 import { PrismaUserService } from '@/shared/api/services/prisma/PrismaUserService';
 import { getSession } from '@/shared/auth/auth';
 
-export async function PUT(req: NextRequest) {
+export async function PUT(request: NextRequest) {
   const session = await getSession();
 
   if (!session) {
     return NextResponse.json({ message: 'Not authenticated' }, { status: 401 });
   }
 
-  const bodyData = await req.json();
+  const bodyData = await request.json();
   const schema = z.object({
     name: z.string(),
   });
 
   try {
     schema.parse(bodyData);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: 'Invalid input' }, { status: 400 });
   }
 

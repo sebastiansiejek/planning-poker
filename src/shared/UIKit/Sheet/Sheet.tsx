@@ -32,14 +32,14 @@ const SheetPortal = Portal;
 const SheetOverlay = forwardRef<
   ElementRef<typeof Overlay>,
   ComponentPropsWithoutRef<typeof Overlay>
->(({ className, ...props }, ref) => (
+>(({ className, ...properties }, reference) => (
   <Overlay
     className={renderClass(
       'fixed inset-0 z-50 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
       className,
     )}
-    {...props}
-    ref={ref}
+    {...properties}
+    ref={reference}
   />
 ));
 SheetOverlay.displayName = Overlay.displayName;
@@ -63,18 +63,18 @@ const sheetVariants = cva(
   },
 );
 
-interface SheetContentProps
+interface SheetContentProperties
   extends ComponentPropsWithoutRef<typeof Content>,
     VariantProps<typeof sheetVariants> {}
 
-const SheetContent = forwardRef<ElementRef<typeof Content>, SheetContentProps>(
-  ({ side = 'right', className, children, ...props }, ref) => (
+const SheetContent = forwardRef<ElementRef<typeof Content>, SheetContentProperties>(
+  ({ side = 'right', className, children, ...properties }, reference) => (
     <SheetPortal>
       <SheetOverlay />
       <Content
-        ref={ref}
+        ref={reference}
         className={renderClass(sheetVariants({ side }), className)}
-        {...props}
+        {...properties}
       >
         <Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
           <Cross2Icon className="h-4 w-4" />
@@ -89,28 +89,28 @@ SheetContent.displayName = Content.displayName;
 
 const SheetHeader = ({
   className,
-  ...props
+  ...properties
 }: HTMLAttributes<HTMLDivElement>) => (
   <div
     className={renderClass(
       'flex flex-col space-y-2 text-center sm:text-left',
       className,
     )}
-    {...props}
+    {...properties}
   />
 );
 SheetHeader.displayName = 'SheetHeader';
 
 const SheetFooter = ({
   className,
-  ...props
+  ...properties
 }: HTMLAttributes<HTMLDivElement>) => (
   <div
     className={renderClass(
       'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
       className,
     )}
-    {...props}
+    {...properties}
   />
 );
 SheetFooter.displayName = 'SheetFooter';
@@ -118,11 +118,11 @@ SheetFooter.displayName = 'SheetFooter';
 const SheetTitle = forwardRef<
   ElementRef<typeof Title>,
   ComponentPropsWithoutRef<typeof Title>
->(({ className, ...props }, ref) => (
+>(({ className, ...properties }, reference) => (
   <Title
-    ref={ref}
+    ref={reference}
     className={renderClass('text-lg font-semibold text-foreground', className)}
-    {...props}
+    {...properties}
   />
 ));
 SheetTitle.displayName = Title.displayName;
@@ -130,11 +130,11 @@ SheetTitle.displayName = Title.displayName;
 const SheetDescription = forwardRef<
   ElementRef<typeof Description>,
   ComponentPropsWithoutRef<typeof Description>
->(({ className, ...props }, ref) => (
+>(({ className, ...properties }, reference) => (
   <Description
-    ref={ref}
+    ref={reference}
     className={renderClass('text-sm text-muted-foreground', className)}
-    {...props}
+    {...properties}
   />
 ));
 SheetDescription.displayName = Description.displayName;

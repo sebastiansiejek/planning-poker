@@ -69,10 +69,10 @@ test('should contain 4 arrays each with one element', () => {
   const chunks = chunkMembers(fourItems);
 
   expect(chunks).toHaveLength(4);
-  chunks.forEach((subArray) => {
+  for (const subArray of chunks) {
     expect(Array.isArray(subArray)).toBe(true);
     expect(subArray).toHaveLength(1);
-  });
+  }
 });
 
 test('should contains 4 arrays with 4 elements in the first and third arrays and 2 elements in the second and fourth arrays', () => {

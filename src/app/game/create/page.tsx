@@ -5,12 +5,12 @@ import { PageHeading } from '@/shared/UIKit/PageHeading/PageHeading';
 import { getPageMetaData } from '@/shared/utils/getPageMetaData';
 import { CreateRoomForm } from '@/widgets/CreateGame/ui/CreateRoomForm/CreateRoomForm';
 
-export async function generateMetadata(props: {
+export async function generateMetadata(properties: {
   params: Promise<{ locale: string }>;
 }) {
-  const params = await props.params;
+  const parameters = await properties.params;
 
-  const { locale } = params;
+  const { locale } = parameters;
 
   const translate = await getTranslations({ locale });
 

@@ -7,7 +7,7 @@ import { renderClass } from '@/shared/utils/renderClass/renderClass';
 const FormMessage = forwardRef<
   HTMLParagraphElement,
   HTMLAttributes<HTMLParagraphElement>
->(({ className, children, ...props }, ref) => {
+>(({ className, children, ...properties }, reference) => {
   const { error, formMessageId } = useFormField();
   const body = error ? String(error?.message) : children;
 
@@ -17,13 +17,13 @@ const FormMessage = forwardRef<
 
   return (
     <p
-      ref={ref}
+      ref={reference}
       id={formMessageId}
       className={renderClass(
         'form-message text-[0.8rem] font-medium text-destructive',
         className,
       )}
-      {...props}
+      {...properties}
     >
       {body}
     </p>

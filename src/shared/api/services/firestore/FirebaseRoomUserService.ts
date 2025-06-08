@@ -16,7 +16,7 @@ import type { RoomUserService } from '@/shared/factories/RoomUserServiceFactory'
 export class FirebaseRoomUserService implements RoomUserService {
   addUserToRoom: RoomUserService['addUserToRoom'] = async (userId, roomId) => {
     const roomService = new FirebaseRoomService();
-    const roomDoc = doc(roomService.roomCollection, roomId);
+    const roomDocument = doc(roomService.roomCollection, roomId);
     const room = await roomService.get({ id: roomId });
     const users = room?.users || [];
 
@@ -26,7 +26,7 @@ export class FirebaseRoomUserService implements RoomUserService {
 
     users.push(userId);
 
-    await updateDoc(roomDoc, {
+    await updateDoc(roomDocument, {
       users,
     });
   };
@@ -42,18 +42,18 @@ export class FirebaseRoomUserService implements RoomUserService {
     );
     const querySnapshot = await getDocs(usersQuery);
 
-    return querySnapshot.docs.map((userDoc) => ({
+    return querySnapshot.docs.map((userDocument) => ({
       user: {
-        id: userDoc.id,
-        ...userDoc.data(),
+        id: userDocument.id,
+        ...userDocument.data(),
       } as FirebaseRoomDTO,
     }));
   };
 
   delete: RoomUserService['delete'] = async ({ roomId, userId }) => {
-    const gameRef = doc(firebaseStore, 'rooms', roomId);
+    const gameReference = doc(firebaseStore, 'rooms', roomId);
 
-    await updateDoc(gameRef, {
+    await updateDoc(gameReference, {
       users: arrayRemove(userId),
     });
   };

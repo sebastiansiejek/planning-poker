@@ -5,18 +5,18 @@ import type { User } from '@/shared/types/user/user';
 
 export class FirebaseUserService {
   get = async (userId: string) => {
-    const userDocRef = doc(firebaseStore, 'users', userId);
-    const userDoc = await getDoc(userDocRef);
+    const userDocumentReference = doc(firebaseStore, 'users', userId);
+    const userDocument = await getDoc(userDocumentReference);
 
-    if (userDoc.exists()) {
-      const userData = userDoc.data();
+    if (userDocument.exists()) {
+      const userData = userDocument.data();
 
       return {
-        id: userDoc.id,
+        id: userDocument.id,
         ...userData,
       } as User;
     }
 
-    throw Error(`User with ${userId} not exists`);
+    throw new Error(`User with ${userId} not exists`);
   };
 }

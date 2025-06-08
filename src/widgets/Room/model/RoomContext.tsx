@@ -39,18 +39,21 @@ const roomReducer = (
   action: Action,
 ): RoomContextType => {
   switch (action.type) {
-    case 'SET_VOTE':
+    case 'SET_VOTE': {
       return {
         ...state,
         vote: action.payload.value,
       };
-    case 'SET_GAME':
+    }
+    case 'SET_GAME': {
       return {
         ...state,
         game: action.payload,
       };
-    default:
+    }
+    default: {
       return state;
+    }
   }
 };
 

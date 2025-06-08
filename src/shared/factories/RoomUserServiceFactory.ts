@@ -4,20 +4,23 @@ import { PrismaRoomUserService } from '@/shared/api/services/prisma/PrismaRoomUs
 export type RoomUserService = {
   addUserToRoom: (userId: string, roomId: string) => any;
   getRoomMembers: (roomId: string) => any;
-  delete: (params: { roomId: string; userId: string }) => Promise<any>;
+  delete: (parameters: { roomId: string; userId: string }) => Promise<any>;
 };
 
-export class RoomUserServiceFactory {
-  static getService() {
+export const RoomUserServiceFactory = {
+  getService() {
     const provider = process.env.NEXT_PUBLIC_DATABASE_PROVIDER;
 
     switch (provider) {
-      case 'firebase':
+      case 'firebase': {
         return new FirebaseRoomUserService();
-      case 'prisma':
+      }
+      case 'prisma': {
         return new PrismaRoomUserService();
-      default:
+      }
+      default: {
         throw new Error(`Unsupported database provider: ${provider}`);
+      }
     }
-  }
-}
+  },
+};

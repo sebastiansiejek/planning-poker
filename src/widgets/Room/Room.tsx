@@ -60,14 +60,14 @@ export default function Room({
   const { execute: executeGetGameVote } = useAction(getGameVotes, {
     onSuccess: ({ data }) => {
       const gameVotes = data?.data.gameVotes.reduce(
-        (acc: Vote[], { vote, user }) => {
+        (accumulator: Vote[], { vote, user }) => {
           if (vote) {
-            acc.push({
+            accumulator.push({
               userId: user.id,
               vote,
             });
           }
-          return acc;
+          return accumulator;
         },
         [],
       );
@@ -82,7 +82,7 @@ export default function Room({
       roomId,
     );
 
-    if (window.pusherInstance) {
+    if (globalThis.pusherInstance) {
       roomNotificationsListener
         .onAlarm(currentUserId, () => notify(t('Member.notification.notice')))
         .onThrownPaper(({ targetUser, triggerUser }) => {
@@ -152,9 +152,9 @@ export default function Room({
     }
 
     return () => {
-      roomListener.unsubscribeListener.forEach((unsubscribe) => {
+      for (const unsubscribe of roomListener.unsubscribeListener) {
         unsubscribe();
-      });
+      }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameId]);

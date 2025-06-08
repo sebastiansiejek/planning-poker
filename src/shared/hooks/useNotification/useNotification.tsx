@@ -13,11 +13,11 @@ const useNotification = (options?: UseNotificationOptions) => {
       notification.current = new Notification(title, options);
 
       if (typeof options?.onClick === 'function') {
-        notification.current.onclick = options?.onClick;
+        notification.current.addEventListener('click', options?.onClick);
       }
 
       if (typeof options?.onClose === 'function') {
-        notification.current.onclose = options?.onClose;
+        notification.current.addEventListener('close', options?.onClose);
       }
 
       if (typeof options?.onError === 'function') {
@@ -25,7 +25,7 @@ const useNotification = (options?: UseNotificationOptions) => {
       }
 
       if (typeof options?.onShow === 'function') {
-        notification.current.onshow = options?.onShow;
+        notification.current.addEventListener('show', options?.onShow);
       }
     }
   };

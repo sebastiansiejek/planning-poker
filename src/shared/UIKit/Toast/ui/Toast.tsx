@@ -21,14 +21,14 @@ const ToastProvider = Provider;
 const ToastViewport = forwardRef<
   ElementRef<typeof Viewport>,
   ComponentPropsWithoutRef<typeof Viewport>
->(({ className, ...props }, ref) => (
+>(({ className, ...properties }, reference) => (
   <Viewport
-    ref={ref}
+    ref={reference}
     className={renderClass(
       'fixed top-0 z-100 flex max-h-screen w-full flex-col-reverse p-4 sm:bottom-0 sm:right-0 sm:top-auto sm:flex-col md:max-w-[420px]',
       className,
     )}
-    {...props}
+    {...properties}
   />
 ));
 ToastViewport.displayName = Viewport.displayName;
@@ -52,12 +52,12 @@ const toastVariants = cva(
 const Toast = forwardRef<
   ElementRef<typeof Root>,
   ComponentPropsWithoutRef<typeof Root> & VariantProps<typeof toastVariants>
->(({ className, variant, ...props }, ref) => {
+>(({ className, variant, ...properties }, reference) => {
   return (
     <Root
-      ref={ref}
+      ref={reference}
       className={renderClass(toastVariants({ variant }), className)}
-      {...props}
+      {...properties}
     />
   );
 });
@@ -66,14 +66,14 @@ Toast.displayName = Root.displayName;
 const ToastAction = forwardRef<
   ElementRef<typeof Action>,
   ComponentPropsWithoutRef<typeof Action>
->(({ className, ...props }, ref) => (
+>(({ className, ...properties }, reference) => (
   <Action
-    ref={ref}
+    ref={reference}
     className={renderClass(
       'inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-sm font-medium transition-colors hover:bg-secondary focus:outline-hidden focus:ring-1 focus:ring-ring disabled:pointer-events-none disabled:opacity-50 group-[.destructive]:border-muted/40 hover:group-[.destructive]:border-destructive/30 hover:group-[.destructive]:bg-destructive hover:group-[.destructive]:text-destructive-foreground focus:group-[.destructive]:ring-destructive',
       className,
     )}
-    {...props}
+    {...properties}
   />
 ));
 ToastAction.displayName = Action.displayName;
@@ -81,15 +81,15 @@ ToastAction.displayName = Action.displayName;
 const ToastClose = forwardRef<
   ElementRef<typeof Close>,
   ComponentPropsWithoutRef<typeof Close>
->(({ className, ...props }, ref) => (
+>(({ className, ...properties }, reference) => (
   <Close
-    ref={ref}
+    ref={reference}
     className={renderClass(
       'absolute right-1 top-1 rounded-md p-1 text-foreground/50 opacity-0 transition-opacity hover:text-foreground focus:opacity-100 focus:outline-hidden focus:ring-1 group-hover:opacity-100 group-[.destructive]:text-red-300 hover:group-[.destructive]:text-red-50 focus:group-[.destructive]:ring-red-400 focus:group-[.destructive]:ring-offset-red-600',
       className,
     )}
     toast-close=""
-    {...props}
+    {...properties}
   >
     <Cross2Icon className="h-4 w-4" />
   </Close>
@@ -99,11 +99,11 @@ ToastClose.displayName = Close.displayName;
 const ToastTitle = forwardRef<
   ElementRef<typeof Title>,
   ComponentPropsWithoutRef<typeof Title>
->(({ className, ...props }, ref) => (
+>(({ className, ...properties }, reference) => (
   <Title
-    ref={ref}
+    ref={reference}
     className={renderClass('text-sm font-semibold [&+div]:text-xs', className)}
-    {...props}
+    {...properties}
   />
 ));
 ToastTitle.displayName = Title.displayName;
@@ -111,16 +111,16 @@ ToastTitle.displayName = Title.displayName;
 const ToastDescription = forwardRef<
   ElementRef<typeof Description>,
   ComponentPropsWithoutRef<typeof Description>
->(({ className, ...props }, ref) => (
+>(({ className, ...properties }, reference) => (
   <Description
-    ref={ref}
+    ref={reference}
     className={renderClass('text-sm opacity-90', className)}
-    {...props}
+    {...properties}
   />
 ));
 ToastDescription.displayName = Description.displayName;
 
-type ToastProps = ComponentPropsWithoutRef<typeof Toast>;
+type ToastProperties = ComponentPropsWithoutRef<typeof Toast>;
 
 type ToastActionElement = ReactElement<typeof ToastAction>;
 
@@ -130,7 +130,7 @@ export {
   type ToastActionElement,
   ToastClose,
   ToastDescription,
-  type ToastProps,
+  type ToastProperties as ToastProps,
   ToastProvider,
   ToastTitle,
   ToastViewport,

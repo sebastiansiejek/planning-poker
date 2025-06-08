@@ -18,10 +18,10 @@ export class FirebaseUserVoteService implements UserVoteService {
       throw new Error('Room id is required for Firebase provider');
     }
 
-    const roomDocRef = doc(firebaseStore, 'rooms', roomId);
-    const gameCollectionRef = collection(roomDocRef, 'games');
-    const gameDocRef = doc(gameCollectionRef, gameId);
-    const game = (await getDoc(gameDocRef)).data();
+    const roomDocumentReference = doc(firebaseStore, 'rooms', roomId);
+    const gameCollectionReference = collection(roomDocumentReference, 'games');
+    const gameDocumentReference = doc(gameCollectionReference, gameId);
+    const game = (await getDoc(gameDocumentReference)).data();
 
     return game?.votes || [];
   };
@@ -32,39 +32,39 @@ export class FirebaseUserVoteService implements UserVoteService {
     userId,
     roomId,
   }) => {
-    const roomDocRef = doc(firebaseStore, 'rooms', roomId);
-    const gameCollectionRef = collection(roomDocRef, 'games');
-    const gameDocRef = doc(gameCollectionRef, gameId);
-    const gameDoc = await getDoc(gameDocRef);
+    const roomDocumentReference = doc(firebaseStore, 'rooms', roomId);
+    const gameCollectionReference = collection(roomDocumentReference, 'games');
+    const gameDocumentReference = doc(gameCollectionReference, gameId);
+    const gameDocument = await getDoc(gameDocumentReference);
 
-    if (!gameDoc.exists()) {
-      return setDoc(gameDocRef, {
+    if (!gameDocument.exists()) {
+      return setDoc(gameDocumentReference, {
         votes: [vote, userId],
         createdAt: serverTimestamp(),
       });
     }
 
-    const game = gameDoc.data() as {
+    const game = gameDocument.data() as {
       votes: Vote[];
     };
 
     const votes = game.votes || [];
     const existingVoteIndex = votes.findIndex((v) => v.userId === userId);
 
-    if (existingVoteIndex >= 0) {
-      votes[existingVoteIndex] = { userId, vote };
-    } else {
+    if (existingVoteIndex === -1) {
       votes.push({ userId, vote });
+    } else {
+      votes[existingVoteIndex] = { userId, vote };
     }
 
-    return updateDoc(gameDocRef, {
+    return updateDoc(gameDocumentReference, {
       votes,
     });
   };
 
   delete: UserVoteService['delete'] = async ({ roomId, userId }) => {
-    const gameRef = doc(firebaseStore, 'rooms', roomId);
-    await updateDoc(gameRef, {
+    const gameReference = doc(firebaseStore, 'rooms', roomId);
+    await updateDoc(gameReference, {
       users: arrayRemove(userId),
     });
   };
@@ -77,8 +77,8 @@ export class FirebaseUserVoteService implements UserVoteService {
       throw new Error('Argument gameId is required');
     }
 
-    const gameRef = doc(firebaseStore, 'rooms', roomId, 'games', gameId);
-    const gameData = (await getDoc(gameRef)).data() as {
+    const gameReference = doc(firebaseStore, 'rooms', roomId, 'games', gameId);
+    const gameData = (await getDoc(gameReference)).data() as {
       votes: {
         userId: string;
         vote: string;

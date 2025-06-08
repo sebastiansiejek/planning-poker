@@ -3,14 +3,14 @@ import { cva } from 'class-variance-authority';
 import { Skeleton } from '@/shared/UIKit/Skeleton/Skeleton';
 import type { MemberCardProps } from '@/widgets/Member/ui/MemberCard/types';
 
-export const MemberCard = (props: MemberCardProps) => {
+export const MemberCard = (properties: MemberCardProps) => {
   const {
     isVoted = false,
     isRevealedCards = false,
     htmlAttributes,
     vote,
     isLoading,
-  } = props;
+  } = properties;
 
   return (
     <div

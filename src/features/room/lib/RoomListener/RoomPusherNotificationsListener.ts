@@ -34,7 +34,7 @@ export class RoomPusherNotificationsListener {
 
   onThrownPaper(
     callback: (
-      arg: Pick<TriggerPaperThrowingParams, 'triggerUser' | 'targetUser'>,
+      argument: Pick<TriggerPaperThrowingParams, 'triggerUser' | 'targetUser'>,
     ) => void,
   ) {
     this.channel.bind(

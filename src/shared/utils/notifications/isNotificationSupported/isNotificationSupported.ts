@@ -1,4 +1,4 @@
 'use client';
 
 export const isNotificationSupported = () =>
-  typeof window !== 'undefined' && 'Notification' in window;
+  globalThis.window !== undefined && 'Notification' in globalThis;

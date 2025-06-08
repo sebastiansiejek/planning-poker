@@ -27,17 +27,20 @@ export type RoomService = {
   >;
 };
 
-export class RoomServiceFactory {
-  static getService() {
+export const RoomServiceFactory = {
+  getService() {
     const provider = process.env.NEXT_PUBLIC_DATABASE_PROVIDER;
 
     switch (provider) {
-      case 'firebase':
+      case 'firebase': {
         return new FirebaseRoomService();
-      case 'prisma':
+      }
+      case 'prisma': {
         return new PrismaRoomService();
-      default:
+      }
+      default: {
         throw new Error(`Unsupported database provider: ${provider}`);
+      }
     }
-  }
-}
+  },
+};

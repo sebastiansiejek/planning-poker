@@ -4,7 +4,7 @@ import { voting } from '@/widgets/Room/actions/voting';
 import { votingValues } from '@/widgets/Room/config/votingConstants';
 import { VotingCard } from '@/widgets/Room/ui/VotingCard/VotingCard';
 
-type VotingFormProps = {
+type VotingFormProperties = {
   roomId: string;
   isRevealedCards: boolean;
   voteValue: string;
@@ -16,7 +16,7 @@ export const VotingForm = ({
   isRevealedCards,
   voteValue,
   gameId,
-}: VotingFormProps) => {
+}: VotingFormProperties) => {
   const { execute } = useAction(voting);
 
   return (

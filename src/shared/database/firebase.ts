@@ -16,7 +16,7 @@ const config: FirebaseOptions = {
   databaseURL: process.env.FIREBASE_DATABASE_URL,
 };
 
-const firebaseApp = getApps().length ? getApp() : initializeApp(config);
+const firebaseApp = getApps().length > 0 ? getApp() : initializeApp(config);
 const firebaseStore = getFirestore(firebaseApp);
 const firebaseDatabase = getDatabase(firebaseApp);
 

@@ -1,17 +1,20 @@
 import { RoomFirebaseListener } from '@/features/room/lib/RoomListener/RoomFirebaseListener';
 import { RoomPrismaListener } from '@/features/room/lib/RoomListener/RoomPrismaListener';
 
-export class RoomListenerFactory {
-  static getService(roomId: string) {
+export const RoomListenerFactory = {
+  getService(roomId: string) {
     const provider = process.env.NEXT_PUBLIC_DATABASE_PROVIDER;
 
     switch (provider) {
-      case 'firebase':
+      case 'firebase': {
         return new RoomFirebaseListener(roomId);
-      case 'prisma':
+      }
+      case 'prisma': {
         return new RoomPrismaListener(roomId);
-      default:
+      }
+      default: {
         throw new Error(`Unsupported database provider: ${provider}`);
+      }
     }
-  }
-}
+  },
+};

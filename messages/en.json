@@ -32,6 +32,7 @@
     },
     "newGame": {
       "title": "New game",
+      "create": "Start",
       "name": {
         "label": "Name"
       },

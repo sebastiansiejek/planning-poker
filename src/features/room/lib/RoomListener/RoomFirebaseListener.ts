@@ -11,10 +11,10 @@ export class RoomFirebaseListener extends RoomListener {
   }
 
   private roomSnapshot() {
-    const roomCollectionRef = doc(firebaseStore, `rooms/${this.roomId}`);
+    const roomCollectionReference = doc(firebaseStore, `rooms/${this.roomId}`);
     let isInitialLoad = true;
 
-    const unsubscribe = onSnapshot(roomCollectionRef, (snapshot) => {
+    const unsubscribe = onSnapshot(roomCollectionReference, (snapshot) => {
       if (isInitialLoad) {
         isInitialLoad = false;
         return;
@@ -37,23 +37,22 @@ export class RoomFirebaseListener extends RoomListener {
   }
 
   private gameSnapshot() {
-    const gamesCollectionRef = collection(
+    const gamesCollectionReference = collection(
       firebaseStore,
       `rooms/${this.roomId}/games`,
     );
     let isInitialLoad = true;
 
-    const unsubscribe = onSnapshot(gamesCollectionRef, (snapshot) => {
+    const unsubscribe = onSnapshot(gamesCollectionReference, (snapshot) => {
       if (isInitialLoad) {
         isInitialLoad = false;
         return;
       }
 
-      snapshot.docChanges().forEach((change) => {
+      for (const change of snapshot.docChanges()) {
         const { name, status, description, votes } = change.doc.data();
 
-        if (change.type === 'modified') {
-          if (votes) {
+        if (change.type === 'modified' && votes) {
             const { userId } = votes.at(-1);
 
             this.emit('voted', {
@@ -64,7 +63,6 @@ export class RoomFirebaseListener extends RoomListener {
               this.emit('revealVotes');
             }
           }
-        }
 
         if (change.type === 'added') {
           this.emit('resetVotes');
@@ -75,7 +73,7 @@ export class RoomFirebaseListener extends RoomListener {
             id: change.doc.id,
           });
         }
-      });
+      }
     });
 
     this.unsubscribeListener.push(unsubscribe);

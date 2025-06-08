@@ -21,7 +21,7 @@ type UserGamesColumns = {
   };
 };
 
-type UserGamesProps = Pick<UserGamesColumns, '_count'>[];
+type UserGamesProperties = Pick<UserGamesColumns, '_count'>[];
 
 const Actions = ({
                    row: {
@@ -37,7 +37,7 @@ const Actions = ({
   );
 };
 
-export const UserGames = ({rooms}: { rooms: UserGamesProps }) => {
+export const UserGames = ({rooms}: { rooms: UserGamesProperties }) => {
   const [data] = useState(rooms);
   const translate = useTranslations();
 

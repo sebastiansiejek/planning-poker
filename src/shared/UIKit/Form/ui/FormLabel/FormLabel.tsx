@@ -1,34 +1,34 @@
-"use client";
+'use client';
 
-import * as LabelPrimitive from "@radix-ui/react-label";
-import { cva, type VariantProps } from "class-variance-authority";
-import type { ComponentPropsWithoutRef, ElementRef } from "react";
-import { forwardRef } from "react";
+import * as LabelPrimitive from '@radix-ui/react-label';
+import { cva, type VariantProps } from 'class-variance-authority';
+import type { ComponentPropsWithoutRef, ElementRef } from 'react';
+import { forwardRef } from 'react';
 
-import { useFormField } from "@/shared/UIKit/Form/model/useFormField/useFormField";
-import { renderClass } from "@/shared/utils/renderClass/renderClass";
+import { useFormField } from '@/shared/UIKit/Form/model/useFormField/useFormField';
+import { renderClass } from '@/shared/utils/renderClass/renderClass';
 
 const labelVariants = cva(
-  "block text-sm mb-2 font-medium cursor-pointer leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
+  'block text-sm mb-2 font-medium cursor-pointer leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
 );
 
 const FormLabel = forwardRef<
   ElementRef<typeof LabelPrimitive.Root>,
   ComponentPropsWithoutRef<typeof LabelPrimitive.Root> &
     VariantProps<typeof labelVariants>
->(({ className, ...props }, ref) => {
+>(({ className, ...properties }, reference) => {
   const { error, formItemId } = useFormField();
 
   return (
     <LabelPrimitive.Root
-      ref={ref}
+      ref={reference}
       className={renderClass(
-        error && "text-destructive",
+        error && 'text-destructive',
         labelVariants(),
         className,
       )}
       htmlFor={formItemId}
-      {...props}
+      {...properties}
     />
   );
 });

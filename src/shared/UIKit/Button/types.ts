@@ -3,7 +3,7 @@ import type { ButtonHTMLAttributes } from 'react';
 
 import type { buttonVariants } from '@/shared/UIKit/Button/Button';
 
-export interface ButtonProps
+export interface ButtonProperties
   extends ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;

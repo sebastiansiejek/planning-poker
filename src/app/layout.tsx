@@ -16,12 +16,12 @@ import { SiteHeader } from '@/widgets/SiteHeader/SiteHeader';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export async function generateMetadata(props: {
+export async function generateMetadata(properties: {
   params: Promise<{ locale: string }>;
 }) {
-  const params = await props.params;
+  const parameters = await properties.params;
 
-  const { locale } = params;
+  const { locale } = parameters;
 
   const t = await getTranslations({ locale });
 

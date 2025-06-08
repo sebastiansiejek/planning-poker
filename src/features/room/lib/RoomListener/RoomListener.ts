@@ -27,7 +27,7 @@ export class RoomListener {
     event: K,
     data?: Parameters<RoomEventHandlers[K]>[0],
   ) {
-    this.eventHandlers[event]?.forEach((handler) => handler(data as any));
+    if (this.eventHandlers[event]) for (const handler of this.eventHandlers[event]) handler(data as any);
 
     return this;
   }

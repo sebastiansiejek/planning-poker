@@ -7,21 +7,21 @@ import { useFormField } from '@/shared/UIKit/Form/model/useFormField/useFormFiel
 const FormControl = forwardRef<
   ElementRef<typeof Slot>,
   ComponentPropsWithoutRef<typeof Slot>
->(({ ...props }, ref) => {
+>(({ ...properties }, reference) => {
   const { error, formItemId, formDescriptionId, formMessageId } =
     useFormField();
 
   return (
     <Slot
-      ref={ref}
+      ref={reference}
       id={formItemId}
       aria-describedby={
-        !error
-          ? `${formDescriptionId}`
-          : `${formDescriptionId} ${formMessageId}`
+        error
+          ? `${formDescriptionId} ${formMessageId}`
+          : `${formDescriptionId}`
       }
       aria-invalid={!!error}
-      {...props}
+      {...properties}
     />
   );
 });

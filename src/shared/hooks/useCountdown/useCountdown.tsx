@@ -1,20 +1,20 @@
 import { useEffect, useState } from 'react';
 
-import type { UseCounterParams } from './useCountdown.types';
+import type { UseCounterParams as UseCounterParameters } from './useCountdown.types';
 
-export const useCountdown = ({ time, enabled = true }: UseCounterParams) => {
+export const useCountdown = ({ time, enabled = true }: UseCounterParameters) => {
   const [counter, setCounter] = useState<number>(0);
 
   useEffect(() => {
     if (!enabled) {
-      return undefined;
+      return;
     }
 
     setCounter(time / 1000);
 
     const interval = setInterval(() => {
-      setCounter((prevCounter) => {
-        const nextCounter = prevCounter - 1;
+      setCounter((previousCounter) => {
+        const nextCounter = previousCounter - 1;
 
         if (nextCounter === 0) {
           clearInterval(interval);

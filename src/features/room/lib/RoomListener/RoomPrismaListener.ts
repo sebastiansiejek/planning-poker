@@ -33,15 +33,15 @@ export class RoomPrismaListener extends RoomListener {
   }
 
   private onMemberRemoved() {
-    this.channel.bind(PUSHER_EVENTS.MEMBER_REMOVED, (params: PusherNewMember) =>
-      this.emit('memberRemoved', params),
+    this.channel.bind(PUSHER_EVENTS.MEMBER_REMOVED, (parameters: PusherNewMember) =>
+      this.emit('memberRemoved', parameters),
     );
     return this;
   }
 
   private onVoted() {
-    this.channel.bind(PUSHER_EVENTS.VOTED, (params: { userId: string }) =>
-      this.emit('voted', params),
+    this.channel.bind(PUSHER_EVENTS.VOTED, (parameters: { userId: string }) =>
+      this.emit('voted', parameters),
     );
     return this;
   }
@@ -61,7 +61,7 @@ export class RoomPrismaListener extends RoomListener {
   private onGameCreated() {
     this.channel.bind(
       PUSHER_EVENTS.GAME_CREATED,
-      (params: RoomContextType['game']) => this.emit('gameCreated', params),
+      (parameters: RoomContextType['game']) => this.emit('gameCreated', parameters),
     );
     return this;
   }

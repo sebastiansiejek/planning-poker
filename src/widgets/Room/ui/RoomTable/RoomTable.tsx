@@ -3,8 +3,8 @@ import { CreateGameForm } from '@/widgets/Room/ui/CreateGameForm/CreateGameForm'
 import { RevealCards } from '@/widgets/Room/ui/RevealCards/RevealCards';
 import type { RoomTableProps } from '@/widgets/Room/ui/RoomTable/RoomTable.types';
 
-export const RoomTable = (props: RoomTableProps) => {
-  const { isRevealedCards, areVotes, isWaitingForStartGame } = props;
+export const RoomTable = (properties: RoomTableProps) => {
+  const { isRevealedCards, areVotes, isWaitingForStartGame } = properties;
   const {
     room: { roomId, game },
   } = useRoomContext();

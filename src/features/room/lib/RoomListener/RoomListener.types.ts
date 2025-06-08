@@ -11,9 +11,9 @@ export type RoomEvents =
 
 export type RoomEventHandlers = {
   gameCreated: (data: RoomContextType['game']) => void;
-  voted: (params: { userId: string }) => void;
-  memberAdded: (params: PusherNewMember) => void;
-  memberRemoved: (params: PusherNewMember) => void;
+  voted: (parameters: { userId: string }) => void;
+  memberAdded: (parameters: PusherNewMember) => void;
+  memberRemoved: (parameters: PusherNewMember) => void;
   revealVotes: () => void;
   resetVotes: () => void;
 };

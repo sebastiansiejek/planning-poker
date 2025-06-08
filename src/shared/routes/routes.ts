@@ -4,10 +4,10 @@ export const routes = {
   },
   game: {
     create: {
-      getPath: () => `/game/create`,
+      getPath: () => '/game/create',
     },
     join: {
-      getPath: () => `/game/join`,
+      getPath: () => '/game/join',
     },
     singleGame: {
       getPath: (gameId: string) => `/game/${gameId}`,

@@ -5,15 +5,15 @@ import { FormItemProvider } from '@/shared/UIKit/Form/model/useFormField/useForm
 import { renderClass } from '@/shared/utils/renderClass/renderClass';
 
 const FormItem = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => {
+  ({ className, ...properties }, reference) => {
     const id = useId();
 
     return (
       <FormItemProvider value={{ id }}>
         <div
-          ref={ref}
+          ref={reference}
           className={renderClass('space-y-2 w-full', className)}
-          {...props}
+          {...properties}
         />
       </FormItemProvider>
     );

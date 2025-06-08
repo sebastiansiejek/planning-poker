@@ -49,15 +49,15 @@ const DropdownMenuSubTrigger = forwardRef<
   ComponentPropsWithoutRef<typeof SubTrigger> & {
     inset?: boolean;
   }
->(({ className, inset, children, ...props }, ref) => (
+>(({ className, inset, children, ...properties }, reference) => (
   <SubTrigger
-    ref={ref}
+    ref={reference}
     className={renderClass(
       'flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-hidden focus:bg-accent data-[state=open]:bg-accent',
       inset && 'pl-8',
       className,
     )}
-    {...props}
+    {...properties}
   >
     {children}
     <ChevronRightIcon className="ml-auto h-4 w-4" />
@@ -68,14 +68,14 @@ DropdownMenuSubTrigger.displayName = SubTrigger.displayName;
 const DropdownMenuSubContent = forwardRef<
   ElementRef<typeof SubContent>,
   ComponentPropsWithoutRef<typeof SubContent>
->(({ className, ...props }, ref) => (
+>(({ className, ...properties }, reference) => (
   <SubContent
-    ref={ref}
+    ref={reference}
     className={renderClass(
       'z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
       className,
     )}
-    {...props}
+    {...properties}
   />
 ));
 DropdownMenuSubContent.displayName = SubContent.displayName;
@@ -83,17 +83,17 @@ DropdownMenuSubContent.displayName = SubContent.displayName;
 const DropdownMenuContent = forwardRef<
   ElementRef<typeof Content>,
   ComponentPropsWithoutRef<typeof Content>
->(({ className, sideOffset = 4, ...props }, ref) => (
+>(({ className, sideOffset = 4, ...properties }, reference) => (
   <Portal>
     <Content
-      ref={ref}
+      ref={reference}
       sideOffset={sideOffset}
       className={renderClass(
         'z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
         'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
         className,
       )}
-      {...props}
+      {...properties}
     />
   </Portal>
 ));
@@ -104,15 +104,15 @@ const DropdownMenuItem = forwardRef<
   ComponentPropsWithoutRef<typeof Item> & {
     inset?: boolean;
   }
->(({ className, inset, ...props }, ref) => (
+>(({ className, inset, ...properties }, reference) => (
   <Item
-    ref={ref}
+    ref={reference}
     className={renderClass(
       'relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden transition-colors focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
       inset && 'pl-8',
       className,
     )}
-    {...props}
+    {...properties}
   />
 ));
 DropdownMenuItem.displayName = Item.displayName;
@@ -120,15 +120,15 @@ DropdownMenuItem.displayName = Item.displayName;
 const DropdownMenuCheckboxItem = forwardRef<
   ElementRef<typeof CheckboxItem>,
   ComponentPropsWithoutRef<typeof CheckboxItem>
->(({ className, children, checked, ...props }, ref) => (
+>(({ className, children, checked, ...properties }, reference) => (
   <CheckboxItem
-    ref={ref}
+    ref={reference}
     className={renderClass(
       'relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-hidden transition-colors focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50',
       className,
     )}
     checked={checked}
-    {...props}
+    {...properties}
   >
     <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
       <ItemIndicator>
@@ -143,14 +143,14 @@ DropdownMenuCheckboxItem.displayName = CheckboxItem.displayName;
 const DropdownMenuRadioItem = forwardRef<
   ElementRef<typeof RadioItem>,
   ComponentPropsWithoutRef<typeof RadioItem>
->(({ className, children, ...props }, ref) => (
+>(({ className, children, ...properties }, reference) => (
   <RadioItem
-    ref={ref}
+    ref={reference}
     className={renderClass(
       'relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-hidden transition-colors focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50',
       className,
     )}
-    {...props}
+    {...properties}
   >
     <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
       <ItemIndicator>
@@ -167,15 +167,15 @@ const DropdownMenuLabel = forwardRef<
   ComponentPropsWithoutRef<typeof Label> & {
     inset?: boolean;
   }
->(({ className, inset, ...props }, ref) => (
+>(({ className, inset, ...properties }, reference) => (
   <Label
-    ref={ref}
+    ref={reference}
     className={renderClass(
       'px-2 py-1.5 text-sm font-semibold',
       inset && 'pl-8',
       className,
     )}
-    {...props}
+    {...properties}
   />
 ));
 DropdownMenuLabel.displayName = Label.displayName;
@@ -183,18 +183,18 @@ DropdownMenuLabel.displayName = Label.displayName;
 const DropdownMenuSeparator = forwardRef<
   ElementRef<typeof Separator>,
   ComponentPropsWithoutRef<typeof Separator>
->(({ className, ...props }, ref) => (
+>(({ className, ...properties }, reference) => (
   <Separator
-    ref={ref}
+    ref={reference}
     className={renderClass('-mx-1 my-1 h-px bg-muted', className)}
-    {...props}
+    {...properties}
   />
 ));
 DropdownMenuSeparator.displayName = Separator.displayName;
 
 const DropdownMenuShortcut = ({
   className,
-  ...props
+  ...properties
 }: HTMLAttributes<HTMLSpanElement>) => {
   return (
     <span
@@ -202,7 +202,7 @@ const DropdownMenuShortcut = ({
         'ml-auto text-xs tracking-widest opacity-60',
         className,
       )}
-      {...props}
+      {...properties}
     />
   );
 };

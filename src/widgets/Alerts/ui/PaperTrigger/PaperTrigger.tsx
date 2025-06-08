@@ -12,13 +12,13 @@ import { triggerPaperThrowing } from '@/widgets/Room/actions/alerts/triggerPaper
 export const PaperTrigger = ({ userId, memberRef }: PaperTriggerProps) => {
   const t = useTranslations('Member');
   const [pendingNotification, startNotificationTransition] = useTransition();
-  const params = useParams();
+  const parameters = useParams();
 
-  if (params.room === undefined) {
+  if (parameters.room === undefined) {
     throw new Error('Room param is not defined');
   }
 
-  const roomId = params.room.toString();
+  const roomId = parameters.room.toString();
   const { execute } = useAction(triggerPaperThrowing);
   const { data } = useSession();
 

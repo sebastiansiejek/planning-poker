@@ -9,11 +9,11 @@ const Separator = forwardRef<
   ComponentPropsWithoutRef<typeof Root>
 >(
   (
-    { className, orientation = 'horizontal', decorative = true, ...props },
-    ref,
+    { className, orientation = 'horizontal', decorative = true, ...properties },
+    reference,
   ) => (
     <Root
-      ref={ref}
+      ref={reference}
       decorative={decorative}
       orientation={orientation}
       className={renderClass(
@@ -21,7 +21,7 @@ const Separator = forwardRef<
         orientation === 'horizontal' ? 'h-[1px] w-full' : 'h-full w-[1px]',
         className,
       )}
-      {...props}
+      {...properties}
     />
   ),
 );

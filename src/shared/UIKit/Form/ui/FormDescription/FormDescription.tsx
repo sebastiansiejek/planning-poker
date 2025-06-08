@@ -7,15 +7,15 @@ import { renderClass } from '@/shared/utils/renderClass/renderClass';
 const FormDescription = forwardRef<
   HTMLParagraphElement,
   HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => {
+>(({ className, ...properties }, reference) => {
   const { formDescriptionId } = useFormField();
 
   return (
     <p
-      ref={ref}
+      ref={reference}
       id={formDescriptionId}
       className={renderClass('text-[0.8rem] text-muted-foreground', className)}
-      {...props}
+      {...properties}
     />
   );
 });

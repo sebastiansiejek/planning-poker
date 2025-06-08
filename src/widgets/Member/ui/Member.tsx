@@ -22,12 +22,12 @@ export const Member = ({
   isLoading,
 }: MemberProps) => {
   const [isOpenTooltip, setIsOpenTooltip] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+  const reference = useRef<HTMLDivElement>(null);
 
   return (
     <div
       className="flex items-center flex-col min-w-16 min-h-28 text-center relative max-w-56"
-      ref={ref}
+      ref={reference}
     >
       <MemberCard
         vote={vote}
@@ -42,12 +42,12 @@ export const Member = ({
       />
       {isActionTooltip && (
         <MemberTooltip
-          triggerElem={ref?.current}
+          triggerElem={reference?.current}
           isOpenTooltip={isOpenTooltip}
           setIsOpenTooltip={setIsOpenTooltip}
         >
           <AlarmTrigger userId={id} />
-          <PaperTrigger userId={id} memberRef={ref} />
+          <PaperTrigger userId={id} memberRef={reference} />
           <KickUser userId={id} />
         </MemberTooltip>
       )}

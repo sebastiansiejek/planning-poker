@@ -1,7 +1,7 @@
-import type { Session, User } from "next-auth";
-import type { JWT } from "next-auth/jwt";
+import type { Session, User } from 'next-auth';
+import type { JWT } from 'next-auth/jwt';
 
-import type { DatabaseProvider } from "@/shared/types/types";
+import type { DatabaseProvider } from '@/shared/types/types';
 
 type SessionContext = {
   token: JWT;
@@ -64,7 +64,7 @@ export class AuthSessionStrategy {
   }
 
   static handleJWTWithFireBase(token: JWT, user: User) {
-    if (process.env.NEXT_PUBLIC_DATABASE_PROVIDER === "firebase" && user) {
+    if (process.env.NEXT_PUBLIC_DATABASE_PROVIDER === 'firebase' && user) {
       token.sub = user.id;
 
       return token;

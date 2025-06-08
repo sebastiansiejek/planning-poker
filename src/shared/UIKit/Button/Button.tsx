@@ -37,18 +37,18 @@ const buttonVariants = cva(
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
-    { className, variant, size, asChild = false, isLoading = false, ...props },
-    ref,
+    { className, variant, size, asChild = false, isLoading = false, ...properties },
+    reference,
   ) => {
     const Comp = asChild ? Slot : 'button';
     return (
       <Comp
         className={renderClass(buttonVariants({ variant, size, className }))}
-        ref={ref}
-        disabled={isLoading || props.disabled}
-        {...props}
+        ref={reference}
+        disabled={isLoading || properties.disabled}
+        {...properties}
       >
-        {props.children}
+        {properties.children}
         {isLoading && <Loader2 className="ml-2 h-4 w-4 animate-spin" />}
       </Comp>
     );

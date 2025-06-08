@@ -45,15 +45,15 @@ export class FirebaseRoomService implements RoomService {
   roomCollection = collection(firebaseStore, 'rooms');
 
   get = async ({ id }: Parameters<RoomService['get']>[0]) => {
-    const roomDoc = doc(this.roomCollection, id);
-    const roomSnapshot = await getDoc(roomDoc);
+    const roomDocument = doc(this.roomCollection, id);
+    const roomSnapshot = await getDoc(roomDocument);
 
     if (!roomSnapshot.exists()) {
       return null;
     }
 
     return normalizeRoomData(
-      roomDoc.id,
+      roomDocument.id,
       roomSnapshot.data() as FirebaseRoomDTO,
     );
   };

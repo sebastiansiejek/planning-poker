@@ -59,7 +59,7 @@ export const CreateGameForm = ({
             data-testid="create-game-trigger-button"
           >
             <span>
-              {translate('Game.create.label')} {isCounter && `(${counter})`}
+              {translate('Game.newGame.create')} {isCounter && `(${counter})`}
             </span>
           </Button>
         </DialogTrigger>

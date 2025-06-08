@@ -1,6 +1,6 @@
 export type UseNotificationOptions = NotificationOptions & {
-  onClose?: (this: Notification, ev: Event) => void;
-  onClick?: (this: Notification, ev: Event) => void;
-  onError?: (this: Notification, ev: Event) => void;
-  onShow?: (this: Notification, ev: Event) => void;
+  onClose?: (this: Notification, event_: Event) => void;
+  onClick?: (this: Notification, event_: Event) => void;
+  onError?: (this: Notification, event_: Event) => void;
+  onShow?: (this: Notification, event_: Event) => void;
 };

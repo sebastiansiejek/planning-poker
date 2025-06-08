@@ -11,12 +11,12 @@ import { getPageMetaData } from '@/shared/utils/getPageMetaData';
 import { JoinToRoom } from '@/widgets/JoinToRoom/JoinToRoom';
 import { UserGames } from '@/widgets/UserGames/UserGames';
 
-export async function generateMetadata(props: {
+export async function generateMetadata(properties: {
   params: Promise<{ locale: string }>;
 }) {
-  const params = await props.params;
+  const parameters = await properties.params;
 
-  const { locale } = params;
+  const { locale } = parameters;
 
   const translate = await getTranslations({ locale });
 

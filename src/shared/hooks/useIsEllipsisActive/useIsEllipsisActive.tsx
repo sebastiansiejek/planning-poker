@@ -8,14 +8,14 @@ const isEllipsisActive = (element: HTMLElement) => {
   );
 };
 
-export const useIsEllipsisActive = (ref: RefObject<HTMLDivElement | null>) => {
+export const useIsEllipsisActive = (reference: RefObject<HTMLDivElement | null>) => {
   const [isEllipsis, setIsEllipsis] = useState(false);
 
   useEffect(() => {
-    if (ref.current) {
-      setIsEllipsis(isEllipsisActive(ref.current));
+    if (reference.current) {
+      setIsEllipsis(isEllipsisActive(reference.current));
     }
-  }, [ref]);
+  }, [reference]);
 
   return isEllipsis;
 };

@@ -1,32 +1,32 @@
 import type { RoomMember } from '@/app/game/[...room]/types';
 
 export const chunkMembers = (
-  arr: Array<RoomMember>,
+  array: Array<RoomMember>,
 ): Array<Array<RoomMember>> => {
   const chunks: Array<Array<RoomMember>> = [[], [], [], []];
 
-  for (let i = 0; i < Math.min(4, arr.length); i += 1) {
-    chunks[i].push(arr[i]);
+  for (let index = 0; index < Math.min(4, array.length); index += 1) {
+    chunks[index].push(array[index]);
   }
 
-  if (arr.length > 4) {
+  if (array.length > 4) {
     let firstAndThirdCounter = 0;
     let secondAndFourthCounter = 0;
     let firstThirdTurn = true;
 
-    for (let i = 4; i < arr.length; i += 1) {
+    for (let index = 4; index < array.length; index += 1) {
       if (firstThirdTurn) {
         if (chunks[0].length <= chunks[2].length) {
-          chunks[0].push(arr[i]);
+          chunks[0].push(array[index]);
         } else {
-          chunks[2].push(arr[i]);
+          chunks[2].push(array[index]);
         }
         firstAndThirdCounter += 1;
       } else {
         if (chunks[1].length <= chunks[3].length) {
-          chunks[1].push(arr[i]);
+          chunks[1].push(array[index]);
         } else {
-          chunks[3].push(arr[i]);
+          chunks[3].push(array[index]);
         }
         secondAndFourthCounter += 1;
       }

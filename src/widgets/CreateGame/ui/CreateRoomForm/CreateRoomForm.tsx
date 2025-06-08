@@ -42,14 +42,12 @@ export const CreateRoomForm = () => {
     result: { data: createRoomResponse },
   } = useAction(createRoom, {
     onSuccess: ({ data }) => {
-      if (data?.error) {
-        if (data.error.code === 'P2002') {
+      if (data?.error && data.error.code === 'P2002') {
           setError('name', {
             message: t(`errors.${data.error.code}`),
             type: 'P2002',
           });
         }
-      }
 
       if (data?.success && data.data?.id) {
         push(routes.game.singleGame.getPath(data.data.id));

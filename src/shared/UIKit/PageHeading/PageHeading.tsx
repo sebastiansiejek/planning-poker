@@ -2,12 +2,12 @@ import { Heading } from '@/shared/UIKit/Heading/Heading';
 import { Paragraph } from '@/shared/UIKit/Paragraph/Paragraph';
 import { Separator } from '@/shared/UIKit/Separator/Separator';
 
-type PageHeadingProps = {
+type PageHeadingProperties = {
   title: string;
   description?: string;
 };
 
-export const PageHeading = ({ title, description }: PageHeadingProps) => {
+export const PageHeading = ({ title, description }: PageHeadingProperties) => {
   return (
     <div className="mx-auto text-center pt-3 lg:pt-10 pb-10 lg:pb-16 max-w-5xl">
       <Heading variant="h1" htmlAttributes={{ className: 'uppercase' }}>

@@ -9,13 +9,13 @@ import { notifyUserByPusher } from '@/widgets/Room/actions/notifyUserByPusher';
 
 export const AlarmTrigger = ({ userId }: AlarmTriggerProps) => {
   const t = useTranslations('Member');
-  const params = useParams();
+  const parameters = useParams();
 
-  if (params.room === undefined) {
+  if (parameters.room === undefined) {
     throw new Error('Room param is not defined');
   }
 
-  const roomId = params.room.toString();
+  const roomId = parameters.room.toString();
   const { execute, isPending } = useAction(notifyUserByPusher);
 
   return (

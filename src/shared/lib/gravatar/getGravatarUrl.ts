@@ -1,6 +1,6 @@
 'use server';
 
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 
 export const getGravatarUrl = async (
   email: string,

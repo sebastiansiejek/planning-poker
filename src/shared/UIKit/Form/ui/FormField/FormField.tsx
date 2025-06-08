@@ -7,11 +7,11 @@ const FormField = <
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
-  ...props
+  ...properties
 }: ControllerProps<TFieldValues, TName>) => {
   return (
-    <FormFieldProvider value={{ name: props.name }}>
-      <Controller {...props} />
+    <FormFieldProvider value={{ name: properties.name }}>
+      <Controller {...properties} />
     </FormFieldProvider>
   );
 };

@@ -7,14 +7,14 @@ import { renderClass } from '@/shared/utils/renderClass/renderClass';
 const Avatar = forwardRef<
   ElementRef<typeof AvatarPrimitive.Root>,
   ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>
->(({ className, ...props }, ref) => (
+>(({ className, ...properties }, reference) => (
   <AvatarPrimitive.Root
-    ref={ref}
+    ref={reference}
     className={renderClass(
       'relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full',
       className,
     )}
-    {...props}
+    {...properties}
   />
 ));
 Avatar.displayName = AvatarPrimitive.Root.displayName;
@@ -22,11 +22,11 @@ Avatar.displayName = AvatarPrimitive.Root.displayName;
 const AvatarImage = forwardRef<
   ElementRef<typeof AvatarPrimitive.Image>,
   ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>
->(({ className, ...props }, ref) => (
+>(({ className, ...properties }, reference) => (
   <AvatarPrimitive.Image
-    ref={ref}
+    ref={reference}
     className={renderClass('aspect-square h-full w-full', className)}
-    {...props}
+    {...properties}
   />
 ));
 AvatarImage.displayName = AvatarPrimitive.Image.displayName;
@@ -34,14 +34,14 @@ AvatarImage.displayName = AvatarPrimitive.Image.displayName;
 const AvatarFallback = forwardRef<
   ElementRef<typeof AvatarPrimitive.Fallback>,
   ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback>
->(({ className, ...props }, ref) => (
+>(({ className, ...properties }, reference) => (
   <AvatarPrimitive.Fallback
-    ref={ref}
+    ref={reference}
     className={renderClass(
       'flex h-full w-full items-center justify-center rounded-full bg-muted',
       className,
     )}
-    {...props}
+    {...properties}
   />
 ));
 AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName;

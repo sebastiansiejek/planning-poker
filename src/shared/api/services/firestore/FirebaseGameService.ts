@@ -16,8 +16,8 @@ import type { GameService } from '@/shared/factories/GameServiceFactory';
 
 export class FirebaseGameService implements GameService {
   getLatestRoomGame: GameService['getLatestRoomGame'] = async (roomId) => {
-    const gamesRef = collection(firebaseStore, 'rooms', roomId, 'games');
-    const latestQuery = query(gamesRef, orderBy('createdAt', 'desc'), limit(1));
+    const gamesReference = collection(firebaseStore, 'rooms', roomId, 'games');
+    const latestQuery = query(gamesReference, orderBy('createdAt', 'desc'), limit(1));
     const querySnapshot = await getDocs(latestQuery);
 
     if (querySnapshot.empty) return null;
@@ -36,14 +36,14 @@ export class FirebaseGameService implements GameService {
     description = '',
     name = '',
   }) => {
-    const gamesCollectionRef = collection(
+    const gamesCollectionReference = collection(
       firebaseStore,
       'rooms',
       roomId,
       'games',
     );
 
-    const { id } = await addDoc(gamesCollectionRef, {
+    const { id } = await addDoc(gamesCollectionReference, {
       description,
       name,
       status: 'STARTED',
@@ -56,9 +56,9 @@ export class FirebaseGameService implements GameService {
   };
 
   getActiveGame: GameService['getActiveGame'] = async ({ roomId }) => {
-    const roomRef = doc(firebaseStore, 'rooms', roomId);
-    const gamesRef = collection(roomRef, 'games');
-    const q = query(gamesRef, where('status', '==', 'STARTED'));
+    const roomReference = doc(firebaseStore, 'rooms', roomId);
+    const gamesReference = collection(roomReference, 'games');
+    const q = query(gamesReference, where('status', '==', 'STARTED'));
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
@@ -70,16 +70,16 @@ export class FirebaseGameService implements GameService {
 
   finishGame: GameService['finishGame'] = async ({ gameId, roomId }) => {
     if (!roomId) {
-      throw new Error(`Argument roomId is required`);
+      throw new Error('Argument roomId is required');
     }
 
-    const gameRef = doc(firebaseStore, 'rooms', roomId, 'games', gameId);
-    await updateDoc(gameRef, {
+    const gameReference = doc(firebaseStore, 'rooms', roomId, 'games', gameId);
+    await updateDoc(gameReference, {
       status: 'FINISHED',
     });
 
     return {
-      id: gameRef.id,
+      id: gameReference.id,
     };
   };
 }

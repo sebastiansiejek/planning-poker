@@ -1,1 +1,1 @@
-export const roundHalf = (num: number) => Math.round(num * 2) / 2;
+export const roundHalf = (number_: number) => Math.round(number_ * 2) / 2;
