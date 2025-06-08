@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import type { UseCounterParams as UseCounterParameters } from './useCountdown.types';
+import type { UseCounterParameters } from './useCountdown.types';
 
 export const useCountdown = ({ time, enabled = true }: UseCounterParameters) => {
   const [counter, setCounter] = useState<number>(0);

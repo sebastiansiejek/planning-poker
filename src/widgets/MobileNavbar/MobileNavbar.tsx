@@ -5,8 +5,8 @@ import {
   SheetContent,
   SheetTitle,
   SheetTrigger,
-} from '@/shared/UIKit/Sheet/Sheet';
-import { Navbar } from '@/widgets/Navbar/Navbar';
+} from '@/shared/UIKit/Sheet/sheet';
+import { Navbar } from '@/widgets/Navbar/navbar';
 
 export const MobileNavbar = () => {
   return (

@@ -2,7 +2,7 @@ import { cva } from 'class-variance-authority';
 import type { HTMLAttributes, PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-export type HeadingProps = {
+export type HeadingProperties = {
   variant: 'h1' | 'h2' | 'h3' | 'h4';
   htmlAttributes?: HTMLAttributes<HTMLHeadingElement>;
 };
@@ -11,7 +11,7 @@ export const Heading = ({
   variant,
   children,
   htmlAttributes,
-}: PropsWithChildren<HeadingProps>) => {
+}: PropsWithChildren<HeadingProperties>) => {
   const Tag = variant;
 
   return (

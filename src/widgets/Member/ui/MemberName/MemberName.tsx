@@ -3,10 +3,10 @@
 import { useRef } from 'react';
 
 import { useIsEllipsisActive } from '@/shared/hooks/useIsEllipsisActive/useIsEllipsisActive';
-import { Skeleton } from '@/shared/UIKit/Skeleton/Skeleton';
-import type { MemberNameProps } from '@/widgets/Member/ui/MemberName/types';
+import { Skeleton } from '@/shared/UIKit/Skeleton/skeleton';
+import type { MemberNameProperties } from '@/widgets/Member/ui/MemberName/types';
 
-export const MemberName = ({ name, isLoading }: MemberNameProps) => {
+export const MemberName = ({ name, isLoading }: MemberNameProperties) => {
   const reference = useRef<HTMLDivElement>(null);
   const isEllipsisActive = useIsEllipsisActive(reference);
 

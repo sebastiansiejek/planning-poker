@@ -4,7 +4,7 @@ import type { Vote } from '@/shared/types/types';
 
 export type RoomMember = Pick<User, 'id' | 'name' | 'image'>;
 
-export type RoomProps = {
+export type RoomProperties = {
   id: string;
   name: string;
   members: RoomMember[];

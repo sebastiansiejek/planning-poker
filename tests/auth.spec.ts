@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { databaseTestAuth } from '@/shared/lib/tests/utils';
+import { databaseTestAuth } from '@/shared/lib/tests/utilities';
 import { routes } from '@/shared/routes/routes';
 
 databaseTestAuth();

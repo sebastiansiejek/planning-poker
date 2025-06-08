@@ -1,6 +1,6 @@
 import type { PusherMember } from '@/shared/types/pusher/pusher';
 
-export type MemberProps = PusherMember & {
+export type MemberProperties = PusherMember & {
   isVoted?: boolean;
   isRevealedCards?: boolean;
   image?: string;

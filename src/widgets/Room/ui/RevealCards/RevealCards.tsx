@@ -1,7 +1,7 @@
 import { useTranslations } from 'next-intl';
 import { useAction } from 'next-safe-action/hooks';
 
-import { Button } from '@/shared/UIKit/Button/Button';
+import { Button } from '@/shared/UIKit/Button/button';
 import { revealCards } from '@/widgets/Room/actions/revealCards';
 import { useRoomContext } from '@/widgets/Room/model/RoomContext';
 

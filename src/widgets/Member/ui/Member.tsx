@@ -9,7 +9,7 @@ import { MemberAvatar } from '@/widgets/Member/ui/MemberAvatar/MemberAvatar';
 import { MemberCard } from '@/widgets/Member/ui/MemberCard/MemberCard';
 import { MemberName } from '@/widgets/Member/ui/MemberName/MemberName';
 import { MemberTooltip } from '@/widgets/Member/ui/MemberTooltip/MemberTooltip';
-import type { MemberProps } from '@/widgets/Room/ui/RoomMember/types';
+import type { MemberProperties } from '@/widgets/Room/ui/RoomMember/types';
 
 export const Member = ({
   image,
@@ -20,7 +20,7 @@ export const Member = ({
   name,
   isActionTooltip,
   isLoading,
-}: MemberProps) => {
+}: MemberProperties) => {
   const [isOpenTooltip, setIsOpenTooltip] = useState(false);
   const reference = useRef<HTMLDivElement>(null);
 

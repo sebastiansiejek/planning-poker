@@ -21,7 +21,7 @@ const useNotification = (options?: UseNotificationOptions) => {
       }
 
       if (typeof options?.onError === 'function') {
-        notification.current.onerror = options?.onError;
+        notification.current.addEventListener('error', options?.onError);
       }
 
       if (typeof options?.onShow === 'function') {

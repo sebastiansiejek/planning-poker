@@ -3,7 +3,7 @@ import { getTranslations } from 'next-intl/server';
 
 import { getSession } from '@/shared/auth/auth';
 import { routes } from '@/shared/routes/routes';
-import { Container } from '@/shared/UIKit/Container/Container';
+import { Container } from '@/shared/UIKit/Container/container';
 import { PageHeading } from '@/shared/UIKit/PageHeading/PageHeading';
 import { getPageMetaData } from '@/shared/utils/getPageMetaData';
 import { UserSettingsForm } from '@/widgets/UserSettingsForm/UserSettingsForm';

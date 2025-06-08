@@ -4,8 +4,8 @@ import { useTranslations } from 'next-intl';
 import { useEffect, useState, useTransition } from 'react';
 
 import { getGravatarUrl } from '@/shared/lib/gravatar/getGravatarUrl';
-import { Avatar, AvatarImage } from '@/shared/UIKit/Avatar/Avatar';
-import { Button } from '@/shared/UIKit/Button/Button';
+import { Avatar, AvatarImage } from '@/shared/UIKit/Avatar/avatar';
+import { Button } from '@/shared/UIKit/Button/button';
 import { Input } from '@/shared/UIKit/TextInput/TextInput';
 
 export const GravatarInput = () => {
@@ -26,7 +26,7 @@ export const GravatarInput = () => {
         <Input
           name="email"
           placeholder={t('email.placeholder')}
-          onChange={(e) => setEmail(e.currentTarget.value)}
+          onChange={(event) => setEmail(event.currentTarget.value)}
         />
         {email && (
           <Button

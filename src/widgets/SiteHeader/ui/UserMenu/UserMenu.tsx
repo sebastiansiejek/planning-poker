@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 import { routes } from '@/shared/routes/routes';
-import { Button } from '@/shared/UIKit/Button/Button';
+import { Button } from '@/shared/UIKit/Button/button';
 import {
   DropdownMenu,
   DropdownMenuContent,

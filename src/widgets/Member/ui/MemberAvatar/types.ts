@@ -1,3 +1,3 @@
-import type { MemberProps } from '@/widgets/Room/ui/RoomMember/types';
+import type { MemberProperties } from '@/widgets/Room/ui/RoomMember/types';
 
-export type MemberAvatarProps = Pick<MemberProps, 'image'>;
+export type MemberAvatarProperties = Pick<MemberProperties, 'image'>;

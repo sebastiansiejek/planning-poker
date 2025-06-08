@@ -1,6 +1,6 @@
-import { Heading } from '@/shared/UIKit/Heading/Heading';
-import { Paragraph } from '@/shared/UIKit/Paragraph/Paragraph';
-import { Separator } from '@/shared/UIKit/Separator/Separator';
+import { Heading } from '@/shared/UIKit/Heading/heading';
+import { Paragraph } from '@/shared/UIKit/Paragraph/paragraph';
+import { Separator } from '@/shared/UIKit/Separator/separator';
 
 type PageHeadingProperties = {
   title: string;

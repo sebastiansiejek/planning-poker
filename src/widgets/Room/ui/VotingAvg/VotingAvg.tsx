@@ -3,13 +3,13 @@
 import { useTranslations } from 'next-intl';
 import { useMemo } from 'react';
 
-import { Container } from '@/shared/UIKit/Container/Container';
+import { Container } from '@/shared/UIKit/Container/container';
 import { calcVotingAvg } from '@/widgets/Room/libs/calcVotingAvg/calcVotingAvg';
 import { getNumberVotes } from '@/widgets/Room/libs/getNumberVotes/getNumberVotes';
 import { getVotesAvg } from '@/widgets/Room/libs/getVotesAvg/getVotesAvg';
-import type { VotingAvgProps } from '@/widgets/Room/ui/VotingAvg/types';
+import type { VotingAvgProperties } from '@/widgets/Room/ui/VotingAvg/types';
 
-export const VotingAvg = ({ votes }: VotingAvgProps) => {
+export const VotingAvg = ({ votes }: VotingAvgProperties) => {
   const sameVotes = useMemo(() => getVotesAvg(votes), [votes]);
   const numberVotes = getNumberVotes(votes);
   const avgVotes = calcVotingAvg(numberVotes);

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import { META_CONSTANTS } from '@/shared/global/config/META_CONSTANTS';
-import { Button } from '@/shared/UIKit/Button/Button';
+import { Button } from '@/shared/UIKit/Button/button';
 import { ThemeSwitcher } from '@/widgets/ThemeSwitcher/ui/ThemeSwitcher';
 
 export const SiteFooter = () => {

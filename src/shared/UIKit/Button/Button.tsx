@@ -3,7 +3,7 @@ import { cva } from 'class-variance-authority';
 import { Loader2 } from 'lucide-react';
 import { forwardRef } from 'react';
 
-import type { ButtonProps } from '@/shared/UIKit/Button/types';
+import type { ButtonProperties } from '@/shared/UIKit/Button/types';
 import { renderClass } from '@/shared/utils/renderClass/renderClass';
 
 const buttonVariants = cva(
@@ -35,7 +35,7 @@ const buttonVariants = cva(
   },
 );
 
-const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+const Button = forwardRef<HTMLButtonElement, ButtonProperties>(
   (
     { className, variant, size, asChild = false, isLoading = false, ...properties },
     reference,

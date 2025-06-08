@@ -1,7 +1,7 @@
 import type { VariantProps } from 'class-variance-authority';
 import type { ButtonHTMLAttributes } from 'react';
 
-import type { buttonVariants } from '@/shared/UIKit/Button/Button';
+import type { buttonVariants } from '@/shared/UIKit/Button/button';
 
 export interface ButtonProperties
   extends ButtonHTMLAttributes<HTMLButtonElement>,

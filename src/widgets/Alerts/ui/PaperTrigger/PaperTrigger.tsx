@@ -5,11 +5,11 @@ import { useTranslations } from 'next-intl';
 import { useAction } from 'next-safe-action/hooks';
 import { useTransition } from 'react';
 
-import { ButtonIcon } from '@/shared/UIKit/Button/ButtonIcon/ButtonIcon';
-import type { PaperTriggerProps } from '@/widgets/Alerts/ui/PaperTrigger/types';
+import { ButtonIcon } from '@/shared/UIKit/Button/ButtonIcon/button-icon';
+import type { PaperTriggerProperties } from '@/widgets/Alerts/ui/PaperTrigger/types';
 import { triggerPaperThrowing } from '@/widgets/Room/actions/alerts/triggerPaperThrowing';
 
-export const PaperTrigger = ({ userId, memberRef }: PaperTriggerProps) => {
+export const PaperTrigger = ({ userId, memberRef }: PaperTriggerProperties) => {
   const t = useTranslations('Member');
   const [pendingNotification, startNotificationTransition] = useTransition();
   const parameters = useParams();

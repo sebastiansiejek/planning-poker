@@ -32,16 +32,15 @@ export class PrismaRoomService
   };
 
   getRoomName: RoomService['getRoomName'] = async (roomId: string) => {
-    return (
-      await this.prisma.room.findUnique({
-        select: {
-          name: true,
-        },
-        where: {
-          id: roomId,
-        },
-      })
-    )?.name;
+    const room = await this.prisma.room.findUnique({
+      select: {
+        name: true,
+      },
+      where: {
+        id: roomId,
+      },
+    });
+    return room?.name;
   };
 
   getRoomsWhereTheUserIsAParticipant: RoomService['getRoomsWhereTheUserIsAParticipant'] =

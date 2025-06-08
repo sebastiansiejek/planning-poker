@@ -5,7 +5,7 @@ import { useMemo, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { useCountdown } from '@/shared/hooks/useCountdown/useCountdown';
-import { Button } from '@/shared/UIKit/Button/Button';
+import { Button } from '@/shared/UIKit/Button/button';
 import {
   Dialog,
   DialogContent,
@@ -13,7 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/shared/UIKit/Dialog/Dialog';
+} from '@/shared/UIKit/Dialog/dialog';
 import {
   FormControl,
   FormField,
@@ -22,7 +22,7 @@ import {
   FormMessage,
 } from '@/shared/UIKit/Form/ui';
 import { Input } from '@/shared/UIKit/TextInput/TextInput';
-import type { CreateGameParams } from '@/widgets/Room/actions/createGame';
+import type { CreateGameParameters } from '@/widgets/Room/actions/createGame';
 import { createGame } from '@/widgets/Room/actions/createGame';
 import { resetVotes } from '@/widgets/Room/actions/resetVotes';
 
@@ -39,7 +39,7 @@ export const CreateGameForm = ({
       setIsOpen(false);
     },
   });
-  const form = useForm<CreateGameParams>();
+  const form = useForm<CreateGameParameters>();
   const { handleSubmit } = form;
   const translate = useTranslations();
   const { execute: executeResetVotes } = useAction(resetVotes);

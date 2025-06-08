@@ -1,21 +1,21 @@
 import type {
-  ApiSessionClientGetSessionParams,
+  ApiSessionClientGetSessionParameters,
   ApiSessionClientGetSessionResponse,
 } from '@/shared/api/session/ApiSessionClient.types';
 
 export class ApiSessionClient {
-   
-  async getSession({ cookie, url }: ApiSessionClientGetSessionParams) {
-    const res = await fetch(`${url}/api/check-session`, {
+
+  async getSession({ cookie, url }: ApiSessionClientGetSessionParameters) {
+    const response = await fetch(`${url}/api/check-session`, {
       headers: {
         Cookie: cookie,
       },
     });
 
-    const data = await res.json();
+    const data = await response.json();
 
     return {
-      status: res.status,
+      status: response.status,
       data,
     } as ApiSessionClientGetSessionResponse;
   }

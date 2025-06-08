@@ -2,13 +2,13 @@
 
 import type {CellContext, ColumnDef} from '@tanstack/react-table';
 import dayjs from 'dayjs';
-import {SquareArrowOutUpRight} from 'lucide-react';
+import {SquareArrowOutUpRight } from 'lucide-react';
 import Link from 'next/link';
 import {useTranslations} from 'next-intl';
 import {useState} from 'react';
 
 import {routes} from '@/shared/routes/routes';
-import {ButtonIcon} from '@/shared/UIKit/Button/ButtonIcon/ButtonIcon';
+import {ButtonIcon} from '@/shared/UIKit/Button/ButtonIcon/button-icon';
 import {DataTable} from '@/shared/UIKit/DataTable/DataTable';
 
 type UserGamesColumns = {

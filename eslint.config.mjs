@@ -27,6 +27,8 @@ const eslintConfig = [
       'simple-import-sort/exports': 'error',
       '@stylistic/quotes': ['error', 'single'],
       'unicorn/no-keyword-prefix': ['error', { disallowedPrefixes: ['className'] }],
+      'unicorn/no-null': ['off'],
+      'unicorn/no-array-reduce': ['off'],
     },
   },
 ];

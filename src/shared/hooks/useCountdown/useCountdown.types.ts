@@ -1,4 +1,4 @@
-export type UseCounterParams = {
+export type UseCounterParameters = {
   time: number;
   enabled?: boolean;
 };

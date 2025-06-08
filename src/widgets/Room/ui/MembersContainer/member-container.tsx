@@ -1,12 +1,12 @@
 import { cva } from 'class-variance-authority';
 
-import type { MembersContainerProps } from '@/widgets/Room/ui/MembersContainer/types';
+import type { MembersContainerProperties } from '@/widgets/Room/ui/MembersContainer/types';
 
-export const MembersContainer = ({
+export const MemberContainer = ({
   children,
   place,
   isVertical,
-}: MembersContainerProps) => {
+}: MembersContainerProperties) => {
   return (
     <div
       className={cva('flex gap-8 h-full p-6 justify-center', {

@@ -18,7 +18,7 @@ import type {
 } from 'react';
 import { forwardRef } from 'react';
 
-import { buttonVariants } from '@/shared/UIKit/Button/Button';
+import { buttonVariants } from '@/shared/UIKit/Button/button';
 import { renderClass } from '@/shared/utils/renderClass/renderClass';
 
 const AlertDialog = Root;

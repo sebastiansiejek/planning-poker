@@ -22,9 +22,9 @@ export const VotingForm = ({
   return (
     <form
       className="lg:sticky bottom-0 bg-background"
-      onSubmit={(e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target as HTMLFormElement);
+      onSubmit={(event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target as HTMLFormElement);
 
         execute({
           roomId,

@@ -3,7 +3,7 @@ import type { Channel } from 'pusher-js';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { pusherClient } from '@/shared/pusher/lib/pusherClient';
 import type { PusherNotification } from '@/shared/types/pusher/pusher';
-import type { TriggerPaperThrowingParams } from '@/widgets/Room/actions/alerts/triggerPaperThrowing';
+import type { TriggerPaperThrowingParameters } from '@/widgets/Room/actions/alerts/triggerPaperThrowing';
 
 export class RoomPusherNotificationsListener {
   pusherClient = pusherClient();
@@ -34,12 +34,12 @@ export class RoomPusherNotificationsListener {
 
   onThrownPaper(
     callback: (
-      argument: Pick<TriggerPaperThrowingParams, 'triggerUser' | 'targetUser'>,
+      argument: Pick<TriggerPaperThrowingParameters, 'triggerUser' | 'targetUser'>,
     ) => void,
   ) {
     this.channel.bind(
       PUSHER_EVENTS.PAPER_THROWN,
-      ({ targetUser, triggerUser }: TriggerPaperThrowingParams) => {
+      ({ targetUser, triggerUser }: TriggerPaperThrowingParameters) => {
         callback({ targetUser, triggerUser });
       },
     );

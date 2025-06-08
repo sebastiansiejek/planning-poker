@@ -8,7 +8,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import z from 'zod';
 
 import { routes } from '@/shared/routes/routes';
-import { Button } from '@/shared/UIKit/Button/Button';
+import { Button } from '@/shared/UIKit/Button/button';
 import {
   FormControl,
   FormItem,
@@ -17,13 +17,13 @@ import {
 } from '@/shared/UIKit/Form/ui';
 import { FormField } from '@/shared/UIKit/Form/ui/FormField/FormField';
 import { Input } from '@/shared/UIKit/TextInput/TextInput';
-import type { CreateOrJoinToRoomParams } from '@/widgets/Room/actions/createRoom';
+import type { CreateOrJoinToRoomParameters } from '@/widgets/Room/actions/createRoom';
 import { createRoom } from '@/widgets/Room/actions/createRoom';
 
 export const CreateRoomForm = () => {
   const t = useTranslations('Game');
   const { push } = useRouter();
-  const form = useForm<CreateOrJoinToRoomParams>({
+  const form = useForm<CreateOrJoinToRoomParameters>({
     resolver: zodResolver(
       z.object({
         name: z.string().min(1, {

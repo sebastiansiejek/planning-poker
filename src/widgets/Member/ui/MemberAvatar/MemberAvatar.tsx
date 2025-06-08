@@ -1,7 +1,7 @@
-import { Avatar, AvatarImage } from '@/shared/UIKit/Avatar/Avatar';
-import type { MemberAvatarProps } from '@/widgets/Member/ui/MemberAvatar/types';
+import { Avatar, AvatarImage } from '@/shared/UIKit/Avatar/avatar';
+import type { MemberAvatarProperties } from '@/widgets/Member/ui/MemberAvatar/types';
 
-export const MemberAvatar = ({ image }: MemberAvatarProps) => {
+export const MemberAvatar = ({ image }: MemberAvatarProperties) => {
   if (!image) return null;
 
   return (

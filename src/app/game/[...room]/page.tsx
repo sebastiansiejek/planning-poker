@@ -11,7 +11,7 @@ import { pusherServer } from '@/shared/pusher/lib/pusherServer';
 import { routes } from '@/shared/routes/routes';
 import { getPageMetaData } from '@/shared/utils/getPageMetaData';
 import { RoomProvider } from '@/widgets/Room/model/RoomContext';
-import Room from '@/widgets/Room/Room';
+import Room from '@/widgets/Room/room';
 
 const getRoomName = cache(async (roomId: string) => {
   const roomService = RoomServiceFactory.getService();

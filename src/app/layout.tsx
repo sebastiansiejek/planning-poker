@@ -9,7 +9,7 @@ import type { ReactNode } from 'react';
 import { getSession } from '@/shared/auth/auth';
 import SessionProvider from '@/shared/auth/SessionProvider';
 import { META_CONSTANTS } from '@/shared/global/config/META_CONSTANTS';
-import { Toaster } from '@/shared/UIKit/Toast/model/Toaster';
+import { Toaster } from '@/shared/UIKit/Toast/model/toaster';
 import { getPageMetaData } from '@/shared/utils/getPageMetaData';
 import { SiteFooter } from '@/widgets/SiteFooter/ui/SiteFooter';
 import { SiteHeader } from '@/widgets/SiteHeader/SiteHeader';

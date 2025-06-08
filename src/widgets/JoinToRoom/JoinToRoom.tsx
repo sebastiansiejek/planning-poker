@@ -8,7 +8,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import z from 'zod';
 
 import { routes } from '@/shared/routes/routes';
-import { Button } from '@/shared/UIKit/Button/Button';
+import { Button } from '@/shared/UIKit/Button/button';
 import {
   FormControl,
   FormItem,

@@ -59,7 +59,8 @@ export class FirebaseRoomService implements RoomService {
   };
 
   getRoomName: RoomService['getRoomName'] = async (id) => {
-    return (await this.get({ id }))?.name;
+    const room = await this.get({ id });
+    return room?.name;
   };
 
   getByAuthorIdAndName: RoomService['getByAuthorIdAndName'] = async ({
@@ -74,13 +75,14 @@ export class FirebaseRoomService implements RoomService {
           where('name', '==', name),
         ),
       )
-    ).docs;
+    );
+    const documents = rooms.docs
 
-    if (rooms.length === 0) {
+    if (documents.length === 0) {
       return null;
     }
 
-    return rooms[0].data() as ReturnType<RoomService['getByAuthorIdAndName']>;
+    return documents[0].data() as ReturnType<RoomService['getByAuthorIdAndName']>;
   };
 
   create: RoomService['create'] = async ({ name, authorId }) => {
@@ -90,7 +92,8 @@ export class FirebaseRoomService implements RoomService {
       createdAt: serverTimestamp(),
     });
 
-    const data = (await getDoc(createdRoom)).data() as FirebaseRoomDTO;
+    const document = (await getDoc(createdRoom))
+    const data = document.data() as FirebaseRoomDTO;
 
     return normalizeRoomData(createdRoom.id, data);
   };
@@ -102,10 +105,12 @@ export class FirebaseRoomService implements RoomService {
         await getDocs(
           query(this.roomCollection, where('users', 'array-contains', userId)),
         )
-      ).docs;
+      );
+
+      const documents = rooms.docs
 
       return Promise.all(
-        rooms.map(async (room) => {
+        documents.map(async (room) => {
           const roomData = room.data();
           const author = await userService.get(roomData.authorId);
 

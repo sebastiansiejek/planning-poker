@@ -1,6 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 
-import { Container } from '@/shared/UIKit/Container/Container';
+import { Container } from '@/shared/UIKit/Container/container';
 import { PageHeading } from '@/shared/UIKit/PageHeading/PageHeading';
 import { getPageMetaData } from '@/shared/utils/getPageMetaData';
 import { CreateRoomForm } from '@/widgets/CreateGame/ui/CreateRoomForm/CreateRoomForm';

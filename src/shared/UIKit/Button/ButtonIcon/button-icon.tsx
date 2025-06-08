@@ -1,14 +1,14 @@
 import { Loader2 } from 'lucide-react';
 
-import { Button } from '@/shared/UIKit/Button/Button';
-import type { ButtonIconProps } from '@/shared/UIKit/Button/ButtonIcon/ButtonIcon.types';
+import { Button } from '@/shared/UIKit/Button/button';
+import type { ButtonIconProperties } from '@/shared/UIKit/Button/ButtonIcon/button-icon.types';
 
 export const ButtonIcon = ({
   icon,
   isLoading,
   size = 'icon',
   ...rest
-}: ButtonIconProps) => {
+}: ButtonIconProperties) => {
   return (
     <Button variant="outline" disabled={isLoading} size={size} {...rest}>
       {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : icon}

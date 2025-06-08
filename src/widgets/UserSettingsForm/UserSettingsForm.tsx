@@ -6,7 +6,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { useUpdateUserSettings } from '@/shared/hooks/useUpdateUserSettings/useUpdateUserSettings';
 import type { UserUpsertPayload } from '@/shared/types/user/user';
-import { Button } from '@/shared/UIKit/Button/Button';
+import { Button } from '@/shared/UIKit/Button/button';
 import {
   FormControl,
   FormField,

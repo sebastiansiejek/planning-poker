@@ -2,7 +2,7 @@ import { LogOut } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useAction } from 'next-safe-action/hooks';
 
-import { ButtonIcon } from '@/shared/UIKit/Button/ButtonIcon/ButtonIcon';
+import { ButtonIcon } from '@/shared/UIKit/Button/ButtonIcon/button-icon';
 import { leftGame } from '@/widgets/Room/actions/leftGame';
 import { useRoomContext } from '@/widgets/Room/model/RoomContext';
 

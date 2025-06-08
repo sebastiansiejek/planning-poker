@@ -3,14 +3,14 @@ import Image from 'next/image';
 import type { CSSProperties } from 'react';
 import { useEffect, useState } from 'react';
 
-import type { TriggerPaperThrowingParams } from '@/widgets/Room/actions/alerts/triggerPaperThrowing';
+import type { TriggerPaperThrowingParameters } from '@/widgets/Room/actions/alerts/triggerPaperThrowing';
 
 export const Paper = ({
   onEnd,
   triggerUser,
   targetUser,
 }: { onEnd?: () => void } & Pick<
-  TriggerPaperThrowingParams,
+  TriggerPaperThrowingParameters,
   'targetUser' | 'triggerUser'
 >) => {
   const [animationPaperScope, animatePaper] = useAnimate();
@@ -23,8 +23,8 @@ export const Paper = ({
   useEffect(() => {
     const { id: targetUserId } = targetUser;
     const { id: triggerUserId } = triggerUser;
-    const targetUserDOM = document.getElementById(targetUserId);
-    const triggerUserDOM = document.getElementById(triggerUserId);
+    const targetUserDOM = document.querySelector(`#${targetUserId}}`);
+    const triggerUserDOM = document.querySelector(`#${triggerUserId}}`);
 
     if (!targetUserDOM || !triggerUserDOM) return;
 
@@ -74,6 +74,7 @@ export const Paper = ({
         },
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

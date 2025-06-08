@@ -21,7 +21,8 @@ export class FirebaseUserVoteService implements UserVoteService {
     const roomDocumentReference = doc(firebaseStore, 'rooms', roomId);
     const gameCollectionReference = collection(roomDocumentReference, 'games');
     const gameDocumentReference = doc(gameCollectionReference, gameId);
-    const game = (await getDoc(gameDocumentReference)).data();
+    const gameSnapshot = await getDoc(gameDocumentReference);
+    const game = gameSnapshot.data();
 
     return game?.votes || [];
   };
@@ -78,7 +79,8 @@ export class FirebaseUserVoteService implements UserVoteService {
     }
 
     const gameReference = doc(firebaseStore, 'rooms', roomId, 'games', gameId);
-    const gameData = (await getDoc(gameReference)).data() as {
+    const gameSnapshot = await getDoc(gameReference);
+    const gameData = gameSnapshot.data() as {
       votes: {
         userId: string;
         vote: string;

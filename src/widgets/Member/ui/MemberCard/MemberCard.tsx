@@ -1,9 +1,9 @@
 import { cva } from 'class-variance-authority';
 
-import { Skeleton } from '@/shared/UIKit/Skeleton/Skeleton';
-import type { MemberCardProps } from '@/widgets/Member/ui/MemberCard/types';
+import { Skeleton } from '@/shared/UIKit/Skeleton/skeleton';
+import type { MemberCardProperties } from '@/widgets/Member/ui/MemberCard/types';
 
-export const MemberCard = (properties: MemberCardProps) => {
+export const MemberCard = (properties: MemberCardProperties) => {
   const {
     isVoted = false,
     isRevealedCards = false,

@@ -1,4 +1,4 @@
 import type { ILoader } from '@/shared/types/types';
-import type { MemberProps } from '@/widgets/Room/ui/RoomMember/types';
+import type { MemberProperties } from '@/widgets/Room/ui/RoomMember/types';
 
-export type MemberNameProps = Pick<MemberProps, 'name'> & ILoader;
+export type MemberNameProperties = Pick<MemberProperties, 'name'> & ILoader;

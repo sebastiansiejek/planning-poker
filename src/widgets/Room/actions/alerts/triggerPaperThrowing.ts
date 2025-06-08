@@ -6,7 +6,7 @@ import { actionClient } from '@/shared/lib/safeAction';
 import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
 import { pusherServer } from '@/shared/pusher/lib/pusherServer';
 
-export type TriggerPaperThrowingParams = {
+export type TriggerPaperThrowingParameters = {
   channelName: string;
   triggerUser: {
     id: string;

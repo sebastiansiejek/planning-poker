@@ -1,5 +1,5 @@
-import type { MembersProps } from '@/widgets/Room/ui/Members/Members.types';
-import { MembersContainer } from '@/widgets/Room/ui/MembersContainer/MembersContainer';
+import type { MembersProperties } from '@/widgets/Room/ui/Members/members.types';
+import { MemberContainer } from '@/widgets/Room/ui/MembersContainer/member-container';
 import { RoomMember } from '@/widgets/Room/ui/RoomMember/RoomMember';
 
 export const Members = ({
@@ -9,13 +9,13 @@ export const Members = ({
   isRevealedCards,
   place,
   isVertical,
-}: MembersProps) => {
+}: MembersProperties) => {
   if (members.length === 0) {
     return null;
   }
 
   return (
-    <MembersContainer place={place} isVertical={isVertical}>
+    <MemberContainer place={place} isVertical={isVertical}>
       {members.map((member) => {
         const { id } = member;
         // @ts-ignore
@@ -33,6 +33,6 @@ export const Members = ({
           />
         );
       })}
-    </MembersContainer>
+    </MemberContainer>
   );
 };

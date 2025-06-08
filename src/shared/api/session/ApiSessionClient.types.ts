@@ -2,7 +2,7 @@ import type { Session } from 'next-auth';
 
 import type { ResponseCommon } from '@/shared/api/api.types';
 
-export type ApiSessionClientGetSessionParams = {
+export type ApiSessionClientGetSessionParameters = {
   cookie: string;
   url: string;
 };

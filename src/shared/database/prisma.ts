@@ -4,9 +4,6 @@ const prismaClientSingleton = () => {
   return new PrismaClient();
 };
 
-declare const globalThis: {
-  prismaGlobal: ReturnType<typeof prismaClientSingleton>;
-} & typeof globalThis;
 
 const prisma = globalThis.prismaGlobal ?? prismaClientSingleton();
 

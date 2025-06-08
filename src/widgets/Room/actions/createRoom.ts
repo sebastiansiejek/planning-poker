@@ -57,4 +57,4 @@ export const createRoom = actionClient
     };
   });
 
-export type CreateOrJoinToRoomParams = z.infer<typeof schema>;
+export type CreateOrJoinToRoomParameters = z.infer<typeof schema>;

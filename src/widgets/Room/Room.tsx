@@ -6,23 +6,23 @@ import { useTranslations } from 'next-intl';
 import { useAction } from 'next-safe-action/hooks';
 import { useEffect, useMemo, useState } from 'react';
 
-import type { RoomProps } from '@/app/game/[...room]/types';
+import type { RoomProperties } from '@/app/game/[...room]/types';
 import { RoomListenerFactory } from '@/features/room/lib/RoomListener/RoomListenerFactory';
 import { RoomPusherNotificationsListener } from '@/features/room/lib/RoomListener/RoomPusherNotificationsListener';
 import useNotification from '@/shared/hooks/useNotification/useNotification';
 import { routes } from '@/shared/routes/routes';
 import type { Vote } from '@/shared/types/types';
-import { Container } from '@/shared/UIKit/Container/Container';
+import { Container } from '@/shared/UIKit/Container/container';
 import { PageHeading } from '@/shared/UIKit/PageHeading/PageHeading';
 import { toast } from '@/shared/UIKit/Toast/model/useToast';
-import { Paper } from '@/widgets/Alerts/ui/Paper/Paper';
-import type { TriggerPaperThrowingParams } from '@/widgets/Room/actions/alerts/triggerPaperThrowing';
+import { Paper } from '@/widgets/Alerts/ui/Paper/paper';
+import type { TriggerPaperThrowingParameters } from '@/widgets/Room/actions/alerts/triggerPaperThrowing';
 import { getGameVotes } from '@/widgets/Room/actions/getGameVotes';
 import { chunkMembers } from '@/widgets/Room/libs/chunkMembers/chunkMembers';
 import { useRoomContext } from '@/widgets/Room/model/RoomContext';
 import { useIsFinishedGame } from '@/widgets/Room/model/selectors/useIsFinishedGame';
 import { GameContainer } from '@/widgets/Room/ui/Game/GameContainer/GameContainer';
-import { Members } from '@/widgets/Room/ui/Members/Members';
+import { Members } from '@/widgets/Room/ui/Members/members';
 import { RoomTable } from '@/widgets/Room/ui/RoomTable/RoomTable';
 import { VotingAvg } from '@/widgets/Room/ui/VotingAvg/VotingAvg';
 import { VotingForm } from '@/widgets/Room/ui/VotingForm/VotingForm';
@@ -33,15 +33,15 @@ export default function Room({
   members: initialMembers,
   initialVotes = [],
   finishedGameVotes = [],
-}: RoomProps) {
+}: RoomProperties) {
   const isFinishedGame = useIsFinishedGame();
   const [votes, setVotes] = useState<Vote[]>(finishedGameVotes);
-  const [members, setMembers] = useState<RoomProps['members']>(initialMembers);
+  const [members, setMembers] = useState<RoomProperties['members']>(initialMembers);
   const [votedUserIds, setVotedUserIds] = useState<string[]>(initialVotes);
   const [isWaitingForStartGame, setIsWaitingForStartGame] = useState(false);
   const [isRevealedCards, setIsRevealedCards] = useState(isFinishedGame);
   const [papers, setPapers] = useState<
-    Pick<TriggerPaperThrowingParams, 'triggerUser' | 'targetUser'>[]
+    Pick<TriggerPaperThrowingParameters, 'triggerUser' | 'targetUser'>[]
   >([]);
   const { data: session } = useSession();
   const { dispatch, room } = useRoomContext();
@@ -50,6 +50,7 @@ export default function Room({
   const areVotes = votedUserIds.length > 0;
   const memberChunks = useMemo(
     () => chunkMembers(members.sort((a, b) => a.name.localeCompare(b.name))),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [members.length],
   );
   const [topMembers, leftMembers, bottomMembers, rightMembers] = memberChunks;

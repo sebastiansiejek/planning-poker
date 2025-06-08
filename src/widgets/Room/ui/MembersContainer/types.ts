@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from 'react';
 
-import type { MembersProps } from '@/widgets/Room/ui/Members/Members.types';
+import type { MembersProperties } from '@/widgets/Room/ui/Members/members.types';
 
-export type MembersContainerProps = PropsWithChildren &
-  Pick<MembersProps, 'place' | 'isVertical'>;
+export type MembersContainerProperties = PropsWithChildren &
+  Pick<MembersProperties, 'place' | 'isVertical'>;

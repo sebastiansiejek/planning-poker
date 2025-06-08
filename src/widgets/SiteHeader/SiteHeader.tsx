@@ -1,5 +1,5 @@
 import { MobileNavbar } from '@/widgets/MobileNavbar/MobileNavbar';
-import { Navbar } from '@/widgets/Navbar/Navbar';
+import { Navbar } from '@/widgets/Navbar/navbar';
 import { UserAvatar } from '@/widgets/SiteHeader/ui/UserAvatar/UserAvatar';
 import { UserMenu } from '@/widgets/SiteHeader/ui/UserMenu/UserMenu';
 

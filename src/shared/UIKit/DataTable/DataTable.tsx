@@ -14,7 +14,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/shared/UIKit/Table/Table';
+} from '@/shared/UIKit/Table/table';
 
 declare module '@tanstack/react-table' {
   // @ts-ignore

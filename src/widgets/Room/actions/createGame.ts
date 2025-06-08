@@ -58,4 +58,4 @@ export const createGame = actionClient
     }
   });
 
-export type CreateGameParams = z.infer<typeof schema>;
+export type CreateGameParameters = z.infer<typeof schema>;

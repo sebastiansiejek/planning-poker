@@ -3,11 +3,11 @@ import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useAction } from 'next-safe-action/hooks';
 
-import { ButtonIcon } from '@/shared/UIKit/Button/ButtonIcon/ButtonIcon';
-import type { AlarmTriggerProps } from '@/widgets/Alerts/ui/AlarmTrigger/types';
+import { ButtonIcon } from '@/shared/UIKit/Button/ButtonIcon/button-icon';
+import type { AlarmTriggerProperties } from '@/widgets/Alerts/ui/AlarmTrigger/types';
 import { notifyUserByPusher } from '@/widgets/Room/actions/notifyUserByPusher';
 
-export const AlarmTrigger = ({ userId }: AlarmTriggerProps) => {
+export const AlarmTrigger = ({ userId }: AlarmTriggerProperties) => {
   const t = useTranslations('Member');
   const parameters = useParams();
 
