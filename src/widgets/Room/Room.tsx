@@ -7,25 +7,25 @@ import { useAction } from 'next-safe-action/hooks';
 import { useEffect, useMemo, useState } from 'react';
 
 import type { RoomProperties } from '@/app/game/[...room]/types';
-import { RoomListenerFactory } from '@/features/room/lib/RoomListener/RoomListenerFactory';
-import { RoomPusherNotificationsListener } from '@/features/room/lib/RoomListener/RoomPusherNotificationsListener';
-import useNotification from '@/shared/hooks/useNotification/useNotification';
+import { RoomListenerFactory } from '@/features/room/lib/RoomListener/room-listener-factory';
+import { RoomPusherNotificationsListener } from '@/features/room/lib/RoomListener/room-pusher-notifications-listener';
+import useNotification from '@/shared/hooks/useNotification/use-notification';
 import { routes } from '@/shared/routes/routes';
 import type { Vote } from '@/shared/types/types';
 import { Container } from '@/shared/UIKit/Container/container';
-import { PageHeading } from '@/shared/UIKit/PageHeading/PageHeading';
-import { toast } from '@/shared/UIKit/Toast/model/useToast';
+import { PageHeading } from '@/shared/UIKit/PageHeading/page-heading';
+import { toast } from '@/shared/UIKit/Toast/model/use-toast';
 import { Paper } from '@/widgets/Alerts/ui/Paper/paper';
-import type { TriggerPaperThrowingParameters } from '@/widgets/Room/actions/alerts/triggerPaperThrowing';
-import { getGameVotes } from '@/widgets/Room/actions/getGameVotes';
-import { chunkMembers } from '@/widgets/Room/libs/chunkMembers/chunkMembers';
-import { useRoomContext } from '@/widgets/Room/model/RoomContext';
-import { useIsFinishedGame } from '@/widgets/Room/model/selectors/useIsFinishedGame';
-import { GameContainer } from '@/widgets/Room/ui/Game/GameContainer/GameContainer';
+import type { TriggerPaperThrowingParameters } from '@/widgets/Room/actions/alerts/trigger-paper-throwing';
+import { getGameVotes } from '@/widgets/Room/actions/get-game-votes';
+import { chunkMembers } from '@/widgets/Room/libs/chunkMembers/chunk-members';
+import { useRoomContext } from '@/widgets/Room/model/room-context';
+import { useIsFinishedGame } from '@/widgets/Room/model/selectors/use-is-finished-game';
+import { GameContainer } from '@/widgets/Room/ui/Game/GameContainer/game-container';
 import { Members } from '@/widgets/Room/ui/Members/members';
-import { RoomTable } from '@/widgets/Room/ui/RoomTable/RoomTable';
-import { VotingAvg } from '@/widgets/Room/ui/VotingAvg/VotingAvg';
-import { VotingForm } from '@/widgets/Room/ui/VotingForm/VotingForm';
+import { RoomTable } from '@/widgets/Room/ui/RoomTable/room-table';
+import { VotingAvg } from '@/widgets/Room/ui/VotingAvg/voting-avg';
+import { VotingForm } from '@/widgets/Room/ui/VotingForm/voting-form';
 
 export default function Room({
   id: roomId,
@@ -213,7 +213,7 @@ export default function Room({
       <Container>
         {papers.map(({ targetUser, triggerUser }, index) => (
           <Paper
-             
+
             key={targetUser.id + index}
             targetUser={targetUser}
             triggerUser={triggerUser}

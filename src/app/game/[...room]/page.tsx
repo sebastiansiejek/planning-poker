@@ -2,15 +2,15 @@ import { redirect } from 'next/navigation';
 import { cache } from 'react';
 
 import { getSession } from '@/shared/auth/auth';
-import { GameServiceFactory } from '@/shared/factories/GameServiceFactory';
-import { RoomServiceFactory } from '@/shared/factories/RoomServiceFactory';
-import { RoomUserServiceFactory } from '@/shared/factories/RoomUserServiceFactory';
-import { UserVoteServiceFactory } from '@/shared/factories/UserVoteServiceFactory';
-import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
-import { pusherServer } from '@/shared/pusher/lib/pusherServer';
+import { GameServiceFactory } from '@/shared/factories/game-service-factory';
+import { RoomServiceFactory } from '@/shared/factories/room-service-factory';
+import { RoomUserServiceFactory } from '@/shared/factories/room-user-service-factory';
+import { UserVoteServiceFactory } from '@/shared/factories/user-vote-service-factory';
+import { PusherEvents } from '@/shared/pusher/config/pusher-events';
+import { pusherServer } from '@/shared/pusher/lib/pusher-server';
 import { routes } from '@/shared/routes/routes';
-import { getPageMetaData } from '@/shared/utils/getPageMetaData';
-import { RoomProvider } from '@/widgets/Room/model/RoomContext';
+import { getPageMetaData } from '@/shared/utils/get-page-meta-data';
+import { RoomProvider } from '@/widgets/Room/model/room-context';
 import Room from '@/widgets/Room/room';
 
 const getRoomName = cache(async (roomId: string) => {
@@ -63,7 +63,7 @@ export default async function Page(properties: {
     ? await userVoteService.getVotedUsers(latestGame.id, roomId)
     : [];
 
-  await pusherServer.trigger(roomId, PUSHER_EVENTS.MEMBER_ADDED, {
+  await pusherServer.trigger(roomId, PusherEvents.MEMBER_ADDED, {
     id: userId,
     avatarUrl: session?.user.image || '',
     name: session?.user.name || '',

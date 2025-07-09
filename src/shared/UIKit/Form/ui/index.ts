@@ -1,15 +1,6 @@
-
-
-
-
-
-
-
-
-
-export {FormControl} from './FormControl/FormControl';
-export {FormDescription} from './FormDescription/FormDescription';
-export {FormField} from './FormField/FormField';
-export {FormItem} from './FormItem/FormItem';
-export {FormLabel} from './FormLabel/FormLabel';
-export {FormMessage} from './FormMessage/FormMessage';
+export {FormControl} from './FormControl/form-control';
+export {FormDescription} from './FormDescription/form-description';
+export {FormField} from './FormField/form-field';
+export {FormItem} from './FormItem/form-item';
+export {FormLabel} from './FormLabel/form-label';
+export {FormMessage} from './FormMessage/form-message';

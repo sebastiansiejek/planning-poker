@@ -2,7 +2,7 @@ import * as AvatarPrimitive from '@radix-ui/react-avatar';
 import type { ComponentPropsWithoutRef, ElementRef } from 'react';
 import { forwardRef } from 'react';
 
-import { renderClass } from '@/shared/utils/renderClass/renderClass';
+import { renderClass } from '@/shared/utils/renderClass/render-class';
 
 const Avatar = forwardRef<
   ElementRef<typeof AvatarPrimitive.Root>,

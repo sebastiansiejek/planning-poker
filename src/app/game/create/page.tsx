@@ -1,9 +1,9 @@
 import { getTranslations } from 'next-intl/server';
 
 import { Container } from '@/shared/UIKit/Container/container';
-import { PageHeading } from '@/shared/UIKit/PageHeading/PageHeading';
-import { getPageMetaData } from '@/shared/utils/getPageMetaData';
-import { CreateRoomForm } from '@/widgets/CreateGame/ui/CreateRoomForm/CreateRoomForm';
+import { PageHeading } from '@/shared/UIKit/PageHeading/page-heading';
+import { getPageMetaData } from '@/shared/utils/get-page-meta-data';
+import { CreateRoomForm } from '@/widgets/CreateGame/ui/CreateRoomForm/create-room-form';
 
 export async function generateMetadata(properties: {
   params: Promise<{ locale: string }>;

@@ -1,6 +1,6 @@
 'use client';
 
-import { useToast } from '@/shared/UIKit/Toast/model/useToast';
+import { useToast } from '@/shared/UIKit/Toast/model/use-toast';
 import {
   Toast,
   ToastClose,

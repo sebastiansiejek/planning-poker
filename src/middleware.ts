@@ -1,7 +1,7 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-import { ApiSessionClient } from '@/shared/api/session/ApiSessionClient';
+import { ApiSessionClient } from '@/shared/api/session/api-session-client';
 import { routes } from '@/shared/routes/routes';
 
 export const config = { matcher: ['/dashboard/:path*', '/game/:path*'] };

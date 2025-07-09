@@ -11,9 +11,9 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   navigationMenuTriggerStyle,
-} from '@/shared/UIKit/NavigationMenu/NavigationMenu';
-import { renderClass } from '@/shared/utils/renderClass/renderClass';
-import { useNavbarItems } from '@/widgets/Navbar/lib/useNavbarItems/useNavbarItems';
+} from '@/shared/UIKit/NavigationMenu/navigation-menu';
+import { renderClass } from '@/shared/utils/renderClass/render-class';
+import { useNavbarItems } from '@/widgets/Navbar/lib/useNavbarItems/use-navbar-items';
 
 const LinkItem = ({
   href,

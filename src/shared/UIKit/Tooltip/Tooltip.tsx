@@ -4,7 +4,7 @@ import { Content, Provider, Root, Trigger } from '@radix-ui/react-tooltip';
 import type { ComponentPropsWithoutRef, ElementRef } from 'react';
 import { forwardRef } from 'react';
 
-import { renderClass } from '@/shared/utils/renderClass/renderClass';
+import { renderClass } from '@/shared/utils/renderClass/render-class';
 
 const TooltipProvider = Provider;
 

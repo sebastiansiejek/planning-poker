@@ -1,6 +1,6 @@
 import { Skeleton } from '@/shared/UIKit/Skeleton/skeleton';
 import { Member } from '@/widgets/Member/ui/member';
-import { GameContainer } from '@/widgets/Room/ui/Game/GameContainer/GameContainer';
+import { GameContainer } from '@/widgets/Room/ui/Game/GameContainer/game-container';
 import { MemberContainer } from '@/widgets/Room/ui/MembersContainer/member-container';
 
 export default function RoomLoading() {

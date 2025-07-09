@@ -7,12 +7,12 @@ import { ThemeProvider } from 'next-themes';
 import type { ReactNode } from 'react';
 
 import { getSession } from '@/shared/auth/auth';
-import SessionProvider from '@/shared/auth/SessionProvider';
-import { META_CONSTANTS } from '@/shared/global/config/META_CONSTANTS';
+import SessionProvider from '@/shared/auth/session-provider';
+import { MetaConstants } from '@/shared/global/config/meta-constants';
 import { Toaster } from '@/shared/UIKit/Toast/model/toaster';
-import { getPageMetaData } from '@/shared/utils/getPageMetaData';
-import { SiteFooter } from '@/widgets/SiteFooter/ui/SiteFooter';
-import { SiteHeader } from '@/widgets/SiteHeader/SiteHeader';
+import { getPageMetaData } from '@/shared/utils/get-page-meta-data';
+import { SiteFooter } from '@/widgets/SiteFooter/ui/site-footer';
+import { SiteHeader } from '@/widgets/SiteHeader/site-header';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -27,7 +27,7 @@ export async function generateMetadata(properties: {
 
   return getPageMetaData({
     description: t('Meta.description'),
-    authors: [META_CONSTANTS.author],
+    authors: [MetaConstants.author],
   });
 }
 

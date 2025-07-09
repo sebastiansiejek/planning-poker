@@ -19,7 +19,7 @@ import type {
 } from 'react';
 import { forwardRef } from 'react';
 
-import { renderClass } from '@/shared/utils/renderClass/renderClass';
+import { renderClass } from '@/shared/utils/renderClass/render-class';
 
 const Sheet = Root;
 

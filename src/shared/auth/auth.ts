@@ -5,7 +5,7 @@ import type { AuthOptions } from 'next-auth';
 import { getServerSession } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 
-import { AuthSessionStrategy } from '@/features/auth/lib/AuthSessionStrategy';
+import { AuthSessionStrategy } from '@/features/auth/lib/auth-session-strategy';
 import prisma from '@/shared/database/prisma';
 
 const authSessionStrategy = new AuthSessionStrategy();

@@ -4,9 +4,9 @@ import { getTranslations } from 'next-intl/server';
 import { getSession } from '@/shared/auth/auth';
 import { routes } from '@/shared/routes/routes';
 import { Container } from '@/shared/UIKit/Container/container';
-import { PageHeading } from '@/shared/UIKit/PageHeading/PageHeading';
-import { getPageMetaData } from '@/shared/utils/getPageMetaData';
-import { UserSettingsForm } from '@/widgets/UserSettingsForm/UserSettingsForm';
+import { PageHeading } from '@/shared/UIKit/PageHeading/page-heading';
+import { getPageMetaData } from '@/shared/utils/get-page-meta-data';
+import { UserSettingsForm } from '@/widgets/UserSettingsForm/user-settings-form';
 
 export async function generateMetadata(properties: {
   params: Promise<{ locale: string }>;

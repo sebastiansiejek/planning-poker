@@ -2,14 +2,14 @@ import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 
 import { getSession } from '@/shared/auth/auth';
-import { RoomServiceFactory } from '@/shared/factories/RoomServiceFactory';
+import { RoomServiceFactory } from '@/shared/factories/room-service-factory';
 import { routes } from '@/shared/routes/routes';
 import { Container } from '@/shared/UIKit/Container/container';
 import { Heading } from '@/shared/UIKit/Heading/heading';
-import { PageHeading } from '@/shared/UIKit/PageHeading/PageHeading';
-import { getPageMetaData } from '@/shared/utils/getPageMetaData';
-import { JoinToRoom } from '@/widgets/JoinToRoom/JoinToRoom';
-import { UserGames } from '@/widgets/UserGames/UserGames';
+import { PageHeading } from '@/shared/UIKit/PageHeading/page-heading';
+import { getPageMetaData } from '@/shared/utils/get-page-meta-data';
+import { JoinToRoom } from '@/widgets/JoinToRoom/join-to-room';
+import { UserGames } from '@/widgets/UserGames/user-games';
 
 export async function generateMetadata(properties: {
   params: Promise<{ locale: string }>;

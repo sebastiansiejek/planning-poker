@@ -4,10 +4,10 @@ import type { PrismaClientKnownRequestError } from '@prisma/client/runtime/binar
 import z from 'zod';
 
 import { getSession } from '@/shared/auth/auth';
-import { UserVoteServiceFactory } from '@/shared/factories/UserVoteServiceFactory';
-import { actionClient } from '@/shared/lib/safeAction';
-import { PUSHER_EVENTS } from '@/shared/pusher/config/PUSHER_EVENTS';
-import { pusherServer } from '@/shared/pusher/lib/pusherServer';
+import { UserVoteServiceFactory } from '@/shared/factories/user-vote-service-factory';
+import { actionClient } from '@/shared/lib/safe-action';
+import { PusherEvents } from '@/shared/pusher/config/pusher-events';
+import { pusherServer } from '@/shared/pusher/lib/pusher-server';
 
 const schema = z.object({
   value: z.string(),
@@ -38,7 +38,7 @@ export const voting = actionClient
         roomId,
       });
 
-      await pusherServer.trigger(roomId, PUSHER_EVENTS.VOTED, {
+      await pusherServer.trigger(roomId, PusherEvents.VOTED, {
         userId,
       });
 

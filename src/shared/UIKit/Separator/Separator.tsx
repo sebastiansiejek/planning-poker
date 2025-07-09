@@ -2,7 +2,7 @@ import { Root } from '@radix-ui/react-separator';
 import type { ComponentPropsWithoutRef, ElementRef } from 'react';
 import { forwardRef } from 'react';
 
-import { renderClass } from '@/shared/utils/renderClass/renderClass';
+import { renderClass } from '@/shared/utils/renderClass/render-class';
 
 const Separator = forwardRef<
   ElementRef<typeof Root>,
