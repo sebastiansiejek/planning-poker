@@ -15,13 +15,13 @@ export default async function Home() {
           {t('Homepage.description')}
         </p>
         <div className="flex items-center gap-4 mt-2 ">
-          <Link href={routes.game.create.getPath()}>
+          <Link href={routes.game.create.getPath()} legacyBehavior>
             <Button data-testid="start-new-game">
               {t('Game.create.label')}
             </Button>
           </Link>
           <span>{t('Common.or')}</span>
-          <Link href={routes.game.join.getPath()}>
+          <Link href={routes.game.join.getPath()} legacyBehavior>
             <Button data-testid="join-to-game">{t('Game.join.label')}</Button>
           </Link>
         </div>

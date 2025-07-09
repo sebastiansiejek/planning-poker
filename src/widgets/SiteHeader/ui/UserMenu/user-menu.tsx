@@ -40,13 +40,13 @@ export const UserMenu = () => {
         />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <Link href={routes.dashboard.getPath()}>
+        <Link href={routes.dashboard.getPath()} legacyBehavior>
           <DropdownMenuItem>
             <LayoutDashboard />
             {translations('UserMenu.dashboard')}
           </DropdownMenuItem>
         </Link>
-        <Link href={routes.userSettings.getPath()}>
+        <Link href={routes.userSettings.getPath()} legacyBehavior>
           <DropdownMenuItem>
             <Settings />
             {translations('UserSettings.title')}

@@ -22,7 +22,7 @@ export const SiteFooter = () => {
           target="_blank"
           passHref
           rel="noopener noreferrer"
-        >
+          legacyBehavior>
           <Button variant="secondary" size="sm">
             ☕ Buy me a coffee
           </Button>
