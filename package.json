@@ -45,7 +45,7 @@
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-toast": "^1.2.15",
     "@radix-ui/react-tooltip": "^1.2.8",
-    "@sentry/nextjs": "^10.8.0",
+    "@sentry/nextjs": "^10",
     "@tanstack/react-table": "^8.21.3",
     "@typescript-eslint/parser": "^8.41.0",
     "bcryptjs": "^3.0.2",
