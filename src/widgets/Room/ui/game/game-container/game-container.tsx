@@ -1,4 +1,4 @@
-import 'src/widgets/room/ui/game/game-container/gameContainer.styles.css';
+import '@/widgets/room/ui/game/game-container/game-container.styles.css';
 
 import type { PropsWithChildren } from 'react';
 
