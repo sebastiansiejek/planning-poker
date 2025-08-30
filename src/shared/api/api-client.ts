@@ -1,9 +1,5 @@
 export abstract class ApiClient {
-  baseUrl: string;
-
-  constructor() {
-    this.baseUrl = '';
-  }
+  baseUrl: string = '';
 
   async fetcher<T>(url: string, config?: RequestInit) {
     const response = await fetch(`${this.baseUrl}/${url}`, config);
