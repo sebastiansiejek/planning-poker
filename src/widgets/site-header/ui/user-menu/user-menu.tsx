@@ -53,7 +53,10 @@ export const UserMenu = () => {
           </DropdownMenuItem>
         </Link>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => signOut()}>
+        <DropdownMenuItem
+          onClick={() => signOut({
+          callbackUrl: '/',
+        })}>
           <LogOut />
           {translations('UserMenu.logout')}
         </DropdownMenuItem>
