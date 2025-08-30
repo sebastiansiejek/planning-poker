@@ -2,25 +2,31 @@ import { FlatCompat } from '@eslint/eslintrc';
 import stylistic from '@stylistic/eslint-plugin';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import eslintPluginUnicorn from 'eslint-plugin-unicorn';
+import globals from 'globals';
 
 const compat = new FlatCompat({
   baseDirectory: import.meta.dirname,
 });
 
 const eslintConfig = [
-  eslintPluginUnicorn.configs.all,
   ...compat.config({
     extends: ['next'],
+    ignorePatterns: ['.next'],
     settings: {
       next: {
-        rootDir: 'src',
+        rootDir: './src',
       },
     },
   }),
   {
+    languageOptions: {
+      globals: globals.builtin,
+    },
+    files: ['src/**/*.ts', 'src/**/*.tsx'],
     plugins: {
       'simple-import-sort': simpleImportSort,
       '@stylistic': stylistic,
+      'unicorn': eslintPluginUnicorn,
     },
     rules: {
       'simple-import-sort/imports': 'error',
