@@ -95,8 +95,8 @@
     "@types/js-cookie": "^3.0.6",
     "@types/lodash.random": "^3.2.9",
     "@types/node": "^22.18.0",
-    "@types/react": "19.1.12",
-    "@types/react-dom": "19.1.9",
+    "@types/react": "19.1.1",
+    "@types/react-dom": "19.1.1",
     "@typescript-eslint/eslint-plugin": "^8.41.0",
     "eslint": "^9.34.0",
     "eslint-config-next": "15.5.2",
@@ -153,10 +153,6 @@
     "node": "22.14.0"
   },
   "pnpm": {
-    "overrides": {
-      "@types/react": "19.0.12",
-      "@types/react-dom": "19.0.4"
-    },
     "onlyBuiltDependencies": [
       "@firebase/util",
       "@prisma/client",
