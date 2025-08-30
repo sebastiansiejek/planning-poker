@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 
 import { routes } from '@/shared/routes/routes';
-import { Button } from '@/shared/UIKit/button/button';
+import { Button, buttonVariants } from '@/shared/UIKit/button/button';
 
 export default async function Home() {
   const t = await getTranslations();
@@ -15,14 +15,12 @@ export default async function Home() {
           {t('Homepage.description')}
         </p>
         <div className="flex items-center gap-4 mt-2 ">
-          <Link href={routes.game.create.getPath()} legacyBehavior>
-            <Button data-testid="start-new-game">
+          <Link href={routes.game.create.getPath()} className={buttonVariants()} data-testid="start-new-game">
               {t('Game.create.label')}
-            </Button>
           </Link>
           <span>{t('Common.or')}</span>
-          <Link href={routes.game.join.getPath()} legacyBehavior>
-            <Button data-testid="join-to-game">{t('Game.join.label')}</Button>
+          <Link href={routes.game.join.getPath()} className={buttonVariants()} data-testid="join-to-game">
+            <Button >{t('Game.join.label')}</Button>
           </Link>
         </div>
       </div>

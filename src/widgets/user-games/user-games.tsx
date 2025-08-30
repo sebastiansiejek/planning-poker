@@ -30,7 +30,7 @@ const Actions = ({
                  }: CellContext<UserGamesColumns, unknown>) => {
   return (
     <div className="flex gap-2 justify-end">
-      <Link href={routes.game.singleGame.getPath(id)} legacyBehavior>
+      <Link href={routes.game.singleGame.getPath(id)}>
         <ButtonIcon icon={<SquareArrowOutUpRight/>}/>
       </Link>
     </div>

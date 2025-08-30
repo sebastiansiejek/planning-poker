@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import { MetaConstants } from '@/shared/global/config/meta-constants';
-import { Button } from '@/shared/UIKit/button/button';
+import { buttonVariants } from '@/shared/UIKit/button/button';
 import { ThemeSwitcher } from '@/widgets/theme-switcher/ui/theme-switcher';
 
 export const SiteFooter = () => {
@@ -22,10 +22,9 @@ export const SiteFooter = () => {
           target="_blank"
           passHref
           rel="noopener noreferrer"
-          legacyBehavior>
-          <Button variant="secondary" size="sm">
+          className={buttonVariants({variant: 'secondary', size: 'sm'})}
+        >
             ☕ Buy me a coffee
-          </Button>
         </Link>
       </footer>
     </div>

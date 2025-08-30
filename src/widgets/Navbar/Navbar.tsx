@@ -27,17 +27,18 @@ const LinkItem = ({
   const pathName = usePathname();
 
   return (
-    <Link href={href} legacyBehavior passHref>
-      <NavigationMenuLink
-        className={navigationMenuTriggerStyle({
-          className: 'gap-2',
-        })}
-        active={pathName === href}
-      >
+    <NavigationMenuLink
+      asChild
+      className={navigationMenuTriggerStyle({
+        className: 'gap-2',
+      })}
+      active={pathName === href}
+    >
+      <Link href={href} passHref>
         {icon && icon}
         {label}
-      </NavigationMenuLink>
-    </Link>
+      </Link>
+    </NavigationMenuLink>
   );
 };
 
