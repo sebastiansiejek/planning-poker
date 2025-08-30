@@ -1,6 +1,6 @@
 import type { HTMLAttributes } from 'react';
 
-import { renderClass } from '@/shared/utils/renderClass/render-class';
+import { renderClass } from '@/shared/utils/render-class/render-class';
 
 function Skeleton({ className, ...properties }: HTMLAttributes<HTMLDivElement>) {
   return (

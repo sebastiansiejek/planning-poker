@@ -3,7 +3,7 @@ import type { Channel } from 'pusher-js';
 import { PusherEvents } from '@/shared/pusher/config/pusher-events';
 import { pusherClient } from '@/shared/pusher/lib/pusher-client';
 import type { PusherNotification } from '@/shared/types/pusher/pusher';
-import type { TriggerPaperThrowingParameters } from '@/widgets/Room/actions/alerts/trigger-paper-throwing';
+import type { TriggerPaperThrowingParameters } from '@/widgets/room/actions/alerts/trigger-paper-throwing';
 
 export class RoomPusherNotificationsListener {
   pusherClient = pusherClient();

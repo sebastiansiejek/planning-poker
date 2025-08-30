@@ -1,6 +1,6 @@
 'use client';
 
-import { useToast } from '@/shared/UIKit/Toast/model/use-toast';
+import { useToast } from '@/shared/UIKit/toast/model/use-toast';
 import {
   Toast,
   ToastClose,
@@ -8,7 +8,7 @@ import {
   ToastProvider,
   ToastTitle,
   ToastViewport,
-} from '@/shared/UIKit/Toast/ui/toast';
+} from '@/shared/UIKit/toast/ui/toast';
 
 export function Toaster() {
   const { toasts } = useToast();

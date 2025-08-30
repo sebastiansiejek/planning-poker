@@ -12,20 +12,20 @@ import { RoomPusherNotificationsListener } from '@/features/room/lib/RoomListene
 import useNotification from '@/shared/hooks/useNotification/use-notification';
 import { routes } from '@/shared/routes/routes';
 import type { Vote } from '@/shared/types/types';
-import { Container } from '@/shared/UIKit/Container/container';
-import { PageHeading } from '@/shared/UIKit/PageHeading/page-heading';
-import { toast } from '@/shared/UIKit/Toast/model/use-toast';
-import { Paper } from '@/widgets/Alerts/ui/Paper/paper';
-import type { TriggerPaperThrowingParameters } from '@/widgets/Room/actions/alerts/trigger-paper-throwing';
-import { getGameVotes } from '@/widgets/Room/actions/get-game-votes';
-import { chunkMembers } from '@/widgets/Room/libs/chunkMembers/chunk-members';
-import { useRoomContext } from '@/widgets/Room/model/room-context';
-import { useIsFinishedGame } from '@/widgets/Room/model/selectors/use-is-finished-game';
-import { GameContainer } from '@/widgets/Room/ui/Game/GameContainer/game-container';
-import { Members } from '@/widgets/Room/ui/Members/members';
-import { RoomTable } from '@/widgets/Room/ui/RoomTable/room-table';
-import { VotingAvg } from '@/widgets/Room/ui/VotingAvg/voting-avg';
-import { VotingForm } from '@/widgets/Room/ui/VotingForm/voting-form';
+import { Container } from '@/shared/UIKit/container/container';
+import { PageHeading } from '@/shared/UIKit/page-heading/page-heading';
+import { toast } from '@/shared/UIKit/toast/model/use-toast';
+import { Paper } from '@/widgets/alerts/ui/paper/paper';
+import type { TriggerPaperThrowingParameters } from '@/widgets/room/actions/alerts/trigger-paper-throwing';
+import { getGameVotes } from '@/widgets/room/actions/get-game-votes';
+import { chunkMembers } from '@/widgets/room/libs/chunk-members/chunk-members';
+import { useRoomContext } from '@/widgets/room/model/room-context';
+import { useIsFinishedGame } from '@/widgets/room/model/selectors/use-is-finished-game';
+import { GameContainer } from '@/widgets/room/ui/game/game-container/game-container';
+import { Members } from '@/widgets/room/ui/members/members';
+import { RoomTable } from '@/widgets/room/ui/room-table/room-table';
+import { VotingAvg } from '@/widgets/room/ui/voting-avg/voting-avg';
+import { VotingForm } from '@/widgets/room/ui/voting-form/voting-form';
 
 export default function Room({
   id: roomId,

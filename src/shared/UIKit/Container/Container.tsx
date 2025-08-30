@@ -1,6 +1,6 @@
 import type { HTMLAttributes, PropsWithChildren } from 'react';
 
-import { renderClass } from '@/shared/utils/renderClass/render-class';
+import { renderClass } from '@/shared/utils/render-class/render-class';
 
 export const Container = ({
   children,

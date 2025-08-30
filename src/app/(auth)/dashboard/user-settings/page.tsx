@@ -3,10 +3,10 @@ import { getTranslations } from 'next-intl/server';
 
 import { getSession } from '@/shared/auth/auth';
 import { routes } from '@/shared/routes/routes';
-import { Container } from '@/shared/UIKit/Container/container';
-import { PageHeading } from '@/shared/UIKit/PageHeading/page-heading';
+import { Container } from '@/shared/UIKit/container/container';
+import { PageHeading } from '@/shared/UIKit/page-heading/page-heading';
 import { getPageMetaData } from '@/shared/utils/get-page-meta-data';
-import { UserSettingsForm } from '@/widgets/UserSettingsForm/user-settings-form';
+import { UserSettingsForm } from '@/widgets/user-settings-form/user-settings-form';
 
 export async function generateMetadata(properties: {
   params: Promise<{ locale: string }>;

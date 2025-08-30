@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 
 import { routes } from '@/shared/routes/routes';
-import { Button } from '@/shared/UIKit/Button/button';
+import { Button } from '@/shared/UIKit/button/button';
 
 export default async function Home() {
   const t = await getTranslations();

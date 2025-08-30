@@ -3,8 +3,8 @@ import { cva } from 'class-variance-authority';
 import { Loader2 } from 'lucide-react';
 import { forwardRef } from 'react';
 
-import type { ButtonProperties } from '@/shared/UIKit/Button/types';
-import { renderClass } from '@/shared/utils/renderClass/render-class';
+import type { ButtonProperties } from '@/shared/UIKit/button/types';
+import { renderClass } from '@/shared/utils/render-class/render-class';
 
 const buttonVariants = cva(
   'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',

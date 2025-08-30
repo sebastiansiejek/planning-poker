@@ -10,8 +10,8 @@ import { PusherEvents } from '@/shared/pusher/config/pusher-events';
 import { pusherServer } from '@/shared/pusher/lib/pusher-server';
 import { routes } from '@/shared/routes/routes';
 import { getPageMetaData } from '@/shared/utils/get-page-meta-data';
-import { RoomProvider } from '@/widgets/Room/model/room-context';
-import Room from '@/widgets/Room/room';
+import { RoomProvider } from '@/widgets/room/model/room-context';
+import Room from '@/widgets/room/room';
 
 const getRoomName = cache(async (roomId: string) => {
   const roomService = RoomServiceFactory.getService();

@@ -4,7 +4,7 @@ import { RoomListener } from '@/features/room/lib/RoomListener/room-listener';
 import { PusherEvents } from '@/shared/pusher/config/pusher-events';
 import { pusherClient } from '@/shared/pusher/lib/pusher-client';
 import type { PusherNewMember } from '@/shared/types/pusher/pusher';
-import type { RoomContextType } from '@/widgets/Room/model/room-context';
+import type { RoomContextType } from '@/widgets/room/model/room-context';
 
 export class RoomPrismaListener extends RoomListener {
   pusherClient = pusherClient();

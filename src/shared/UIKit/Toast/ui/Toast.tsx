@@ -14,7 +14,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import type { ComponentPropsWithoutRef, ElementRef, ReactElement } from 'react';
 import { forwardRef } from 'react';
 
-import { renderClass } from '@/shared/utils/renderClass/render-class';
+import { renderClass } from '@/shared/utils/render-class/render-class';
 
 const ToastProvider = Provider;
 

@@ -1,5 +1,5 @@
 import type { PusherNewMember } from '@/shared/types/pusher/pusher';
-import type { RoomContextType } from '@/widgets/Room/model/room-context';
+import type { RoomContextType } from '@/widgets/room/model/room-context';
 
 export type RoomEvents =
   | 'gameCreated'

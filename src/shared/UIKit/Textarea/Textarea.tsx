@@ -1,7 +1,7 @@
 import type { TextareaHTMLAttributes } from 'react';
 import { forwardRef } from 'react';
 
-import { renderClass } from '@/shared/utils/renderClass/render-class';
+import { renderClass } from '@/shared/utils/render-class/render-class';
 
 export interface TextareaProperties
   extends TextareaHTMLAttributes<HTMLTextAreaElement> {}

@@ -9,10 +9,10 @@ import type { ReactNode } from 'react';
 import { getSession } from '@/shared/auth/auth';
 import SessionProvider from '@/shared/auth/session-provider';
 import { MetaConstants } from '@/shared/global/config/meta-constants';
-import { Toaster } from '@/shared/UIKit/Toast/model/toaster';
+import { Toaster } from '@/shared/UIKit/toast/model/toaster';
 import { getPageMetaData } from '@/shared/utils/get-page-meta-data';
-import { SiteFooter } from '@/widgets/SiteFooter/ui/site-footer';
-import { SiteHeader } from '@/widgets/SiteHeader/site-header';
+import { SiteFooter } from '@/widgets/site-footer/ui/site-footer';
+import { SiteHeader } from '@/widgets/site-header/site-header';
 
 const inter = Inter({ subsets: ['latin'] });
 

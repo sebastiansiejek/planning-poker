@@ -2,8 +2,8 @@
 
 import { useTranslations } from 'next-intl';
 
-import { Button } from '@/shared/UIKit/Button/button';
-import { Heading } from '@/shared/UIKit/Heading/heading';
+import { Button } from '@/shared/UIKit/button/button';
+import { Heading } from '@/shared/UIKit/heading/heading';
 
 export default function Error({ reset }: { reset: () => void }) {
   const translate = useTranslations();

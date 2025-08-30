@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { renderClass } from '@/shared/utils/renderClass/render-class';
+import { renderClass } from '@/shared/utils/render-class/render-class';
 
 const Table = React.forwardRef<
   HTMLTableElement,

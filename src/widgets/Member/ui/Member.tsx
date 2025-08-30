@@ -2,14 +2,14 @@
 
 import { useRef, useState } from 'react';
 
-import { AlarmTrigger } from '@/widgets/Alerts/ui/AlarmTrigger/alarm-trigger';
-import { KickUser } from '@/widgets/Alerts/ui/KickUser/kick-user';
-import { PaperTrigger } from '@/widgets/Alerts/ui/PaperTrigger/paper-trigger';
-import { MemberAvatar } from '@/widgets/Member/ui/MemberAvatar/member-avatar';
-import { MemberCard } from '@/widgets/Member/ui/MemberCard/member-card';
-import { MemberName } from '@/widgets/Member/ui/MemberName/member-name';
-import { MemberTooltip } from '@/widgets/Member/ui/MemberTooltip/member-tooltip';
-import type { MemberProperties } from '@/widgets/Room/ui/RoomMember/types';
+import { AlarmTrigger } from '@/widgets/alerts/ui/alarm-trigger/alarm-trigger';
+import { KickUser } from '@/widgets/alerts/ui/kick-user/kick-user';
+import { PaperTrigger } from '@/widgets/alerts/ui/paper-trigger/paper-trigger';
+import { MemberAvatar } from '@/widgets/member/ui/member-avatar/member-avatar';
+import { MemberCard } from '@/widgets/member/ui/member-card/member-card';
+import { MemberName } from '@/widgets/member/ui/member-name/member-name';
+import { MemberTooltip } from '@/widgets/member/ui/member-tooltip/member-tooltip';
+import type { MemberProperties } from '@/widgets/room/ui/room-member/types';
 
 export const Member = ({
   image,
