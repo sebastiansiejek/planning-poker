@@ -10,7 +10,7 @@ import prisma from '@/shared/database/prisma';
 
 const authSessionStrategy = new AuthSessionStrategy();
 
-const adminDatabase = initFirestore({
+const adminDatabase = process.env.NEXT_PUBLIC_DATABASE_PROVIDER === 'firebase' && initFirestore({
   credential: admin.credential.cert({
     projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
     clientEmail: process.env.FIREBASE_CLIENT_EMAIL,

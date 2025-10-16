@@ -18,6 +18,6 @@ const config: FirebaseOptions = {
 
 const firebaseApp = getApps().length > 0 ? getApp() : initializeApp(config);
 const firebaseStore = getFirestore(firebaseApp);
-const firebaseDatabase = getDatabase(firebaseApp);
+const firebaseDatabase = process.env.NEXT_PUBLIC_DATABASE_PROVIDER === 'firebase' && getDatabase(firebaseApp);
 
 export { firebaseDatabase, firebaseStore };
