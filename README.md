@@ -38,6 +38,7 @@ You can choose between Firebase and Prisma ORM.
 
 1. Add `DATABASE_URL` variable in `.env` (default is configured)
 2. Run `docker-compose up -d`
+3. Run `pnpm dlx prisma generate`
 3. Run `npx prisma migrate deploy`
 
 > For **WebSockets** features you need to have configured [Pusher](https://pusher.com/)
