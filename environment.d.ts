@@ -18,6 +18,7 @@ declare global {
       FIREBASE_CLIENT_EMAIL?: string;
       FIREBASE_PRIVATE_KEY?: string;
       NEXT_PUBLIC_DATABASE_PROVIDER: DatabaseProvider;
+      NEXT_PUBLIC_JIRA_API_DOMAIN: string
     }
   }
 }

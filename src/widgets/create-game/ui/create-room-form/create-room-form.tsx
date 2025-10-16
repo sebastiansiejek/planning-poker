@@ -7,6 +7,7 @@ import { useAction } from 'next-safe-action/hooks';
 import { FormProvider, useForm } from 'react-hook-form';
 import z from 'zod';
 
+import {jiraSearchByJql} from '@/shared/api/jira/jira-search-by-jql';
 import { routes } from '@/shared/routes/routes';
 import { Button } from '@/shared/ui-kit/button/button';
 import {
@@ -29,10 +30,14 @@ export const CreateRoomForm = () => {
         name: z.string().min(1, {
           message: t('inputName.error.required'),
         }),
+        jql: z.string().min(1, {
+          message: t('inputJql.error.required'),
+        }),
       }),
     ),
     defaultValues: {
       name: '',
+      jql: ''
     },
   });
   const { handleSubmit, setError } = form;
@@ -53,6 +58,9 @@ export const CreateRoomForm = () => {
         push(routes.game.singleGame.getPath(data.data.id));
       }
     },
+    onError: error => {
+      console.log(error)
+    }
   });
 
   const roomExists = form.getFieldState('name')?.error?.type === 'P2002';
@@ -60,8 +68,8 @@ export const CreateRoomForm = () => {
   return (
     <FormProvider {...form}>
       <form
-        onSubmit={handleSubmit(({ name }) => {
-          execute({ name });
+        onSubmit={handleSubmit(({ name, jql}) => {
+          execute({ name, jql });
         })}
         className="flex flex-col gap-6 justify-center items-center w-96 mx-auto"
       >
@@ -75,6 +83,26 @@ export const CreateRoomForm = () => {
                   <Input
                     placeholder={t('inputName.placeholder')}
                     data-testid="game-name"
+                    autoFocus
+                    autoComplete="off"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            );
+          }}
+        />
+        <FormField
+          name="jql"
+          render={({ field: { ...field } }) => {
+            return (
+              <FormItem>
+                <FormLabel>{t('inputJql.label')}</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder={t('inputJql.placeholder')}
+                    data-testid="game-jql"
                     autoFocus
                     autoComplete="off"
                     {...field}

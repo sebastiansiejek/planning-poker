@@ -9,8 +9,7 @@ interface JiraSearchByJqlResponse {
 }
 
 async function jiraSearchByJql(bodyData: JiraSearchByJqlParams) {
-  console.log(process.env.JIRA_API_DOMAIN)
-  const response = await fetch(`https://${process.env.JIRA_API_DOMAIN}/rest/api/3/search/jql`, {
+  const response = await fetch(`https://${process.env.NEXT_PUBLIC_JIRA_API_DOMAIN}/rest/api/3/search/jql`, {
     method: 'POST',
     headers: {
       'Authorization': `Basic ${Buffer.from(
