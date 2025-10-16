@@ -1,4 +1,4 @@
-import { Skeleton } from '@/shared/UIKit/skeleton/skeleton';
+import { Skeleton } from '@/shared/ui-kit/skeleton/skeleton';
 import { Member } from '@/widgets/member/ui/member';
 import { GameContainer } from '@/widgets/room/ui/game/game-container/game-container';
 import { MemberContainer } from '@/widgets/room/ui/members-container/member-container';

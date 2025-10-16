@@ -8,15 +8,15 @@ import { FormProvider, useForm } from 'react-hook-form';
 import z from 'zod';
 
 import { routes } from '@/shared/routes/routes';
-import { Button } from '@/shared/UIKit/button/button';
+import { Button } from '@/shared/ui-kit/button/button';
 import {
   FormControl,
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/shared/UIKit/form/ui';
-import { FormField } from '@/shared/UIKit/form/ui/form-field/form-field';
-import { Input } from '@/shared/UIKit/text-input/text-input';
+} from '@/shared/ui-kit/form/ui';
+import { FormField } from '@/shared/ui-kit/form/ui/form-field/form-field';
+import { Input } from '@/shared/ui-kit/text-input/text-input';
 import type { CreateOrJoinToRoomParameters } from '@/widgets/room/actions/create-room';
 import { createRoom } from '@/widgets/room/actions/create-room';
 

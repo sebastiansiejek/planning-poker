@@ -6,16 +6,16 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { useUpdateUserSettings } from '@/shared/hooks/useUpdateUserSettings/use-update-user-settings';
 import type { UserUpsertPayload } from '@/shared/types/user/user';
-import { Button } from '@/shared/UIKit/button/button';
+import { Button } from '@/shared/ui-kit/button/button';
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/shared/UIKit/form/ui';
-import { Input } from '@/shared/UIKit/text-input/text-input';
-import { toast } from '@/shared/UIKit/toast/model/use-toast';
+} from '@/shared/ui-kit/form/ui';
+import { Input } from '@/shared/ui-kit/text-input/text-input';
+import { toast } from '@/shared/ui-kit/toast/model/use-toast';
 
 export const UserSettingsForm = () => {
   const { trigger, isMutating } = useUpdateUserSettings();

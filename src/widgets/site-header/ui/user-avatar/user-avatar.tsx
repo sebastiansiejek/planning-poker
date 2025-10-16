@@ -2,7 +2,7 @@
 
 import { useSession } from 'next-auth/react';
 
-import { Avatar, AvatarImage } from '@/shared/UIKit/avatar/avatar';
+import { Avatar, AvatarImage } from '@/shared/ui-kit/avatar/avatar';
 
 export const UserAvatar = () => {
   const { data } = useSession();

@@ -3,8 +3,8 @@ import { getTranslations } from 'next-intl/server';
 
 import { getSession } from '@/shared/auth/auth';
 import { routes } from '@/shared/routes/routes';
-import { Container } from '@/shared/UIKit/container/container';
-import { PageHeading } from '@/shared/UIKit/page-heading/page-heading';
+import { Container } from '@/shared/ui-kit/container/container';
+import { PageHeading } from '@/shared/ui-kit/page-heading/page-heading';
 import { getPageMetaData } from '@/shared/utils/get-page-meta-data';
 import { UserSettingsForm } from '@/widgets/user-settings-form/user-settings-form';
 

@@ -4,9 +4,9 @@ import { useTranslations } from 'next-intl';
 import { useEffect, useState, useTransition } from 'react';
 
 import { getGravatarUrl } from '@/shared/lib/gravatar/get-gravatar-url';
-import { Avatar, AvatarImage } from '@/shared/UIKit/avatar/avatar';
-import { Button } from '@/shared/UIKit/button/button';
-import { Input } from '@/shared/UIKit/text-input/text-input';
+import { Avatar, AvatarImage } from '@/shared/ui-kit/avatar/avatar';
+import { Button } from '@/shared/ui-kit/button/button';
+import { Input } from '@/shared/ui-kit/text-input/text-input';
 
 export const GravatarInput = () => {
   const t = useTranslations('Gravatar');

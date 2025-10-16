@@ -1,5 +1,5 @@
-import { Container } from '@/shared/UIKit/container/container';
-import { Skeleton } from '@/shared/UIKit/skeleton/skeleton';
+import { Container } from '@/shared/ui-kit/container/container';
+import { Skeleton } from '@/shared/ui-kit/skeleton/skeleton';
 
 export default function Loading() {
   return (

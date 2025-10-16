@@ -8,8 +8,8 @@ import {useTranslations} from 'next-intl';
 import {useState} from 'react';
 
 import {routes} from '@/shared/routes/routes';
-import {ButtonIcon} from '@/shared/UIKit/button/ButtonIcon/button-icon';
-import {DataTable} from '@/shared/UIKit/data-table/data-table';
+import {ButtonIcon} from '@/shared/ui-kit/button/button-icon/button-icon';
+import {DataTable} from '@/shared/ui-kit/data-table/data-table';
 
 type UserGamesColumns = {
   name: string;

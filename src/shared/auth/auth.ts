@@ -10,13 +10,19 @@ import prisma from '@/shared/database/prisma';
 
 const authSessionStrategy = new AuthSessionStrategy();
 
-const adminDatabase = process.env.NEXT_PUBLIC_DATABASE_PROVIDER === 'firebase' && initFirestore({
-  credential: admin.credential.cert({
-    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-    privateKey: process.env.FIREBASE_PRIVATE_KEY,
-  }),
-});
+const adminDatabase = () => {
+  if (process.env.NEXT_PUBLIC_DATABASE_PROVIDER !== 'firebase') {
+    throw new Error('Firebase provider is not configured');
+  }
+
+  return initFirestore({
+    credential: admin.credential.cert({
+      projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+      privateKey: process.env.FIREBASE_PRIVATE_KEY,
+    }),
+  });
+}
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -38,7 +44,7 @@ export const authOptions: AuthOptions = {
   },
   adapter:
     process.env.NEXT_PUBLIC_DATABASE_PROVIDER === 'firebase'
-      ? FirestoreAdapter(adminDatabase)
+      ? FirestoreAdapter(adminDatabase())
       : PrismaAdapter(prisma),
 };
 

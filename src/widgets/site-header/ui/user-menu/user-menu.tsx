@@ -7,14 +7,14 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 import { routes } from '@/shared/routes/routes';
-import { Button } from '@/shared/UIKit/button/button';
+import { Button } from '@/shared/ui-kit/button/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/shared/UIKit/dropdown-menu/dropdown-menu';
+} from '@/shared/ui-kit/dropdown-menu/dropdown-menu';
 
 export const UserMenu = () => {
   const { data } = useSession();
