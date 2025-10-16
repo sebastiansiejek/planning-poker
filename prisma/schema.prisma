@@ -119,6 +119,7 @@ model Game {
   id          String     @id @default(cuid())
   name        String?
   description String?
+  issueKey    String?
   roomId      String
   room        Room       @relation(fields: [roomId], references: [id], onDelete: Cascade)
   UserVote    UserVote[]

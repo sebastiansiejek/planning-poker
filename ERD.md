@@ -75,6 +75,7 @@ FINISHED FINISHED
     String id "🗝️"
     String name "❓"
     String description "❓"
+    String issueKey "❓"
     GameStatus status 
     DateTime createdAt 
     DateTime updatedAt 
