@@ -1,5 +1,7 @@
 'use server';
 
+import {openai} from '@ai-sdk/openai';
+import {generateText} from 'ai';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
@@ -103,7 +105,20 @@ export const createRoom = actionClient
 
       description += '\n issue comments: \n' + comments.join('\n')
 
-      return gameServiceFactory.create({ name, description, roomId: createdRoom.id, issueKey })
+      const { text: summaryDescription } = await generateText({
+        model: openai('gpt-4o'),
+        system: 'You are a mid-level software engineer experienced in PHP and React. Given a Jira issue (including title, description, and comments), create a concise technical summary in Polish that helps developers quickly understand the task before estimation. Focus on key elements relevant for evaluating complexity.\\nYour summary should include:\\n- the main goal of the task (what needs to be achieved)\\n- important technical or functional aspects\\n- potential dependencies or risks that may affect estimation\\n- relevant notes or insights from comments (if any)\\nRespond only in Polish.',
+        prompt: `
+          title: ${name}
+          ---
+          description: ${description}'
+          ---
+          comments: ${comments}
+        `,
+      });
+
+
+      return gameServiceFactory.create({ name, description, roomId: createdRoom.id, issueKey, summaryDescription  })
     }))
 
     revalidatePath(routes.dashboard.getPath());

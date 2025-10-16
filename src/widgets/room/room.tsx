@@ -1,11 +1,13 @@
 'use client';
 
+import {Menu} from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
 import { useAction } from 'next-safe-action/hooks';
 import { useEffect, useMemo, useState } from 'react';
+import Markdown from 'react-markdown'
 
 import type { RoomProperties } from '@/app/game/[...room]/types';
 import { RoomListenerFactory } from '@/features/room/lib/RoomListener/room-listener-factory';
@@ -15,9 +17,12 @@ import { routes } from '@/shared/routes/routes';
 import type { Vote } from '@/shared/types/types';
 import {Button} from '@/shared/ui-kit/button/button';
 import { Container } from '@/shared/ui-kit/container/container';
+import {Heading} from '@/shared/ui-kit/heading/heading';
 import { PageHeading } from '@/shared/ui-kit/page-heading/page-heading';
+import {Sheet, SheetContent, SheetTitle, SheetTrigger} from '@/shared/ui-kit/sheet/sheet';
 import { toast } from '@/shared/ui-kit/toast/model/use-toast';
 import { Paper } from '@/widgets/alerts/ui/paper/paper';
+import {Navbar} from '@/widgets/navbar/navbar';
 import type { TriggerPaperThrowingParameters } from '@/widgets/room/actions/alerts/trigger-paper-throwing';
 import { getGameVotes } from '@/widgets/room/actions/get-game-votes';
 import { chunkMembers } from '@/widgets/room/libs/chunk-members/chunk-members';
@@ -35,7 +40,8 @@ export default function Room({
   members: initialMembers,
   initialVotes = [],
   finishedGameVotes = [],
-  issueKey
+  issueKey,
+                               summaryDescription
 }: RoomProperties) {
   const isFinishedGame = useIsFinishedGame();
   const [votes, setVotes] = useState<Vote[]>(finishedGameVotes);
@@ -172,9 +178,26 @@ export default function Room({
             description={activeGame?.name as string}
           >
             {issueKey && (
-              <Link href={`https://${process.env.NEXT_PUBLIC_JIRA_API_DOMAIN}/browse/${issueKey}`} target="_blank" className={'text-center mt-6 block'}>
-                <Button variant={'outline'}>{t('Game.single.go_to_jira_issue')}</Button>
-              </Link>
+              <Sheet>
+              <SheetTrigger>
+                <Button className={'mt-6'} variant={'outline'}>{t('Game.single.issue_details.trigger')}</Button>
+              </SheetTrigger>
+              <SheetContent className={'sm:max-w-2xl'}>
+                <SheetTitle>Jira issue</SheetTitle>
+               <div className="mt-0">
+                 <div className="space-y-2">
+                   <Markdown components={{
+                     a: ({children, href}) => {
+                       return <a href={href} className={'text-primary underline'} target={'_blank'}>{children}</a>
+                     }
+                   }}>{summaryDescription}</Markdown>
+                 </div>
+                 <Link href={`https://${process.env.NEXT_PUBLIC_JIRA_API_DOMAIN}/browse/${issueKey}`} target="_blank" className={'text-center mt-6 block'}>
+                   <Button variant={'outline'}>{t('Game.single.go_to_jira_issue')}</Button>
+                 </Link>
+               </div>
+              </SheetContent>
+              </Sheet>
             )}
           </PageHeading>
           <div className="flex items-center justify-center flex-col">

@@ -65,7 +65,10 @@
       "P2002": "You are already created a room with this name"
     },
     "single": {
-      "go_to_jira_issue": "Go to jira issue"
+      "go_to_jira_issue": "Go to jira issue",
+      "issue_details": {
+        "trigger": "Issue details"
+      }
     }
   },
   "Login": {
