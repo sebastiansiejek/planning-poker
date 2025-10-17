@@ -10,7 +10,7 @@ jobs:
   test:
     strategy:
       matrix:
-        node-version: [ 20.x ]
+        node-version: [ 22.14.0 ]
 
     name: Run all tests
     runs-on: ubuntu-latest
@@ -25,6 +25,16 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # Retrieve Git history, needed to verify commits
+
+      - name: Create env file with variables
+        run: |
+          echo PUSHER_APP_ID=${{ secrets.PUSHER_APP_ID }} >> .env
+          echo PUSHER_SECRET=${{ secrets.PUSHER_SECRET }} >> .env
+          echo NEXT_PUBLIC_PUSHER_KEY=${{ secrets.NEXT_PUBLIC_PUSHER_KEY }} >> .env
+          echo NEXT_PUBLIC_PUSHER_CLUSTER=${{ secrets.NEXT_PUBLIC_PUSHER_CLUSTER }} >> .env
+          echo NEXTAUTH_URL=${{ 'http://localhost:3000' }} >> .env
+          echo NEXTAUTH_SECRET=$(openssl rand -base64 32) >> .env
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
@@ -42,18 +52,29 @@ jobs:
       - name: Type checking
         run: pnpm run check-types
 
-      - name: Create env.local file with variables
-        run: |
-          echo PUSHER_APP_ID=${{ secrets.PUSHER_APP_ID }} >> .env.local
-          echo PUSHER_SECRET=${{ secrets.PUSHER_SECRET }} >> .env.local
-          echo NEXT_PUBLIC_PUSHER_KEY=${{ secrets.NEXT_PUBLIC_PUSHER_KEY }} >> .env.local
-          echo NEXT_PUBLIC_PUSHER_CLUSTER=${{ secrets.NEXT_PUBLIC_PUSHER_CLUSTER }} >> .env.local
-
       - name: Build
         run: pnpm run build
 
+      - name: Set prisma provider
+        run: |
+          echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env    
+          echo NEXT_PUBLIC_DATABASE_PROVIDER=prisma >> .env
+
+      - name: Prepare prisma database
+        run: npx prisma migrate deploy
+
       - name: Install Playwright Browsers
         run: pnpm exec playwright install webkit --with-deps
+
+      - name: Run run tests
+        run: pnpm run test
+
+      - name: Set firebase provider
+        run: |
+          echo NEXT_PUBLIC_DATABASE_PROVIDER=firebase >> .env
+          echo FIREBASE_DATABASE_URL=${{ secrets.FIREBASE_DATABASE_URL }} >> .env
+          echo FIREBASE_CLIENT_EMAIL=${{ secrets.FIREBASE_CLIENT_EMAIL }} >> .env
+          echo FIREBASE_PRIVATE_KEY=${{ secrets.FIREBASE_PRIVATE_KEY }} >> .env
 
       - name: Run run tests
         run: pnpm run test

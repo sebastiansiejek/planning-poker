@@ -1,25 +1,24 @@
-import Skeleton from 'react-loading-skeleton';
-
-import { Member } from '@/widgets/Member/ui/Member';
-import { GameContainer } from '@/widgets/Room/ui/Game/GameContainer/GameContainer';
-import { MembersContainer } from '@/widgets/Room/ui/MembersContainer/MembersContainer';
+import { Skeleton } from '@/shared/ui-kit/skeleton/skeleton';
+import { Member } from '@/widgets/member/ui/member';
+import { GameContainer } from '@/widgets/room/ui/game/game-container/game-container';
+import { MemberContainer } from '@/widgets/room/ui/members-container/member-container';
 
 export default function RoomLoading() {
   return (
     <GameContainer>
-      <MembersContainer place="top">
+      <MemberContainer place="top">
         <Member id="1" name="John Doe" isLoading />
-      </MembersContainer>
-      <MembersContainer place="left" isVertical>
+      </MemberContainer>
+      <MemberContainer place="left" isVertical>
         <Member id="2" name="Megan Fox" isLoading />
-      </MembersContainer>
-      <Skeleton count={1} height={100} />
-      <MembersContainer place="right" isVertical>
+      </MemberContainer>
+      <Skeleton className="h-[10rem]" />
+      <MemberContainer place="right" isVertical>
         <Member id="3" name="Superman" isLoading />
-      </MembersContainer>
-      <MembersContainer place="bottom">
+      </MemberContainer>
+      <MemberContainer place="bottom">
         <Member id="4" name="Marco" isLoading />
-      </MembersContainer>
+      </MemberContainer>
     </GameContainer>
   );
 }

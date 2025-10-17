@@ -1,35 +1,78 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped
-with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Table of Contents
 
-## Getting Started
+<details>
+  <summary>Expand content</summary>
 
-First, run the development server:
+1. [Getting Started](#getting-started)
+2. [Requirements](#requirements)
+3. [Development](#development)
+4. [Automation](#automation)
+5. [Environments](#environments)
+6. [Author](#author)
 
-```bash
-pnpm dev
-```
+</details>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Getting Started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Requirements
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and
-load Inter, a custom Google Font.
+* [Node.js](https://nodejs.org/en/) (v20.9.0)
+* [pnpm](https://pnpm.io/) (v>=8)
 
-## Learn More
+## Development
 
-To learn more about Next.js, take a look at the following resources:
+1. Copy `.env.example` to `.env`
+2. Fill variables in `.env` file
+3. Run `pnpm install`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Databases
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions
-are welcome!
+You can choose between Firebase and Prisma ORM.
 
-## Deploy on Vercel
+#### Firebase
 
-The easiest way to deploy your Next.js app is to use
-the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)
-from the creators of Next.js.
+1. Create Firestore Database
+2. Add variables `FIREBASE_DATABASE_URL`, `FIREBASE_CLIENT_EMAIL` and `FIREBASE_PRIVATE_KEY` in `.env` file
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+#### Prisma
+
+1. Add `DATABASE_URL` variable in `.env` (default is configured)
+2. Run `docker-compose up -d`
+3. Run `pnpm dlx prisma generate`
+3. Run `npx prisma migrate deploy`
+
+> For **WebSockets** features you need to have configured [Pusher](https://pusher.com/)
+
+1. Create new project on [Pusher](https://pusher.com/)
+2. Add `PUSHER_APP_ID` and `PUSHER_SECRET` in `.env` file
+
+# Automation
+
+* We use [Husky](https://typicode.github.io/husky) for:
+    * Pre-commit hooks
+        * Linting ([Eslint](https://eslint.org/))
+        * Formatting ([Prettier](https://prettier.io/))
+        * Type checking ([TypeScript](https://www.typescriptlang.org/))
+* We use GitHub Actions for:
+    * Running tests
+    * Linting
+    * Formatting
+    * Type checking
+    * Building
+    * Deploying
+
+# Environments
+
+We use [vercel](https://vercel.com) for deployment.
+
+## Staging
+
+Every pull request will trigger a deployment to the development environment.
+
+## Production
+
+Every push to the `main` branch will trigger a deployment to the production environment.
+
+# Author
+
+* [Sebastian Siejek](https://sebastiansiejek.dev/)

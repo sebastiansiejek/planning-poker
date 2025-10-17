@@ -1,0 +1,33 @@
+import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
+
+import { ApiSessionClient } from '@/shared/api/session/api-session-client';
+import { routes } from '@/shared/routes/routes';
+
+export const config = { matcher: ['/dashboard/:path*', '/game/:path*'] };
+
+export default async function middleware (request: NextRequest) {
+  const sessionCookie =
+    request.cookies.get('next-auth.session-token')?.value ??
+    request.cookies.get('__Secure-next-auth.session-token')?.value;
+
+  if (sessionCookie) {
+    const apiSessionClient = new ApiSessionClient();
+    const sessionResponse = await apiSessionClient.getSession({
+      cookie: request.headers.get('cookie') || '',
+      url: request.nextUrl.origin,
+    });
+
+    if (sessionResponse.status !== 200) {
+      return NextResponse.redirect(
+        new URL(routes.login.getPath(), request.url),
+      );
+    }
+  }
+
+  if (!sessionCookie) {
+    return NextResponse.redirect(new URL(routes.login.getPath(), request.url));
+  }
+
+  return NextResponse.next();
+}

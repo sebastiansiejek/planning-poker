@@ -1,0 +1,39 @@
+import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
+import z from 'zod';
+
+import { PrismaUserService } from '@/shared/api/services/prisma/prisma-user-service';
+import { getSession } from '@/shared/auth/auth';
+
+export async function PUT(request: NextRequest) {
+  const session = await getSession();
+
+  if (!session) {
+    return NextResponse.json({ message: 'Not authenticated' }, { status: 401 });
+  }
+
+  const bodyData = await request.json();
+  const schema = z.object({
+    name: z.string(),
+  });
+
+  try {
+    schema.parse(bodyData);
+  } catch {
+    return NextResponse.json({ message: 'Invalid input' }, { status: 400 });
+  }
+
+  const {
+    user: { id, name: defaultName },
+  } = session;
+  const { name = defaultName } = bodyData;
+
+  const data = await new PrismaUserService().updateUser(id, {
+    name,
+  });
+
+  return NextResponse.json({
+    data,
+    message: 'User updated',
+  });
+}
