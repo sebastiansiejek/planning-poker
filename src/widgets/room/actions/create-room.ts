@@ -113,12 +113,7 @@ export const createRoom = actionClient
     })
 
     const languagePolicyPrompt = `
-    LANGUAGE POLICY:
-    - Detect the user's language from the input.
-    - Reply in that same language.
-    - Keep JSON keys exactly as specified; only localize values.
-    - If language is ambiguous or mixed, use the dominant language; if unclear, use English.
-    - Do not translate code, product names, or error/status codes.
+    Respond only in Polish.
     `
 
     await Promise.all(issues.map(async (issue) => {
