@@ -112,6 +112,15 @@ export const createRoom = actionClient
       maxResults: 3
     })
 
+    const languagePolicyPrompt = `
+    LANGUAGE POLICY:
+    - Detect the user's language from the input.
+    - Reply in that same language.
+    - Keep JSON keys exactly as specified; only localize values.
+    - If language is ambiguous or mixed, use the dominant language; if unclear, use English.
+    - Do not translate code, product names, or error/status codes.
+    `
+
     await Promise.all(issues.map(async (issue) => {
       const name = issue.fields.summary;
       let description = getDescriptionText(issue);
@@ -128,20 +137,26 @@ export const createRoom = actionClient
           comments: ${comments}
         `
 
-      const  [{text: summaryDescription}, {object: issueAnalyze = {}}, {object: issueEstimate}] = await Promise.all([
+      const  [{text: summaryDescription}, {object: issueAnalyze}, {object: issueEstimate}] = await Promise.all([
          generateText({
           model: openai('gpt-4o'),
-          system: 'You are a mid-level software engineer experienced in PHP and React. Given a Jira issue (including title, description, and comments), create a concise technical summary in Polish that helps developers quickly understand the task before estimation. Focus on key elements relevant for evaluating complexity.\\nYour summary should include:\\n- the main goal of the task (what needs to be achieved)\\n- important technical or functional aspects\\n- potential dependencies or risks that may affect estimation\\n- relevant notes or insights from comments (if any)\\nRespond only in Polish.',
+          system: `
+          ${languagePolicyPrompt}
+          You are a mid-level software engineer experienced in PHP and React. 
+          Given a Jira issue (including title, description, and comments), create a concise technical summary that helps developers quickly understand the task before estimation. 
+          Focus on key elements relevant for evaluating complexity.
+          \\nYour summary should include:\\n- the main goal of the task (what needs to be achieved)\\n- important technical or functional aspects\\n- potential dependencies or risks that may affect estimation\\n- relevant notes or insights from comments (if any)\\n.`,
           prompt,
         }),
         generateObject({
           model: openai('gpt-4o'),
           temperature: 0.3,
           system: `
+          ${languagePolicyPrompt}
           You are an Agile estimation clarifier. Your job is to extract missing information, risks, and ask concise, high-leverage questions BEFORE estimation.
           RULES:
         - Output strictly as JSON with keys: missing[], risks[], questions_to_PO[], questions_to_BE[], questions_to_FE[], questions_to_QA[], test_scenarios[].
-        - Do NOT propose story points or hours. Do NOT restate the ticket verbatim. Use Polish.
+        - Do NOT propose story points or hours. Do NOT restate the ticket verbatim.
         - Prefer 3–6 items per list. Be concrete, reference fields/behaviors, not generalities.
         - Consider: error mappings, API contracts, edge cases, i18n/copy, telemetry/monitoring, security/PII, rate limiting/lockout, environments (dev/stage/prod), rollback, feature flags.
       `,
@@ -150,7 +165,8 @@ export const createRoom = actionClient
         }),
         generateObject({
           model: openai('gpt-4o'),
-          system: 'You are a mid-level software engineer with experience in PHP and React. Given a Jira issue description, provide a detailed estimation in pure JSON format without markdown or ```json blocks. Include the following fields: story_points: number - explanation: short text explaining the reasoning. Consider all available context: title, description, comments, acceptance criteria, issue type, priority, estimators\' seniority, assignee, and any historical estimates. Example Input: {\\"title\\": \\"Add user API\\", \\"description\\": \\"Create REST endpoint for fetching user data\\"} Example Output: {\\"story_points\\": 5, \\"explanation\\": \\"This task is moderate complexity. It involves backend API creation with frontend dependencies. Past similar tasks took 5 story points on average.\\"}',
+          system:  languagePolicyPrompt +
+            'You are a mid-level software engineer with experience in PHP and React. Given a Jira issue description, provide a detailed estimation in pure JSON format without markdown or ```json blocks. Include the following fields: story_points: number - explanation: short text explaining the reasoning. Consider all available context: title, description, comments, acceptance criteria, issue type, priority, estimators\' seniority, assignee, and any historical estimates. Example Input: {\\"title\\": \\"Add user API\\", \\"description\\": \\"Create REST endpoint for fetching user data\\"} Example Output: {\\"story_points\\": 5, \\"explanation\\": \\"This task is moderate complexity. It involves backend API creation with frontend dependencies. Past similar tasks took 5 story points on average.\\"}',
           prompt: prompt,
           schema: issueEstimateSchema,
           'temperature': 0,

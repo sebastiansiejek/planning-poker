@@ -81,7 +81,8 @@
       },
       "ai_estimate": {
         "explanation": {
-          "trigger": "Show AI explanation"
+          "trigger": "Show AI explanation",
+          "title": "AI explanation"
         }
       }
     }
