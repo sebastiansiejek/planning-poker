@@ -120,6 +120,7 @@ model Game {
   name               String?
   description        String?
   issueKey           String?
+  issueAnalyze       Json?
   summaryDescription String?
   roomId             String
   room               Room       @relation(fields: [roomId], references: [id], onDelete: Cascade)

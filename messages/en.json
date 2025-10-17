@@ -68,6 +68,16 @@
       "go_to_jira_issue": "Go to jira issue",
       "issue_details": {
         "trigger": "Issue details"
+      },
+      "summary": "Summary",
+      "analyze": {
+        "section_label": "Pre-Estimation Notes",
+        "missing": "Missing Information",
+        "questions_to_FE": "Frontend Questions",
+        "questions_to_BE": "Backend Questions",
+        "questions_to_PO": "Product Owner Questions",
+        "questions_to_QA": "QA Questions",
+        "test_scenarios": "Test Scenarios"
       }
     }
   },

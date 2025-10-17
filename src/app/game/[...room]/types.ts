@@ -12,4 +12,13 @@ export type RoomProperties = {
   finishedGameVotes: Vote[];
   issueKey?: string
   summaryDescription?: string
+  issueAnalyze?: {
+    missing: string[],
+    questions_to_FE: string[],
+    questions_to_BE: string[],
+    questions_to_PO: string[],
+    questions_to_QA: string[],
+    test_scenarios: string[],
+  }
 };
+
