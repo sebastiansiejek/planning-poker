@@ -17,15 +17,15 @@ const schema = z.object({
   jql: z.string(),
 });
 
-function getComments(issue) {
-  return issue.fields.comment.comments.map(comment => {
+function getComments(issue: any) {
+  return issue.fields.comment.comments.map((comment: any) => {
     const text = extractTextFromADF(comment.body);
 
     return text
   });
 }
 
-function extractTextFromADF(adfNode) {
+function extractTextFromADF(adfNode: any) {
   if (!adfNode) return '';
 
   if (adfNode.type === 'text' && adfNode.text) {
@@ -39,7 +39,7 @@ function extractTextFromADF(adfNode) {
   return '';
 }
 
-function getDescriptionText(issue) {
+function getDescriptionText(issue: any) {
   const descriptionADF = issue.fields.description;
   if (!descriptionADF) return '';
 
