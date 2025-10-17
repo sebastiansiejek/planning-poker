@@ -78,6 +78,11 @@
         "questions_to_PO": "Product Owner Questions",
         "questions_to_QA": "QA Questions",
         "test_scenarios": "Test Scenarios"
+      },
+      "ai_estimate": {
+        "explanation": {
+          "trigger": "Show AI explanation"
+        }
       }
     }
   },

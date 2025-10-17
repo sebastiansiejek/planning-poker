@@ -19,6 +19,10 @@ export type RoomProperties = {
     questions_to_PO: string[],
     questions_to_QA: string[],
     test_scenarios: string[],
+  },
+  issueEstimate?: {
+    story_points: number,
+    explanation: string,
   }
 };
 
