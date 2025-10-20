@@ -18,8 +18,8 @@
     "playwright:codegen": "npx playwright codegen"
   },
   "engines": {
-    "node": "^20.9.0",
-    "pnpm": ">=8"
+    "node": "^22.20.0",
+    "pnpm": ">=10"
   },
   "dependencies": {
     "@commitlint/types": "^19.5.0",
@@ -108,5 +108,8 @@
       "@semantic-release/git",
       "@semantic-release/github"
     ]
+  },
+  "volta": {
+    "node": "22.20.0"
   }
 }
