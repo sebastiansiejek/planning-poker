@@ -11,5 +11,4 @@ export type RoomProperties = {
   initialVotes: string[];
   finishedGameVotes: Vote[];
   issueKey?: string
-  summaryDescription?: string
 };
