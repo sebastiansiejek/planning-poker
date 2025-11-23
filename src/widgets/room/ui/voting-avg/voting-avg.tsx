@@ -13,8 +13,8 @@ import { getVotesAvg } from '@/widgets/room/libs/get-votes-avg/get-votes-avg';
 import type { VotingAvgProperties } from '@/widgets/room/ui/voting-avg/types';
 
 type VotedUser = PropsWithChildren<{
-  value: string | number;
-  count: string | number;
+  value: string;
+  count: number;
 }>
 
 const VotedUser = ({children, value, count}: VotedUser) => {
@@ -53,7 +53,7 @@ export const VotingAvg = ({ votes, issueEstimate }: VotingAvgProperties) => {
          <VotedUser key={index} value={value} count={count}/>
         ))}
         {issueEstimate && (
-           <VotedUser value={issueEstimate.story_points} count={'AI'}>
+           <VotedUser value={'AI'} count={issueEstimate.story_points}>
              <Sheet>
                <SheetTrigger asChild={true}>
                  <div  className={'flex items-center justify-center mt-2'}>
