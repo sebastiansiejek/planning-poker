@@ -1,5 +1,3 @@
-import { openai } from '@ai-sdk/openai'
-import { generateText } from 'ai';
 import { redirect } from 'next/navigation';
 import { cache } from 'react';
 
@@ -71,20 +69,12 @@ export default async function Page(properties: {
     name: session?.user.name || '',
   });
 
-  const { text } = await generateText({
-    model: openai('gpt-4o'),
-    system: 'You are a friendly assistant!',
-    prompt: latestGame?.description || '',
-  });
-  console.log(text)
-
   return (
     <RoomProvider game={latestGame || undefined} roomId={roomId}>
       <Room
         id={roomId}
         members={roomMembers.map(({ user }) => user)}
         name={roomName}
-        issueKey={latestGame.issueKey}
         initialVotes={votes.map(({ userId: votedUser }) => votedUser)}
         finishedGameVotes={latestGame?.status === 'FINISHED' ? votes : []}
       />

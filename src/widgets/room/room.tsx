@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
@@ -13,7 +12,6 @@ import { RoomPusherNotificationsListener } from '@/features/room/lib/RoomListene
 import useNotification from '@/shared/hooks/useNotification/use-notification';
 import { routes } from '@/shared/routes/routes';
 import type { Vote } from '@/shared/types/types';
-import {Button} from '@/shared/ui-kit/button/button';
 import { Container } from '@/shared/ui-kit/container/container';
 import { PageHeading } from '@/shared/ui-kit/page-heading/page-heading';
 import { toast } from '@/shared/ui-kit/toast/model/use-toast';
@@ -35,7 +33,6 @@ export default function Room({
   members: initialMembers,
   initialVotes = [],
   finishedGameVotes = [],
-  issueKey
 }: RoomProperties) {
   const isFinishedGame = useIsFinishedGame();
   const [votes, setVotes] = useState<Vote[]>(finishedGameVotes);
@@ -170,13 +167,7 @@ export default function Room({
           <PageHeading
             title={roomName}
             description={activeGame?.name as string}
-          >
-            {issueKey && (
-              <Link href={`https://${process.env.NEXT_PUBLIC_JIRA_API_DOMAIN}/browse/${issueKey}`} target="_blank" className={'text-center mt-6 block'}>
-                <Button variant={'outline'}>{t('Game.single.go_to_jira_issue')}</Button>
-              </Link>
-            )}
-          </PageHeading>
+          />
           <div className="flex items-center justify-center flex-col">
             <GameContainer>
               <Members
