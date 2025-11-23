@@ -76,7 +76,6 @@ FINISHED FINISHED
     String name "❓"
     String description "❓"
     String issueKey "❓"
-    String summaryDescription "❓"
     GameStatus status 
     DateTime createdAt 
     DateTime updatedAt 
