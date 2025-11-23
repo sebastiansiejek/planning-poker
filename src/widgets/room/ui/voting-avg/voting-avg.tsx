@@ -6,7 +6,7 @@ import {PropsWithChildren, useMemo} from 'react';
 
 import {Button} from '@/shared/ui-kit/button/button';
 import { Container } from '@/shared/ui-kit/container/container';
-import {Sheet, SheetContent, SheetTitle, SheetTrigger} from '@/shared/ui-kit/sheet/sheet';
+import {Sheet, SheetContent, SheetTrigger} from '@/shared/ui-kit/sheet/sheet';
 import { calcVotingAvg } from '@/widgets/room/libs/calc-voting-avg/calc-voting-avg';
 import { getNumberVotes } from '@/widgets/room/libs/get-number-votes/get-number-votes';
 import { getVotesAvg } from '@/widgets/room/libs/get-votes-avg/get-votes-avg';
@@ -61,7 +61,6 @@ export const VotingAvg = ({ votes, issueEstimate }: VotingAvgProperties) => {
                  </div>
                </SheetTrigger>
                <SheetContent className={'sm:max-w-2xl'}>
-                 <SheetTitle>{t('Game.single.ai_estimate.explanation.title')}</SheetTitle>
                  {issueEstimate.explanation}
                </SheetContent>
              </Sheet>
