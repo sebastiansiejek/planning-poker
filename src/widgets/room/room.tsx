@@ -196,7 +196,7 @@ export default function Room({
           >
             {issueKey && (
               <Sheet>
-              <SheetTrigger asChild={true}>
+              <SheetTrigger>
                 <Button className={'mt-6'} variant={'outline'}>{t('Game.single.issue_details.trigger')}</Button>
               </SheetTrigger>
               <SheetContent className={'sm:max-w-2xl'}>
