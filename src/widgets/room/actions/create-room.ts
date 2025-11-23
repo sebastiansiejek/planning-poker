@@ -1,7 +1,7 @@
 'use server';
 
 import {openai} from '@ai-sdk/openai';
-import {generateObject, generateText} from 'ai';
+import {generateText} from 'ai';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
@@ -38,21 +38,6 @@ function extractTextFromADF(adfNode: any) {
 
   return '';
 }
-
-const issueAnalyzeSchema = z.object({
-  missing: z.array(z.string()),
-  risks: z.array(z.string()),
-  questions_to_PO: z.array(z.string()),
-  questions_to_BE: z.array(z.string()),
-  questions_to_FE: z.array(z.string()),
-  questions_to_QA: z.array(z.string()),
-  test_scenarios: z.array(z.string()),
-});
-
-const issueAnalyzeSchema = z.object({
-  story_points: z.number(),
-  explanation: z.string(),
-})
 
 function getDescriptionText(issue: any) {
   const descriptionADF = issue.fields.description;
@@ -120,48 +105,20 @@ export const createRoom = actionClient
 
       description += '\n issue comments: \n' + comments.join('\n')
 
-      const prompt = `
+      const { text: summaryDescription } = await generateText({
+        model: openai('gpt-4o'),
+        system: 'You are a mid-level software engineer experienced in PHP and React. Given a Jira issue (including title, description, and comments), create a concise technical summary in Polish that helps developers quickly understand the task before estimation. Focus on key elements relevant for evaluating complexity.\\nYour summary should include:\\n- the main goal of the task (what needs to be achieved)\\n- important technical or functional aspects\\n- potential dependencies or risks that may affect estimation\\n- relevant notes or insights from comments (if any)\\nRespond only in Polish.',
+        prompt: `
           title: ${name}
           ---
           description: ${description}'
           ---
           comments: ${comments}
-        `
+        `,
+      });
 
-      const {object} = await generateObject({
-        model: 'gpt-4o',
-       system: 'You are a mid-level software engineer with experience in PHP and React. Given a Jira issue description, provide a detailed estimation in pure JSON format without markdown or ```json blocks. Include the following fields: story_points: number - explanation: short text explaining the reasoning. Consider all available context: title, description, comments, acceptance criteria, issue type, priority, estimators\' seniority, assignee, and any historical estimates. Example Input: {\\"title\\": \\"Add user API\\", \\"description\\": \\"Create REST endpoint for fetching user data\\"} Example Output: {\\"story_points\\": 5, \\"explanation\\": \\"This task is moderate complexity. It involves backend API creation with frontend dependencies. Past similar tasks took 5 story points on average.\\"}',
-        prompt: prompt,
-        schema: issueAnalyzeSchema,
-        'temperature': 0,
-      })
 
-      console.log(object)
-      return
-
-      const  [{text: summaryDescription}, {object: issueAnalyze}] = await Promise.all([
-         generateText({
-          model: openai('gpt-4o'),
-          system: 'You are a mid-level software engineer experienced in PHP and React. Given a Jira issue (including title, description, and comments), create a concise technical summary in Polish that helps developers quickly understand the task before estimation. Focus on key elements relevant for evaluating complexity.\\nYour summary should include:\\n- the main goal of the task (what needs to be achieved)\\n- important technical or functional aspects\\n- potential dependencies or risks that may affect estimation\\n- relevant notes or insights from comments (if any)\\nRespond only in Polish.',
-          prompt,
-        }),
-        generateObject({
-          model: openai('gpt-4o'),
-          temperature: 0.3,
-          system: `
-          You are an Agile estimation clarifier. Your job is to extract missing information, risks, and ask concise, high-leverage questions BEFORE estimation.
-          RULES:
-        - Output strictly as JSON with keys: missing[], risks[], questions_to_PO[], questions_to_BE[], questions_to_FE[], questions_to_QA[], test_scenarios[].
-        - Do NOT propose story points or hours. Do NOT restate the ticket verbatim. Use Polish.
-        - Prefer 3–6 items per list. Be concrete, reference fields/behaviors, not generalities.
-        - Consider: error mappings, API contracts, edge cases, i18n/copy, telemetry/monitoring, security/PII, rate limiting/lockout, environments (dev/stage/prod), rollback, feature flags.
-      `,
-          prompt,
-          schema: issueAnalyzeSchema
-        })
-      ])
-
-      return gameServiceFactory.create({ name, description, roomId: createdRoom.id, issueKey, summaryDescription, issueAnalyze: issueAnalyze  })
+      return gameServiceFactory.create({ name, description, roomId: createdRoom.id, issueKey, summaryDescription  })
     }))
 
     revalidatePath(routes.dashboard.getPath());

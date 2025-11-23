@@ -19,8 +19,6 @@ import {Button} from '@/shared/ui-kit/button/button';
 import { Container } from '@/shared/ui-kit/container/container';
 import {Heading} from '@/shared/ui-kit/heading/heading';
 import { PageHeading } from '@/shared/ui-kit/page-heading/page-heading';
-import {Paragraph} from '@/shared/ui-kit/paragraph/paragraph';
-import {Separator} from '@/shared/ui-kit/separator/separator';
 import {Sheet, SheetContent, SheetTitle, SheetTrigger} from '@/shared/ui-kit/sheet/sheet';
 import { toast } from '@/shared/ui-kit/toast/model/use-toast';
 import { Paper } from '@/widgets/alerts/ui/paper/paper';
@@ -36,20 +34,6 @@ import { RoomTable } from '@/widgets/room/ui/room-table/room-table';
 import { VotingAvg } from '@/widgets/room/ui/voting-avg/voting-avg';
 import { VotingForm } from '@/widgets/room/ui/voting-form/voting-form';
 
-
-const IssueAnalyzeItem = ({label, items}: {label: string, items?: string[]}) => {
-  if(!items?.length) return null;
-
-  return (
-    <div>
-      <Heading variant={'h4'}>{label}:</Heading>
-      <ul className={'list-disc pl-4'}>
-        {items.map(v => <li key={v}>{v}</li>)}
-      </ul>
-    </div>
-  )
-}
-
 export default function Room({
   id: roomId,
   name: roomName,
@@ -57,8 +41,7 @@ export default function Room({
   initialVotes = [],
   finishedGameVotes = [],
   issueKey,
-  summaryDescription,
-  issueAnalyze
+                               summaryDescription
 }: RoomProperties) {
   const isFinishedGame = useIsFinishedGame();
   const [votes, setVotes] = useState<Vote[]>(finishedGameVotes);
@@ -200,35 +183,19 @@ export default function Room({
                 <Button className={'mt-6'} variant={'outline'}>{t('Game.single.issue_details.trigger')}</Button>
               </SheetTrigger>
               <SheetContent className={'sm:max-w-2xl'}>
+                <SheetTitle>Jira issue</SheetTitle>
+               <div className="mt-0">
                  <div className="space-y-2">
-                   {summaryDescription && (
-                     <div className={'overflow-auto'}>
-                       <Heading variant={'h3'} htmlAttributes={{className: 'mb-2'}}>{t('Game.single.summary')}:</Heading>
-                       <Markdown components={{
-                         a: ({children, href}) => {
-                           return <a href={href} className={'text-primary underline'} target={'_blank'}>{children}</a>
-                         }
-                       }}
-                       >
-                         {summaryDescription}
-                       </Markdown>
-                     </div>
-                   )}
-                   {issueAnalyze && (
-                     <div className={'overflow-auto'}>
-                       <Separator className={'my-4'}/>
-                       <Heading variant={'h3'} htmlAttributes={{className: 'mb-2'}}>{t('Game.single.analyze.section_label')}:</Heading>
-                       <IssueAnalyzeItem label={t('Game.single.analyze.missing')} items={issueAnalyze.missing} />
-                       <IssueAnalyzeItem label={t('Game.single.analyze.questions_to_PO')} items={issueAnalyze.questions_to_PO} />
-                       <IssueAnalyzeItem label={t('Game.single.analyze.questions_to_FE')} items={issueAnalyze.questions_to_FE} />
-                       <IssueAnalyzeItem label={t('Game.single.analyze.questions_to_BE')} items={issueAnalyze.questions_to_BE} />
-                       <IssueAnalyzeItem label={t('Game.single.analyze.test_scenarios')} items={issueAnalyze.test_scenarios} />
-                     </div>
-                   )}
+                   <Markdown components={{
+                     a: ({children, href}) => {
+                       return <a href={href} className={'text-primary underline'} target={'_blank'}>{children}</a>
+                     }
+                   }}>{summaryDescription}</Markdown>
                  </div>
                  <Link href={`https://${process.env.NEXT_PUBLIC_JIRA_API_DOMAIN}/browse/${issueKey}`} target="_blank" className={'text-center mt-6 block'}>
                    <Button variant={'outline'}>{t('Game.single.go_to_jira_issue')}</Button>
                  </Link>
+               </div>
               </SheetContent>
               </Sheet>
             )}

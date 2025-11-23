@@ -81,7 +81,6 @@ export default async function Page(properties: {
         summaryDescription={latestGame.summaryDescription}
         initialVotes={votes.map(({ userId: votedUser }) => votedUser)}
         finishedGameVotes={latestGame?.status === 'FINISHED' ? votes : []}
-        issueAnalyze={latestGame.issueAnalyze}
       />
     </RoomProvider>
   );
