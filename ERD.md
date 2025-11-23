@@ -77,7 +77,6 @@ FINISHED FINISHED
     String description "❓"
     String issueKey "❓"
     Json issueAnalyze "❓"
-    Json issueEstimate "❓"
     String summaryDescription "❓"
     GameStatus status 
     DateTime createdAt 

@@ -25,8 +25,7 @@ export class PrismaGameService
         status: true,
         issueKey: true,
         summaryDescription: true,
-        issueAnalyze: true,
-        issueEstimate: true
+        issueAnalyze: true
       },
       where: {
         roomId,
@@ -46,7 +45,7 @@ export class PrismaGameService
     });
   }
 
-  async create(data: { name?: string; roomId: string; description?: string, issueKey?: string, summaryDescription?: string, issueAnalyze?: any, issueEstimate?: any }) {
+  async create(data: { name?: string; roomId: string; description?: string, issueKey?: string, summaryDescription?: string, issueAnalyze?: string }) {
     return this.prisma.game.create({
       data
     });

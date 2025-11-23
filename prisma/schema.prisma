@@ -121,7 +121,6 @@ model Game {
   description        String?
   issueKey           String?
   issueAnalyze       Json?
-  issueEstimate      Json?
   summaryDescription String?
   roomId             String
   room               Room       @relation(fields: [roomId], references: [id], onDelete: Cascade)

@@ -49,7 +49,7 @@ const issueAnalyzeSchema = z.object({
   test_scenarios: z.array(z.string()),
 });
 
-const issueEstimateSchema = z.object({
+const issueAnalyzeSchema = z.object({
   story_points: z.number(),
   explanation: z.string(),
 })
@@ -128,7 +128,18 @@ export const createRoom = actionClient
           comments: ${comments}
         `
 
-      const  [{text: summaryDescription}, {object: issueAnalyze = {}}, {object: issueEstimate}] = await Promise.all([
+      const {object} = await generateObject({
+        model: 'gpt-4o',
+       system: 'You are a mid-level software engineer with experience in PHP and React. Given a Jira issue description, provide a detailed estimation in pure JSON format without markdown or ```json blocks. Include the following fields: story_points: number - explanation: short text explaining the reasoning. Consider all available context: title, description, comments, acceptance criteria, issue type, priority, estimators\' seniority, assignee, and any historical estimates. Example Input: {\\"title\\": \\"Add user API\\", \\"description\\": \\"Create REST endpoint for fetching user data\\"} Example Output: {\\"story_points\\": 5, \\"explanation\\": \\"This task is moderate complexity. It involves backend API creation with frontend dependencies. Past similar tasks took 5 story points on average.\\"}',
+        prompt: prompt,
+        schema: issueAnalyzeSchema,
+        'temperature': 0,
+      })
+
+      console.log(object)
+      return
+
+      const  [{text: summaryDescription}, {object: issueAnalyze}] = await Promise.all([
          generateText({
           model: openai('gpt-4o'),
           system: 'You are a mid-level software engineer experienced in PHP and React. Given a Jira issue (including title, description, and comments), create a concise technical summary in Polish that helps developers quickly understand the task before estimation. Focus on key elements relevant for evaluating complexity.\\nYour summary should include:\\n- the main goal of the task (what needs to be achieved)\\n- important technical or functional aspects\\n- potential dependencies or risks that may affect estimation\\n- relevant notes or insights from comments (if any)\\nRespond only in Polish.',
@@ -147,17 +158,10 @@ export const createRoom = actionClient
       `,
           prompt,
           schema: issueAnalyzeSchema
-        }),
-        generateObject({
-          model: openai('gpt-4o'),
-          system: 'You are a mid-level software engineer with experience in PHP and React. Given a Jira issue description, provide a detailed estimation in pure JSON format without markdown or ```json blocks. Include the following fields: story_points: number - explanation: short text explaining the reasoning. Consider all available context: title, description, comments, acceptance criteria, issue type, priority, estimators\' seniority, assignee, and any historical estimates. Example Input: {\\"title\\": \\"Add user API\\", \\"description\\": \\"Create REST endpoint for fetching user data\\"} Example Output: {\\"story_points\\": 5, \\"explanation\\": \\"This task is moderate complexity. It involves backend API creation with frontend dependencies. Past similar tasks took 5 story points on average.\\"}',
-          prompt: prompt,
-          schema: issueEstimateSchema,
-          'temperature': 0,
         })
       ])
 
-      return gameServiceFactory.create({ name, description, roomId: createdRoom.id, issueKey, summaryDescription, issueAnalyze, issueEstimate  })
+      return gameServiceFactory.create({ name, description, roomId: createdRoom.id, issueKey, summaryDescription, issueAnalyze: issueAnalyze  })
     }))
 
     revalidatePath(routes.dashboard.getPath());

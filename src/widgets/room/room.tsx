@@ -24,6 +24,7 @@ import {Separator} from '@/shared/ui-kit/separator/separator';
 import {Sheet, SheetContent, SheetTitle, SheetTrigger} from '@/shared/ui-kit/sheet/sheet';
 import { toast } from '@/shared/ui-kit/toast/model/use-toast';
 import { Paper } from '@/widgets/alerts/ui/paper/paper';
+import {Navbar} from '@/widgets/navbar/navbar';
 import type { TriggerPaperThrowingParameters } from '@/widgets/room/actions/alerts/trigger-paper-throwing';
 import { getGameVotes } from '@/widgets/room/actions/get-game-votes';
 import { chunkMembers } from '@/widgets/room/libs/chunk-members/chunk-members';
@@ -57,8 +58,7 @@ export default function Room({
   finishedGameVotes = [],
   issueKey,
   summaryDescription,
-  issueAnalyze,
-  issueEstimate
+  issueAnalyze
 }: RoomProperties) {
   const isFinishedGame = useIsFinishedGame();
   const [votes, setVotes] = useState<Vote[]>(finishedGameVotes);
@@ -274,14 +274,11 @@ export default function Room({
           </div>
         </div>
       </Container>
-      {isRevealedCards && (
-        <div>
-          <VotingAvg votes={votes} issueEstimate={issueEstimate} />
-        </div>
-      )}
+      {isRevealedCards && <VotingAvg votes={votes} />}
       <Container>
         {papers.map(({ targetUser, triggerUser }, index) => (
           <Paper
+
             key={targetUser.id + index}
             targetUser={targetUser}
             triggerUser={triggerUser}
