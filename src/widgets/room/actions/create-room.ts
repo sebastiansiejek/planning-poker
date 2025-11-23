@@ -145,9 +145,7 @@ export const createRoom = actionClient
           You are a mid-level software engineer experienced in PHP and React. 
           Given a Jira issue (including title, description, and comments), create a concise technical summary that helps developers quickly understand the task before estimation. 
           Focus on key elements relevant for evaluating complexity.
-          Your summary should include:- the main goal of the task (what needs to be achieved)- important technical or functional aspects- potential dependencies or risks that may affect estimation- relevant notes or insights from comments (if any)
-          Write a short 2–5 sentence summary of the issue
-          `,
+          \\nYour summary should include:\\n- the main goal of the task (what needs to be achieved)\\n- important technical or functional aspects\\n- potential dependencies or risks that may affect estimation\\n- relevant notes or insights from comments (if any)\\n.`,
           prompt,
         }),
         generateObject({
