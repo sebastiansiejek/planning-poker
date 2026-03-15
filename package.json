@@ -21,7 +21,7 @@
     "supabase:start": "pnpx supabase start"
   },
   "engines": {
-    "node": "^22.14.0",
+    "node": "^24.14.0",
     "pnpm": ">=8"
   },
   "dependencies": {
@@ -54,6 +54,8 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.18",
+    "dotenv": "^17.2.3",
+    "drizzle-orm": "^0.45.1",
     "eslint-plugin-unicorn": "^60.0.0",
     "firebase": "^11.10.0",
     "firebase-admin": "^13.5.0",
@@ -65,6 +67,7 @@
     "next-intl": "^4.3.5",
     "next-safe-action": "^8.0.10",
     "next-themes": "^0.4.6",
+    "pg": "^8.16.3",
     "prisma": "^6.15.0",
     "pusher": "^5.2.0",
     "pusher-js": "^8.4.0",
@@ -97,9 +100,11 @@
     "@types/js-cookie": "^3.0.6",
     "@types/lodash.random": "^3.2.9",
     "@types/node": "^22.18.0",
+    "@types/pg": "^8.16.0",
     "@types/react": "19.1.1",
     "@types/react-dom": "19.1.1",
     "@typescript-eslint/eslint-plugin": "^8.41.0",
+    "drizzle-kit": "^0.31.8",
     "eslint": "^9.34.0",
     "eslint-config-next": "15.5.2",
     "eslint-config-prettier": "^10.1.8",
@@ -153,24 +158,37 @@
       "@semantic-release/github"
     ]
   },
-  "volta": {
-    "node": "22.20.0"
-  },
   "pnpm": {
     "onlyBuiltDependencies": [
       "@firebase/util",
+      "@parcel/watcher",
       "@prisma/client",
       "@prisma/engines",
+      "@swc/core",
       "@tailwindcss/oxide",
       "esbuild",
       "prisma",
+      "protobufjs",
       "puppeteer",
       "sharp",
+      "supabase",
       "vue-demi"
     ],
     "ignoredBuiltDependencies": [
       "@sentry/cli",
       "unrs-resolver"
     ]
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "10.30.3",
+      "onFail": "download"
+    },
+    "runtime": {
+      "name": "node",
+      "version": "24.14.0",
+      "onFail": "download"
+    }
   }
 }
