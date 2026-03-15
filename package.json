@@ -10,15 +10,16 @@
     "prepare": "husky",
     "format": "eslint --fix . && prettier '**/*.{json,yaml}' --write --ignore-path .gitignore",
     "check-types": "tsc --noEmit --pretty",
-    "preinstall": "npx only-allow pnpm",
-    "test": "jest && npx playwright test",
+    "preinstall": "pnpm dlx only-allow pnpm",
+    "test": "jest && pnpm dlx playwright test",
     "test:unit": "jest",
-    "test:e2e": "npx playwright test",
-    "test:e2e:watch": "npx playwright test --ui",
-    "playwright:codegen": "npx playwright codegen",
+    "test:e2e": "pnpm dlx playwright test",
+    "test:e2e:watch": "pnpm dlx playwright test --ui",
+    "playwright:codegen": "pnpm dlx playwright codegen",
     "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate deploy",
     "postinstall": "prisma generate",
-    "supabase:start": "pnpx supabase start"
+    "supabase:start": "pnpm dlx supabase start"
   },
   "engines": {
     "node": "^24.14.0",

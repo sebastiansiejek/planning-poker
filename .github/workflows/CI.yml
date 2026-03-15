@@ -44,7 +44,7 @@ jobs:
 
       - if: github.event_name == 'pull_request'
         name: Validate all commits from PR
-        run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
+        run: pnpm dlx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
 
       - name: Linter
         run: pnpm run lint
@@ -61,7 +61,7 @@ jobs:
           echo NEXT_PUBLIC_DATABASE_PROVIDER=prisma >> .env
 
       - name: Prepare prisma database
-        run: npx prisma migrate deploy
+        run: pnpm dlx prisma migrate deploy
 
       - name: Install Playwright Browsers
         run: pnpm exec playwright install webkit --with-deps
