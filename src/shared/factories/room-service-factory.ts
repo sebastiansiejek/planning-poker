@@ -4,7 +4,7 @@ import { PrismaRoomService } from '@/shared/api/services/prisma/prisma-room-serv
 export type RoomDTO = {
   id: string;
   name: string;
-  createdAt: any;
+  createdAt: Date | string;
 };
 
 export type RoomService = {

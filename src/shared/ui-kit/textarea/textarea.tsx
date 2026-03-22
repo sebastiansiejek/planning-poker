@@ -3,8 +3,7 @@ import { forwardRef } from 'react';
 
 import { renderClass } from '@/shared/utils/render-class/render-class';
 
-export interface TextareaProperties
-  extends TextareaHTMLAttributes<HTMLTextAreaElement> {}
+export type TextareaProperties = TextareaHTMLAttributes<HTMLTextAreaElement>;
 
 const Textarea = forwardRef<HTMLTextAreaElement, TextareaProperties>(
   ({ className, style, ...properties }, reference) => {

@@ -14,7 +14,7 @@ export class RoomPusherNotificationsListener {
     this.channel = this.pusherClient.subscribe(roomId);
   }
 
-  onAlarm(currentUserId: string, callback: Function) {
+  onAlarm(currentUserId: string, callback: () => void) {
     this.channel.bind(
       PusherEvents.USER_ID(currentUserId),
       async (data: PusherNotification) => {

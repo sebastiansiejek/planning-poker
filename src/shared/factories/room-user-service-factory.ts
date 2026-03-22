@@ -1,11 +1,11 @@
 import { FirebaseRoomUserService } from '@/shared/api/services/firestore/firebase-room-user-service';
 import { PrismaRoomUserService } from '@/shared/api/services/prisma/prisma-room-user-service';
-import { User } from '@/shared/types/user/user';
+import type { User } from '@/shared/types/user/user';
 
 export type RoomUserService = {
-  addUserToRoom: (userId: string, roomId: string) => any;
-  getRoomMembers: (roomId: string) => Promise<{ user: User}[]>;
-  delete: (parameters: { roomId: string; userId: string }) => Promise<any>;
+  addUserToRoom: (userId: string, roomId: string) => Promise<unknown>;
+  getRoomMembers: (roomId: string) => Promise<{ user: User }[]>;
+  delete: (parameters: { roomId: string; userId: string }) => Promise<unknown>;
 };
 
 export const RoomUserServiceFactory = {

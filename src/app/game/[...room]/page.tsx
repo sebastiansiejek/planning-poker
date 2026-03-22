@@ -4,6 +4,7 @@ import { cache } from 'react';
 import { getSession } from '@/shared/auth/auth';
 import { GameServiceFactory } from '@/shared/factories/game-service-factory';
 import { RoomServiceFactory } from '@/shared/factories/room-service-factory';
+import type { RoomUserService } from '@/shared/factories/room-user-service-factory';
 import { RoomUserServiceFactory } from '@/shared/factories/room-user-service-factory';
 import { UserVoteServiceFactory } from '@/shared/factories/user-vote-service-factory';
 import { PusherEvents } from '@/shared/pusher/config/pusher-events';
@@ -73,7 +74,10 @@ export default async function Page(properties: {
     <RoomProvider game={latestGame || undefined} roomId={roomId}>
       <Room
         id={roomId}
-        members={roomMembers.map(({ user }) => user)}
+        members={roomMembers.map(
+          ({ user }: Awaited<ReturnType<RoomUserService['getRoomMembers']>>[number]) =>
+            user,
+        )}
         name={roomName}
         initialVotes={votes.map(({ userId: votedUser }) => votedUser)}
         finishedGameVotes={latestGame?.status === 'FINISHED' ? votes : []}

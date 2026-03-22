@@ -16,8 +16,12 @@ export type UserVoteService = {
     vote: string;
     userId: string;
     roomId: string;
-  }) => any;
-  delete: (parameters: { roomId: string; userId: string; gameId: string }) => any;
+  }) => Promise<unknown>;
+  delete: (parameters: {
+    roomId: string;
+    userId: string;
+    gameId: string;
+  }) => Promise<unknown>;
   getGameVotes: (parameters: { gameId: string; roomId?: string }) => Promise<
     {
       user: {

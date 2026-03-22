@@ -26,8 +26,8 @@ export class RoomPrismaListener extends RoomListener {
   }
 
   private onMemberAdded() {
-    this.channel.bind(PusherEvents.MEMBER_ADDED, () =>
-      this.emit('memberAdded'),
+    this.channel.bind(PusherEvents.MEMBER_ADDED, (parameters: PusherNewMember) =>
+      this.emit('memberAdded', parameters),
     );
     return this;
   }

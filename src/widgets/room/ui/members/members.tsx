@@ -18,18 +18,17 @@ export const Members = ({
     <MemberContainer place={place} isVertical={isVertical}>
       {members.map((member) => {
         const { id } = member;
-        // @ts-ignore
         const isVoted = votedUserIds.includes(id);
         const vote = votes.find((oldVotes) => oldVotes.userId === id)?.vote;
 
         return (
-          // @ts-ignore
           <RoomMember
             key={id}
             isVoted={isVoted}
             vote={vote}
             isRevealedCards={isRevealedCards}
             {...member}
+            image={member.image ?? undefined}
           />
         );
       })}

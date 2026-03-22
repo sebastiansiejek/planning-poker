@@ -2,7 +2,7 @@ import { FirebaseGameService } from '@/shared/api/services/firestore/firebase-ga
 import { PrismaGameService } from '@/shared/api/services/prisma/prisma-game-service';
 
 export type GameService = {
-  getLatestRoomGame: (roomId: string) => any;
+  getLatestRoomGame: (roomId: string) => Promise<unknown>;
   create: (data: {
     name?: string;
     roomId: string;
@@ -10,7 +10,7 @@ export type GameService = {
   }) => Promise<{
     id: string;
   }>;
-  getActiveGame: (data: { roomId: string }) => any;
+  getActiveGame: (data: { roomId: string }) => Promise<unknown>;
   finishGame: ({
     roomId,
     gameId,

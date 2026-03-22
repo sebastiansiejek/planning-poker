@@ -1,43 +1,46 @@
 'use client';
 
-import type {CellContext, ColumnDef} from '@tanstack/react-table';
+import type { CellContext, ColumnDef } from '@tanstack/react-table';
 import dayjs from 'dayjs';
-import {SquareArrowOutUpRight } from 'lucide-react';
+import { SquareArrowOutUpRight } from 'lucide-react';
 import Link from 'next/link';
-import {useTranslations} from 'next-intl';
-import {useState} from 'react';
+import { useTranslations } from 'next-intl';
+import { useState } from 'react';
 
-import {routes} from '@/shared/routes/routes';
-import {ButtonIcon} from '@/shared/ui-kit/button/button-icon/button-icon';
-import {DataTable} from '@/shared/ui-kit/data-table/data-table';
+import { routes } from '@/shared/routes/routes';
+import { ButtonIcon } from '@/shared/ui-kit/button/button-icon/button-icon';
+import { DataTable } from '@/shared/ui-kit/data-table/data-table';
 
 type UserGamesColumns = {
   name: string;
-  actions: string;
+  actions?: string;
   id: string;
-  createdAt: string;
+  createdAt: string | Date;
+  author: {
+    name: string;
+  };
   _count: {
     RoomUser: number;
   };
 };
 
-type UserGamesProperties = Pick<UserGamesColumns, '_count'>[];
+type UserGamesProperties = UserGamesColumns[];
 
 const Actions = ({
-                   row: {
-                     original: {id},
-                   },
-                 }: CellContext<UserGamesColumns, unknown>) => {
+  row: {
+    original: { id },
+  },
+}: CellContext<UserGamesColumns, unknown>) => {
   return (
     <div className="flex gap-2 justify-end">
       <Link href={routes.game.singleGame.getPath(id)}>
-        <ButtonIcon icon={<SquareArrowOutUpRight/>}/>
+        <ButtonIcon icon={<SquareArrowOutUpRight />} />
       </Link>
     </div>
   );
 };
 
-export const UserGames = ({rooms}: { rooms: UserGamesProperties }) => {
+export const UserGames = ({ rooms }: { rooms: UserGamesProperties }) => {
   const [data] = useState(rooms);
   const translate = useTranslations();
 
@@ -53,7 +56,7 @@ export const UserGames = ({rooms}: { rooms: UserGamesProperties }) => {
     {
       accessorKey: '_count.RoomUser',
       header: translate('Common.players_count'),
-      cell: ({getValue}) => {
+      cell: ({ getValue }) => {
         return <div>{getValue() as number}</div>;
       },
     },
@@ -64,7 +67,7 @@ export const UserGames = ({rooms}: { rooms: UserGamesProperties }) => {
     {
       accessorKey: 'createdAt',
       header: translate('Common.created_at'),
-      cell: ({getValue}) => dayjs(getValue() as string).format('DD/MM/YYYY'),
+      cell: ({ getValue }) => dayjs(getValue() as string | Date).format('DD/MM/YYYY'),
     },
     {
       accessorKey: 'actions',
@@ -77,6 +80,5 @@ export const UserGames = ({rooms}: { rooms: UserGamesProperties }) => {
     },
   ];
 
-  // @ts-ignore
-  return <DataTable columns={columns} data={data}/>;
+  return <DataTable columns={columns} data={data} />;
 };

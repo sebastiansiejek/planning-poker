@@ -8,7 +8,6 @@ import {
   where,
 } from 'firebase/firestore';
 
-import type { FirebaseRoomDTO } from '@/shared/api/services/firestore/firebase-room-service';
 import { FirebaseRoomService } from '@/shared/api/services/firestore/firebase-room-service';
 import { firebaseStore } from '@/shared/database/firebase';
 import type { RoomUserService } from '@/shared/factories/room-user-service-factory';
@@ -32,7 +31,7 @@ export class FirebaseRoomUserService implements RoomUserService {
     });
   };
 
-  getRoomMembers = async (roomId: string): Promise<{ user: User}[]> => {
+  getRoomMembers = async (roomId: string): Promise<{ user: User }[]> => {
     const roomService = new FirebaseRoomService();
     const room = await roomService.get({ id: roomId });
     const users = room?.users || [];

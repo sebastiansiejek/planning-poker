@@ -4,7 +4,7 @@ import type {
 } from '@/features/room/lib/RoomListener/room-listener.types';
 
 export class RoomListener {
-  public readonly unsubscribeListener: Function[] = [];
+  public readonly unsubscribeListener: Array<() => void> = [];
 
   protected eventHandlers: Partial<{
     [K in RoomEvents]: Array<RoomEventHandlers[K]>;
@@ -25,9 +25,15 @@ export class RoomListener {
 
   protected emit<K extends RoomEvents>(
     event: K,
-    data?: Parameters<RoomEventHandlers[K]>[0],
+    ...arguments_: Parameters<RoomEventHandlers[K]>
   ) {
-    if (this.eventHandlers[event]) for (const handler of this.eventHandlers[event]) handler(data as any);
+    const handlers = this.eventHandlers[event] as
+      | Array<(...args: Parameters<RoomEventHandlers[K]>) => void>
+      | undefined;
+
+    for (const handler of handlers ?? []) {
+      handler(...arguments_);
+    }
 
     return this;
   }

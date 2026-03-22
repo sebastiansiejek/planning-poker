@@ -1,6 +1,6 @@
 'use client';
 
-import type { ColumnDef } from '@tanstack/react-table';
+import type { ColumnDef, RowData } from '@tanstack/react-table';
 import {
   flexRender,
   getCoreRowModel,
@@ -17,8 +17,8 @@ import {
 } from '@/shared/ui-kit/table/table';
 
 declare module '@tanstack/react-table' {
-  // @ts-ignore
-  interface ColumnMeta {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  interface ColumnMeta<TData extends RowData, TValue> {
     className?: string;
   }
 }

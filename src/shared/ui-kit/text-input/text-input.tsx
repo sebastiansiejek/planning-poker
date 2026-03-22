@@ -4,7 +4,7 @@ import { forwardRef } from 'react';
 
 import { renderClass } from '@/shared/utils/render-class/render-class';
 
-export interface InputProperties extends InputHTMLAttributes<HTMLInputElement> {}
+export type InputProperties = InputHTMLAttributes<HTMLInputElement>;
 
 const Input = forwardRef<HTMLInputElement, InputProperties>(
   ({ className, type, ...properties }, reference) => {

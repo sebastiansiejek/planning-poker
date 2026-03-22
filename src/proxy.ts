@@ -6,7 +6,7 @@ import { routes } from '@/shared/routes/routes';
 
 export const config = { matcher: ['/dashboard/:path*', '/game/:path*'] };
 
-export default async function middleware (request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const sessionCookie =
     request.cookies.get('next-auth.session-token')?.value ??
     request.cookies.get('__Secure-next-auth.session-token')?.value;

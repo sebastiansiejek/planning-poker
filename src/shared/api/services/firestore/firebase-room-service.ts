@@ -28,7 +28,7 @@ const normalizeRoomData = (
   data: {
     name: string;
     authorId: string;
-    createdAt: Timestamp;
+    createdAt: Timestamp | string | Date;
   },
 ) => {
   return {
