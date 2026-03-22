@@ -41,10 +41,10 @@ You can choose between Firebase and Prisma ORM.
 3. Run `pnpm run prisma:generate`
 4. Run `pnpm run prisma:migrate`
 
-> For **WebSockets** features you need to have configured [Pusher](https://pusher.com/)
+> For realtime room updates you need to have configured **Supabase Realtime**
 
-1. Create new project on [Pusher](https://pusher.com/)
-2. Add `PUSHER_APP_ID` and `PUSHER_SECRET` in `.env` file
+1. Create a Supabase project
+2. Add `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_ROLE_KEY` in `.env`
 
 # Automation
 

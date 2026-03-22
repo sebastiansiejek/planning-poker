@@ -1,6 +1,6 @@
 'use server';
 
-import z from 'zod';
+import { z } from 'zod';
 
 import { actionClient } from '@/shared/lib/safe-action';
 import { RealtimeEvents, RealtimeTopics } from '@/shared/realtime/config/realtime-events';
@@ -8,15 +8,17 @@ import { broadcastToRealtime } from '@/shared/realtime/lib/supabase-realtime-ser
 
 const schema = z.object({
   channelName: z.string(),
+  userId: z.string(),
+  type: z.string(),
 });
 
-export const resetVotes = actionClient
+export const notifyUserByRealtime = actionClient
   .schema(schema)
-  .action(async ({ parsedInput: { channelName } }) => {
+  .action(async ({ parsedInput: { userId, channelName, type } }) => {
     await broadcastToRealtime(
-      RealtimeTopics.roomEvents(channelName),
-      RealtimeEvents.RESET_VOTES,
-      {},
+      RealtimeTopics.roomNotifications(channelName),
+      RealtimeEvents.USER_ID(userId),
+      { type },
     );
 
     return {

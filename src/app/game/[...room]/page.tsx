@@ -7,8 +7,8 @@ import { RoomServiceFactory } from '@/shared/factories/room-service-factory';
 import type { RoomUserService } from '@/shared/factories/room-user-service-factory';
 import { RoomUserServiceFactory } from '@/shared/factories/room-user-service-factory';
 import { UserVoteServiceFactory } from '@/shared/factories/user-vote-service-factory';
-import { PusherEvents } from '@/shared/pusher/config/pusher-events';
-import { pusherServer } from '@/shared/pusher/lib/pusher-server';
+import { RealtimeEvents, RealtimeTopics } from '@/shared/realtime/config/realtime-events';
+import { broadcastToRealtime } from '@/shared/realtime/lib/supabase-realtime-server';
 import { routes } from '@/shared/routes/routes';
 import { getPageMetaData } from '@/shared/utils/get-page-meta-data';
 import { RoomProvider } from '@/widgets/room/model/room-context';
@@ -64,11 +64,15 @@ export default async function Page(properties: {
     ? await userVoteService.getVotedUsers(latestGame.id, roomId)
     : [];
 
-  await pusherServer.trigger(roomId, PusherEvents.MEMBER_ADDED, {
-    id: userId,
-    avatarUrl: session?.user.image || '',
-    name: session?.user.name || '',
-  });
+  await broadcastToRealtime(
+    RealtimeTopics.roomEvents(roomId),
+    RealtimeEvents.MEMBER_ADDED,
+    {
+      id: userId,
+      avatarUrl: session?.user.image || '',
+      name: session?.user.name || '',
+    },
+  );
 
   return (
     <RoomProvider game={latestGame || undefined} roomId={roomId}>

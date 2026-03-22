@@ -1,4 +1,4 @@
-import type { PusherNewMember } from '@/shared/types/pusher/pusher';
+import type { RealtimeNewMember } from '@/shared/types/realtime/realtime';
 import type { RoomContextType } from '@/widgets/room/model/room-context';
 
 export type RoomEvents =
@@ -12,8 +12,8 @@ export type RoomEvents =
 export type RoomEventHandlers = {
   gameCreated: (data: RoomContextType['game']) => void;
   voted: (parameters: { userId: string }) => void;
-  memberAdded: (parameters: PusherNewMember) => void;
-  memberRemoved: (parameters: PusherNewMember) => void;
+  memberAdded: (parameters: RealtimeNewMember) => void;
+  memberRemoved: (parameters: RealtimeNewMember) => void;
   revealVotes: () => void;
   resetVotes: () => void;
 };

@@ -8,7 +8,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import type { RoomProperties } from '@/app/game/[...room]/types';
 import { RoomListenerFactory } from '@/features/room/lib/RoomListener/room-listener-factory';
-import { RoomPusherNotificationsListener } from '@/features/room/lib/RoomListener/room-pusher-notifications-listener';
+import { RoomSupabaseNotificationsListener } from '@/features/room/lib/RoomListener/room-supabase-notifications-listener';
 import useNotification from '@/shared/hooks/useNotification/use-notification';
 import { routes } from '@/shared/routes/routes';
 import type { Vote } from '@/shared/types/types';
@@ -79,23 +79,21 @@ export default function Room({
 
   useEffect(() => {
     const roomListener = RoomListenerFactory.getService(roomId);
-    const roomNotificationsListener = new RoomPusherNotificationsListener(
+    const roomNotificationsListener = new RoomSupabaseNotificationsListener(
       roomId,
     );
 
-    if (globalThis.pusherInstance) {
-      roomNotificationsListener
-        .onAlarm(currentUserId, () => notify(t('Member.notification.notice')))
-        .onThrownPaper(({ targetUser, triggerUser }) => {
-          setPapers((oldPapers) => [
-            ...oldPapers,
-            {
-              targetUser,
-              triggerUser,
-            },
-          ]);
-        });
-    }
+    roomNotificationsListener
+      .onAlarm(currentUserId, () => notify(t('Member.notification.notice')))
+      .onThrownPaper(({ targetUser, triggerUser }) => {
+        setPapers((oldPapers) => [
+          ...oldPapers,
+          {
+            targetUser,
+            triggerUser,
+          },
+        ]);
+      });
 
     if (roomListener) {
       roomListener
@@ -156,6 +154,7 @@ export default function Room({
       for (const unsubscribe of roomListener.unsubscribeListener) {
         unsubscribe();
       }
+      roomNotificationsListener.unsubscribe();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameId]);

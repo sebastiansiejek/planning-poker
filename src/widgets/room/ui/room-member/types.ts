@@ -1,6 +1,6 @@
-import type { PusherMember } from '@/shared/types/pusher/pusher';
+import type { RealtimeMember } from '@/shared/types/realtime/realtime';
 
-export type MemberProperties = PusherMember & {
+export type MemberProperties = RealtimeMember & {
   isVoted?: boolean;
   isRevealedCards?: boolean;
   image?: string;

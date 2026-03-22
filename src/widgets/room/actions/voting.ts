@@ -6,8 +6,8 @@ import z from 'zod';
 import { getSession } from '@/shared/auth/auth';
 import { UserVoteServiceFactory } from '@/shared/factories/user-vote-service-factory';
 import { actionClient } from '@/shared/lib/safe-action';
-import { PusherEvents } from '@/shared/pusher/config/pusher-events';
-import { pusherServer } from '@/shared/pusher/lib/pusher-server';
+import { RealtimeEvents, RealtimeTopics } from '@/shared/realtime/config/realtime-events';
+import { broadcastToRealtime } from '@/shared/realtime/lib/supabase-realtime-server';
 
 const schema = z.object({
   value: z.string(),
@@ -38,9 +38,11 @@ export const voting = actionClient
         roomId,
       });
 
-      await pusherServer.trigger(roomId, PusherEvents.VOTED, {
-        userId,
-      });
+      await broadcastToRealtime(
+        RealtimeTopics.roomEvents(roomId),
+        RealtimeEvents.VOTED,
+        { userId },
+      );
 
       return {
         success: true,

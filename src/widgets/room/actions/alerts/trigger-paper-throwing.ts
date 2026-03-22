@@ -3,8 +3,8 @@
 import { z } from 'zod';
 
 import { actionClient } from '@/shared/lib/safe-action';
-import { PusherEvents } from '@/shared/pusher/config/pusher-events';
-import { pusherServer } from '@/shared/pusher/lib/pusher-server';
+import { RealtimeEvents, RealtimeTopics } from '@/shared/realtime/config/realtime-events';
+import { broadcastToRealtime } from '@/shared/realtime/lib/supabase-realtime-server';
 
 export type TriggerPaperThrowingParameters = {
   channelName: string;
@@ -29,7 +29,11 @@ const schema = z.object({
 export const triggerPaperThrowing = actionClient
   .schema(schema)
   .action(async ({ parsedInput: { channelName, ...rest } }) => {
-    await pusherServer.trigger(channelName, PusherEvents.PAPER_THROWN, rest);
+    await broadcastToRealtime(
+      RealtimeTopics.roomNotifications(channelName),
+      RealtimeEvents.PAPER_THROWN,
+      rest,
+    );
 
     return {
       success: true,

@@ -1,15 +1,15 @@
-export type PusherMember = {
+export type RealtimeMember = {
   id: string;
   name: string;
   vote?: string | number;
 };
 
-export type PusherNewMember = {
+export type RealtimeNewMember = {
   id: string;
   name: string;
   avatarUrl?: string;
 };
 
-export type PusherNotification = {
+export type RealtimeNotification = {
   type: 'alarm' | 'paper';
 };

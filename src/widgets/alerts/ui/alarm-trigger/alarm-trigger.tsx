@@ -5,7 +5,7 @@ import { useAction } from 'next-safe-action/hooks';
 
 import { ButtonIcon } from '@/shared/ui-kit/button/button-icon/button-icon';
 import type { AlarmTriggerProperties } from '@/widgets/alerts/ui/alarm-trigger/types';
-import { notifyUserByPusher } from '@/widgets/room/actions/notify-user-by-pusher';
+import { notifyUserByRealtime } from '@/widgets/room/actions/notify-user-by-realtime';
 
 export const AlarmTrigger = ({ userId }: AlarmTriggerProperties) => {
   const t = useTranslations('Member');
@@ -16,7 +16,7 @@ export const AlarmTrigger = ({ userId }: AlarmTriggerProperties) => {
   }
 
   const roomId = parameters.room.toString();
-  const { execute, isPending } = useAction(notifyUserByPusher);
+  const { execute, isPending } = useAction(notifyUserByRealtime);
 
   return (
     <ButtonIcon
