@@ -27,6 +27,17 @@ const nextConfig = {
       },
     ],
   },
+  webpack: (config) => {
+    config.ignoreWarnings = [
+      ...(config.ignoreWarnings ?? []),
+      {
+        module: /next-intl[\\/].*extractor[\\/]format[\\/]index\.js$/,
+        message: /Build dependencies behind this expression are ignored and might cause incorrect cache invalidation\./,
+      },
+    ];
+
+    return config;
+  },
 };
 
 export default withSentryConfig(withNextIntl(nextConfig), {
