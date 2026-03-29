@@ -1,7 +1,11 @@
 import NextAuth from 'next-auth';
 
-import { authOptions } from '@/shared/auth/auth';
+import { getAuthOptions } from '@/shared/auth/auth';
 
-const handler = NextAuth(authOptions);
+export async function GET(request: Request, context: unknown) {
+  return NextAuth(getAuthOptions())(request, context);
+}
 
-export { handler as GET, handler as POST };
+export async function POST(request: Request, context: unknown) {
+  return NextAuth(getAuthOptions())(request, context);
+}

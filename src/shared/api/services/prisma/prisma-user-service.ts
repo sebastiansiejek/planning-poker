@@ -1,7 +1,7 @@
 import type { Prisma } from '@prisma/client';
 
 import { PrismaBaseService } from '@/shared/api/services/prisma/prisma-base-service';
-import prisma from '@/shared/database/prisma';
+import { getPrisma } from '@/shared/database/prisma';
 
 export class PrismaUserService extends PrismaBaseService {
   async updateUser(id: string, data: Pick<Prisma.UserCreateManyInput, 'name'>) {
@@ -24,7 +24,7 @@ export class PrismaUserService extends PrismaBaseService {
       where: { email },
     });
     if (!user) {
-      user = await prisma.user.create({
+      user = await getPrisma().user.create({
         data: {
           email,
           name,

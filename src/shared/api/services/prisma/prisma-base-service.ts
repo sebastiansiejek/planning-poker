@@ -1,9 +1,9 @@
-import prisma from '@/shared/database/prisma';
+import { getPrisma } from '@/shared/database/prisma';
 
 export abstract class PrismaBaseService {
-  prisma: typeof prisma;
+  prisma: ReturnType<typeof getPrisma>;
 
   constructor() {
-    this.prisma = prisma;
+    this.prisma = getPrisma();
   }
 }

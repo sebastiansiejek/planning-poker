@@ -6,12 +6,16 @@ import { getServerSession } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 
 import { AuthSessionStrategy } from '@/features/auth/lib/auth-session-strategy';
-import prisma from '@/shared/database/prisma';
+import { getPrisma } from '@/shared/database/prisma';
+import {
+  getDatabaseProvider,
+  validatePrismaDatabaseUrl,
+} from '@/shared/lib/database-provider';
 
 const authSessionStrategy = new AuthSessionStrategy();
 
 const adminDatabase = () => {
-  if (process.env.NEXT_PUBLIC_DATABASE_PROVIDER !== 'firebase') {
+  if (getDatabaseProvider() !== 'firebase') {
     throw new Error('Firebase provider is not configured');
   }
 
@@ -24,28 +28,34 @@ const adminDatabase = () => {
   });
 }
 
-export const authOptions: AuthOptions = {
-  providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    }),
-  ],
-  session: {
-    strategy:
-      process.env.NEXT_PUBLIC_DATABASE_PROVIDER === 'firebase'
-        ? 'jwt'
-        : 'database',
-  },
-  callbacks: {
-    session: async ({ session, token, user }) =>
-      authSessionStrategy.handleSession(session, { token, user }),
-    jwt: async ({ token, user }) => authSessionStrategy.handleJWT(token, user),
-  },
-  adapter:
-    process.env.NEXT_PUBLIC_DATABASE_PROVIDER === 'firebase'
-      ? FirestoreAdapter(adminDatabase())
-      : PrismaAdapter(prisma),
+export const getAuthOptions = (): AuthOptions => {
+  const databaseProvider = getDatabaseProvider();
+
+  if (databaseProvider === 'prisma') {
+    validatePrismaDatabaseUrl();
+  }
+
+  return {
+    providers: [
+      GoogleProvider({
+        clientId: process.env.GOOGLE_CLIENT_ID!,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      }),
+    ],
+    session: {
+      strategy: databaseProvider === 'firebase' ? 'jwt' : 'database',
+    },
+    callbacks: {
+      session: async ({ session, token, user }) =>
+        authSessionStrategy.handleSession(session, { token, user }),
+      jwt: async ({ token, user }) =>
+        authSessionStrategy.handleJWT(token, user),
+    },
+    adapter:
+      databaseProvider === 'firebase'
+        ? FirestoreAdapter(adminDatabase())
+        : PrismaAdapter(getPrisma()),
+  };
 };
 
-export const getSession = async () => getServerSession(authOptions);
+export const getSession = async () => getServerSession(getAuthOptions());
