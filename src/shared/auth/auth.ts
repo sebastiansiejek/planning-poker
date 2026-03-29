@@ -7,11 +7,20 @@ import GoogleProvider from 'next-auth/providers/google';
 
 import { AuthSessionStrategy } from '@/features/auth/lib/auth-session-strategy';
 import prisma from '@/shared/database/prisma';
+import {
+  getDatabaseProvider,
+  validatePrismaDatabaseUrl,
+} from '@/shared/lib/database-provider';
 
 const authSessionStrategy = new AuthSessionStrategy();
+const databaseProvider = getDatabaseProvider();
+
+if (databaseProvider === 'prisma') {
+  validatePrismaDatabaseUrl();
+}
 
 const adminDatabase = () => {
-  if (process.env.NEXT_PUBLIC_DATABASE_PROVIDER !== 'firebase') {
+  if (databaseProvider !== 'firebase') {
     throw new Error('Firebase provider is not configured');
   }
 
@@ -32,10 +41,7 @@ export const authOptions: AuthOptions = {
     }),
   ],
   session: {
-    strategy:
-      process.env.NEXT_PUBLIC_DATABASE_PROVIDER === 'firebase'
-        ? 'jwt'
-        : 'database',
+    strategy: databaseProvider === 'firebase' ? 'jwt' : 'database',
   },
   callbacks: {
     session: async ({ session, token, user }) =>
@@ -43,7 +49,7 @@ export const authOptions: AuthOptions = {
     jwt: async ({ token, user }) => authSessionStrategy.handleJWT(token, user),
   },
   adapter:
-    process.env.NEXT_PUBLIC_DATABASE_PROVIDER === 'firebase'
+    databaseProvider === 'firebase'
       ? FirestoreAdapter(adminDatabase())
       : PrismaAdapter(prisma),
 };
