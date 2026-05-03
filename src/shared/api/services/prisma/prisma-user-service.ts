@@ -1,7 +1,6 @@
 import type { Prisma } from '@prisma/client';
 
 import { PrismaBaseService } from '@/shared/api/services/prisma/prisma-base-service';
-import { getPrisma } from '@/shared/database/prisma';
 
 export class PrismaUserService extends PrismaBaseService {
   async updateUser(id: string, data: Pick<Prisma.UserCreateManyInput, 'name'>) {
@@ -20,18 +19,15 @@ export class PrismaUserService extends PrismaBaseService {
     email: string;
     name: string;
   }) {
-    let user = await this.prisma.user.findUnique({
-      where: { email },
+    return this.prisma.user.upsert({
+      create: {
+        email,
+        name,
+      },
+      update: {},
+      where: {
+        email,
+      },
     });
-    if (!user) {
-      user = await getPrisma().user.create({
-        data: {
-          email,
-          name,
-        },
-      });
-    }
-
-    return user;
   }
 }

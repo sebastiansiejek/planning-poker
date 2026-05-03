@@ -1,14 +1,18 @@
-import { test } from '@playwright/test';
+import { test, type TestInfo } from '@playwright/test';
 import { hash } from 'bcryptjs';
 
 import { PrismaSessionService } from '@/shared/api/services/prisma/prisma-session-service';
 import { PrismaUserService } from '@/shared/api/services/prisma/prisma-user-service';
 
-const TEST_USER_EMAIL = 'test-planning-poker@sebastiansiejek.dev';
+const TEST_USER_EMAIL_DOMAIN = 'sebastiansiejek.dev';
+const testUserEmails = new Set<string>();
 
-async function createTestSession() {
+const getTestUserEmail = (testInfo: TestInfo) =>
+  `test-planning-poker-${testInfo.parallelIndex}@${TEST_USER_EMAIL_DOMAIN}`;
+
+async function createTestSession(email: string) {
   const user = await new PrismaUserService().getOrCreateUserByEmail({
-    email: TEST_USER_EMAIL,
+    email,
     name: 'Test User',
   });
 
@@ -32,9 +36,11 @@ async function createTestSession() {
 }
 
 const beforeDatabaseTestAuth = () => {
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page }, testInfo) => {
     await page.goto('http://localhost:3000');
-    const sessionToken = await createTestSession();
+    const email = getTestUserEmail(testInfo);
+    testUserEmails.add(email);
+    const sessionToken = await createTestSession(email);
 
     await page.context().addCookies([
       {
@@ -52,10 +58,12 @@ const afterDatabaseTestAuth = () => {
   const sessionPrisma = new PrismaSessionService();
 
   test.afterAll(async () => {
-    sessionPrisma.deleteMany({
+    await sessionPrisma.deleteMany({
       where: {
         user: {
-          email: TEST_USER_EMAIL,
+          email: {
+            in: [...testUserEmails],
+          },
         },
       },
     });
