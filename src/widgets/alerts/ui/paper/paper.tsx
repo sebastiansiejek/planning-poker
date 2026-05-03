@@ -23,8 +23,8 @@ export const Paper = ({
   useEffect(() => {
     const { id: targetUserId } = targetUser;
     const { id: triggerUserId } = triggerUser;
-    const targetUserDOM = document.querySelector(`#${targetUserId}}`);
-    const triggerUserDOM = document.querySelector(`#${triggerUserId}}`);
+    const targetUserDOM = document.querySelector(`#${targetUserId}`);
+    const triggerUserDOM = document.querySelector(`#${triggerUserId}`);
 
     if (!targetUserDOM || !triggerUserDOM) return;
 
