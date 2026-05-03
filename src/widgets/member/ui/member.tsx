@@ -35,7 +35,7 @@ export const Member = ({
         isVoted={isVoted}
         isLoading={isLoading}
         htmlAttributes={{
-          id,
+          id: `member-${id}`,
           onMouseEnter: () => setIsOpenTooltip(true),
           onMouseLeave: () => setIsOpenTooltip(false),
         }}
