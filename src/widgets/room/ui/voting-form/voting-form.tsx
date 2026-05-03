@@ -17,7 +17,7 @@ export const VotingForm = ({
   voteValue,
   gameId,
 }: VotingFormProperties) => {
-  const { execute } = useAction(voting);
+  const { execute, isPending } = useAction(voting);
 
   return (
     <form
@@ -39,6 +39,7 @@ export const VotingForm = ({
             <VotingCard
               key={option}
               isDisabled={isRevealedCards}
+              isLoading={isPending}
               voteValue={voteValue}
               option={option}
             />
