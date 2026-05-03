@@ -13,6 +13,11 @@ import {
 } from '@/shared/lib/database-provider';
 
 const authSessionStrategy = new AuthSessionStrategy();
+const databaseProvider = getDatabaseProvider();
+
+if (databaseProvider === 'prisma') {
+  validatePrismaDatabaseUrl();
+}
 
 const adminDatabase = () => {
   if (getDatabaseProvider() !== 'firebase') {
