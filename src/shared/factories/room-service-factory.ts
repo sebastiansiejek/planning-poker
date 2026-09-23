@@ -1,4 +1,3 @@
-import { FirebaseRoomService } from '@/shared/api/services/firestore/firebase-room-service';
 import { PrismaRoomService } from '@/shared/api/services/prisma/prisma-room-service';
 
 export type RoomDTO = {
@@ -28,19 +27,7 @@ export type RoomService = {
 };
 
 export const RoomServiceFactory = {
-  getService() {
-    const provider = process.env.NEXT_PUBLIC_DATABASE_PROVIDER;
-
-    switch (provider) {
-      case 'firebase': {
-        return new FirebaseRoomService();
-      }
-      case 'prisma': {
-        return new PrismaRoomService();
-      }
-      default: {
-        throw new Error(`Unsupported database provider: ${provider}`);
-      }
-    }
+  getService(): RoomService {
+    return new PrismaRoomService();
   },
 };

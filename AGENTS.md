@@ -3,9 +3,13 @@
 ## Read This First
 
 <!-- BEGIN:nextjs-agent-rules -->
-- This project uses Next.js 16 with the App Router under `src/app`.
-- Before any Next.js work, find and read the relevant doc in `node_modules/next/dist/docs/`. Treat those docs as the source of truth.
-- When updating packages or changing framework APIs, use `context7` to check breaking changes before editing code.
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
 <!-- END:nextjs-agent-rules -->
 
 ## Tooling And Environment
@@ -41,9 +45,9 @@
 
 ## Data, Auth, And Providers
 
-- This app supports multiple persistence providers via `NEXT_PUBLIC_DATABASE_PROVIDER`.
-- When business logic must work across providers, go through the existing factories in `src/shared/factories/*` instead of hardcoding Prisma or Firebase directly.
-- Do not silently break one provider while fixing the other. If a change is intentionally provider-specific, keep the scope explicit in code and in your explanation.
+- Supabase PostgreSQL is the only persistence backend and Prisma is the only data adapter.
+- Keep business logic behind the existing ports in `src/shared/factories/*` instead of coupling feature code directly to Prisma.
+- Prisma Migrate is the single source of truth for database schema changes, including raw SQL required for PostgreSQL policies.
 - Reuse the existing auth helpers in `src/shared/auth/*`. Do not introduce a parallel auth flow.
 - Be careful with environment-dependent code. Preserve `.env.example` accuracy when adding or renaming required variables.
 

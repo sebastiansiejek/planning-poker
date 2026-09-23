@@ -49,7 +49,6 @@ export const createGame = actionClient
         data,
       };
     } catch (error) {
-      // TODO: adjust error to firebase
       const typedError = error as PrismaClientKnownRequestError;
       return {
         success: false,

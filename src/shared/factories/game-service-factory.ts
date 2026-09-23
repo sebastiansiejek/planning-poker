@@ -1,8 +1,11 @@
-import { FirebaseGameService } from '@/shared/api/services/firestore/firebase-game-service';
+import type { Game } from '@prisma/client';
+
 import { PrismaGameService } from '@/shared/api/services/prisma/prisma-game-service';
 
+type GameSummary = Pick<Game, 'description' | 'id' | 'name' | 'status'>;
+
 export type GameService = {
-  getLatestRoomGame: (roomId: string) => Promise<unknown>;
+  getLatestRoomGame: (roomId: string) => Promise<GameSummary | null>;
   create: (data: {
     name?: string;
     roomId: string;
@@ -10,7 +13,7 @@ export type GameService = {
   }) => Promise<{
     id: string;
   }>;
-  getActiveGame: (data: { roomId: string }) => Promise<unknown>;
+  getActiveGame: (data: { roomId: string }) => Promise<number>;
   finishGame: ({
     roomId,
     gameId,
@@ -23,19 +26,7 @@ export type GameService = {
 };
 
 export const GameServiceFactory = {
-  getService() {
-    const provider = process.env.NEXT_PUBLIC_DATABASE_PROVIDER;
-
-    switch (provider) {
-      case 'firebase': {
-        return new FirebaseGameService();
-      }
-      case 'prisma': {
-        return new PrismaGameService();
-      }
-      default: {
-        throw new Error(`Unsupported database provider: ${provider}`);
-      }
-    }
+  getService(): GameService {
+    return new PrismaGameService();
   },
 };

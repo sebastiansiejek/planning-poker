@@ -1,4 +1,3 @@
-import { FirebaseUserVoteService } from '@/shared/api/services/firestore/firebase-user-vote-service';
 import { PrismaUserVoteService } from '@/shared/api/services/prisma/prisma-user-vote-service';
 
 export type UserVoteService = {
@@ -33,19 +32,7 @@ export type UserVoteService = {
 };
 
 export const UserVoteServiceFactory = {
-  getService() {
-    const provider = process.env.NEXT_PUBLIC_DATABASE_PROVIDER;
-
-    switch (provider) {
-      case 'firebase': {
-        return new FirebaseUserVoteService();
-      }
-      case 'prisma': {
-        return new PrismaUserVoteService();
-      }
-      default: {
-        throw new Error(`Unsupported database provider: ${provider}`);
-      }
-    }
+  getService(): UserVoteService {
+    return new PrismaUserVoteService();
   },
 };

@@ -15,7 +15,7 @@ export const broadcastToRealtime = async (
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${supabaseServiceRoleKey}`,
-      apikey: supabaseServiceRoleKey,
+      apikey: supabaseServiceRoleKey!,
     },
     body: JSON.stringify({
       messages: [
