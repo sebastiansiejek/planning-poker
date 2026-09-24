@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
-import { useSession } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
 import { useAction } from 'next-safe-action/hooks';
 import { useTransition } from 'react';
@@ -20,10 +19,6 @@ export const PaperTrigger = ({ userId, memberRef }: PaperTriggerProperties) => {
 
   const roomId = parameters.room.toString();
   const { execute } = useAction(triggerPaperThrowing);
-  const { data } = useSession();
-
-  if (!data) return null;
-  const { id: currentUserId } = data.user;
 
   return (
     <ButtonIcon
@@ -39,9 +34,6 @@ export const PaperTrigger = ({ userId, memberRef }: PaperTriggerProperties) => {
               channelName: roomId,
               targetUser: {
                 id: userId,
-              },
-              triggerUser: {
-                id: currentUserId,
               },
             });
           }

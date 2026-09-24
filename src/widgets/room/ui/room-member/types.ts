@@ -6,4 +6,5 @@ export type MemberProperties = RealtimeMember & {
   image?: string;
   isLoading?: boolean;
   isActionTooltip?: boolean;
+  canKick?: boolean;
 };

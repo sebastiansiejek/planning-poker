@@ -240,6 +240,40 @@ use only `Participant` and `Vote` for room membership and voting. The cleanup
 migration was applied only to local Supabase. A fixture test also confirmed the
 guard rejects a database with legacy rows.
 
+### 2026-09-24 — Stage 4: signed-in room action authorization
+
+The room Server Actions now verify the current session and an active participant
+before creating or revealing a round, voting, reading revealed votes, sending an
+alarm, or throwing paper. Alarm and paper targets must be active participants in
+the same room. Paper events derive the sender's participant ID on the server
+instead of trusting the client. Vote input is restricted to the displayed card
+values, and room names and action IDs are validated at the server boundary.
+
+Round creation, reveal, voting, and removal serialize on the room row. Round
+creation and reveal check active membership inside the transaction, so removal
+cannot race past the action's earlier membership check. A round can be revealed
+only once while its status is `STARTED`. Starting a new round now sends one
+`GAME_CREATED` event that also clears the previous vote display; the separate
+unauthorized reset action and its extra broadcast were removed.
+
+Only the room owner can remove another participant, and the UI shows that
+control only to the owner. A removed signed-in participant cannot rejoin by
+refreshing or submitting the room ID again. This uses the existing `leftAt`
+marker; there is no self-leave control in this signed-in flow.
+
+Verification: lint, types, 5 unit tests, production build, and all 6 local
+Playwright scenarios passed. The new browser scenario replays a captured
+round-creation Server Action with a different signed-in user's session after
+the first round ends; it receives `unauthorized` and creates no game. The
+participant integration scenario checks that removal blocks rejoin and round
+creation while preserving old votes. All database checks used local Supabase.
+
+Remaining before the release: joining still treats possession of a room ID as
+the credential, and Realtime topics are still public. Invitation consumption,
+private Realtime, locale routes, guest join/vote and login linking, and the
+other delivery gates remain. Guest join/vote and login linking are deferred to
+the final feature stage before release, as requested.
+
 ## Blog angles and lessons
 
 - An abstraction is valuable only when every implementation is intentionally

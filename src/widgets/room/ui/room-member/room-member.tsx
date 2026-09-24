@@ -7,5 +7,5 @@ export const RoomMember = (properties: MemberProperties) => {
   const { room } = useRoomContext();
   const isActionTooltip = room.participantId !== id;
 
-  return <Member {...properties} isActionTooltip={isActionTooltip} />;
+  return <Member {...properties} isActionTooltip={isActionTooltip} canKick={room.isOwner} />;
 };

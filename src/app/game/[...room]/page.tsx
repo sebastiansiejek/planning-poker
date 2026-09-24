@@ -42,14 +42,22 @@ export default async function Page(properties: {
   const participantService = ParticipantServiceFactory.getService();
   const gameService = GameServiceFactory.getService();
   const roomId = parameters.room.toString();
-  const roomName = await getRoomName(roomId);
+  const room = await RoomServiceFactory.getService().get({ id: roomId });
 
-  if (!roomName) {
+  if (!room) {
     return redirect(routes.game.create.getPath());
   }
   const session = await getSession();
   if (!session?.user.id) redirect(routes.login.getPath());
-  const currentParticipant = await participantService.joinAuthenticated(roomId, session.user.id);
+  let currentParticipant;
+  try {
+    currentParticipant = await participantService.joinAuthenticated(roomId, session.user.id);
+  } catch (error) {
+    if (error instanceof Error && error.message === 'Participant was removed from this room') {
+      redirect(routes.dashboard.getPath());
+    }
+    throw error;
+  }
 
   const [roomMembers, latestGame] = await Promise.all([
     participantService.getRoomMembers(roomId),
@@ -71,12 +79,12 @@ export default async function Page(properties: {
   );
 
   return (
-    <RoomProvider game={latestGame || undefined} roomId={roomId} participantId={currentParticipant.id}>
+    <RoomProvider game={latestGame || undefined} roomId={roomId} participantId={currentParticipant.id} isOwner={room.authorId === session.user.id}>
       <Room
         id={roomId}
         members={roomMembers}
         currentParticipantId={currentParticipant.id}
-        name={roomName}
+        name={room.name}
         initialVotes={votes.map(({ participantId }) => participantId)}
         finishedGameVotes={latestGame?.status === 'FINISHED' ? votes : []}
       />

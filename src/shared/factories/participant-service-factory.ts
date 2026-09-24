@@ -9,8 +9,10 @@ export type RoomParticipant = {
 export type ParticipantService = {
   joinAuthenticated: (roomId: string, userId: string) => Promise<RoomParticipant>;
   getAuthenticated: (roomId: string, userId: string) => Promise<RoomParticipant | null>;
+  isRemoved: (roomId: string, userId: string) => Promise<boolean>;
+  getActive: (roomId: string, participantId: string) => Promise<RoomParticipant | null>;
   getRoomMembers: (roomId: string) => Promise<RoomParticipant[]>;
-  leave: (roomId: string, participantId: string) => Promise<void>;
+  leave: (roomId: string, participantId: string) => Promise<boolean>;
 };
 
 export const ParticipantServiceFactory = {

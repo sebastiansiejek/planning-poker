@@ -21,19 +21,12 @@ export class PrismaParticipantService
         select: { ...participantSelect, leftAt: true },
       });
       if (existing && !existing.leftAt) return existing;
+      if (existing?.leftAt) throw new Error('Participant was removed from this room');
 
       const activeCount = await transaction.participant.count({
         where: { roomId, leftAt: null },
       });
       if (activeCount >= maxActiveParticipants) throw new Error('Room is full');
-
-      if (existing) {
-        return transaction.participant.update({
-          where: { id: existing.id },
-          data: { leftAt: null },
-          select: participantSelect,
-        });
-      }
 
       const user = await transaction.user.findUniqueOrThrow({
         where: { id: userId },
@@ -53,6 +46,21 @@ export class PrismaParticipantService
     });
   };
 
+  isRemoved: ParticipantService['isRemoved'] = async (roomId, userId) => {
+    const participant = await this.prisma.participant.findUnique({
+      where: { roomId_userId: { roomId, userId } },
+      select: { leftAt: true },
+    });
+    return !!participant?.leftAt;
+  };
+
+  getActive: ParticipantService['getActive'] = async (roomId, participantId) => {
+    return this.prisma.participant.findFirst({
+      where: { id: participantId, roomId, leftAt: null },
+      select: participantSelect,
+    });
+  };
+
   getRoomMembers: ParticipantService['getRoomMembers'] = async (roomId) => {
     return this.prisma.participant.findMany({
       where: { roomId, leftAt: null },
@@ -61,9 +69,17 @@ export class PrismaParticipantService
   };
 
   leave: ParticipantService['leave'] = async (roomId, participantId) => {
-    await this.prisma.participant.update({
-      where: { id: participantId, roomId },
-      data: { leftAt: new Date() },
+    return this.prisma.$transaction(async (transaction) => {
+      const rooms = await transaction.$queryRaw<{ id: string }[]>`
+        SELECT "id" FROM "rooms" WHERE "id" = ${roomId} FOR UPDATE
+      `;
+      if (rooms.length === 0) return false;
+
+      const result = await transaction.participant.updateMany({
+        where: { id: participantId, roomId, leftAt: null },
+        data: { leftAt: new Date() },
+      });
+      return result.count === 1;
     });
   };
 }

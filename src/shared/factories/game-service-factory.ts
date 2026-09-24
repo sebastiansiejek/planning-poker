@@ -9,6 +9,7 @@ export type GameService = {
   create: (data: {
     name?: string;
     roomId: string;
+    actorUserId: string;
     description?: string;
   }) => Promise<{
     id: string;
@@ -17,9 +18,11 @@ export type GameService = {
   finishGame: ({
     roomId,
     gameId,
+    actorUserId,
   }: {
     roomId: string;
     gameId: string;
+    actorUserId: string;
   }) => Promise<{
     id: string;
   }>;

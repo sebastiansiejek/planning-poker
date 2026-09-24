@@ -24,7 +24,6 @@ import {
 import { Input } from '@/shared/ui-kit/text-input/text-input';
 import type { CreateGameParameters } from '@/widgets/room/actions/create-game';
 import { createGame } from '@/widgets/room/actions/create-game';
-import { resetVotes } from '@/widgets/room/actions/reset-votes';
 
 export const CreateGameForm = ({
   roomId,
@@ -35,14 +34,13 @@ export const CreateGameForm = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { execute, isPending } = useAction(createGame, {
-    onSuccess: () => {
-      setIsOpen(false);
+    onSuccess: ({ data }) => {
+      if (data?.success) setIsOpen(false);
     },
   });
   const form = useForm<CreateGameParameters>();
   const { handleSubmit } = form;
   const translate = useTranslations();
-  const { execute: executeResetVotes } = useAction(resetVotes);
   const { counter } = useCountdown({
     time: 3000,
     enabled: isWaitingForStartGame,
@@ -67,9 +65,6 @@ export const CreateGameForm = ({
           <form
             className="space-y-4"
             onSubmit={handleSubmit(({ name, description }) => {
-              executeResetVotes({
-                channelName: roomId,
-              });
               execute({
                 name,
                 description,

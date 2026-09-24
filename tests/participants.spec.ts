@@ -44,7 +44,7 @@ test('room capacity, invitation rotation, and votes use participant identity', a
     expect(await invitations.resolveRoom(firstInvite.token)).toBeNull();
     expect(await invitations.resolveRoom(secondInvite.token)).toBe(room.id);
 
-    const game = await new PrismaGameService().create({ roomId: room.id });
+    const game = await new PrismaGameService().create({ roomId: room.id, actorUserId: users[0].id });
     const owner = await participants.getAuthenticated(room.id, users[0].id);
     expect(owner).not.toBeNull();
     const votes = new PrismaVoteService();
@@ -56,10 +56,18 @@ test('room capacity, invitation rotation, and votes use participant identity', a
     });
     expect(await votes.getRevealedVotes(game.id, room.id)).toEqual([]);
     await participants.leave(room.id, owner!.id);
+    expect(await participants.isRemoved(room.id, users[0].id)).toBe(true);
+    await expect(participants.joinAuthenticated(room.id, users[0].id)).rejects.toThrow(
+      'Participant was removed from this room',
+    );
+    await expect(new PrismaGameService().create({
+      roomId: room.id,
+      actorUserId: users[0].id,
+    })).rejects.toThrow('Participant is not active');
     expect(await prisma.vote.findUnique({
       where: { participantId_gameId: { participantId: owner!.id, gameId: game.id } },
     })).toMatchObject({ vote: '3' });
-    await new PrismaGameService().finishGame({ gameId: game.id, roomId: room.id });
+    await new PrismaGameService().finishGame({ gameId: game.id, roomId: room.id, actorUserId: users[1].id });
     expect(await votes.getRevealedVotes(game.id, room.id)).toEqual([
       { participantId: owner!.id, vote: '3' },
     ]);

@@ -97,6 +97,11 @@ export default function Room({
     if (roomListener) {
       roomListener
         .on('gameCreated', (game) => {
+          dispatch({ type: 'SET_VOTE', payload: { value: '' } });
+          setVotes([]);
+          setVotedUserIds([]);
+          setIsRevealedCards(false);
+          setIsWaitingForStartGame(false);
           dispatch({
             type: 'SET_GAME',
             payload: game,
@@ -120,22 +125,6 @@ export default function Room({
           executeGetGameVote({ gameId, roomId });
           setIsRevealedCards(true);
           setIsWaitingForStartGame(true);
-        })
-        .on('resetVotes', () => {
-          dispatch({
-            type: 'SET_VOTE',
-            payload: {
-              value: '',
-            },
-          });
-          setVotes([]);
-          setVotedUserIds([]);
-          setIsRevealedCards(false);
-          setIsWaitingForStartGame(false);
-          dispatch({
-            type: 'SET_GAME',
-            payload: undefined,
-          });
         })
         .on('memberRemoved', ({ id }) => {
           setMembers((oldMembers) => oldMembers.filter((m) => m.id !== id));

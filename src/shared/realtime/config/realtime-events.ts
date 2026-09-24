@@ -3,7 +3,6 @@ export const RealtimeEvents = {
   MEMBER_REMOVED: 'MEMBER_LEFT_ROOM',
   VOTED: 'voted',
   REVEAL_VOTES: 'REVEAL_VOTES',
-  RESET_VOTES: 'RESET_VOTES',
   GAME_CREATED: 'GAME_CREATED',
   USER_ID: (id: string) => `USER_ID:${id}`,
   PAPER_THROWN: 'PAPER_THROWN',

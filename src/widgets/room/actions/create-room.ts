@@ -9,7 +9,7 @@ import { actionClient } from '@/shared/lib/safe-action';
 import { routes } from '@/shared/routes/routes';
 
 const schema = z.object({
-  name: z.string(),
+  name: z.string().trim().min(1).max(100),
 });
 
 export const createRoom = actionClient

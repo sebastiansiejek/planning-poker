@@ -3,48 +3,38 @@
 import type { PrismaClientKnownRequestError } from '@prisma/client/runtime/binary';
 import z from 'zod';
 
-import { getSession } from '@/shared/auth/auth';
-import { ParticipantServiceFactory } from '@/shared/factories/participant-service-factory';
+import { getRoomActor } from '@/shared/auth/room-access';
 import { VoteServiceFactory } from '@/shared/factories/vote-service-factory';
 import { actionClient } from '@/shared/lib/safe-action';
 import { RealtimeEvents, RealtimeTopics } from '@/shared/realtime/config/realtime-events';
 import { broadcastToRealtime } from '@/shared/realtime/lib/supabase-realtime-server';
+import { votingValues } from '@/widgets/room/config/voting-constants';
 
 const schema = z.object({
-  value: z.string(),
-  roomId: z.string(),
-  gameId: z.string(),
+  value: z.enum(votingValues),
+  roomId: z.string().min(1),
+  gameId: z.string().min(1),
 });
 
 export const voting = actionClient
   .schema(schema)
   .action(async ({ parsedInput: { value, roomId, gameId } }) => {
-    const session = await getSession();
-    const userId = session?.user.id;
-
-    if (!userId) {
-      return {
-        success: false,
-        message: 'User not found',
-      };
-    }
-
-    const participant = await ParticipantServiceFactory.getService().getAuthenticated(roomId, userId);
-    if (!participant) return { success: false, message: 'Participant not found' };
+    const actor = await getRoomActor(roomId);
+    if (!actor) return { success: false, message: 'Participant not found' };
 
     const voteService = VoteServiceFactory.getService();
     try {
       await voteService.upsert({
         gameId,
         vote: value,
-        participantId: participant.id,
+        participantId: actor.participant.id,
         roomId,
       });
 
       await broadcastToRealtime(
         RealtimeTopics.roomEvents(roomId),
         RealtimeEvents.VOTED,
-        { participantId: participant.id },
+        { participantId: actor.participant.id },
       );
 
       return {

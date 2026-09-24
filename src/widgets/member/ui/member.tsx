@@ -19,6 +19,7 @@ export const Member = ({
   isVoted,
   name,
   isActionTooltip,
+  canKick,
   isLoading,
 }: MemberProperties) => {
   const [isOpenTooltip, setIsOpenTooltip] = useState(false);
@@ -48,7 +49,7 @@ export const Member = ({
         >
           <AlarmTrigger userId={id} />
           <PaperTrigger userId={id} memberRef={reference} />
-          <KickUser userId={id} />
+          {canKick && <KickUser userId={id} />}
         </MemberTooltip>
       )}
       <MemberAvatar image={image} />

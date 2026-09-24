@@ -25,10 +25,12 @@ export const VotingForm = ({
       onSubmit={(event) => {
         event.preventDefault();
         const formData = new FormData(event.target as HTMLFormElement);
+        const value = votingValues.find((option) => option === formData.get('value'));
+        if (!value) return;
 
         execute({
           roomId,
-          value: formData.get('value') as string,
+          value,
           gameId,
         });
       }}

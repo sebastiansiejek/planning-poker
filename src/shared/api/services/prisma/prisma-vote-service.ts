@@ -21,6 +21,11 @@ export class PrismaVoteService
 
   upsert: VoteService['upsert'] = async ({ gameId, roomId, participantId, vote }) => {
     await this.prisma.$transaction(async (transaction) => {
+      const rooms = await transaction.$queryRaw<{ id: string }[]>`
+        SELECT "id" FROM "rooms" WHERE "id" = ${roomId} FOR UPDATE
+      `;
+      if (rooms.length === 0) throw new Error('Room not found');
+
       const games = await transaction.$queryRaw<{ status: string }[]>`
         SELECT "status" FROM "games" WHERE "id" = ${gameId} AND "roomId" = ${roomId} FOR UPDATE
       `;

@@ -13,7 +13,6 @@ export class RoomPrismaListener extends RoomListener {
     this.channel = this.supabase.channel(RealtimeTopics.roomEvents(roomId));
     this.onMemberAdded()
       .onVoted()
-      .onResetVotes()
       .onRevealVotes()
       .onGameCreated()
       .onMemberRemoved();
@@ -47,13 +46,6 @@ export class RoomPrismaListener extends RoomListener {
       'broadcast',
       { event: RealtimeEvents.VOTED },
       ({ payload }) => this.emit('voted', payload as { participantId: string }),
-    );
-    return this;
-  }
-
-  private onResetVotes() {
-    this.channel.on('broadcast', { event: RealtimeEvents.RESET_VOTES }, () =>
-      this.emit('resetVotes'),
     );
     return this;
   }
