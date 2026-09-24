@@ -47,6 +47,11 @@ test('room capacity, invitation rotation, and votes use participant identity', a
     const game = await new PrismaGameService().create({ roomId: room.id, actorUserId: users[0].id });
     const owner = await participants.getAuthenticated(room.id, users[0].id);
     expect(owner).not.toBeNull();
+    await prisma.user.update({ where: { id: users[0].id }, data: { name: 'Renamed owner' } });
+    expect(await participants.joinAuthenticated(room.id, users[0].id)).toMatchObject({
+      id: owner!.id,
+      name: 'Renamed owner',
+    });
     const votes = new PrismaVoteService();
     await votes.upsert({
       gameId: game.id,

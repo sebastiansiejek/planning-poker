@@ -20,18 +20,26 @@ export class PrismaParticipantService
         where: { roomId_userId: { roomId, userId } },
         select: { ...participantSelect, leftAt: true },
       });
-      if (existing && !existing.leftAt) return existing;
       if (existing?.leftAt) throw new Error('Participant was removed from this room');
+
+      const user = await transaction.user.findUniqueOrThrow({
+        where: { id: userId },
+        select: { name: true, image: true },
+      });
+      if (existing) {
+        if (existing.name === user.name) return existing;
+        return transaction.participant.update({
+          where: { id: existing.id },
+          data: { name: user.name },
+          select: participantSelect,
+        });
+      }
 
       const activeCount = await transaction.participant.count({
         where: { roomId, leftAt: null },
       });
       if (activeCount >= maxActiveParticipants) throw new Error('Room is full');
 
-      const user = await transaction.user.findUniqueOrThrow({
-        where: { id: userId },
-        select: { name: true, image: true },
-      });
       return transaction.participant.create({
         data: { roomId, userId, name: user.name, image: user.image },
         select: participantSelect,

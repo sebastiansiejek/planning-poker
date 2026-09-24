@@ -1,7 +1,7 @@
 import z from 'zod';
 
 export const UserUpsertPayloadSchema = z.object({
-  name: z.string(),
+  name: z.string().trim().min(1).max(100),
 });
 
 export type UserUpsertPayload = z.infer<typeof UserUpsertPayloadSchema>;

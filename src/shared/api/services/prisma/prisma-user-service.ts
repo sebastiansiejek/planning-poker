@@ -4,11 +4,21 @@ import { PrismaBaseService } from '@/shared/api/services/prisma/prisma-base-serv
 
 export class PrismaUserService extends PrismaBaseService {
   async updateUser(id: string, data: Pick<Prisma.UserCreateManyInput, 'name'>) {
-    return this.prisma.user.update({
-      data,
-      where: {
-        id,
-      },
+    return this.prisma.$transaction(async (transaction) => {
+      const user = await transaction.user.update({
+        data,
+        where: { id },
+      });
+      await transaction.participant.updateMany({
+        data: { name: user.name },
+        where: { userId: id, leftAt: null },
+      });
+      const participants = await transaction.participant.findMany({
+        where: { userId: id, leftAt: null },
+        select: { id: true, roomId: true },
+      });
+
+      return { user, participants };
     });
   }
 

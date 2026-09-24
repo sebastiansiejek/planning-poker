@@ -12,14 +12,20 @@ export class RoomPrismaListener extends RoomListener {
     super();
     this.channel = this.supabase.channel(RealtimeTopics.roomEvents(roomId));
     this.onMemberAdded()
+      .onMemberUpdated()
       .onVoted()
       .onRevealVotes()
       .onGameCreated()
       .onMemberRemoved();
 
-    this.channel.subscribe();
     this.unsubscribeListener.push(() => {
       void this.supabase.removeChannel(this.channel);
+    });
+  }
+
+  connect() {
+    this.channel.subscribe((status) => {
+      if (status === 'SUBSCRIBED') this.emit('ready');
     });
   }
 
@@ -28,6 +34,15 @@ export class RoomPrismaListener extends RoomListener {
       'broadcast',
       { event: RealtimeEvents.MEMBER_ADDED },
       ({ payload }) => this.emit('memberAdded', payload as RealtimeNewMember),
+    );
+    return this;
+  }
+
+  private onMemberUpdated() {
+    this.channel.on(
+      'broadcast',
+      { event: RealtimeEvents.MEMBER_UPDATED },
+      ({ payload }) => this.emit('memberUpdated', payload as { id: string; name: string }),
     );
     return this;
   }

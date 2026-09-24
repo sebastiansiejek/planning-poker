@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useAction } from 'next-safe-action/hooks';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import type { RoomProperties } from '@/app/game/[...room]/types';
 import { RoomListenerFactory } from '@/features/room/lib/RoomListener/room-listener-factory';
@@ -17,6 +17,7 @@ import { toast } from '@/shared/ui-kit/toast/model/use-toast';
 import { Paper } from '@/widgets/alerts/ui/paper/paper';
 import type { TriggerPaperThrowingParameters } from '@/widgets/room/actions/alerts/trigger-paper-throwing';
 import { getGameVotes } from '@/widgets/room/actions/get-game-votes';
+import { getRoomMembers } from '@/widgets/room/actions/get-room-members';
 import { chunkMembers } from '@/widgets/room/libs/chunk-members/chunk-members';
 import { useRoomContext } from '@/widgets/room/model/room-context';
 import { useIsFinishedGame } from '@/widgets/room/model/selectors/use-is-finished-game';
@@ -43,14 +44,14 @@ export default function Room({
   const [papers, setPapers] = useState<
     Pick<TriggerPaperThrowingParameters, 'triggerUser' | 'targetUser'>[]
   >([]);
+  const memberVersion = useRef(0);
   const { dispatch, room } = useRoomContext();
   const router = useRouter();
   const activeGame = room?.game;
   const areVotes = votedUserIds.length > 0;
   const memberChunks = useMemo(
-    () => chunkMembers(members.sort((a, b) => a.name.localeCompare(b.name))),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [members.length],
+    () => chunkMembers([...members].sort((a, b) => a.name.localeCompare(b.name))),
+    [members],
   );
   const [topMembers, leftMembers, bottomMembers, rightMembers] = memberChunks;
   const { notify } = useNotification();
@@ -77,6 +78,7 @@ export default function Room({
   const currentUserId = currentParticipantId;
 
   useEffect(() => {
+    let isActive = true;
     const roomListener = RoomListenerFactory.getService(roomId);
     const roomNotificationsListener = new RoomSupabaseNotificationsListener(
       roomId,
@@ -96,6 +98,16 @@ export default function Room({
 
     if (roomListener) {
       roomListener
+        .on('ready', () => {
+          const version = memberVersion.current;
+          void getRoomMembers({ roomId }).then((result) => {
+            if (isActive && version === memberVersion.current && result?.data?.members) {
+              setMembers(result.data.members);
+            }
+          }).catch((error) => {
+            console.error('Failed to refresh room members', error);
+          });
+        })
         .on('gameCreated', (game) => {
           dispatch({ type: 'SET_VOTE', payload: { value: '' } });
           setVotes([]);
@@ -111,6 +123,7 @@ export default function Room({
           setVotedUserIds((oldVotedUsers) => [...new Set([...oldVotedUsers, participantId])]);
         })
         .on('memberAdded', ({ name, id, avatarUrl: userAvatarUrl }) => {
+          memberVersion.current += 1;
           setMembers((oldMembers) => [
             ...oldMembers.filter((member) => member.id !== id),
             {
@@ -120,6 +133,12 @@ export default function Room({
             },
           ]);
         })
+        .on('memberUpdated', ({ id, name }) => {
+          memberVersion.current += 1;
+          setMembers((oldMembers) =>
+            oldMembers.map((member) => (member.id === id ? { ...member, name } : member)),
+          );
+        })
         .on('revealVotes', () => {
           if (!gameId) return;
           executeGetGameVote({ gameId, roomId });
@@ -127,6 +146,7 @@ export default function Room({
           setIsWaitingForStartGame(true);
         })
         .on('memberRemoved', ({ id }) => {
+          memberVersion.current += 1;
           setMembers((oldMembers) => oldMembers.filter((m) => m.id !== id));
           if (id === currentUserId) {
             router.push(routes.game.join.getPath());
@@ -136,9 +156,11 @@ export default function Room({
             });
           }
         });
+      roomListener.connect();
     }
 
     return () => {
+      isActive = false;
       for (const unsubscribe of roomListener.unsubscribeListener) {
         unsubscribe();
       }

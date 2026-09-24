@@ -274,6 +274,35 @@ private Realtime, locale routes, guest join/vote and login linking, and the
 other delivery gates remain. Guest join/vote and login linking are deferred to
 the final feature stage before release, as requested.
 
+### 2026-09-24 — Follow-up: account name changes on the room board
+
+A two-account manual check found that editing a signed-in user's name in
+settings left their name unchanged on the room board. The settings endpoint
+updated `User.name`, but the board reads the room-scoped `Participant.name`
+snapshot. The client also memoized member positions by member count, so a
+same-size name update would have remained visually stale.
+
+The settings update now changes active linked participants in the same database
+transaction as the user, then broadcasts a member-update event to each affected
+room. Open boards apply the event and recalculate member positions when member
+data changes. The endpoint validates the trimmed name before saving. Realtime
+delivery is best effort: a failed broadcast is logged, while the saved name
+appears after a room reload. Joining an existing room also reconciles the
+participant name with the account, repairing records left stale by the older
+settings behavior.
+
+The first concurrent browser run exposed a connection gap: a board could render
+the old member name before its Realtime subscription completed, then miss the
+update event. The board now fetches authorized members whenever the channel
+subscribes or reconnects, while preserving any newer events received during
+that fetch. The two-account scenario then passed three consecutive runs.
+
+Verification: a new two-account Playwright scenario changed one account's name
+from settings while another account kept the room open; the board updated live
+and the participant row held the new name. Lint, types, 5 unit tests, the
+production build, and all 7 local Playwright scenarios passed. The tests used
+local Supabase only.
+
 ## Blog angles and lessons
 
 - An abstraction is valuable only when every implementation is intentionally
