@@ -1,7 +1,6 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
 import { useAction } from 'next-safe-action/hooks';
 import { useEffect, useMemo, useState } from 'react';
@@ -31,6 +30,7 @@ export default function Room({
   id: roomId,
   name: roomName,
   members: initialMembers,
+  currentParticipantId,
   initialVotes = [],
   finishedGameVotes = [],
 }: RoomProperties) {
@@ -43,7 +43,6 @@ export default function Room({
   const [papers, setPapers] = useState<
     Pick<TriggerPaperThrowingParameters, 'triggerUser' | 'targetUser'>[]
   >([]);
-  const { data: session } = useSession();
   const { dispatch, room } = useRoomContext();
   const router = useRouter();
   const activeGame = room?.game;
@@ -61,10 +60,10 @@ export default function Room({
   const { execute: executeGetGameVote } = useAction(getGameVotes, {
     onSuccess: ({ data }) => {
       const gameVotes = data?.data.gameVotes.reduce(
-        (accumulator: Vote[], { vote, user }) => {
+        (accumulator: Vote[], { vote, participantId }) => {
           if (vote) {
             accumulator.push({
-              userId: user.id,
+              participantId,
               vote,
             });
           }
@@ -75,7 +74,7 @@ export default function Room({
       if (gameVotes) setVotes(gameVotes);
     },
   });
-  const currentUserId = session?.user.id as string;
+  const currentUserId = currentParticipantId;
 
   useEffect(() => {
     const roomListener = RoomListenerFactory.getService(roomId);
@@ -103,8 +102,8 @@ export default function Room({
             payload: game,
           });
         })
-        .on('voted', ({ userId }) => {
-          setVotedUserIds((oldVotedUsers) => [...oldVotedUsers, userId]);
+        .on('voted', ({ participantId }) => {
+          setVotedUserIds((oldVotedUsers) => [...new Set([...oldVotedUsers, participantId])]);
         })
         .on('memberAdded', ({ name, id, avatarUrl: userAvatarUrl }) => {
           setMembers((oldMembers) => [

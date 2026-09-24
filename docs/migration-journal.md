@@ -157,6 +157,89 @@ description, and the development server exceeds the default listener count
 during concurrent browser tests. These did not fail the scenarios, but they
 should be resolved before treating the pipeline as release-ready.
 
+### 2026-09-24 — Stage 3: participant data foundation and signed-in room flow
+
+The new room identity is `Participant`, scoped to one room and optionally linked
+to a `User`. It stores a display snapshot, an optional hashed guest credential,
+and a `leftAt` marker so leaving does not destroy vote history. `Vote` now points
+to a participant and a game (the current round). `RoomInvitation` stores only a
+SHA-256 hash of a random 256-bit token; rotation revokes earlier invitations and
+the service enforces an expiry. The raw token exists only in the rotate response.
+
+The migration backfills participants from `room_users`, room authors, the older
+implicit membership table, and users with historical votes. It then copies
+legacy votes to participant votes and aborts if the vote counts differ. The
+legacy tables were initially retained for the expansion phase. An initial migration draft
+would have dropped those tables and changed older game statuses. Automatic
+approval review rejected applying that draft, so it was replaced with an
+additive migration before local execution. This is a useful example of why
+migration safety must be checked against data effects, not just schema validity.
+
+The signed-in room path, vote action, revealed-vote query, member display, and
+dashboard count now use participant identity. Room creation creates the owner's
+participant in the same transaction. Joining locks the room row before counting
+active participants, enforcing the limit of 12 under concurrent requests.
+Creating a round also locks the room row before checking for another active
+round. Leaving marks the participant inactive while retaining votes. Anonymous
+room access currently redirects to login until the guest join flow can issue
+and verify guest credentials.
+
+Verification:
+
+- Prisma Migrate applied all migrations to a verified empty local Supabase
+  database; no production database was used.
+- A transaction-scoped fixture replayed the exact migration SQL and confirmed
+  that owner, explicit member, implicit member, vote-only user, and vote were
+  preserved; the fixture transaction rolled back.
+- An integration scenario confirmed the 12-person limit with concurrent final
+  joins, invitation rotation, and vote retention after leaving.
+- `pnpm lint`, `pnpm check-types`, `pnpm test:unit --runInBand`, and `pnpm build`
+  passed. The two existing browser scenarios and two new database integration
+  scenarios passed against local Supabase.
+
+Remaining before release: invitation issuance and consumption in the UI, guest
+join/vote identity, linking a guest participant on login, authorization of all
+remaining room actions, private Realtime, locale routes, and the delivery gates.
+The current room lookup still uses a room ID and is not an invitation
+authorization boundary.
+
+### 2026-09-24 — Local development database mismatch
+
+The participant implementation passed tests against local Supabase, but the
+existing developer server still read a hosted database from `.env`. Opening
+the join page and creating a room therefore failed with Prisma `P2021` because
+that database had no `participants` table. The earlier claim that creation and
+joining worked in the user's current server was incorrect; the tests had used
+explicit local environment overrides.
+
+This checkout now uses ignored `.env.local` overrides for local PostgreSQL and
+Supabase endpoints. The `pnpm prisma:migrate` and `pnpm prisma:status`
+commands load that same local override when present, so the CLI and Next.js
+target the same development database. A Next config timestamp update made the
+already-running dev server reload its environment without ending the user's
+session. `pnpm prisma:status` reported all 10 migrations applied to
+`127.0.0.1:54322`. Authenticated access and a new browser scenario covering
+room creation, the join page, and joining by ID passed against the existing
+port 3000 server. The hosted database was neither migrated nor changed.
+
+### 2026-09-24 — Remove unused legacy membership tables
+
+The user clarified that the earlier Prisma-based application never worked in
+production and there are no existing production users to migrate. The
+`_RoomParticipants` table was Prisma's implicit many-to-many relation between
+`Room` and `User`: `A` referenced `Room.id` and `B` referenced `User.id`. It was
+separate from the later explicit `room_users` table, which made the schema
+unnecessarily confusing.
+
+Read-only checks found zero rows in local `_RoomParticipants`, `room_users`,
+and `user_votes`. A second Prisma migration now removes all three tables and
+their unused schema relations. It raises an exception before dropping anything
+if any of those tables contains rows in another environment. The first
+backfill migration remains in history; this correction makes the final schema
+use only `Participant` and `Vote` for room membership and voting. The cleanup
+migration was applied only to local Supabase. A fixture test also confirmed the
+guard rejects a database with legacy rows.
+
 ## Blog angles and lessons
 
 - An abstraction is valuable only when every implementation is intentionally

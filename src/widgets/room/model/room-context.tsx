@@ -6,6 +6,7 @@ import { createContext, useContext, useMemo, useReducer } from 'react';
 
 export type RoomContextType = {
   roomId: string;
+  participantId?: string;
   vote?: string;
   game?: Pick<Game, 'id' | 'name' | 'description' | 'status'>;
 };
@@ -61,10 +62,12 @@ export const RoomProvider = ({
   children,
   roomId,
   game,
-}: PropsWithChildren<Pick<RoomContextType, 'roomId' | 'game'>>) => {
+  participantId,
+}: PropsWithChildren<Pick<RoomContextType, 'roomId' | 'game' | 'participantId'>>) => {
   const [room, dispatch] = useReducer(roomReducer, {
     roomId,
     game,
+    participantId,
   });
   const defaultValue = useMemo(() => ({ room, dispatch }), [room]);
 

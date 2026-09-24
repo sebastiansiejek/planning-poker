@@ -4,7 +4,8 @@ import type { PrismaClientKnownRequestError } from '@prisma/client/runtime/binar
 import z from 'zod';
 
 import { getSession } from '@/shared/auth/auth';
-import { UserVoteServiceFactory } from '@/shared/factories/user-vote-service-factory';
+import { ParticipantServiceFactory } from '@/shared/factories/participant-service-factory';
+import { VoteServiceFactory } from '@/shared/factories/vote-service-factory';
 import { actionClient } from '@/shared/lib/safe-action';
 import { RealtimeEvents, RealtimeTopics } from '@/shared/realtime/config/realtime-events';
 import { broadcastToRealtime } from '@/shared/realtime/lib/supabase-realtime-server';
@@ -28,20 +29,22 @@ export const voting = actionClient
       };
     }
 
-    // TODO: add guest user support
-    const userVoteService = UserVoteServiceFactory.getService();
+    const participant = await ParticipantServiceFactory.getService().getAuthenticated(roomId, userId);
+    if (!participant) return { success: false, message: 'Participant not found' };
+
+    const voteService = VoteServiceFactory.getService();
     try {
-      await userVoteService.upsert({
+      await voteService.upsert({
         gameId,
         vote: value,
-        userId,
+        participantId: participant.id,
         roomId,
       });
 
       await broadcastToRealtime(
         RealtimeTopics.roomEvents(roomId),
         RealtimeEvents.VOTED,
-        { userId },
+        { participantId: participant.id },
       );
 
       return {

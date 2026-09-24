@@ -3,6 +3,7 @@ import { PrismaRoomService } from '@/shared/api/services/prisma/prisma-room-serv
 export type RoomDTO = {
   id: string;
   name: string;
+  authorId: string;
   createdAt: Date | string;
 };
 
@@ -21,7 +22,7 @@ export type RoomService = {
       authorId: string;
       createdAt: Date;
       author: { name: string };
-      _count: { RoomUser: number };
+      _count: { participants: number };
     }[]
   >;
 };

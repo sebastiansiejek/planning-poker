@@ -19,7 +19,7 @@ export const Members = ({
       {members.map((member) => {
         const { id } = member;
         const isVoted = votedUserIds.includes(id);
-        const vote = votes.find((oldVotes) => oldVotes.userId === id)?.vote;
+        const vote = votes.find((oldVotes) => oldVotes.participantId === id)?.vote;
 
         return (
           <RoomMember

@@ -3,10 +3,9 @@ import { cache } from 'react';
 
 import { getSession } from '@/shared/auth/auth';
 import { GameServiceFactory } from '@/shared/factories/game-service-factory';
+import { ParticipantServiceFactory } from '@/shared/factories/participant-service-factory';
 import { RoomServiceFactory } from '@/shared/factories/room-service-factory';
-import type { RoomUserService } from '@/shared/factories/room-user-service-factory';
-import { RoomUserServiceFactory } from '@/shared/factories/room-user-service-factory';
-import { UserVoteServiceFactory } from '@/shared/factories/user-vote-service-factory';
+import { VoteServiceFactory } from '@/shared/factories/vote-service-factory';
 import { RealtimeEvents, RealtimeTopics } from '@/shared/realtime/config/realtime-events';
 import { broadcastToRealtime } from '@/shared/realtime/lib/supabase-realtime-server';
 import { routes } from '@/shared/routes/routes';
@@ -39,8 +38,8 @@ export default async function Page(properties: {
   }>;
 }) {
   const parameters = await properties.params;
-  const userVoteService = UserVoteServiceFactory.getService();
-  const roomUserService = RoomUserServiceFactory.getService();
+  const voteService = VoteServiceFactory.getService();
+  const participantService = ParticipantServiceFactory.getService();
   const gameService = GameServiceFactory.getService();
   const roomId = parameters.room.toString();
   const roomName = await getRoomName(roomId);
@@ -49,41 +48,36 @@ export default async function Page(properties: {
     return redirect(routes.game.create.getPath());
   }
   const session = await getSession();
-  const userId = session?.user.id;
-
-  if (userId) {
-    await roomUserService.addUserToRoom(userId, roomId);
-  }
+  if (!session?.user.id) redirect(routes.login.getPath());
+  const currentParticipant = await participantService.joinAuthenticated(roomId, session.user.id);
 
   const [roomMembers, latestGame] = await Promise.all([
-    roomUserService.getRoomMembers(roomId),
+    participantService.getRoomMembers(roomId),
     gameService.getLatestRoomGame(roomId),
   ]);
 
   const votes = latestGame
-    ? await userVoteService.getVotedUsers(latestGame.id, roomId)
+    ? await voteService.getVotedParticipants(latestGame.id, roomId)
     : [];
 
   await broadcastToRealtime(
     RealtimeTopics.roomEvents(roomId),
     RealtimeEvents.MEMBER_ADDED,
     {
-      id: userId,
-      avatarUrl: session?.user.image || '',
-      name: session?.user.name || '',
+      id: currentParticipant.id,
+      avatarUrl: currentParticipant.image || '',
+      name: currentParticipant.name,
     },
   );
 
   return (
-    <RoomProvider game={latestGame || undefined} roomId={roomId}>
+    <RoomProvider game={latestGame || undefined} roomId={roomId} participantId={currentParticipant.id}>
       <Room
         id={roomId}
-        members={roomMembers.map(
-          ({ user }: Awaited<ReturnType<RoomUserService['getRoomMembers']>>[number]) =>
-            user,
-        )}
+        members={roomMembers}
+        currentParticipantId={currentParticipant.id}
         name={roomName}
-        initialVotes={votes.map(({ userId: votedUser }) => votedUser)}
+        initialVotes={votes.map(({ participantId }) => participantId)}
         finishedGameVotes={latestGame?.status === 'FINISHED' ? votes : []}
       />
     </RoomProvider>

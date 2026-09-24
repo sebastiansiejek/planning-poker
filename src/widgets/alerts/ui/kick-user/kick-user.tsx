@@ -6,10 +6,10 @@ import { ButtonIcon } from '@/shared/ui-kit/button/button-icon/button-icon';
 import { leftGame } from '@/widgets/room/actions/left-game';
 import { useRoomContext } from '@/widgets/room/model/room-context';
 
-export const KickUser = ({ userId }: { userId: string }) => {
+export const KickUser = ({ userId: participantId }: { userId: string }) => {
   const t = useTranslations('Member');
   const {
-    room: { game, roomId },
+    room: { roomId },
   } = useRoomContext();
   const { execute, isPending } = useAction(leftGame);
 
@@ -19,9 +19,7 @@ export const KickUser = ({ userId }: { userId: string }) => {
       type="button"
       disabled={isPending}
       onClick={() => {
-        if (game) {
-          execute({ userId, roomId, gameId: game?.id });
-        }
+        execute({ participantId, roomId });
       }}
       icon={<LogOut />}
     />

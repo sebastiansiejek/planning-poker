@@ -5,13 +5,14 @@ export class PrismaGameService
   extends PrismaBaseService
   implements GameService
 {
-  finishGame: GameService['finishGame'] = async ({ gameId }) => {
+  finishGame: GameService['finishGame'] = async ({ gameId, roomId }) => {
     return this.prisma.game.update({
       data: {
         status: 'FINISHED',
       },
       where: {
         id: gameId,
+        roomId,
       },
     });
   };
@@ -43,8 +44,19 @@ export class PrismaGameService
   }
 
   async create(data: { name?: string; roomId: string; description?: string }) {
-    return this.prisma.game.create({
-      data,
+    return this.prisma.$transaction(async (transaction) => {
+      const rooms = await transaction.$queryRaw<{ id: string }[]>`
+        SELECT "id" FROM "rooms" WHERE "id" = ${data.roomId} FOR UPDATE
+      `;
+      if (rooms.length === 0) throw new Error('Room not found');
+
+      const activeGame = await transaction.game.findFirst({
+        where: { roomId: data.roomId, status: 'STARTED' },
+        select: { id: true },
+      });
+      if (activeGame) throw new Error('There is an active game in this room');
+
+      return transaction.game.create({ data });
     });
   }
 }

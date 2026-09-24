@@ -1,12 +1,12 @@
-import type { User } from '@prisma/client';
-
+import type { RoomParticipant } from '@/shared/factories/participant-service-factory';
 import type { Vote } from '@/shared/types/types';
 
-export type RoomMember = Pick<User, 'id' | 'name' | 'image'>;
+export type RoomMember = RoomParticipant;
 
 export type RoomProperties = {
   id: string;
   name: string;
+  currentParticipantId: string;
   members: RoomMember[];
   initialVotes: string[];
   finishedGameVotes: Vote[];

@@ -4,13 +4,13 @@ import { getNumberVotes } from '@/widgets/room/libs/get-number-votes/get-number-
 
 describe('getNumberVotes', () => {
   const votes: Vote[] = [
-    { vote: '0.5', userId: '1' },
-    { vote: '2', userId: '2' },
-    { vote: '3', userId: '3' },
-    { vote: '4', userId: '4' },
-    { vote: '5', userId: '5' },
-    { vote: 'NaN', userId: '6' },
-    { vote: '☕️', userId: '7' },
+    { vote: '0.5', participantId: '1' },
+    { vote: '2', participantId: '2' },
+    { vote: '3', participantId: '3' },
+    { vote: '4', participantId: '4' },
+    { vote: '5', participantId: '5' },
+    { vote: 'NaN', participantId: '6' },
+    { vote: '☕️', participantId: '7' },
   ];
 
   it('should return an array of numbers', () => {

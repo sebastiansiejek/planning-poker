@@ -46,7 +46,7 @@ export class RoomPrismaListener extends RoomListener {
     this.channel.on(
       'broadcast',
       { event: RealtimeEvents.VOTED },
-      ({ payload }) => this.emit('voted', payload as { userId: string }),
+      ({ payload }) => this.emit('voted', payload as { participantId: string }),
     );
     return this;
   }

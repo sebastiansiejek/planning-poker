@@ -18,7 +18,7 @@ export type GameService = {
     roomId,
     gameId,
   }: {
-    roomId?: string;
+    roomId: string;
     gameId: string;
   }) => Promise<{
     id: string;

@@ -17,24 +17,22 @@ datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
-
 }
 
 model User {
-  id            String     @id @default(uuid())
+  id            String           @id @default(uuid())
   name          String
-  email         String?    @unique
+  email         String?          @unique
   password      String?
-  emailVerified DateTime?  @map("email_verified")
+  emailVerified DateTime?        @map("email_verified")
   image         String?
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
   accounts      Account[]
   sessions      Session[]
-  roomsAuthored Room[]     @relation("RoomAuthor") // One-to-many for rooms authored
-  roomsJoined   Room[]     @relation("RoomParticipants") // Many-to-many for rooms joined
-  UserVote      UserVote[]
-  RoomUser      RoomUser[]
+  roomsAuthored Room[]           @relation("RoomAuthor") // One-to-many for rooms authored
+  participants  Participant[]
+  invitations   RoomInvitation[]
 
   @@map("users")
 }
@@ -85,31 +83,52 @@ model VerificationRequest {
 }
 
 model Room {
-  id        String     @id @default(cuid())
-  name      String
-  authorId  String
-  author    User       @relation("RoomAuthor", fields: [authorId], references: [id])
-  users     User[]     @relation("RoomParticipants")
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  Game      Game[]
-  RoomUser  RoomUser[]
+  id           String           @id @default(cuid())
+  name         String
+  authorId     String
+  author       User             @relation("RoomAuthor", fields: [authorId], references: [id])
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  Game         Game[]
+  participants Participant[]
+  invitations  RoomInvitation[]
 
   @@unique([authorId, name])
   @@map("rooms")
 }
 
-model RoomUser {
-  id        String   @id @default(cuid())
-  roomId    String
-  userId    String
-  room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
-  user      User     @relation(fields: [userId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Participant {
+  id             String    @id @default(uuid())
+  roomId         String
+  userId         String?
+  name           String
+  image          String?
+  guestTokenHash String?   @unique
+  leftAt         DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  room           Room      @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  user           User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  votes          Vote[]
 
   @@unique([roomId, userId])
-  @@map("room_users")
+  @@index([roomId, leftAt])
+  @@map("participants")
+}
+
+model RoomInvitation {
+  id          String    @id @default(uuid())
+  roomId      String
+  tokenHash   String    @unique
+  createdById String
+  expiresAt   DateTime?
+  revokedAt   DateTime?
+  createdAt   DateTime  @default(now())
+  room        Room      @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  createdBy   User      @relation(fields: [createdById], references: [id])
+
+  @@index([roomId, revokedAt])
+  @@map("room_invitations")
 }
 
 enum GameStatus {
@@ -123,7 +142,7 @@ model Game {
   description String?
   roomId      String
   room        Room       @relation(fields: [roomId], references: [id], onDelete: Cascade)
-  UserVote    UserVote[]
+  votes       Vote[]
   status      GameStatus @default(STARTED)
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
@@ -131,16 +150,16 @@ model Game {
   @@map("games")
 }
 
-model UserVote {
-  id        String   @id @default(cuid())
-  userId    String
-  gameId    String
-  vote      String
-  user      User     @relation(fields: [userId], references: [id])
-  game      Game     @relation(fields: [gameId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Vote {
+  id            String      @id @default(uuid())
+  participantId String
+  gameId        String
+  vote          String
+  participant   Participant @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  game          Game        @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 
-  @@unique([userId, gameId])
-  @@map("user_votes")
+  @@unique([participantId, gameId])
+  @@map("votes")
 }

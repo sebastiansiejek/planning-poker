@@ -20,7 +20,7 @@ type UserGamesColumns = {
     name: string;
   };
   _count: {
-    RoomUser: number;
+    participants: number;
   };
 };
 
@@ -54,7 +54,7 @@ export const UserGames = ({ rooms }: { rooms: UserGamesProperties }) => {
       header: translate('Common.name'),
     },
     {
-      accessorKey: '_count.RoomUser',
+      accessorKey: '_count.participants',
       header: translate('Common.players_count'),
       cell: ({ getValue }) => {
         return <div>{getValue() as number}</div>;

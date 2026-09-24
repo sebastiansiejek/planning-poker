@@ -6,8 +6,19 @@ export class PrismaRoomService
   implements RoomService
 {
   create: RoomService['create'] = async (data) => {
-    return this.prisma.room.create({
-      data,
+    return this.prisma.$transaction(async (transaction) => {
+      const author = await transaction.user.findUniqueOrThrow({
+        where: { id: data.authorId },
+        select: { name: true, image: true },
+      });
+      return transaction.room.create({
+        data: {
+          ...data,
+          participants: {
+            create: { userId: data.authorId, name: author.name, image: author.image },
+          },
+        },
+      });
     });
   };
 
@@ -47,9 +58,10 @@ export class PrismaRoomService
     async (userId: string) => {
       return this.prisma.room.findMany({
         where: {
-          RoomUser: {
+          participants: {
             some: {
               userId,
+              leftAt: null,
             },
           },
         },
@@ -61,7 +73,7 @@ export class PrismaRoomService
           },
           _count: {
             select: {
-              RoomUser: true,
+              participants: { where: { leftAt: null } },
             },
           },
         },
