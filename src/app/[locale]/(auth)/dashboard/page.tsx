@@ -1,6 +1,6 @@
-import { redirect } from 'next/navigation';
-import { getTranslations } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
 
+import { getPathname,redirect } from '@/i18n/navigation';
 import { getSession } from '@/shared/auth/auth';
 import { RoomServiceFactory } from '@/shared/factories/room-service-factory';
 import { routes } from '@/shared/routes/routes';
@@ -10,14 +10,8 @@ import { PageHeading } from '@/shared/ui-kit/page-heading/page-heading';
 import { getPageMetaData } from '@/shared/utils/get-page-meta-data';
 import { UserGames } from '@/widgets/user-games/user-games';
 
-export async function generateMetadata(properties: {
-  params: Promise<{ locale: string }>;
-}) {
-  const parameters = await properties.params;
-
-  const { locale } = parameters;
-
-  const translate = await getTranslations({ locale });
+export async function generateMetadata() {
+  const translate = await getTranslations();
 
   return getPageMetaData({
     title: translate('Dashboard.meta.title'),
@@ -25,10 +19,11 @@ export async function generateMetadata(properties: {
 }
 
 export default async function Home() {
+  const locale = await getLocale();
   const session = await getSession();
 
   if (!session) {
-    redirect(routes.login.getPath());
+    return redirect({ locale, href: { pathname: routes.login.getPath(), query: { callbackUrl: getPathname({ locale, href: routes.dashboard.getPath() }) } } });
   }
 
   const roomApiService = RoomServiceFactory.getService();
@@ -40,7 +35,7 @@ export default async function Home() {
 
   return (
     <Container>
-      <PageHeading title="Dashboard" />
+      <PageHeading title={translate('Dashboard.meta.title')} />
       <Heading variant="h2">{translate('Dashboard.userGames')}</Heading>
       <UserGames rooms={rooms} />
     </Container>

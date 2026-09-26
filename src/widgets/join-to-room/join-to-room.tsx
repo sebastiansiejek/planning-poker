@@ -1,12 +1,12 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useAction } from 'next-safe-action/hooks';
 import { FormProvider, useForm } from 'react-hook-form';
 import z from 'zod';
 
+import { useRouter } from '@/i18n/navigation';
 import { routes } from '@/shared/routes/routes';
 import { Button } from '@/shared/ui-kit/button/button';
 import {
@@ -76,7 +76,7 @@ export const JoinToRoom = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">Join</Button>
+        <Button type="submit">{translate('join.submit')}</Button>
       </form>
     </FormProvider>
   );

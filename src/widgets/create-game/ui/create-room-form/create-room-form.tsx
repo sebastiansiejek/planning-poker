@@ -1,12 +1,12 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useAction } from 'next-safe-action/hooks';
 import { FormProvider, useForm } from 'react-hook-form';
 import z from 'zod';
 
+import { useRouter } from '@/i18n/navigation';
 import { routes } from '@/shared/routes/routes';
 import { Button } from '@/shared/ui-kit/button/button';
 import {
@@ -22,13 +22,14 @@ import { createRoom } from '@/widgets/room/actions/create-room';
 
 export const CreateRoomForm = () => {
   const t = useTranslations('Game');
+  const common = useTranslations('Common');
   const { push } = useRouter();
   const form = useForm<CreateOrJoinToRoomParameters>({
     resolver: zodResolver(
       z.object({
-        name: z.string().min(1, {
+        name: z.string().trim().min(1, {
           message: t('inputName.error.required'),
-        }),
+        }).max(100, common('maxLength', { max: 100 })),
       }),
     ),
     defaultValues: {

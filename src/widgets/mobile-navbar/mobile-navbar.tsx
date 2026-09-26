@@ -1,4 +1,5 @@
 import { Menu } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import {
   Sheet,
@@ -9,13 +10,14 @@ import {
 import { Navbar } from '@/widgets/navbar/navbar';
 
 export const MobileNavbar = () => {
+  const translate = useTranslations('Common');
   return (
     <Sheet>
-      <SheetTrigger>
+      <SheetTrigger aria-label={translate('menu')}>
         <Menu />
       </SheetTrigger>
       <SheetContent>
-        <SheetTitle>Menu</SheetTitle>
+        <SheetTitle>{translate('menu')}</SheetTitle>
         <Navbar orientation="vertical" />
       </SheetContent>
     </Sheet>

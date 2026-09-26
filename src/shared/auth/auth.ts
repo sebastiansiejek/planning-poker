@@ -5,11 +5,13 @@ import GoogleProvider from 'next-auth/providers/google';
 
 import { AuthSessionStrategy } from '@/features/auth/lib/auth-session-strategy';
 import { getPrisma } from '@/shared/database/prisma';
+import { routes } from '@/shared/routes/routes';
 
 const authSessionStrategy = new AuthSessionStrategy();
 
 export const getAuthOptions = (): AuthOptions => {
   return {
+    pages: { signIn: routes.login.getPath(), error: routes.login.getPath() },
     providers: [
       GoogleProvider({
         clientId: process.env.GOOGLE_CLIENT_ID!,

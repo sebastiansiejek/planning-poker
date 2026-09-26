@@ -1,6 +1,7 @@
-import { redirect } from 'next/navigation';
+import { getLocale } from 'next-intl/server';
 import { cache } from 'react';
 
+import { getPathname,redirect } from '@/i18n/navigation';
 import { getSession } from '@/shared/auth/auth';
 import { GameServiceFactory } from '@/shared/factories/game-service-factory';
 import { ParticipantServiceFactory } from '@/shared/factories/participant-service-factory';
@@ -38,6 +39,7 @@ export default async function Page(properties: {
   }>;
 }) {
   const parameters = await properties.params;
+  const locale = await getLocale();
   const voteService = VoteServiceFactory.getService();
   const participantService = ParticipantServiceFactory.getService();
   const gameService = GameServiceFactory.getService();
@@ -45,16 +47,16 @@ export default async function Page(properties: {
   const room = await RoomServiceFactory.getService().get({ id: roomId });
 
   if (!room) {
-    return redirect(routes.game.create.getPath());
+    return redirect({ locale, href: routes.game.create.getPath() });
   }
   const session = await getSession();
-  if (!session?.user.id) redirect(routes.login.getPath());
+  if (!session?.user.id) return redirect({ locale, href: { pathname: routes.login.getPath(), query: { callbackUrl: getPathname({ locale, href: routes.game.singleGame.getPath(roomId) }) } } });
   let currentParticipant;
   try {
     currentParticipant = await participantService.joinAuthenticated(roomId, session.user.id);
   } catch (error) {
     if (error instanceof Error && error.message === 'Participant was removed from this room') {
-      redirect(routes.dashboard.getPath());
+      return redirect({ locale, href: routes.dashboard.getPath() });
     }
     throw error;
   }

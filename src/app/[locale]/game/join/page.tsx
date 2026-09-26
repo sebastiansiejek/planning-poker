@@ -1,6 +1,6 @@
-import { redirect } from 'next/navigation';
-import { getTranslations } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
 
+import { getPathname,redirect } from '@/i18n/navigation';
 import { getSession } from '@/shared/auth/auth';
 import { RoomServiceFactory } from '@/shared/factories/room-service-factory';
 import { routes } from '@/shared/routes/routes';
@@ -11,28 +11,23 @@ import { getPageMetaData } from '@/shared/utils/get-page-meta-data';
 import { JoinToRoom } from '@/widgets/join-to-room/join-to-room';
 import { UserGames } from '@/widgets/user-games/user-games';
 
-export async function generateMetadata(properties: {
-  params: Promise<{ locale: string }>;
-}) {
-  const parameters = await properties.params;
-
-  const { locale } = parameters;
-
-  const translate = await getTranslations({ locale });
+export async function generateMetadata() {
+  const translate = await getTranslations();
 
   return getPageMetaData({
     title: translate('Game.join.meta.title'),
-    description: translate('Game.join.meta.title'),
+    description: translate('Game.join.meta.description'),
   });
 }
 
 export default async function JoinToRoomPage() {
+  const locale = await getLocale();
   const session = await getSession();
   const roomApiService = RoomServiceFactory.getService();
   const translate = await getTranslations();
 
   if (!session) {
-    redirect(routes.login.getPath());
+    return redirect({ locale, href: { pathname: routes.login.getPath(), query: { callbackUrl: getPathname({ locale, href: routes.game.join.getPath() }) } } });
   }
 
   const rooms = await roomApiService.getRoomsWhereTheUserIsAParticipant(

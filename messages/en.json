@@ -3,10 +3,21 @@
     "signIn": "Sign in",
     "or": "or",
     "name": "Name",
-    "players_count": "Players count",
+    "players_count": "Players",
     "created_at": "Created at",
     "created_by": "Created by",
-    "actions": "Actions"
+    "actions": "Actions",
+    "language": "Language",
+    "close": "Close",
+    "menu": "Menu",
+    "noResults": "No results.",
+    "openRoom": "Open room",
+    "buyCoffee": "Buy me a coffee",
+    "toggleTheme": "Switch color theme",
+    "maxLength": "Use at most {max} characters.",
+    "saveError": "Could not save your changes. Please try again.",
+    "navigation": "Main navigation",
+    "notifications": "Notifications"
   },
   "Meta": {
     "description": "Planning Poker is a fun way to estimate tasks in a team."
@@ -41,11 +52,12 @@
       }
     },
     "join": {
-      "label": "Join to the game",
+      "label": "Join the game",
       "meta": {
-        "title": "Join to the game",
-        "description": "Join to the game to estimate tasks in a team."
-      }
+        "title": "Join the game",
+        "description": "Join a game to estimate tasks with your team."
+      },
+      "submit": "Join"
     },
     "inputId": {
       "label": "Room ID",
@@ -55,7 +67,7 @@
       }
     },
     "errors": {
-      "P2002": "You are already created a room with this name"
+      "P2002": "You already have a room with this name"
     }
   },
   "Login": {
@@ -64,7 +76,9 @@
     },
     "submitButton": {
       "label": "Join"
-    }
+    },
+    "google": "Continue with Google",
+    "error": "Could not sign in. Please try again with the account you originally used."
   },
   "Gravatar": {
     "add": "Add",
@@ -87,14 +101,16 @@
     "notification": {
       "trigger": "Send notification",
       "notice": "The team is waiting for your vote"
-    }
+    },
+    "kick": "Remove participant",
+    "paper": "Throw paper"
   },
   "ErrorPage": {
     "title": "Oops! Something went wrong",
     "retry": "Try again"
   },
   "Voting": {
-    "avg": "Average: {avg}",
+    "avg": "Average: {avg, number}",
     "noVotes": "Nobody voted. 😔"
   },
   "UserMenu": {
@@ -130,7 +146,11 @@
       }
     },
     "notifications": {
-      "success": "You settings updated successfully"
+      "success": "Your settings were updated successfully"
     }
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "home": "Back to home"
   }
 }

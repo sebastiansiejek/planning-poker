@@ -18,7 +18,7 @@ export const Paper = ({
     <Image
       className="fixed z-20"
       src="/paper.png"
-      alt="paper"
+      alt=""
       width={30}
       height={30}
       ref={animationPaperScope}

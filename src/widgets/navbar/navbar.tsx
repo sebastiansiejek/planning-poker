@@ -1,10 +1,11 @@
 'use client';
 
 import type { NavigationMenuProps } from '@radix-ui/react-navigation-menu';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import type { ReactNode } from 'react';
 
+import { Link } from '@/i18n/navigation';
+import { usePathname } from '@/i18n/navigation';
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -45,11 +46,12 @@ const LinkItem = ({
 export const Navbar = ({
   orientation = 'horizontal',
 }: Pick<NavigationMenuProps, 'orientation'>) => {
+  const translate = useTranslations('Common');
   const isVertical = orientation === 'vertical';
   const items = useNavbarItems();
 
   return (
-    <NavigationMenu orientation={orientation}>
+    <NavigationMenu orientation={orientation} aria-label={translate('navigation')}>
       <NavigationMenuList
         className={renderClass({
           'flex-col items-start': isVertical,

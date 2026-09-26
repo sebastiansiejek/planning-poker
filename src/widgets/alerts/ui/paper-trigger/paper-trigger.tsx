@@ -22,7 +22,7 @@ export const PaperTrigger = ({ userId, memberRef }: PaperTriggerProperties) => {
 
   return (
     <ButtonIcon
-      aria-label={t('notification.notice')}
+      aria-label={t('paper')}
       type="button"
       disabled={pendingNotification}
       onClick={() => {
@@ -43,7 +43,7 @@ export const PaperTrigger = ({ userId, memberRef }: PaperTriggerProperties) => {
         <Image
           className="cursor-pointer"
           src="/paper.png"
-          alt="paper"
+          alt=""
           width={20}
           height={20}
         />

@@ -5,14 +5,8 @@ import { PageHeading } from '@/shared/ui-kit/page-heading/page-heading';
 import { getPageMetaData } from '@/shared/utils/get-page-meta-data';
 import { CreateRoomForm } from '@/widgets/create-game/ui/create-room-form/create-room-form';
 
-export async function generateMetadata(properties: {
-  params: Promise<{ locale: string }>;
-}) {
-  const parameters = await properties.params;
-
-  const { locale } = parameters;
-
-  const translate = await getTranslations({ locale });
+export async function generateMetadata() {
+  const translate = await getTranslations();
 
   return getPageMetaData({
     title: translate('Game.create.meta.title'),

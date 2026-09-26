@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import { useToast } from '@/shared/ui-kit/toast/model/use-toast';
 import {
   Toast,
@@ -11,10 +13,11 @@ import {
 } from '@/shared/ui-kit/toast/ui/toast';
 
 export function Toaster() {
+  const translate = useTranslations('Common');
   const { toasts } = useToast();
 
   return (
-    <ToastProvider>
+    <ToastProvider label={translate('notifications')}>
       {toasts.map(({ id, title, description, action, ...properties }) => {
         return (
           <Toast key={id} {...properties}>
@@ -25,7 +28,7 @@ export function Toaster() {
               )}
             </div>
             {action}
-            <ToastClose />
+            <ToastClose aria-label={translate('close')} />
           </Toast>
         );
       })}

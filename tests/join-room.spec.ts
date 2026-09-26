@@ -17,7 +17,7 @@ test('signed-in user can create a room and join it by ID', async ({ page }) => {
     await page.getByTestId('game-name').fill(`join-${randomUUID()}`);
     await page.getByTestId('create-game-submit').click();
     await page.waitForURL((url) =>
-      /^\/game\/[^/]+$/.test(url.pathname) && url.pathname !== routes.game.create.getPath(),
+      /^\/en\/game\/(?!create$|join$)[^/]+$/.test(url.pathname) && url.pathname !== routes.game.create.getPath(),
     );
     roomId = new URL(page.url()).pathname.split('/').at(-1);
     expect(roomId).toBeTruthy();
@@ -26,7 +26,7 @@ test('signed-in user can create a room and join it by ID', async ({ page }) => {
     await page.locator('input[name="id"]').click();
     await page.locator('input[name="id"]').fill(roomId!);
     await page.getByRole('button', { name: 'Join', exact: true }).click();
-    await expect(page).toHaveURL(routes.game.singleGame.getPath(roomId!));
+    await expect(page).toHaveURL('/en' + routes.game.singleGame.getPath(roomId!));
   } finally {
     if (roomId) await getPrisma().room.delete({ where: { id: roomId } });
   }

@@ -14,7 +14,7 @@ export const routes = {
     },
   },
   login: {
-    getPath: () => '/api/auth/signin',
+    getPath: () => '/login',
   },
   dashboard: {
     getPath: () => '/dashboard',

@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { getSession } from '@/shared/auth/auth';
 import { RoomServiceFactory } from '@/shared/factories/room-service-factory';
 import { actionClient } from '@/shared/lib/safe-action';
-import { routes } from '@/shared/routes/routes';
+
 
 const schema = z.object({
   name: z.string().trim().min(1).max(100),
@@ -49,7 +49,7 @@ export const createRoom = actionClient
       authorId,
     });
 
-    revalidatePath(routes.dashboard.getPath());
+    revalidatePath('/[locale]/dashboard', 'page');
 
     return {
       success: true,

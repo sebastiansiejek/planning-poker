@@ -1,8 +1,8 @@
-import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 
+import { Link } from '@/i18n/navigation';
 import { routes } from '@/shared/routes/routes';
-import { Button, buttonVariants } from '@/shared/ui-kit/button/button';
+import { buttonVariants } from '@/shared/ui-kit/button/button';
 
 export default async function Home() {
   const t = await getTranslations();
@@ -20,7 +20,7 @@ export default async function Home() {
           </Link>
           <span>{t('Common.or')}</span>
           <Link href={routes.game.join.getPath()} className={buttonVariants()} data-testid="join-to-game">
-            <Button >{t('Game.join.label')}</Button>
+            {t('Game.join.label')}
           </Link>
         </div>
       </div>

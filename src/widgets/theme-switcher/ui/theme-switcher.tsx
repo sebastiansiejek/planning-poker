@@ -1,12 +1,14 @@
 'use client';
 
 import { Moon, Sun } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 
 const ICON_SIZE = 14;
 
 export const ThemeSwitcher = () => {
+  const translate = useTranslations('Common');
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -20,6 +22,7 @@ export const ThemeSwitcher = () => {
 
   return (
     <button
+      aria-label={translate('toggleTheme')}
       className="cursor-pointer hover:text-primary-500"
       type="button"
       onClick={() => {

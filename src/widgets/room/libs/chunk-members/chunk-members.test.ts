@@ -1,4 +1,4 @@
-import type { RoomMember } from '@/app/game/[...room]/types';
+import type { RoomMember } from '@/app/[locale]/game/[...room]/types';
 import { chunkMembers } from '@/widgets/room/libs/chunk-members/chunk-members';
 
 const members: Array<RoomMember> = [

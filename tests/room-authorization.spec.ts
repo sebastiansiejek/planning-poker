@@ -19,7 +19,7 @@ test('a signed-in nonmember cannot replay a room action', async ({ page, request
     await page.getByTestId('game-name').fill(`authorization-${randomUUID()}`);
     await page.getByTestId('create-game-submit').click();
     await page.waitForURL((url) =>
-      /^\/game\/[^/]+$/.test(url.pathname) && url.pathname !== routes.game.create.getPath(),
+      /^\/en\/game\/(?!create$|join$)[^/]+$/.test(url.pathname) && url.pathname !== routes.game.create.getPath(),
     );
     roomId = new URL(page.url()).pathname.split('/').at(-1);
     expect(roomId).toBeTruthy();

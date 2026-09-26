@@ -1,0 +1,156 @@
+{
+  "Common": {
+    "signIn": "Zaloguj się",
+    "or": "lub",
+    "name": "Nazwa",
+    "players_count": "Gracze",
+    "created_at": "Data utworzenia",
+    "created_by": "Utworzony przez",
+    "actions": "Akcje",
+    "language": "Język",
+    "close": "Zamknij",
+    "menu": "Menu",
+    "noResults": "Brak wyników.",
+    "openRoom": "Otwórz pokój",
+    "buyCoffee": "Postaw mi kawę",
+    "toggleTheme": "Zmień motyw kolorystyczny",
+    "maxLength": "Wpisz maksymalnie {max} znaków.",
+    "saveError": "Nie udało się zapisać zmian. Spróbuj ponownie.",
+    "navigation": "Nawigacja główna",
+    "notifications": "Powiadomienia"
+  },
+  "Meta": {
+    "description": "Planning Poker to prosty sposób na zespołowe szacowanie zadań."
+  },
+  "Homepage": {
+    "title": "Planning Poker",
+    "description": "Planuj projekty razem z zespołem! Planning Poker pomaga szacować zadania, angażuje wszystkich uczestników i ułatwia rozmowę o pracy do wykonania."
+  },
+  "Game": {
+    "inputName": {
+      "label": "Nazwa",
+      "placeholder": "Wpisz nazwę gry",
+      "error": {
+        "required": "Nazwa jest wymagana"
+      }
+    },
+    "create": {
+      "label": "Utwórz nową grę",
+      "meta": {
+        "title": "Utwórz nową grę",
+        "description": "Utwórz nową grę, aby szacować zadania razem z zespołem."
+      }
+    },
+    "newGame": {
+      "title": "Nowa gra",
+      "create": "Rozpocznij",
+      "name": {
+        "label": "Nazwa"
+      },
+      "description": {
+        "label": "Opis"
+      }
+    },
+    "join": {
+      "label": "Dołącz do gry",
+      "submit": "Dołącz",
+      "meta": {
+        "title": "Dołącz do gry",
+        "description": "Dołącz do gry, aby szacować zadania razem z zespołem."
+      }
+    },
+    "inputId": {
+      "label": "ID pokoju",
+      "error": {
+        "required": "ID pokoju jest wymagane",
+        "notFound": "Nie znaleziono pokoju"
+      }
+    },
+    "errors": {
+      "P2002": "Masz już pokój o tej nazwie"
+    }
+  },
+  "Login": {
+    "inputName": {
+      "placeholder": "Wpisz swoje imię"
+    },
+    "submitButton": {
+      "label": "Dołącz"
+    },
+    "google": "Kontynuuj z Google",
+    "error": "Nie udało się zalogować. Spróbuj ponownie, używając tego samego konta co wcześniej."
+  },
+  "Gravatar": {
+    "add": "Dodaj",
+    "email": {
+      "placeholder": "Wpisz adres e-mail używany w Gravatarze"
+    }
+  },
+  "Room": {
+    "reveal": {
+      "button": "Odkryj karty"
+    },
+    "reset": {
+      "button": "Zresetuj"
+    },
+    "kick": {
+      "message": "Usunięto Cię z gry"
+    }
+  },
+  "Member": {
+    "notification": {
+      "trigger": "Wyślij powiadomienie",
+      "notice": "Zespół czeka na Twój głos"
+    },
+    "kick": "Usuń uczestnika",
+    "paper": "Rzuć papierkiem"
+  },
+  "ErrorPage": {
+    "title": "Coś poszło nie tak",
+    "retry": "Spróbuj ponownie"
+  },
+  "Voting": {
+    "avg": "Średnia: {avg, number}",
+    "noVotes": "Nikt nie zagłosował. 😔"
+  },
+  "UserMenu": {
+    "logout": "Wyloguj się",
+    "dashboard": "Panel"
+  },
+  "Navbar": {
+    "home": "Strona główna",
+    "createGame": "Gra"
+  },
+  "AlertDialog": {
+    "delete": {
+      "title": "Czy na pewno chcesz usunąć?",
+      "description": "Tej operacji nie można cofnąć.",
+      "confirm": "Tak, usuń",
+      "cancel": "Anuluj"
+    }
+  },
+  "Dashboard": {
+    "userGames": "Gry, w których uczestniczysz",
+    "meta": {
+      "title": "Panel"
+    }
+  },
+  "UserSettings": {
+    "title": "Ustawienia",
+    "controls": {
+      "name": {
+        "label": "Imię"
+      },
+      "submit": {
+        "title": "Zapisz"
+      }
+    },
+    "notifications": {
+      "success": "Ustawienia zostały zapisane"
+    }
+  },
+  "NotFound": {
+    "title": "Nie znaleziono strony",
+    "home": "Wróć na stronę główną"
+  }
+}

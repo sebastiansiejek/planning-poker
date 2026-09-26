@@ -15,7 +15,7 @@ export const KickUser = ({ userId: participantId }: { userId: string }) => {
 
   return (
     <ButtonIcon
-      aria-label={t('notification.trigger')}
+      aria-label={t('kick')}
       type="button"
       disabled={isPending}
       onClick={() => {

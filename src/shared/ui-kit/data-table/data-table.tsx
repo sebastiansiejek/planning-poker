@@ -6,6 +6,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
+import { useTranslations } from 'next-intl';
 
 import {
   Table,
@@ -32,6 +33,7 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProperties<TData, TValue>) {
+  const translate = useTranslations('Common');
   const table = useReactTable({
     data,
     columns,
@@ -79,7 +81,7 @@ export function DataTable<TData, TValue>({
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+                {translate('noResults')}
               </TableCell>
             </TableRow>
           )}

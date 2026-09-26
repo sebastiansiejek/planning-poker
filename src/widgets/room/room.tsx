@@ -1,13 +1,13 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { useAction } from 'next-safe-action/hooks';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-import type { RoomProperties } from '@/app/game/[...room]/types';
+import type { RoomProperties } from '@/app/[locale]/game/[...room]/types';
 import { RoomListenerFactory } from '@/features/room/lib/RoomListener/room-listener-factory';
 import { RoomSupabaseNotificationsListener } from '@/features/room/lib/RoomListener/room-supabase-notifications-listener';
+import { useRouter } from '@/i18n/navigation';
 import useNotification from '@/shared/hooks/useNotification/use-notification';
 import { routes } from '@/shared/routes/routes';
 import type { Vote } from '@/shared/types/types';
@@ -56,6 +56,7 @@ export default function Room({
   const [topMembers, leftMembers, bottomMembers, rightMembers] = memberChunks;
   const { notify } = useNotification();
   const t = useTranslations();
+  const locale = useLocale();
   const gameId = activeGame?.id;
   const voteValue = room?.vote || '';
   const { execute: executeGetGameVote } = useAction(getGameVotes, {
@@ -167,7 +168,7 @@ export default function Room({
       roomNotificationsListener.unsubscribe();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gameId]);
+  }, [gameId, locale]);
 
   return (
     <>

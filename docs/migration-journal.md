@@ -303,6 +303,52 @@ and the participant row held the new name. Lint, types, 5 unit tests, the
 production build, and all 7 local Playwright scenarios passed. The tests used
 local Supabase only.
 
+### 2026-09-25 — Stage 5: Polish and English routes
+
+The invitation/private Realtime experiment was stashed at the user's request.
+Invitation links are deferred; signed-in users still join using room IDs. Private
+Realtime can be implemented independently. Guests remain the final feature stage.
+The experiment's applied local SQL migration and ignored local JWT setting remain
+outside the stash; no production database or deployment was changed.
+
+Application pages now live under `[locale]`, with `/en` and `/pl` prefixes.
+Unprefixed links redirect using the remembered language or browser preference,
+with English as the fallback. The footer language selector keeps the current
+page, query string, and fragment. API routes, static assets, and the Sentry tunnel
+remain outside locale routing. Localized navigation wrappers preserve the locale
+for links, client navigation, server redirects, and sign-out.
+
+The authentication proxy protects the localized dashboard and game routes. A
+translated Google sign-in page retains the destination through login and language
+switches; callback destinations are restricted to the configured application
+origin. NextAuth handles the provider flow and session as before. Polish copy now
+covers the homepage, dashboard, settings, room controls, forms, menus, and ordinary
+error/not-found pages. Dates and voting averages use locale-aware formatting.
+Both catalogs contain the same 72 message keys. The framework's root-failure
+fallback remains the existing Next.js global error page.
+
+Browser coverage checks language detection and persistence, query/hash retention,
+localized authentication redirects and Google callback parameters, translated
+validation, room creation/joining, switching languages inside a room, voting,
+settings metadata, and sign-out. The Google handoff is intercepted in tests; an
+external Google OAuth round trip was not performed. A name-update test initially
+failed; focusing its input before filling and asserting the submitted payload
+made its interaction explicit, and the final suite passed.
+
+Verification: lint, type checks, 5 unit tests, and all 11 local WebKit scenarios
+passed, along with the production build. The restricted build stalled during
+compilation; rerunning outside the sandbox completed successfully. Database tests
+used local Supabase only. Existing development warnings about the Edge runtime, stream
+closure, and dialog descriptions remain follow-up items.
+
+### 2026-09-25 — Follow-up: compact language selector
+
+Replaced the native language dropdown with the official shadcn/ui Radix Select,
+adapted to the existing shared UI kit. The borderless trigger shows EN/PL and a
+chevron; the menu shows full language names. Added the Radix Select dependency.
+Lint, type checks, and all 4 locale browser tests passed. A local screenshot
+confirmed the menu layout, and keyboard selection also changed the locale.
+
 ## Blog angles and lessons
 
 - An abstraction is valuable only when every implementation is intentionally

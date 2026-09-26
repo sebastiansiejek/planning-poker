@@ -36,7 +36,7 @@ test('changing an account name updates another viewer’s room board', async ({ 
     await page.getByTestId('game-name').fill(`name-update-${randomUUID()}`);
     await page.getByTestId('create-game-submit').click();
     await page.waitForURL((url) =>
-      /^\/game\/[^/]+$/.test(url.pathname) && url.pathname !== routes.game.create.getPath(),
+      /^\/en\/game\/(?!create$|join$)[^/]+$/.test(url.pathname) && url.pathname !== routes.game.create.getPath(),
     );
     roomId = new URL(page.url()).pathname.split('/').at(-1);
     expect(roomId).toBeTruthy();
@@ -47,12 +47,15 @@ test('changing an account name updates another viewer’s room board', async ({ 
     await expect(page.getByText(firstName, { exact: true })).toBeVisible();
 
     await secondPage.goto(routes.userSettings.getPath());
+    await secondPage.getByRole('textbox', { name: 'Name' }).click();
     await secondPage.getByRole('textbox', { name: 'Name' }).fill(updatedName);
     const updateResponse = secondPage.waitForResponse(
       (response) => response.url().endsWith('/api/user') && response.request().method() === 'PUT',
     );
     await secondPage.getByRole('button', { name: 'Save' }).click();
-    expect((await updateResponse).status()).toBe(200);
+    const savedResponse = await updateResponse;
+    expect(savedResponse.status()).toBe(200);
+    expect(savedResponse.request().postDataJSON().name).toBe(updatedName);
 
     await expect(page.getByText(updatedName, { exact: true })).toBeVisible();
     await expect(page.getByText(firstName, { exact: true })).toHaveCount(0);

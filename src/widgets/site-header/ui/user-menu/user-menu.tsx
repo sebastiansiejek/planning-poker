@@ -1,13 +1,13 @@
 'use client';
 
 import { ChevronDown, LayoutDashboard, LogOut, Settings } from 'lucide-react';
-import Link from 'next/link';
-import { signIn, signOut, useSession } from 'next-auth/react';
-import { useTranslations } from 'next-intl';
+import { signOut, useSession } from 'next-auth/react';
+import { useLocale, useTranslations } from 'next-intl';
 import { useState } from 'react';
 
+import { getPathname, Link, usePathname } from '@/i18n/navigation';
 import { routes } from '@/shared/routes/routes';
-import { Button } from '@/shared/ui-kit/button/button';
+import { buttonVariants } from '@/shared/ui-kit/button/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,6 +17,8 @@ import {
 } from '@/shared/ui-kit/dropdown-menu/dropdown-menu';
 
 export const UserMenu = () => {
+  const locale = useLocale();
+  const pathname = usePathname();
   const { data } = useSession();
   const isLogged = !!data;
   const translations = useTranslations();
@@ -24,9 +26,15 @@ export const UserMenu = () => {
 
   if (!isLogged) {
     return (
-      <Button variant="ghost" onClick={() => signIn()}>
+      <Link
+        className={buttonVariants({ variant: 'ghost' })}
+        href={{
+          pathname: routes.login.getPath(),
+          query: { callbackUrl: getPathname({ locale, href: pathname }) },
+        }}
+      >
         {translations('Common.signIn')}
-      </Button>
+      </Link>
     );
   }
 
@@ -40,13 +48,13 @@ export const UserMenu = () => {
         />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <Link href={routes.dashboard.getPath()} >
+        <Link href={routes.dashboard.getPath()}>
           <DropdownMenuItem>
             <LayoutDashboard />
             {translations('UserMenu.dashboard')}
           </DropdownMenuItem>
         </Link>
-        <Link href={routes.userSettings.getPath()} >
+        <Link href={routes.userSettings.getPath()}>
           <DropdownMenuItem>
             <Settings />
             {translations('UserSettings.title')}
@@ -54,9 +62,12 @@ export const UserMenu = () => {
         </Link>
         <DropdownMenuSeparator />
         <DropdownMenuItem
-          onClick={() => signOut({
-          callbackUrl: '/',
-        })}>
+          onClick={() =>
+            signOut({
+              callbackUrl: getPathname({ locale, href: routes.home.getPath() }),
+            })
+          }
+        >
           <LogOut />
           {translations('UserMenu.logout')}
         </DropdownMenuItem>
