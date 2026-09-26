@@ -25,7 +25,8 @@ layer retained a runtime switch between Prisma and Firebase.
 - Prisma remains the only production data adapter and the only migration
   system. Raw PostgreSQL policies live inside Prisma migrations.
 - Auth stays on stable NextAuth v4 for this release.
-- Login methods will be Google, GitHub, and a Resend-backed magic link.
+- Google remains the only account sign-in method for the current scope. GitHub
+  and email magic links are deferred.
 - Creating a room requires an account; joining and voting do not.
 - A room-scoped `Participant` represents both guests and signed-in users.
 - A guest can link the current participant to an account without losing votes.
@@ -93,8 +94,8 @@ manually, and retain the legacy Vercel deployment for immediate rollback.
 3. Introduce the Participant, invite, round, and vote model.
 4. Authorize and make all room mutations atomic.
 5. Add locale routing and complete Polish/English translations.
-6. Implement guest identity, merge-on-login, and Presence.
-7. Add GitHub, magic-link auth, and explicit account linking.
+6. Implement guest identity, merge-on-login, and Presence (deferred to the final feature stage).
+7. Additional account sign-in methods and provider linking (deferred; Google is sufficient for now).
 8. Secure Realtime and add shared rate limiting.
 9. Add monitoring, analytics, privacy documentation, and accessibility checks.
 10. Rebuild CI/CD, validate staging, and promote to production.
