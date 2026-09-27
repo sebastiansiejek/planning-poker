@@ -1,7 +1,6 @@
 'use client';
 
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { useTranslations } from 'next-intl';
 import type { PropsWithChildren } from 'react';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { z } from 'zod';
@@ -9,8 +8,7 @@ import { z } from 'zod';
 import { useRouter } from '@/i18n/navigation';
 import { createRoomRealtimeClient } from '@/shared/realtime/lib/supabase-realtime-client';
 import { routes } from '@/shared/routes/routes';
-import { Container } from '@/shared/ui-kit/container/container';
-import { Spinner } from '@/shared/ui-kit/Loaders/spinner/spinner';
+import { RoomLoadingSkeleton } from '@/widgets/room/room-loading-skeleton';
 
 const RealtimeContext = createContext<SupabaseClient | null>(null);
 const tokenSchema = z.object({
@@ -31,7 +29,6 @@ export const RoomRealtimeGate = ({
   const [client, setClient] = useState<SupabaseClient | null>(null);
   const [failed, setFailed] = useState(false);
   const router = useRouter();
-  const translate = useTranslations('Room');
 
   useEffect(() => {
     let accessToken: string | null = null;
@@ -127,12 +124,5 @@ export const RoomRealtimeGate = ({
         {children}
       </RealtimeContext.Provider>
     );
-  return (
-    <Container>
-      <div className="flex items-center gap-2 py-12" role="status">
-        <Spinner />
-        {translate(failed ? 'connectionError' : 'connecting')}
-      </div>
-    </Container>
-  );
+  return <RoomLoadingSkeleton failed={failed} />;
 };
