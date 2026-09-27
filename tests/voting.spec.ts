@@ -26,7 +26,7 @@ test('voting', async ({ page }) => {
   await page.waitForURL(/\/game\/\w+$/);
   await page.getByTestId('create-game-trigger-button').click();
   await page.getByTestId('create-game-submit').click();
-  const estimate = page.getByRole('group', { name: 'Choose your estimate' }).getByRole('radio', { name: '3' });
+  const estimate = page.getByRole('group', { name: 'Choose your estimate' }).getByRole('radio', { name: '3', exact: true });
   await estimate.focus();
   await expect(estimate).toBeFocused();
   await page.keyboard.press('Space');
