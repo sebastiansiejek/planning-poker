@@ -44,7 +44,21 @@ You can choose between Firebase and Prisma ORM.
 > For realtime room updates you need to have configured **Supabase Realtime**
 
 1. Create a Supabase project
-2. Add `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_ROLE_KEY` in `.env`
+2. Add `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, and `SUPABASE_JWT_SECRET` in `.env.local` for local development (or the deployment environment).
+3. `SUPABASE_JWT_SECRET` must be the server-only legacy HS256 signing secret from the same Supabase project. Never use a `NEXT_PUBLIC_` name for this secret. The project must still accept that signing key.
+4. Run `pnpm prisma:migrate` before using private room updates. These migrations authorize Realtime reads for active room participants and deny browser access to application tables; Prisma retains server access.
+
+Room updates and notifications use private channels. The server issues 60-second
+room-scoped tokens and the browser renews them every 30 seconds. Removed users
+cannot renew or start new subscriptions. A previously connected client that
+ignores removal may receive events until its token expires (up to approximately
+one minute). A removed user can enter the room ID on the join page to join
+again, subject to the room capacity. Opening the room URL does not rejoin them.
+
+For hosted Supabase, disable **Allow public access** in Realtime settings before
+release. Application broadcasts already use `private: true`, which keeps them
+separate from public subscriptions even while public channels remain enabled in
+the local development stack. No hosted configuration is changed by these migrations.
 
 # Automation
 

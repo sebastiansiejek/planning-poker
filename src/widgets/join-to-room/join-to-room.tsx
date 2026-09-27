@@ -39,7 +39,7 @@ export const JoinToRoom = () => {
     onSuccess: ({ data, input: { id } }) => {
       if (!data?.success) {
         setError('id', {
-          message: translate('inputId.error.notFound'),
+          message: translate(data?.message === 'Room is full' ? 'inputId.error.full' : 'inputId.error.notFound'),
         });
         setValue('id', '');
         return;

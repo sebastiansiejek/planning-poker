@@ -12,15 +12,17 @@ import useNotification from '@/shared/hooks/useNotification/use-notification';
 import { routes } from '@/shared/routes/routes';
 import type { Vote } from '@/shared/types/types';
 import { Container } from '@/shared/ui-kit/container/container';
+import { Spinner } from '@/shared/ui-kit/Loaders/spinner/spinner';
 import { PageHeading } from '@/shared/ui-kit/page-heading/page-heading';
 import { toast } from '@/shared/ui-kit/toast/model/use-toast';
 import { Paper } from '@/widgets/alerts/ui/paper/paper';
 import type { TriggerPaperThrowingParameters } from '@/widgets/room/actions/alerts/trigger-paper-throwing';
 import { getGameVotes } from '@/widgets/room/actions/get-game-votes';
-import { getRoomMembers } from '@/widgets/room/actions/get-room-members';
+import { getRoomState } from '@/widgets/room/actions/get-room-state';
 import { chunkMembers } from '@/widgets/room/libs/chunk-members/chunk-members';
 import { useRoomContext } from '@/widgets/room/model/room-context';
 import { useIsFinishedGame } from '@/widgets/room/model/selectors/use-is-finished-game';
+import { useRoomRealtimeClient } from '@/widgets/room/room-realtime-gate';
 import { GameContainer } from '@/widgets/room/ui/game/game-container/game-container';
 import { Members } from '@/widgets/room/ui/members/members';
 import { RoomTable } from '@/widgets/room/ui/room-table/room-table';
@@ -44,7 +46,9 @@ export default function Room({
   const [papers, setPapers] = useState<
     Pick<TriggerPaperThrowingParameters, 'triggerUser' | 'targetUser'>[]
   >([]);
-  const memberVersion = useRef(0);
+  const eventVersion = useRef(0);
+  const realtimeClient = useRoomRealtimeClient();
+  const [connected, setConnected] = useState(false);
   const { dispatch, room } = useRoomContext();
   const router = useRouter();
   const activeGame = room?.game;
@@ -58,6 +62,8 @@ export default function Room({
   const t = useTranslations();
   const locale = useLocale();
   const gameId = activeGame?.id;
+  const gameIdRef = useRef(gameId);
+  useEffect(() => { gameIdRef.current = gameId; }, [gameId]);
   const voteValue = room?.vote || '';
   const { execute: executeGetGameVote } = useAction(getGameVotes, {
     onSuccess: ({ data }) => {
@@ -80,9 +86,47 @@ export default function Room({
 
   useEffect(() => {
     let isActive = true;
-    const roomListener = RoomListenerFactory.getService(roomId);
+    let eventsSubscribed = false;
+    let eventsReady = false;
+    let notificationsReady = false;
+    let retryTimer: ReturnType<typeof setTimeout>;
+    setConnected(false);
+    const updateConnection = () => {
+      if (isActive) setConnected(eventsReady && notificationsReady);
+    };
+    const refreshRoom = async () => {
+      const version = eventVersion.current;
+      try {
+        const result = await getRoomState({ roomId });
+        if (!isActive || !eventsSubscribed) return;
+        if (result?.data?.success === false) {
+          router.replace(routes.game.join.getPath());
+          return;
+        }
+        if (!result?.data?.success) throw new Error('Failed to refresh room');
+        if (version !== eventVersion.current) {
+          retryTimer = setTimeout(() => void refreshRoom(), 0);
+          return;
+        }
+        const snapshot = result.data;
+        setMembers(snapshot.members);
+        gameIdRef.current = snapshot.game?.id;
+        dispatch({ type: 'SET_GAME', payload: snapshot.game || undefined });
+        dispatch({ type: 'SET_VOTE', payload: { value: snapshot.ownVote } });
+        setVotes(snapshot.revealedVotes);
+        setVotedUserIds(snapshot.votedParticipantIds);
+        setIsRevealedCards(snapshot.game?.status === 'FINISHED');
+        setIsWaitingForStartGame(snapshot.game?.status === 'FINISHED');
+        eventsReady = true;
+        updateConnection();
+      } catch {
+        if (isActive && eventsSubscribed) retryTimer = setTimeout(() => void refreshRoom(), 3_000);
+      }
+    };
+    const roomListener = RoomListenerFactory.getService(roomId, realtimeClient);
     const roomNotificationsListener = new RoomSupabaseNotificationsListener(
       roomId,
+      realtimeClient,
     );
 
     roomNotificationsListener
@@ -100,16 +144,17 @@ export default function Room({
     if (roomListener) {
       roomListener
         .on('ready', () => {
-          const version = memberVersion.current;
-          void getRoomMembers({ roomId }).then((result) => {
-            if (isActive && version === memberVersion.current && result?.data?.members) {
-              setMembers(result.data.members);
-            }
-          }).catch((error) => {
-            console.error('Failed to refresh room members', error);
-          });
+          eventsSubscribed = true;
+          void refreshRoom();
+        })
+        .on('disconnected', () => {
+          eventsSubscribed = false;
+          eventsReady = false;
+          updateConnection();
         })
         .on('gameCreated', (game) => {
+          eventVersion.current += 1;
+          gameIdRef.current = game?.id;
           dispatch({ type: 'SET_VOTE', payload: { value: '' } });
           setVotes([]);
           setVotedUserIds([]);
@@ -121,10 +166,11 @@ export default function Room({
           });
         })
         .on('voted', ({ participantId }) => {
+          eventVersion.current += 1;
           setVotedUserIds((oldVotedUsers) => [...new Set([...oldVotedUsers, participantId])]);
         })
         .on('memberAdded', ({ name, id, avatarUrl: userAvatarUrl }) => {
-          memberVersion.current += 1;
+          eventVersion.current += 1;
           setMembers((oldMembers) => [
             ...oldMembers.filter((member) => member.id !== id),
             {
@@ -135,19 +181,20 @@ export default function Room({
           ]);
         })
         .on('memberUpdated', ({ id, name }) => {
-          memberVersion.current += 1;
+          eventVersion.current += 1;
           setMembers((oldMembers) =>
             oldMembers.map((member) => (member.id === id ? { ...member, name } : member)),
           );
         })
         .on('revealVotes', () => {
-          if (!gameId) return;
-          executeGetGameVote({ gameId, roomId });
+          eventVersion.current += 1;
+          if (!gameIdRef.current) return;
+          executeGetGameVote({ gameId: gameIdRef.current, roomId });
           setIsRevealedCards(true);
           setIsWaitingForStartGame(true);
         })
         .on('memberRemoved', ({ id }) => {
-          memberVersion.current += 1;
+          eventVersion.current += 1;
           setMembers((oldMembers) => oldMembers.filter((m) => m.id !== id));
           if (id === currentUserId) {
             router.push(routes.game.join.getPath());
@@ -157,18 +204,27 @@ export default function Room({
             });
           }
         });
+      roomNotificationsListener.connect(
+        () => { notificationsReady = true; updateConnection(); },
+        () => { notificationsReady = false; updateConnection(); },
+      );
       roomListener.connect();
     }
 
     return () => {
       isActive = false;
+      clearTimeout(retryTimer);
       for (const unsubscribe of roomListener.unsubscribeListener) {
         unsubscribe();
       }
       roomNotificationsListener.unsubscribe();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gameId, locale]);
+  }, [roomId, realtimeClient, locale]);
+
+  if (!connected) {
+    return <Container><div className="flex items-center gap-2 py-12" role="status"><Spinner />{t('Room.connecting')}</div></Container>;
+  }
 
   return (
     <>

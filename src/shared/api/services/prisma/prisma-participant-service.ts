@@ -8,7 +8,7 @@ export class PrismaParticipantService
   extends PrismaBaseService
   implements ParticipantService
 {
-  joinAuthenticated: ParticipantService['joinAuthenticated'] = async (roomId, userId) => {
+  joinAuthenticated: ParticipantService['joinAuthenticated'] = async (roomId, userId, options) => {
     return this.prisma.$transaction(async (transaction) => {
       // Serialize joins for this room so simultaneous requests respect its capacity.
       const rooms = await transaction.$queryRaw<{ id: string }[]>`
@@ -20,13 +20,15 @@ export class PrismaParticipantService
         where: { roomId_userId: { roomId, userId } },
         select: { ...participantSelect, leftAt: true },
       });
-      if (existing?.leftAt) throw new Error('Participant was removed from this room');
+      if (existing?.leftAt && !options?.allowRejoin) {
+        throw new Error('Participant was removed from this room');
+      }
 
       const user = await transaction.user.findUniqueOrThrow({
         where: { id: userId },
         select: { name: true, image: true },
       });
-      if (existing) {
+      if (existing && !existing.leftAt) {
         if (existing.name === user.name) return existing;
         return transaction.participant.update({
           where: { id: existing.id },
@@ -39,6 +41,14 @@ export class PrismaParticipantService
         where: { roomId, leftAt: null },
       });
       if (activeCount >= maxActiveParticipants) throw new Error('Room is full');
+
+      if (existing) {
+        return transaction.participant.update({
+          where: { id: existing.id },
+          data: { leftAt: null, name: user.name, image: user.image },
+          select: participantSelect,
+        });
+      }
 
       return transaction.participant.create({
         data: { roomId, userId, name: user.name, image: user.image },

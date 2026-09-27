@@ -17,19 +17,18 @@ export const joinToRoomValidator = actionClient
     const userId = (await getSession())?.user.id;
     if (!userId) return { success: false, message: 'Unauthorized' };
 
-    if (await ParticipantServiceFactory.getService().isRemoved(id, userId)) {
-      return { success: false, message: 'Room not found' };
-    }
-
     const roomService = RoomServiceFactory.getService();
     const isRoom = await roomService.get({ id });
 
-    return isRoom
-      ? {
-          success: true,
-        }
-      : {
-          success: false,
-          message: 'Room not found',
-        };
+    if (!isRoom) return { success: false, message: 'Room not found' };
+
+    try {
+      await ParticipantServiceFactory.getService().joinAuthenticated(id, userId, { allowRejoin: true });
+      return { success: true };
+    } catch (error) {
+      if (error instanceof Error && error.message === 'Room is full') {
+        return { success: false, message: 'Room is full' };
+      }
+      throw error;
+    }
   });

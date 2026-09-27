@@ -13,6 +13,7 @@ import { routes } from '@/shared/routes/routes';
 import { getPageMetaData } from '@/shared/utils/get-page-meta-data';
 import { RoomProvider } from '@/widgets/room/model/room-context';
 import Room from '@/widgets/room/room';
+import { RoomRealtimeGate } from '@/widgets/room/room-realtime-gate';
 
 const getRoomName = cache(async (roomId: string) => {
   const roomService = RoomServiceFactory.getService();
@@ -56,7 +57,7 @@ export default async function Page(properties: {
     currentParticipant = await participantService.joinAuthenticated(roomId, session.user.id);
   } catch (error) {
     if (error instanceof Error && error.message === 'Participant was removed from this room') {
-      return redirect({ locale, href: routes.dashboard.getPath() });
+      return redirect({ locale, href: routes.game.join.getPath() });
     }
     throw error;
   }
@@ -81,6 +82,7 @@ export default async function Page(properties: {
   );
 
   return (
+    <RoomRealtimeGate key={roomId} roomId={roomId}>
     <RoomProvider game={latestGame || undefined} roomId={roomId} participantId={currentParticipant.id} isOwner={room.authorId === session.user.id}>
       <Room
         id={roomId}
@@ -91,5 +93,6 @@ export default async function Page(properties: {
         finishedGameVotes={latestGame?.status === 'FINISHED' ? votes : []}
       />
     </RoomProvider>
+    </RoomRealtimeGate>
   );
 }

@@ -7,7 +7,7 @@ export type RoomParticipant = {
 };
 
 export type ParticipantService = {
-  joinAuthenticated: (roomId: string, userId: string) => Promise<RoomParticipant>;
+  joinAuthenticated: (roomId: string, userId: string, options?: { allowRejoin?: boolean }) => Promise<RoomParticipant>;
   getAuthenticated: (roomId: string, userId: string) => Promise<RoomParticipant | null>;
   isRemoved: (roomId: string, userId: string) => Promise<boolean>;
   getActive: (roomId: string, participantId: string) => Promise<RoomParticipant | null>;

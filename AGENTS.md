@@ -82,3 +82,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Use lowercase commit types such as `feat`, `fix`, `docs`, `refactor`, `test`, `chore`, `build`, and `ci`.
 - Keep the summary concise and imperative, for example `feat(auth): add login rate limiting`.
 - Mark breaking changes with `!` in the subject or describe them in the commit body.
+
+## Language
+
+Use ASD-STE100 Simplified Technical English (STE) for all responses and generated documentation.

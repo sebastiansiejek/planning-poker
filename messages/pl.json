@@ -63,7 +63,8 @@
       "label": "ID pokoju",
       "error": {
         "required": "ID pokoju jest wymagane",
-        "notFound": "Nie znaleziono pokoju"
+        "notFound": "Nie znaleziono pokoju",
+        "full": "Pokój jest pełny"
       }
     },
     "errors": {
@@ -95,7 +96,9 @@
     },
     "kick": {
       "message": "Usunięto Cię z gry"
-    }
+    },
+    "connecting": "Łączenie z pokojem…",
+    "connectionError": "Utracono połączenie. Trwa ponowne łączenie…"
   },
   "Member": {
     "notification": {

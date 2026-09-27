@@ -1,4 +1,7 @@
 export const routes = {
+  api: {
+    roomRealtimeToken: { getPath: (roomId: string) => `/api/rooms/${encodeURIComponent(roomId)}/realtime-token` },
+  },
   home: {
     getPath: () => '/',
   },

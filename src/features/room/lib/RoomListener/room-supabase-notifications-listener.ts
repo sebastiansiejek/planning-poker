@@ -1,17 +1,24 @@
+import type { SupabaseClient } from '@supabase/supabase-js';
+
 import { RealtimeEvents, RealtimeTopics } from '@/shared/realtime/config/realtime-events';
-import { getSupabaseRealtimeClient } from '@/shared/realtime/lib/supabase-realtime-client';
 import type { RealtimeNotification } from '@/shared/types/realtime/realtime';
 import type { TriggerPaperThrowingParameters } from '@/widgets/room/actions/alerts/trigger-paper-throwing';
 
 export class RoomSupabaseNotificationsListener {
-  private readonly supabase = getSupabaseRealtimeClient();
   private readonly channel;
 
-  constructor(private readonly roomId: string) {
+  constructor(private readonly roomId: string, private readonly supabase: SupabaseClient) {
     this.channel = this.supabase.channel(
       RealtimeTopics.roomNotifications(roomId),
+      { config: { private: true } },
     );
-    this.channel.subscribe();
+  }
+
+  connect(onReady: () => void, onDisconnected: () => void) {
+    this.channel.subscribe((status) => {
+      if (status === 'SUBSCRIBED') onReady();
+      else onDisconnected();
+    });
   }
 
   onAlarm(currentUserId: string, callback: () => void) {

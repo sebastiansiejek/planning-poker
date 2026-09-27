@@ -18,7 +18,7 @@ export const SignIn = ({
   const [failed, setFailed] = useState(false);
 
   return (
-    <div className="flex flex-col items-start gap-4">
+    <div className="flex flex-col items-center gap-4">
       {(hasError || failed) && <p role="alert">{translate('error')}</p>}
       <Button
         isLoading={isPending}

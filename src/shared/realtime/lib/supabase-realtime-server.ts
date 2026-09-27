@@ -21,6 +21,7 @@ export const broadcastToRealtime = async (
       messages: [
         {
           topic,
+          private: true,
           event,
           payload,
         },

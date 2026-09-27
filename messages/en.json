@@ -63,7 +63,8 @@
       "label": "Room ID",
       "error": {
         "required": "Room ID is required",
-        "notFound": "Room not found"
+        "notFound": "Room not found",
+        "full": "Room is full"
       }
     },
     "errors": {
@@ -95,7 +96,9 @@
     },
     "kick": {
       "message": "You have been kicked from the game"
-    }
+    },
+    "connecting": "Connecting to the room…",
+    "connectionError": "Connection lost. Reconnecting…"
   },
   "Member": {
     "notification": {

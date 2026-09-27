@@ -1,16 +1,16 @@
+import type { SupabaseClient } from '@supabase/supabase-js';
+
 import { RoomListener } from '@/features/room/lib/RoomListener/room-listener';
 import { RealtimeEvents, RealtimeTopics } from '@/shared/realtime/config/realtime-events';
-import { getSupabaseRealtimeClient } from '@/shared/realtime/lib/supabase-realtime-client';
 import type { RealtimeNewMember } from '@/shared/types/realtime/realtime';
 import type { RoomContextType } from '@/widgets/room/model/room-context';
 
 export class RoomPrismaListener extends RoomListener {
-  private readonly supabase = getSupabaseRealtimeClient();
   private readonly channel;
 
-  constructor(private readonly roomId: string) {
+  constructor(private readonly roomId: string, private readonly supabase: SupabaseClient) {
     super();
-    this.channel = this.supabase.channel(RealtimeTopics.roomEvents(roomId));
+    this.channel = this.supabase.channel(RealtimeTopics.roomEvents(roomId), { config: { private: true } });
     this.onMemberAdded()
       .onMemberUpdated()
       .onVoted()
@@ -26,6 +26,7 @@ export class RoomPrismaListener extends RoomListener {
   connect() {
     this.channel.subscribe((status) => {
       if (status === 'SUBSCRIBED') this.emit('ready');
+      else this.emit('disconnected');
     });
   }
 

@@ -76,6 +76,15 @@ test('room capacity, invitation rotation, and votes use participant identity', a
     expect(await votes.getRevealedVotes(game.id, room.id)).toEqual([
       { participantId: owner!.id, vote: '3' },
     ]);
+    expect(await participants.joinAuthenticated(room.id, users[0].id, { allowRejoin: true })).toMatchObject({
+      id: owner!.id,
+      name: 'Renamed owner',
+    });
+    expect(await participants.isRemoved(room.id, users[0].id)).toBe(false);
+    expect(await participants.getRoomMembers(room.id)).toHaveLength(12);
+    expect(await votes.getRevealedVotes(game.id, room.id)).toEqual([
+      { participantId: owner!.id, vote: '3' },
+    ]);
   } finally {
     if (roomId) await prisma.room.delete({ where: { id: roomId } });
     await prisma.user.deleteMany({ where: { id: { in: users.map((user) => user.id) } } });

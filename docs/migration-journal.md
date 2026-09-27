@@ -350,6 +350,63 @@ chevron; the menu shows full language names. Added the Radix Select dependency.
 Lint, type checks, and all 4 locale browser tests passed. A local screenshot
 confirmed the menu layout, and keyboard selection also changed the locale.
 
+### 2026-09-26 — Private room Realtime
+
+Room events and notifications now use private channels. Signed-in users continue
+to join by room ID; invitation links remain deferred and their stash is intact.
+Guests remain the final feature stage, and Google remains the only login provider.
+
+A server endpoint checks the current session and active room membership before
+issuing a room-scoped, 60-second JWT. The browser renews it every 30 seconds and
+disconnects if renewal fails through expiry. Database authorization binds the
+token's user, participant, room, and channel topic to an active participant.
+Browser clients cannot publish events. A removed client that ignores the normal
+removal redirect can retain its existing subscription until token expiry, for
+up to approximately one minute; renewals and new subscriptions are denied.
+
+The previously applied private Realtime migration was restored byte-for-byte
+from the stash to preserve its checksum. Inspection also found that application
+tables lacked RLS, which would have exposed data through the Data API to the new
+authenticated tokens. A second migration enables RLS and revokes anonymous and
+authenticated browser access to those tables while preserving Prisma access.
+It also restricts Realtime to server broadcasts using the application's issuer.
+Both migrations are applied locally; all 13 migrations are up to date.
+
+Each open room owns its Realtime client. The client supplies the latest JWT via
+the access-token callback: testing found that setting a token manually without
+this callback allowed reconnects to fall back to the anonymous token. On
+subscription or reconnection, the board fetches an authorized snapshot to recover
+missed rounds and votes. Unrevealed votes remain hidden except for the viewer's
+own vote, and newer events prevent stale snapshots from overwriting live state.
+Connection and retry messages are translated into English and Polish.
+
+Verification: lint, type checks, 5 unit tests, all 13 local WebKit/integration
+scenarios, and the production build passed. New tests cover unauthorized and
+forged credentials, room scope, public-channel isolation, denied browser writes,
+denied Data API reads, actual token renewal and expiry after removal, and offline
+reconnection with missed state and hidden votes. Tests used local Supabase only.
+The build still reports the existing Edge runtime deprecation warning.
+
+Deployment requires the server-only `SUPABASE_JWT_SECRET` accepted by the same
+Supabase project's legacy HS256 JWT verifier and both migrations. The README
+documents these requirements and recommends disabling public Realtime access in
+the hosted project. No hosted settings, production database, or deployment were
+changed in this step.
+
+### 2026-09-27 — Let removed participants join again
+
+The owner can still remove an active participant. Removal ends their current
+room access and sends their open board to the join page. The same account can
+enter the room ID in the join form to return, subject to the 12-participant
+limit. Opening the room URL does not reactivate a removed account. Rejoining
+reactivates the existing participant record, so its identity and past votes
+remain intact. The join form now reports a full room with a specific message.
+
+Verification: lint, types, a two-account browser scenario that removes and
+rejoins a participant, and the participant integration scenario passed against
+local Supabase. The browser scenario also checks that a direct URL stays blocked
+until the account submits the join form.
+
 ## Blog angles and lessons
 
 - An abstraction is valuable only when every implementation is intentionally

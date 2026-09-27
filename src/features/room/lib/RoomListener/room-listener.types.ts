@@ -3,6 +3,7 @@ import type { RoomContextType } from '@/widgets/room/model/room-context';
 
 export type RoomEvents =
   | 'ready'
+  | 'disconnected'
   | 'gameCreated'
   | 'voted'
   | 'memberAdded'
@@ -12,6 +13,7 @@ export type RoomEvents =
 
 export type RoomEventHandlers = {
   ready: () => void;
+  disconnected: () => void;
   gameCreated: (data: RoomContextType['game']) => void;
   voted: (parameters: { participantId: string }) => void;
   memberAdded: (parameters: RealtimeNewMember) => void;
