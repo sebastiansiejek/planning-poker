@@ -89,6 +89,7 @@
     }
   },
   "Room": {
+    "voteOptions": "Wybierz swoją ocenę",
     "reveal": {
       "button": "Odkryj karty"
     },

@@ -89,6 +89,7 @@
     }
   },
   "Room": {
+    "voteOptions": "Choose your estimate",
     "reveal": {
       "button": "Reveal cards"
     },

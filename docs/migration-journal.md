@@ -96,7 +96,7 @@ manually, and retain the legacy Vercel deployment for immediate rollback.
 5. Add locale routing and complete Polish/English translations.
 6. Implement guest identity, merge-on-login, and Presence (deferred to the final feature stage).
 7. Additional account sign-in methods and provider linking (deferred; Google is sufficient for now).
-8. Secure Realtime and add shared rate limiting.
+8. Secure Realtime; assess shared rate limiting against a concrete abuse case.
 9. Add monitoring, analytics, privacy documentation, and accessibility checks.
 10. Rebuild CI/CD, validate staging, and promote to production.
 
@@ -428,6 +428,25 @@ The first full browser run failed because tests reused one account across files
 and past runs. Test setup now gives each browser test a new account. Lint, types,
 five unit tests, and all 16 local WebKit scenarios passed. This trial uses a
 room quota; shared request rate limiting remains a later release task.
+
+### 2026-09-27 — Reassess request limits
+
+A draft shared rate limiter proposed per-account limits for room actions,
+joining, notifications, Realtime tokens, and profile updates. The values had
+no usage data or defined abuse threshold behind them. It would also have added
+a PostgreSQL write to each room action. The draft was removed before commit;
+no rate-limit migration was applied. Keep this work open until a specific abuse
+case and acceptable request rate are defined. The two-room ownership quota and
+12-participant room limit remain in place.
+
+### 2026-09-27 — Keyboard access to voting
+
+The vote radios used `visibility: hidden`, which removed them from keyboard
+focus. They now use visually hidden styling that keeps native radio behavior,
+and the focused card shows a focus ring. A translated fieldset legend names
+the vote group. The voting browser scenario now uses keyboard focus and Space
+to cast a vote. Browser verification is pending because the local database was
+unavailable in this session.
 
 ## Blog angles and lessons
 

@@ -34,7 +34,7 @@ export const VotingCard = ({
       <input
         name="value"
         type="radio"
-        className="invisible absolute peer"
+        className="sr-only peer"
         value={option}
         checked={isSelected}
         disabled={isInteractionDisabled}
@@ -52,7 +52,7 @@ export const VotingCard = ({
         data-testid={`voting-card-${option}`}
         aria-busy={isSelectedLoading}
         className={cva(
-          'transition font-bold flex items-center justify-center text-center p-4 text-xl rounded w-16 h-24 border-2 border-solid border-primary-500 cursor-pointer text-primary-500 hover:text-white hover:bg-primary-500 peer-checked:bg-primary-500 peer-checked:text-white',
+          'transition font-bold flex items-center justify-center text-center p-4 text-xl rounded w-16 h-24 border-2 border-solid border-primary-500 cursor-pointer text-primary-500 hover:text-white hover:bg-primary-500 peer-checked:bg-primary-500 peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-ring peer-focus-visible:ring-offset-2',
           {
             variants: {
               isDisabled: {

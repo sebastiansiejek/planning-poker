@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { useAction } from 'next-safe-action/hooks';
 
 import { voting } from '@/widgets/room/actions/voting';
@@ -17,6 +18,7 @@ export const VotingForm = ({
   voteValue,
   gameId,
 }: VotingFormProperties) => {
+  const translate = useTranslations('Room');
   const { execute, isPending } = useAction(voting);
 
   return (
@@ -35,7 +37,8 @@ export const VotingForm = ({
         });
       }}
     >
-      <div className="flex gap-4 flex-wrap p-4 justify-center">
+      <fieldset className="flex gap-4 flex-wrap p-4 justify-center">
+        <legend className="sr-only">{translate('voteOptions')}</legend>
         {votingValues.map((option) => {
           return (
             <VotingCard
@@ -47,7 +50,7 @@ export const VotingForm = ({
             />
           );
         })}
-      </div>
+      </fieldset>
     </form>
   );
 };
