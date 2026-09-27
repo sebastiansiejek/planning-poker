@@ -12,7 +12,6 @@ import useNotification from '@/shared/hooks/useNotification/use-notification';
 import { routes } from '@/shared/routes/routes';
 import type { Vote } from '@/shared/types/types';
 import { Container } from '@/shared/ui-kit/container/container';
-import { Spinner } from '@/shared/ui-kit/Loaders/spinner/spinner';
 import { PageHeading } from '@/shared/ui-kit/page-heading/page-heading';
 import { toast } from '@/shared/ui-kit/toast/model/use-toast';
 import { Paper } from '@/widgets/alerts/ui/paper/paper';
@@ -22,6 +21,7 @@ import { getRoomState } from '@/widgets/room/actions/get-room-state';
 import { chunkMembers } from '@/widgets/room/libs/chunk-members/chunk-members';
 import { useRoomContext } from '@/widgets/room/model/room-context';
 import { useIsFinishedGame } from '@/widgets/room/model/selectors/use-is-finished-game';
+import { RoomLoadingSkeleton } from '@/widgets/room/room-loading-skeleton';
 import { useRoomRealtimeClient } from '@/widgets/room/room-realtime-gate';
 import { GameContainer } from '@/widgets/room/ui/game/game-container/game-container';
 import { Members } from '@/widgets/room/ui/members/members';
@@ -227,7 +227,7 @@ export default function Room({
   }, [roomId, realtimeClient, locale]);
 
   if (!connected) {
-    return <Container><div className="flex items-center gap-2 py-12" role="status"><Spinner />{t('Room.connecting')}</div></Container>;
+    return <RoomLoadingSkeleton />;
   }
 
   return (
