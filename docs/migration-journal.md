@@ -407,6 +407,28 @@ rejoins a participant, and the participant integration scenario passed against
 local Supabase. The browser scenario also checks that a direct URL stays blocked
 until the account submits the join form.
 
+### 2026-09-27 — Small trial room limits
+
+The first trial allows each account to own two rooms. A room still allows 12
+active participants. The account limit is checked inside the room creation
+transaction. A lock on the owner row makes concurrent create requests use the
+same count. The check also applies to direct service calls.
+
+An owner can delete a room from the dashboard after a confirmation that names
+the data it will remove. The server checks ownership before deletion. The
+database also removes the room's rounds, votes, participants, and invitations.
+Deletion frees one room slot. Open room boards receive a private deletion event,
+return to the dashboard, and show a translated notice. The client refreshes the
+dashboard table after a successful deletion.
+
+The create form explains the two-room limit in English and Polish. Tests cover
+two concurrent creations, a rejected third room, an unauthorized deletion,
+related data removal, slot reuse, the dashboard confirmation, and an open board.
+The first full browser run failed because tests reused one account across files
+and past runs. Test setup now gives each browser test a new account. Lint, types,
+five unit tests, and all 16 local WebKit scenarios passed. This trial uses a
+room quota; shared request rate limiting remains a later release task.
+
 ## Blog angles and lessons
 
 - An abstraction is valuable only when every implementation is intentionally

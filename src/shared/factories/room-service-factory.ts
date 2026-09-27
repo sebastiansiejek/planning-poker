@@ -9,6 +9,7 @@ export type RoomDTO = {
 
 export type RoomService = {
   create: (data: { name: string; authorId: string }) => Promise<RoomDTO>;
+  deleteOwned: (data: { roomId: string; authorId: string }) => Promise<boolean>;
   get: (data: { id: string }) => Promise<RoomDTO | null>;
   getByAuthorIdAndName: (data: {
     name: string;

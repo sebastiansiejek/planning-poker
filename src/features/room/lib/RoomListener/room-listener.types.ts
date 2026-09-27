@@ -9,7 +9,8 @@ export type RoomEvents =
   | 'memberAdded'
   | 'memberUpdated'
   | 'revealVotes'
-  | 'memberRemoved';
+  | 'memberRemoved'
+  | 'roomDeleted';
 
 export type RoomEventHandlers = {
   ready: () => void;
@@ -19,5 +20,6 @@ export type RoomEventHandlers = {
   memberAdded: (parameters: RealtimeNewMember) => void;
   memberUpdated: (parameters: { id: string; name: string }) => void;
   memberRemoved: (parameters: RealtimeNewMember) => void;
+  roomDeleted: () => void;
   revealVotes: () => void;
 };

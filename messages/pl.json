@@ -68,7 +68,8 @@
       }
     },
     "errors": {
-      "P2002": "Masz już pokój o tej nazwie"
+      "P2002": "Masz już pokój o tej nazwie",
+      "ROOM_LIMIT": "Możesz utworzyć maksymalnie dwa pokoje. Usuń jeden z panelu, aby utworzyć kolejny."
     }
   },
   "Login": {
@@ -96,6 +97,9 @@
     },
     "kick": {
       "message": "Usunięto Cię z gry"
+    },
+    "deleted": {
+      "message": "Właściciel usunął ten pokój. Wrócono do panelu."
     },
     "connecting": "Łączenie z pokojem…",
     "connectionError": "Utracono połączenie. Trwa ponowne łączenie…"
@@ -134,6 +138,14 @@
   },
   "Dashboard": {
     "userGames": "Gry, w których uczestniczysz",
+    "deleteRoom": {
+      "trigger": "Usuń pokój {name}",
+      "title": "Usunąć {name}?",
+      "description": "Ta operacja usunie pokój, wszystkie rundy i głosy wszystkich uczestników. Nie można jej cofnąć.",
+      "confirm": "Usuń pokój",
+      "cancel": "Anuluj",
+      "error": "Nie udało się usunąć pokoju. Spróbuj ponownie."
+    },
     "meta": {
       "title": "Panel"
     }

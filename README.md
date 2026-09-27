@@ -60,6 +60,10 @@ release. Application broadcasts already use `private: true`, which keeps them
 separate from public subscriptions even while public channels remain enabled in
 the local development stack. No hosted configuration is changed by these migrations.
 
+An account can own two rooms. Each room can have 12 active participants. The
+owner can delete a room from the dashboard to free a slot. Deletion also removes
+that room's rounds, votes, participants, and invitations.
+
 # Automation
 
 * We use [Husky](https://typicode.github.io/husky) for:

@@ -37,7 +37,7 @@ export default async function Home() {
     <Container>
       <PageHeading title={translate('Dashboard.meta.title')} />
       <Heading variant="h2">{translate('Dashboard.userGames')}</Heading>
-      <UserGames rooms={rooms} />
+      <UserGames rooms={rooms} currentUserId={session.user.id} />
     </Container>
   );
 }

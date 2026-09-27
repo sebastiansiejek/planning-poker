@@ -68,7 +68,8 @@
       }
     },
     "errors": {
-      "P2002": "You already have a room with this name"
+      "P2002": "You already have a room with this name",
+      "ROOM_LIMIT": "You can create up to two rooms. Delete one from your dashboard to create another."
     }
   },
   "Login": {
@@ -96,6 +97,9 @@
     },
     "kick": {
       "message": "You have been kicked from the game"
+    },
+    "deleted": {
+      "message": "The owner deleted this room. You have returned to the dashboard."
     },
     "connecting": "Connecting to the room…",
     "connectionError": "Connection lost. Reconnecting…"
@@ -134,6 +138,14 @@
   },
   "Dashboard": {
     "userGames": "Games in which you participate",
+    "deleteRoom": {
+      "trigger": "Delete room {name}",
+      "title": "Delete {name}?",
+      "description": "This deletes the room, all rounds, and all votes for everyone. You cannot undo this action.",
+      "confirm": "Delete room",
+      "cancel": "Cancel",
+      "error": "Could not delete the room. Please try again."
+    },
     "meta": {
       "title": "Dashboard"
     }

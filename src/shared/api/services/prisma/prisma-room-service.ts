@@ -1,12 +1,19 @@
 import { PrismaBaseService } from '@/shared/api/services/prisma/prisma-base-service';
 import type { RoomService } from '@/shared/factories/room-service-factory';
 
+const maxOwnedRooms = 2;
+
 export class PrismaRoomService
   extends PrismaBaseService
   implements RoomService
 {
   create: RoomService['create'] = async (data) => {
     return this.prisma.$transaction(async (transaction) => {
+      // Serialize this owner's room creation and deletion before checking the limit.
+      await transaction.$queryRaw`SELECT "id" FROM "users" WHERE "id" = ${data.authorId} FOR UPDATE`;
+      const ownedCount = await transaction.room.count({ where: { authorId: data.authorId } });
+      if (ownedCount >= maxOwnedRooms) throw new Error('Room limit reached');
+
       const author = await transaction.user.findUniqueOrThrow({
         where: { id: data.authorId },
         select: { name: true, image: true },
@@ -19,6 +26,14 @@ export class PrismaRoomService
           },
         },
       });
+    });
+  };
+
+  deleteOwned: RoomService['deleteOwned'] = async ({ roomId, authorId }) => {
+    return this.prisma.$transaction(async (transaction) => {
+      await transaction.$queryRaw`SELECT "id" FROM "users" WHERE "id" = ${authorId} FOR UPDATE`;
+      const result = await transaction.room.deleteMany({ where: { id: roomId, authorId } });
+      return result.count === 1;
     });
   };
 

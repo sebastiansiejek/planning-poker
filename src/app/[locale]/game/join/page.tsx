@@ -42,7 +42,7 @@ export default async function JoinToRoomPage() {
         {rooms.length > 0 && (
           <>
             <Heading variant="h2">{translate('Dashboard.userGames')}</Heading>
-            <UserGames rooms={rooms} />
+            <UserGames rooms={rooms} currentUserId={session.user.id} />
           </>
         )}
       </div>

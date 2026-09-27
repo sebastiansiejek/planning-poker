@@ -16,7 +16,8 @@ export class RoomPrismaListener extends RoomListener {
       .onVoted()
       .onRevealVotes()
       .onGameCreated()
-      .onMemberRemoved();
+      .onMemberRemoved()
+      .onRoomDeleted();
 
     this.unsubscribeListener.push(() => {
       void this.supabase.removeChannel(this.channel);
@@ -53,6 +54,13 @@ export class RoomPrismaListener extends RoomListener {
       'broadcast',
       { event: RealtimeEvents.MEMBER_REMOVED },
       ({ payload }) => this.emit('memberRemoved', payload as RealtimeNewMember),
+    );
+    return this;
+  }
+
+  private onRoomDeleted() {
+    this.channel.on('broadcast', { event: RealtimeEvents.ROOM_DELETED }, () =>
+      this.emit('roomDeleted'),
     );
     return this;
   }

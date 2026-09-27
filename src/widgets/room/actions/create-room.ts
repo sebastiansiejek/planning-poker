@@ -44,10 +44,15 @@ export const createRoom = actionClient
       };
     }
 
-    const createdRoom = await roomServiceFactory.create({
-      name,
-      authorId,
-    });
+    let createdRoom;
+    try {
+      createdRoom = await roomServiceFactory.create({ name, authorId });
+    } catch (error) {
+      if (error instanceof Error && error.message === 'Room limit reached') {
+        return { success: false, error: { code: 'ROOM_LIMIT' } };
+      }
+      throw error;
+    }
 
     revalidatePath('/[locale]/dashboard', 'page');
 

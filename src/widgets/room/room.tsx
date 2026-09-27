@@ -203,6 +203,10 @@ export default function Room({
               variant: 'destructive',
             });
           }
+        })
+        .on('roomDeleted', () => {
+          router.replace(routes.dashboard.getPath());
+          toast({ title: t('Room.deleted.message') });
         });
       roomNotificationsListener.connect(
         () => { notificationsReady = true; updateConnection(); },
