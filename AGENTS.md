@@ -23,6 +23,13 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
   - `pnpm test:e2e`
 - Keep changes compatible with the existing Husky and commitlint setup.
 
+## Dry Run Before Execution
+
+- Before changing files or running a command that changes state, inspect the current worktree and the affected files. For a simple edit, a brief review is enough.
+- For a complex task, map the affected flows and dependencies. State the planned changes, expected result, main risks, and checks in a short commentary update before execution.
+- Use a command's `--dry-run` or check mode when it is available and useful. If the command has no dry-run mode, use read-only inspection to preview its effect.
+- If the dry run shows a conflict with user work or changes the expected scope, revise the plan before execution. Then continue with authorized work.
+
 ## Project Architecture
 
 - Keep code inside the current `src/` structure. Do not introduce a parallel top-level `app/`, `components/`, or `lib/` tree.
