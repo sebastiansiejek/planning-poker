@@ -1,4 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
+import { config } from 'dotenv';
+
+if (!process.env.CI) config({ path: '.env.local', override: true, quiet: true });
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
 

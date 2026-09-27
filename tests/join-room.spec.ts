@@ -77,10 +77,10 @@ test('removed participant can join the same room again with its ID', async ({ pa
     });
     await page.locator(`#member-${participant.id}`).hover();
     await page.getByRole('button', { name: 'Remove participant' }).click();
-    await expect(memberPage).toHaveURL('/en/game/join');
     await expect.poll(async () => (await prisma.participant.findUniqueOrThrow({
       where: { id: participant.id },
     })).leftAt).not.toBeNull();
+    await expect(memberPage).toHaveURL('/en/game/join');
 
     await memberPage.goto(routes.game.singleGame.getPath(roomId));
     await expect(memberPage).toHaveURL('/en/game/join');
