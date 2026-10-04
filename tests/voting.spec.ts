@@ -5,6 +5,12 @@ import { databaseTestAuth } from '@/shared/lib/tests/utilities';
 databaseTestAuth();
 
 test('voting', async ({ page }) => {
+  const inputWarnings: string[] = [];
+  page.on('console', (message) => {
+    if (/changing an (uncontrolled|controlled) input/.test(message.text())) {
+      inputWarnings.push(message.text());
+    }
+  });
   await page.goto('/');
   await page.getByTestId('start-new-game').click();
   await page.getByTestId('game-name').click();
@@ -25,6 +31,7 @@ test('voting', async ({ page }) => {
 
   await page.waitForURL(/\/game\/\w+$/);
   await page.getByTestId('create-game-trigger-button').click();
+  await page.getByRole('dialog').getByRole('textbox', { name: 'Name', exact: true }).fill('Keyboard voting round');
   await page.getByTestId('create-game-submit').click();
   const estimate = page.getByRole('group', { name: 'Choose your estimate' }).getByRole('radio', { name: '3', exact: true });
   await estimate.focus();
@@ -33,4 +40,5 @@ test('voting', async ({ page }) => {
   await expect(estimate).toBeChecked();
   await page.getByTestId('reveal-cards-button').click();
   await expect(page.getByTestId('voting-avg')).toBeVisible();
+  expect(inputWarnings).toEqual([]);
 });

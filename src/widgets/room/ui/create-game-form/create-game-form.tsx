@@ -38,7 +38,11 @@ export const CreateGameForm = ({
       if (data?.success) setIsOpen(false);
     },
   });
-  const form = useForm<CreateGameParameters>();
+  const form = useForm<CreateGameParameters>({
+    defaultValues: {
+      name: '',
+    },
+  });
   const { handleSubmit } = form;
   const translate = useTranslations();
   const { counter } = useCountdown({

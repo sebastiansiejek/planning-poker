@@ -445,8 +445,17 @@ The vote radios used `visibility: hidden`, which removed them from keyboard
 focus. They now use visually hidden styling that keeps native radio behavior,
 and the focused card shows a focus ring. A translated fieldset legend names
 the vote group. The voting browser scenario now uses keyboard focus and Space
-to cast a vote. Browser verification is pending because the local database was
-unavailable in this session.
+to cast a vote. Initial browser verification was blocked by local database
+access from the sandbox. The WebKit voting scenario passed on 2026-10-04.
+
+### 2026-10-04 — Stable round-name input
+
+The round creation form had no initial value for its controlled name field.
+Typing changed its value from `undefined` to a string and caused a React console
+warning. The form now starts with an empty string. The voting browser scenario
+types a round name and checks for controlled/uncontrolled input warnings before
+completing keyboard voting and revealing the result. Lint, type checks, and the
+targeted WebKit scenario passed against local Supabase.
 
 ## Blog angles and lessons
 
